@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ItemCard from '../../components/ItemCard';
 import { FilterList, Tune } from '@material-ui/icons';
+import { IconButton } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -10,35 +11,62 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '2.08vw',
     lineHeight: '41.4px',
     fontWeight: 800,
-    verticalAlign: 'middle',
+    verticalAlign: 'baseline',
   },
   categoryTab: {
     display: 'inline',
     border: '1px solid #616161',
     borderRadius: '20px',
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: 500,
-    padding: '6px 18px 6px 18px',
+    padding: '8px 20px 8px 20px',
     minWidth: '60px',
-    marginLeft: '16px',
+
     marginRight: '12px',
-    height: '40px',
+    height: '45px',
     cursor: 'pointer',
+    [theme.breakpoints.down('md')]: {
+      padding: '6px 14px 6px 14px',
+      fontSize: 13,
+      height: '35px',
+      marginRight: '5px',
+    },
   },
   categoryTabActive: {
     display: 'inline',
     border: '1px solid #616161',
     borderRadius: '20px',
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: 500,
-    padding: '6px 18px 6px 18px',
+    padding: '8px 20px 8px 20px',
     minWidth: '60px',
-
     marginRight: '12px',
-    height: '40px',
+
+    height: '45px',
     cursor: 'pointer',
     backgroundColor: '#000000',
     color: '#ffffff',
+    [theme.breakpoints.down('md')]: {
+      padding: '6px 14px 6px 14px',
+      fontSize: 13,
+      height: '35px',
+      marginRight: '5px',
+    },
+  },
+  sectionDesktop: {
+    display: 'block',
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
+  },
+  sectionMobile: {
+    display: 'block',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
+  icon: {
+    fontSize: 18,
   },
   // filterTabsDesktop: {
   //   display: 'block',
@@ -48,14 +76,13 @@ const useStyles = makeStyles((theme) => ({
   //     display: 'none',
   //   },
   // },
-  // filterTabsMobile: {
-  //   display: 'block',
-  //   width: 300,
-  //   overflowX: 'scroll',
-  //   [theme.breakpoints.up('sm')]: {
-  //     display: 'none',
-  //   },
-  // },
+  filterTabsMobile: {
+    display: 'inline-block',
+    paddingTop: 15,
+    paddingBottom: 15,
+    width: '100%',
+    overflowX: 'scroll',
+  },
 }));
 
 export default function Categories() {
@@ -65,7 +92,7 @@ export default function Categories() {
     {
       owner: 'Elvin Que',
       avatar: 'https://static.newsbreak.com/people/200/per_thumb_31bb51c2b3d04a2aa57efe38543dee2a.jpg',
-      item_name: 'Tokyo Dreams V Drift City',
+      item_name: 'AUG | Momentum',
       price: '0.7',
       item_count: '0.7',
       bid: '0.5',
@@ -155,66 +182,100 @@ export default function Categories() {
     setSelected(value);
   };
   return (
-    <Fragment>
-      <div className="d-flex justify-content-between mt-5">
-        <h1 className="heading">
-          Explore{' '}
-          <span>
-            <img src="images/thunder.png" height="30px" />
-          </span>{' '}
-          <span>
-            <div
-              className={selected === 0 ? classes.categoryTabActive : classes.categoryTab}
-              onClick={() => FilterList(0)}>
-              All
+    <div className="mt-5">
+      <div className={classes.sectionDesktop}>
+        <div className="mt-5 d-flex justify-content-between align-items-center">
+          <div className="d-flex justify-content-start align-items-center ">
+            <div>
+              <h1 className="heading">
+                Explore{' '}
+                <span>
+                  <img src="images/thunder.png" height="30px" />
+                </span>
+              </h1>
             </div>
-            <div
-              className={selected === 1 ? classes.categoryTabActive : classes.categoryTab}
-              onClick={() => FilterList(1)}>
-              Swords
+            <div className="mx-3">
+              <div
+                className={selected === 0 ? classes.categoryTabActive : classes.categoryTab}
+                onClick={() => FilterList(0)}>
+                All
+              </div>
+              <div
+                className={selected === 1 ? classes.categoryTabActive : classes.categoryTab}
+                onClick={() => FilterList(1)}>
+                Swords
+              </div>
+              <div
+                className={selected === 2 ? classes.categoryTabActive : classes.categoryTab}
+                onClick={() => FilterList(2)}>
+                Hammers
+              </div>
+              <div
+                className={selected === 3 ? classes.categoryTabActive : classes.categoryTab}
+                onClick={() => FilterList(3)}>
+                Characters
+              </div>
+              <div className={classes.categoryTab} onClick={() => FilterList(4)}>
+                Arrows
+              </div>
+              <div className={classes.categoryTab}>Caps</div>
+              <div className={classes.categoryTab}>Kits</div>
+              <div className={classes.categoryTab}>Katana</div>
             </div>
-            <div
-              className={selected === 2 ? classes.categoryTabActive : classes.categoryTab}
-              onClick={() => FilterList(2)}>
-              Hammers
+          </div>
+          <div>
+            <div className={classes.categoryTab}>
+              <Tune /> Sort & Filter
             </div>
-            <div
-              className={selected === 3 ? classes.categoryTabActive : classes.categoryTab}
-              onClick={() => FilterList(3)}>
-              Characters
-            </div>
-            <div className={classes.categoryTab} onClick={() => FilterList(4)}>
-              Arrows
-            </div>
-            <div className={classes.categoryTab}>Caps</div>
-            <div className={classes.categoryTab}>Kits</div>
-            <div className={classes.categoryTab}>Katana</div>
-          </span>
-        </h1>
-        <div className={classes.categoryTab}>
-          <Tune />
+          </div>
         </div>
       </div>
-      {/* <div>
-        <div className={selected === 0 ? classes.categoryTabActive : classes.categoryTab} onClick={() => FilterList(0)}>
-          All
+      <div className={classes.sectionMobile}>
+        <div className="d-flex justify-content-between align-items-center ">
+          <div>
+            <h1 className="heading">
+              Explore{' '}
+              <span>
+                <img src="images/thunder.png" height="20px" />
+              </span>
+            </h1>
+          </div>
+          <div>
+            <IconButton className={classes.categoryTab}>
+              <Tune className={classes.icon} />
+            </IconButton>
+          </div>
         </div>
-        <div className={selected === 1 ? classes.categoryTabActive : classes.categoryTab} onClick={() => FilterList(1)}>
-          Swords
+        <div className={classes.filterTabsMobile}>
+          <div
+            className={selected === 0 ? classes.categoryTabActive : classes.categoryTab}
+            onClick={() => FilterList(0)}>
+            All
+          </div>
+          <div
+            className={selected === 1 ? classes.categoryTabActive : classes.categoryTab}
+            onClick={() => FilterList(1)}>
+            Swords
+          </div>
+          <div
+            className={selected === 2 ? classes.categoryTabActive : classes.categoryTab}
+            onClick={() => FilterList(2)}>
+            Hammers
+          </div>
+          <div
+            className={selected === 3 ? classes.categoryTabActive : classes.categoryTab}
+            onClick={() => FilterList(3)}>
+            Characters
+          </div>
+          <div className={classes.categoryTab} onClick={() => FilterList(4)}>
+            Arrows
+          </div>
+          <div className={classes.categoryTab}>Caps</div>
+          <div className={classes.categoryTab}>Kits</div>
+          <div className={classes.categoryTab}>Katana</div>
         </div>
-        <div className={selected === 2 ? classes.categoryTabActive : classes.categoryTab} onClick={() => FilterList(2)}>
-          Hammers
-        </div>
-        <div className={selected === 3 ? classes.categoryTabActive : classes.categoryTab} onClick={() => FilterList(3)}>
-          Characters
-        </div>
-        <div className={classes.categoryTab} onClick={() => FilterList(4)}>
-          Arrows
-        </div>
-        <div className={classes.categoryTab}>Caps</div>
-        <div className={classes.categoryTab}>Kits</div>
       </div>
-       */}
+
       <div className="row mt-3">
         {items.map((item, index) => {
           return (
@@ -224,6 +285,6 @@ export default function Categories() {
           );
         })}
       </div>
-    </Fragment>
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-# PolkaBridge Website Landing Page
+# PolkaWar DApp
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

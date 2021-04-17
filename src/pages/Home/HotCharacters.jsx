@@ -12,6 +12,14 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 800,
     verticalAlign: 'middle',
   },
+  charactersWrapper: {
+    width: 'auto',
+    overflowX: 'scroll',
+    display: 'flex',
+    [theme.breakpoints.up('sm')]: {
+      overflowX: 'hidden',
+    },
+  },
 }));
 
 export default function HotCharacters() {
@@ -107,7 +115,7 @@ export default function HotCharacters() {
         </h1>
       </div>
 
-      <div className="d-flex justify-content-start" style={{ width: 'auto', overflowX: 'scroll' }}>
+      <div className="d-flex justify-content-start" className={classes.charactersWrapper}>
         {chunkedTopSellers.map((colItems, rowIndex) => {
           return (
             <div style={{ width: '100%' }}>
