@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     display: 'none',
-    color: 'black',
+    color: theme.palette.pbr.textPrimary,
     [theme.breakpoints.up('md')]: {
       display: 'block',
     },
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'start',
   },
   tabsActive: {
-    color: 'black',
+    color: theme.palette.pbr.textPrimary,
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'block',
@@ -220,7 +220,7 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="sticky" style={{ background: 'white', boxShadow: 'none', borderBottom: '1px solid #e9e9e9' }}>
+      <AppBar position="static" style={{ background: '#16181D', boxShadow: 'none', borderBottom: '1px solid #e9e9e9' }}>
         <Toolbar className="d-flex justify-content-around">
           {' '}
           <Link to="/">

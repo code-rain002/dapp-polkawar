@@ -1,12 +1,14 @@
 import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import HotCharacters from './HotCharacters';
-import Categories from './Categories';
+import HotCharacters from './sections/HotCharacters';
+import Categories from './sections/Categories';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
     overflowX: 'hidden',
     padding: 50,
+    // background: 'url("https://wallpaperaccess.com/full/3819332.gif")',
+
     [theme.breakpoints.down('md')]: {
       padding: 10,
     },

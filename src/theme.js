@@ -20,8 +20,10 @@ export const theme = createMuiTheme({
     pbr: {
       primary: '#C80C81',
       secondary: '#f4c8dd',
-      textPrimary: '#000000',
-      textSecondary: '#757575',
+      textPrimary: '#ffffff',
+      textSecondary: '#bdbdbd',
+      textPrimaryOpp: '#000000',
+      textSecondaryOpp: '#757575',
     },
   },
   typography: {
