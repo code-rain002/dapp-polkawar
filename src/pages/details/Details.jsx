@@ -8,6 +8,7 @@ import Tab from '@material-ui/core/Tab';
 import TabPanel from '../../components/TabPanel';
 import CustomButton from '../../components/CustomButton';
 import CustomeTable from '../../components/CustomTable';
+import CheckoutModel from '../../components/CheckoutModel';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -64,6 +65,29 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 22,
     lineHeight: '30.7px',
   },
+  levelText: {
+    color: 'white',
+    fontWeight: 600,
+    fontSize: 15,
+    paddingTop: 10,
+    paddingRight: 10,
+  },
+  imageWrapper: {
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    color: '#D9047C',
+    backgroundColor: 'white',
+    textTransform: 'none',
+    borderRadius: '50px',
+    padding: '8px 16px 8px 16px',
+    fontWeight: 600,
+    background: `linear-gradient(to bottom,#fce3ee, #fce3ee)`,
+    fontSize: 14,
+  },
 }));
 
 export default function Details() {
@@ -89,22 +113,14 @@ export default function Details() {
     <Fragment>
       <div className="row g-0 mt-5">
         <div className="col-12 col-md-7">
-          <div className="text-center">
-            <img src={item.imageUrl} />
+          <div className={classes.imageWrapper}>
+            <img src={item.imageUrl} style={{ height: 300 }} />
           </div>
+          {/* <div className="d-flex justify-content-center ">
+            <CheckoutModel />
+          </div> */}
         </div>
         <div className="col-12 col-md-5 p-3">
-          <div>
-            {' '}
-            <div className="d-flex justify-content-center align-items-center mt-2">
-              <h6 className={classes.levelText}>Level : </h6>
-              <div className={classes.iconWrapper}>
-                {Array.from(Array(item.level)).map((character) => {
-                  return <img src="images/favourites.png" height="16px" />;
-                })}
-              </div>
-            </div>
-          </div>
           <h5 className={classes.title}>{item.item_name}</h5>
           <h6 className={classes.price}>
             {item.price} ETH <span style={{ color: '#bdbdbd', paddingLeft: 10 }}>$18.16</span>
@@ -117,11 +133,33 @@ export default function Details() {
             />
             Sword
           </div>
+          <div>
+            {' '}
+            <div className="d-flex justify-content-start align-items-center mt-2">
+              <h6 className={classes.levelText}>Level : </h6>
+              <div className={classes.iconWrapper}>
+                {Array.from(Array(item.level)).map((character) => {
+                  return <img src="https://pngimg.com/uploads/star/star_PNG1597.png" height="16px" />;
+                })}
+              </div>
+            </div>
+          </div>
           <p className={classes.description}>
             Overload of information makes it harder to focus. When there is more information in our head than we can
             effectively process, our brain starts to rush from one idea to another. Think of it as a form of mental
             multitasking that makes your brain jump from one thought to another.
           </p>{' '}
+          <div className="my-3 d-flex justify-content-start">
+            <div style={{ paddingRight: 10 }}>
+              {' '}
+              <CustomButton title={'Buy Now'} />
+            </div>
+            <div>
+              <Button variant="contained" className={classes.button}>
+                Save for later
+              </Button>
+            </div>
+          </div>
           <div>
             <h6 className={classes.buyHistory}>Buy History</h6>
             <hr style={{ color: 'yellow' }} />

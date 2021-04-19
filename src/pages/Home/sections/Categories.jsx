@@ -298,7 +298,10 @@ export default function Categories() {
         {items.map((item, index) => {
           return (
             <div className="col-12 col-md-3" key={index}>
-              <ItemCard item={item} />
+              <div className="d-flex justify-content-center">
+                {' '}
+                <ItemCard item={item} />
+              </div>
             </div>
           );
         })}

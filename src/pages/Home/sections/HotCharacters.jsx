@@ -74,11 +74,13 @@ export default function HotCharacters() {
         </h1>
       </div>
 
-      <div className="row mt-3">
+      <div className="row  mt-3">
         {topCharacters.map((character, index) => {
           return (
-            <div className="col-12 col-md-3" key={index}>
-              <CharacterCard item={character} />
+            <div className="col-12 col-md-3 " key={index}>
+              <div className="d-flex justify-content-center">
+                <CharacterCard item={character} />
+              </div>
             </div>
           );
         })}
