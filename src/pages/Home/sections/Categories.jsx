@@ -221,24 +221,26 @@ export default function Categories() {
               <div
                 className={selected === 1 ? classes.categoryTabActive : classes.categoryTab}
                 onClick={() => FilterList(1)}>
-                Swords
+                Sword
               </div>
               <div
                 className={selected === 2 ? classes.categoryTabActive : classes.categoryTab}
                 onClick={() => FilterList(2)}>
-                Hammers
+                Paper Fan
               </div>
               <div
                 className={selected === 3 ? classes.categoryTabActive : classes.categoryTab}
                 onClick={() => FilterList(3)}>
-                Characters
+                Bow & Arrow
               </div>
               <div className={classes.categoryTab} onClick={() => FilterList(4)}>
-                Arrows
+                Guns
               </div>
-              <div className={classes.categoryTab}>Caps</div>
-              <div className={classes.categoryTab}>Kits</div>
-              <div className={classes.categoryTab}>Katana</div>
+              <div className={classes.categoryTab}>Sceptre</div>
+              <div className={classes.categoryTab}>Ceramic vase</div>
+              <div className={classes.categoryTab}>Armor</div>
+              <div className={classes.categoryTab}>Hats</div>
+              <div className={classes.categoryTab}>Wings</div>
             </div>
           </div>
           <div>
@@ -273,24 +275,26 @@ export default function Categories() {
           <div
             className={selected === 1 ? classes.categoryTabActive : classes.categoryTab}
             onClick={() => FilterList(1)}>
-            Swords
+            Sword
           </div>
           <div
             className={selected === 2 ? classes.categoryTabActive : classes.categoryTab}
             onClick={() => FilterList(2)}>
-            Hammers
+            PaperFan
           </div>
           <div
             className={selected === 3 ? classes.categoryTabActive : classes.categoryTab}
             onClick={() => FilterList(3)}>
-            Characters
+            BowArrow
           </div>
           <div className={classes.categoryTab} onClick={() => FilterList(4)}>
-            Arrows
+            Guns
           </div>
-          <div className={classes.categoryTab}>Caps</div>
-          <div className={classes.categoryTab}>Kits</div>
-          <div className={classes.categoryTab}>Katana</div>
+          <div className={classes.categoryTab}>Sceptre</div>
+          <div className={classes.categoryTab}>CeramicVase</div>
+          <div className={classes.categoryTab}>Armor</div>
+          <div className={classes.categoryTab}>Hats</div>
+          <div className={classes.categoryTab}>Wings</div>
         </div>
       </div>
 

@@ -12,7 +12,7 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Button } from '@material-ui/core';
-import { AccountBalanceWallet } from '@material-ui/icons';
+import { AccountBalanceWallet, Close } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -121,10 +121,10 @@ const useStyles = makeStyles((theme) => ({
   },
   list: {
     width: '250px',
-    borderLeft: '5px solid pink',
+    borderBottom: '5px solid pink',
     borderColor: theme.palette.pbr.primary,
     height: '100%',
-    backgroundColor: 'transparent',
+    backgroundColor: theme.palette.pbr.textPrimaryOpp,
   },
   fullList: {
     width: 'auto',
@@ -135,7 +135,7 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: 'baseline',
     letterSpacing: '-0.8px',
     textAlign: 'left',
-    fontSize: 16,
+    fontSize: 1,
     color: theme.palette.pbr.textPrimary,
   },
   menuTitlePink: {
@@ -148,7 +148,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.pbr.primary,
   },
   mobileLink: {
-    color: theme.palette.pbr.textSecondary,
+    color: theme.palette.pbr.textSecondaryOpp,
     textDecoration: 'none',
   },
   mobileButton: {
@@ -183,38 +183,45 @@ export default function PrimarySearchAppBar() {
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}>
-      <List>
-        {[
-          { name: 'Explore', link: '/' },
-          { name: 'My items', link: '/profile' },
-          { name: 'Following', link: '/profile' },
-          { name: 'Activity', link: '/profile' },
-        ].map((tab, index) => (
-          <Link to={tab.link}>
-            <ListItem button onClick={toggleDrawer(anchor, false)} key={index}>
-              <ListItemText primary={tab.name} className={classes.menuTitle} />
+      <div className="d-flex justify-content-between">
+        <div>
+          <List>
+            {[
+              { name: 'Explore', link: '/' },
+              { name: 'My items', link: '/profile' },
+              { name: 'Following', link: '/profile' },
+              { name: 'Activity', link: '/profile' },
+            ].map((tab, index) => (
+              <Link to={tab.link}>
+                <ListItem button onClick={toggleDrawer(anchor, false)} key={index}>
+                  <ListItemText primary={tab.name} className={classes.menuTitle} />
+                </ListItem>
+              </Link>
+            ))}
+          </List>
+          <Divider />
+          <List>
+            {[
+              { name: 'How it works', id: 'https://farm.polkabridge.org/' },
+              { name: 'Community', id: 'https://launchpad.polkabridge.org/' },
+            ].map((tab, index) => (
+              <a href={tab.id} className={classes.mobileLink}>
+                <ListItem button key={tab.name}>
+                  <ListItemText primary={tab.name} className={classes.menuTitle} />
+                </ListItem>
+              </a>
+            ))}
+            <ListItem button>
+              <a href="docs/whitepaper.pdf" style={{ textDecoration: 'none' }}>
+                <ListItemText primary={'Read Whitepaper'} className={classes.menuTitlePink} />
+              </a>
             </ListItem>
-          </Link>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {[
-          { name: 'How it works', id: 'https://farm.polkabridge.org/' },
-          { name: 'Community', id: 'https://launchpad.polkabridge.org/' },
-        ].map((tab, index) => (
-          <a href={tab.id} className={classes.mobileLink}>
-            <ListItem button key={tab.name}>
-              <ListItemText primary={tab.name} className={classes.menuTitle} />
-            </ListItem>
-          </a>
-        ))}
-        <ListItem button>
-          <a href="docs/whitepaper.pdf" style={{ textDecoration: 'none' }}>
-            <ListItemText primary={'Read Whitepaper'} className={classes.menuTitlePink} />
-          </a>
-        </ListItem>
-      </List>
+          </List>
+        </div>
+        <div style={{ color: 'white', paddingTop: 10, paddingRight: 10 }}>
+          <Close onClick={toggleDrawer(anchor, false)} />
+        </div>
+      </div>
     </div>
   );
 
@@ -290,14 +297,14 @@ export default function PrimarySearchAppBar() {
             </div>
 
             <div>
-              {['right'].map((anchor) => (
+              {['top'].map((anchor) => (
                 <React.Fragment key={anchor}>
                   <IconButton
                     aria-label="Menu"
                     aria-haspopup="true"
                     className={classes.menuIcon}
                     onClick={toggleDrawer(anchor, true)}>
-                    <MenuIcon />
+                    <MenuIcon style={{ color: 'white' }} />
                   </IconButton>
 
                   <SwipeableDrawer

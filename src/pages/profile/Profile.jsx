@@ -30,10 +30,10 @@ const useStyles = makeStyles((theme) => ({
     height: '40px',
   },
   cover: {
-    backgroundImage: `url('https://miro.medium.com/max/800/1*AGOVtVmLpx_1qrK04zI6Dg.png')`,
+    // backgroundImage: `url('https://miro.medium.com/max/800/1*AGOVtVmLpx_1qrK04zI6Dg.png')`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    height: 300,
+    // height: 300,
     textAlign: 'center',
     display: 'flex',
     justifyContent: 'flex-end',
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     height: 150,
     width: 150,
     objectFit: 'cover',
-    marginTop: -80,
+    // marginTop: -80,
     marginBottom: 10,
   },
   title: {
@@ -90,6 +90,19 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  tabs: {
+    maxWidth: 1000,
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: '97%',
+    },
+  },
+  tab: {
+    backgroundColor: 'black',
+    color: 'white',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 12,
+    },
+  },
 }));
 
 export default function Profile() {
@@ -102,13 +115,13 @@ export default function Profile() {
   return (
     <Fragment>
       <div className={classes.cover}>
-        <div className={classes.buttonWrapper}>
+        {/* <div className={classes.buttonWrapper}>
           <Button variant="contained" className={classes.button}>
             Add Cover
           </Button>
-        </div>
+        </div> */}
       </div>
-      <div className="text-center">
+      <div className="text-center mt-5">
         <img
           src="https://i.pinimg.com/originals/b1/92/4d/b1924dce177345b5485bb5490ab3441f.jpg"
           height="100px"
@@ -131,7 +144,7 @@ export default function Profile() {
         </div>
       </div>
       <div className={classes.tabWrapper}>
-        <Paper square style={{ maxWidth: 1000 }}>
+        <Paper square className={classes.tabs}>
           <Tabs
             style={{ color: 'black' }}
             value={value}
@@ -139,11 +152,11 @@ export default function Profile() {
             onChange={handleChange}
             variant="scrollable"
             scrollButtons="auto">
-            <Tab label="Character" />
-            <Tab label="On Sale" />
-            <Tab label="Equipment Bag" />
-            <Tab label="History battle" />
-            <Tab label="Activity" />
+            <Tab label="Character" className={classes.tab} />
+            <Tab label="On Sale" className={classes.tab} />
+            <Tab label="Equipment Bag" className={classes.tab} />
+            <Tab label="History battle" className={classes.tab} />
+            <Tab label="Activity" className={classes.tab} />
           </Tabs>
         </Paper>
         <div style={{ maxWidth: 1000 }}>

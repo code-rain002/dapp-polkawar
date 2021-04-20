@@ -162,7 +162,7 @@ export default function ItemCard({ item }) {
               <h6 className={classes.levelText}>Level : </h6>
               <div className={classes.iconWrapper}>
                 {Array.from(Array(item.level)).map((character) => {
-                  return <img src="images/favourites.png" height="16px" />;
+                  return <img src="https://pngimg.com/uploads/star/star_PNG1597.png" height="16px" />;
                 })}
               </div>
             </div>

@@ -10,11 +10,17 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 10,
     marginRight: 10,
     borderRadius: 10,
+    [theme.breakpoints.down('sm')]: {
+      height: '150px',
+    },
   },
 
   icon: {
     color: 'orange',
     fontSize: 30,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 20,
+    },
   },
 
   levelText: {
@@ -23,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     paddingTop: 10,
     paddingLeft: 5,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14,
+    },
   },
   card: {
     width: 300,
@@ -31,11 +40,12 @@ const useStyles = makeStyles((theme) => ({
     border: '4px solid #e5e5e5',
     marginBottom: 30,
     backgroundColor: theme.palette.pbr.textPrimaryOpp,
+    [theme.breakpoints.down('sm')]: {
+      width: 180,
+      height: 250,
+    },
   },
-  cardHeader: {
-    height: 60,
-    backgroundColor: theme.palette.pbr.primary,
-  },
+
   title: {
     verticalAlign: 'baseline',
     textAlign: 'center',
@@ -45,10 +55,17 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 26,
     lineHeight: '35.7px',
     fontFamily: 'Carter One',
+    [theme.breakpoints.down('sm')]: {
+      fontWeight: 700,
+      fontSize: 16,
+    },
   },
   mediaWrapper: {
     height: 220,
     textAlign: 'center',
+    [theme.breakpoints.down('sm')]: {
+      height: 120,
+    },
   },
 }));
 export default function CharacterCard({ item, index }) {
