@@ -19,11 +19,17 @@ const useStyles = makeStyles((theme) => ({
       overflowX: 'hidden',
     },
   },
+  scrollItemPositions: {
+    display: 'flex',
+    justifyContent: 'center',
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: 'start',
+    },
+  },
 }));
 
 export default function HotCharacters() {
   const classes = useStyles();
-  const [chunkedTopSellers, setChunkedTopSellers] = useState([]);
   const topCharacters = [
     {
       id: 1,
@@ -52,38 +58,22 @@ export default function HotCharacters() {
     },
   ];
 
-  // useEffect(() => {
-  //   setChunkedTopSellers(chunkArray(topSellers, 3));
-  // }, []);
-
-  // function chunkArray(arr, chunk_size) {
-  //   var results = [];
-
-  //   while (arr.length) {
-  //     results.push(arr.splice(0, chunk_size));
-  //   }
-
-  //   return results;
-  // }
   return (
     <Fragment>
       <div>
-        <h1 className="heading">
-          Hot characters
-          {/* <span className="highlight"></span> in <span className="highlight">1 day</span> */}
-        </h1>
+        <h1 className="heading">Hot characters</h1>
       </div>
 
-      <div className="row  mt-3">
-        {topCharacters.map((character, index) => {
-          return (
-            <div className="col-6 col-md-3 " key={index}>
-              <div className="d-flex justify-content-center">
+      <div className="scroller">
+        <div className={classes.scrollItemPositions}>
+          {topCharacters.map((character, index) => {
+            return (
+              <div className="p-3">
                 <CharacterCard item={character} />
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </Fragment>
   );

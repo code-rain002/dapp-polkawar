@@ -38,6 +38,18 @@ a {
 .highlight {
   color: #c80c81;
 }
+
+.scroller {
+  overflow-x: hidden;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .scroller {
+    overflow-x: scroll;
+    white-space: nowrap;
+  }
+}
 .raindboxText {
   background: linear-gradient(73.28deg, #49b1fc 6.51%, #821aeb 88.45%);
   background-size: 100%;
