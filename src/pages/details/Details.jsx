@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button, Dialog, Backdrop, Slide } from '@material-ui/core';
 import CustomeTable from '../../components/CustomTable';
 import CheckoutModel from '../../components/CheckoutModel';
+import GallerySlider from '../../components/GallerySlider';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -17,6 +18,10 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: 0.5,
     fontSize: 32,
     lineHeight: '40.7px',
+    [theme.breakpoints.down('md')]: {
+      fontSize: 22,
+      lineHeight: '30.7px',
+    },
   },
   price: {
     verticalAlign: 'baseline',
@@ -75,6 +80,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 30,
   },
   button: {
     color: '#D9047C',
@@ -129,11 +135,12 @@ export default function Details() {
     imageUrl: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
   };
   return (
-    <Fragment>
+    <div style={{ overflowX: 'hidden' }}>
       <div className="row g-0 mt-5">
         <div className="col-12 col-md-7">
           <div className={classes.imageWrapper}>
-            <img src={item.imageUrl} style={{ height: 300 }} />
+            {/* <img src={item.imageUrl} style={{ height: 300 }} /> */}
+            <GallerySlider />
           </div>
         </div>
         <div className="col-12 col-md-5 p-3">
@@ -199,6 +206,6 @@ export default function Details() {
           <CheckoutModel value={open} onClose={handleModal} />
         </div>
       </Dialog>
-    </Fragment>
+    </div>
   );
 }
