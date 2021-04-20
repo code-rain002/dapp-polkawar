@@ -1,14 +1,12 @@
 import React, { Fragment, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
-import { Share } from '@material-ui/icons';
-import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import TabPanel from '../../components/TabPanel';
-import CustomButton from '../../components/CustomButton';
+import { Button, Dialog, Backdrop, Slide } from '@material-ui/core';
 import CustomeTable from '../../components/CustomTable';
 import CheckoutModel from '../../components/CheckoutModel';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -88,14 +86,35 @@ const useStyles = makeStyles((theme) => ({
     background: `linear-gradient(to bottom,#fce3ee, #fce3ee)`,
     fontSize: 14,
   },
+  buttonMain: {
+    borderRadius: '50px',
+    background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
+    lineHeight: '24px',
+    verticalAlign: 'baseline',
+    letterSpacing: '-1px',
+    margin: 0,
+    color: '#ffffff',
+    padding: '8px 16px 8px 16px',
+    fontWeight: 600,
+    fontSize: '1.02vw',
+    textTransform: 'none',
+  },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textDecoration: 'none',
+    outline: 'none',
+  },
 }));
 
 export default function Details() {
   const classes = useStyles();
-  const [value, setValue] = useState(0);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const [open, setOpen] = React.useState(false);
+
+  const handleModal = (value) => {
+    setOpen(value);
   };
 
   const item = {
@@ -116,9 +135,6 @@ export default function Details() {
           <div className={classes.imageWrapper}>
             <img src={item.imageUrl} style={{ height: 300 }} />
           </div>
-          {/* <div className="d-flex justify-content-center ">
-            <CheckoutModel />
-          </div> */}
         </div>
         <div className="col-12 col-md-5 p-3">
           <h5 className={classes.title}>{item.item_name}</h5>
@@ -151,8 +167,9 @@ export default function Details() {
           </p>{' '}
           <div className="my-3 d-flex justify-content-start">
             <div style={{ paddingRight: 10 }}>
-              {' '}
-              <CustomButton title={'Buy Now'} />
+              <Button variant="contained" className={classes.buttonMain} onClick={() => handleModal(true)}>
+                Buy Now
+              </Button>
             </div>
             <div>
               <Button variant="contained" className={classes.button}>
@@ -167,6 +184,21 @@ export default function Details() {
           </div>
         </div>
       </div>
+      <Dialog
+        className={classes.modal}
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={() => handleModal(false)}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}>
+        <div style={{ backgroundColor: 'black' }}>
+          <CheckoutModel value={open} onClose={handleModal} />
+        </div>
+      </Dialog>
     </Fragment>
   );
 }

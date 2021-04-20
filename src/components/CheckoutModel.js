@@ -90,8 +90,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CheckoutModel() {
+export default function CheckoutModel({ value, onClose }) {
   const classes = useStyles();
+
   const item = {
     owner: 'Elvin Que',
     avatar: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
@@ -109,7 +110,7 @@ export default function CheckoutModel() {
         <h5 className={classes.title}>Checkout</h5>
         <div>
           {' '}
-          <IconButton className={classes.iconWrapper}>
+          <IconButton className={classes.iconWrapper} onClick={() => onClose(false)}>
             <Close className={classes.icon} />
           </IconButton>
         </div>
