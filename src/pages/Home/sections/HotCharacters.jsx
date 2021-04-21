@@ -11,19 +11,20 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 800,
     verticalAlign: 'middle',
   },
-  charactersWrapper: {
-    width: 'auto',
-    overflowX: 'scroll',
-    display: 'flex',
-    [theme.breakpoints.up('sm')]: {
-      overflowX: 'hidden',
-    },
-  },
+
   scrollItemPositions: {
     display: 'flex',
-    justifyContent: 'center',
-    [theme.breakpoints.down('sm')]: {
+    justifyContent: 'space-evenly',
+    [theme.breakpoints.down('md')]: {
       justifyContent: 'start',
+    },
+  },
+  characterScroll: {
+    whiteSpace: 'noWrap',
+    overflowX: 'auto',
+    paddingTop: 10,
+    [theme.breakpoints.down('md')]: {
+      paddingTop: 0,
     },
   },
 }));
@@ -64,7 +65,7 @@ export default function HotCharacters() {
         <h1 className="heading">Hot characters</h1>
       </div>
 
-      <div className="scroller">
+      <div className={classes.characterScroll}>
         <div className={classes.scrollItemPositions}>
           {topCharacters.map((character, index) => {
             return (

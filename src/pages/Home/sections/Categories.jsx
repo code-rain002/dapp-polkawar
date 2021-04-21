@@ -61,9 +61,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   sectionMobile: {
-    display: 'block',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
+    display: 'none',
+    [theme.breakpoints.down('md')]: {
+      display: 'block',
     },
   },
   icon: {
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
   filterTabsDesktop: {
     paddingTop: 15,
     paddingBottom: 15,
-    width: 900,
+
     whiteSpace: 'noWrap',
     overflowX: 'auto',
   },
@@ -203,51 +203,55 @@ export default function Categories() {
   return (
     <div className="mt-5">
       <div className={classes.sectionDesktop}>
-        <div className="mt-5 mb-5 d-flex justify-content-between align-items-center">
-          <div className="d-flex justify-content-start align-items-center ">
-            <h1 className="heading">
-              Explore{' '}
-              <span>
-                <img src="images/thunder.png" height="30px" />
-              </span>
-            </h1>
-
-            <div className={classes.filterTabsDesktop}>
-              <p
-                className={selected === 0 ? classes.categoryTabActive : classes.categoryTab}
-                onClick={() => FilterList(0)}>
-                All
-              </p>
-
-              <p
-                className={selected === 1 ? classes.categoryTabActive : classes.categoryTab}
-                onClick={() => FilterList(1)}>
-                Sword
-              </p>
-
-              <p
-                className={selected === 2 ? classes.categoryTabActive : classes.categoryTab}
-                onClick={() => FilterList(2)}>
-                Paper Fan
-              </p>
-              <p
-                className={selected === 3 ? classes.categoryTabActive : classes.categoryTab}
-                onClick={() => FilterList(3)}>
-                Bow & Arrow
-              </p>
-              <p className={classes.categoryTab} onClick={() => FilterList(4)}>
-                Guns
-              </p>
-              <p className={classes.categoryTab}>Sceptre</p>
-              <p className={classes.categoryTab}>Ceramic vase</p>
-              <p className={classes.categoryTab}>Armor</p>
-              <p className={classes.categoryTab}>Hats</p>
-              <p className={classes.categoryTab}>Wings</p>
-            </div>
-          </div>
+        <div className="mb-4">
           <div>
-            <div className={classes.categoryTab}>
-              <Tune /> Sort & Filter
+            <div style={{ float: 'right', width: 'fit-content', marginTop: 15 }}>
+              <div className={classes.categoryTab}>
+                <Tune /> Filter
+              </div>
+            </div>
+
+            <div style={{ float: 'left', width: 'fit-content' }}>
+              <h1 className="heading">
+                Explore{' '}
+                <span>
+                  <img src="images/thunder.png" height="30px" />
+                </span>
+              </h1>
+            </div>
+            <div style={{ width: '100%' }}>
+              <div className={classes.filterTabsDesktop}>
+                <p
+                  className={selected === 0 ? classes.categoryTabActive : classes.categoryTab}
+                  onClick={() => FilterList(0)}>
+                  All
+                </p>
+
+                <p
+                  className={selected === 1 ? classes.categoryTabActive : classes.categoryTab}
+                  onClick={() => FilterList(1)}>
+                  Sword
+                </p>
+
+                <p
+                  className={selected === 2 ? classes.categoryTabActive : classes.categoryTab}
+                  onClick={() => FilterList(2)}>
+                  Paper Fan
+                </p>
+                <p
+                  className={selected === 3 ? classes.categoryTabActive : classes.categoryTab}
+                  onClick={() => FilterList(3)}>
+                  Bow & Arrow
+                </p>
+                <p className={classes.categoryTab} onClick={() => FilterList(4)}>
+                  Guns
+                </p>
+                <p className={classes.categoryTab}>Sceptre</p>
+                <p className={classes.categoryTab}>Ceramic vase</p>
+                <p className={classes.categoryTab}>Armor</p>
+                <p className={classes.categoryTab}>Hats</p>
+                <p className={classes.categoryTab}>Wings</p>
+              </div>
             </div>
           </div>
         </div>

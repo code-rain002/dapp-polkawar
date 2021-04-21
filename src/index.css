@@ -21,7 +21,6 @@ a {
 
 /* Main css classes */
 .heading {
-  width: fit-content;
   padding-right: 20px;
   color: white;
   text-align: left;
@@ -34,7 +33,6 @@ a {
   /* For mobile phones: */
   .heading {
     line-height: 41.4px;
-    width: fit-content;
     font-weight: 800;
     vertical-align: middle;
     font-size: 6vw;
