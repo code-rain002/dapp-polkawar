@@ -21,6 +21,8 @@ a {
 
 /* Main css classes */
 .heading {
+  width: fit-content;
+  padding-right: 20px;
   color: white;
   text-align: left;
   line-height: 41.4px;
@@ -32,6 +34,7 @@ a {
   /* For mobile phones: */
   .heading {
     line-height: 41.4px;
+    width: fit-content;
     font-weight: 800;
     vertical-align: middle;
     font-size: 6vw;
@@ -42,9 +45,12 @@ a {
 }
 
 .scroller {
+  overflow-x: scroll;
+}
+.scrollerTabs {
+  width: 600;
   overflow-x: hidden;
 }
-
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
   .scroller {

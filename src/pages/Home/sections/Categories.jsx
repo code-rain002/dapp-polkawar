@@ -16,14 +16,16 @@ const useStyles = makeStyles((theme) => ({
   categoryTab: {
     display: 'inline',
     border: '1px solid #616161',
+    width: 'fit-content',
+
     borderRadius: '20px',
     fontSize: 15,
     fontWeight: 500,
     padding: '8px 20px 8px 20px',
-    minWidth: '60px',
     marginRight: '12px',
-    height: '45px',
     cursor: 'pointer',
+    height: '40px',
+
     color: theme.palette.pbr.textPrimary,
     [theme.breakpoints.down('md')]: {
       padding: '6px 14px 6px 14px',
@@ -34,15 +36,14 @@ const useStyles = makeStyles((theme) => ({
   },
   categoryTabActive: {
     display: 'inline',
+    width: 'fit-content',
     border: '1px solid #616161',
     borderRadius: '20px',
     fontSize: 15,
     fontWeight: 500,
     padding: '8px 20px 8px 20px',
-    minWidth: '60px',
+    height: '40px',
     marginRight: '12px',
-
-    height: '45px',
     cursor: 'pointer',
     backgroundColor: theme.palette.pbr.textPrimary,
     color: '#fffffff',
@@ -68,14 +69,14 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     fontSize: 18,
   },
-  // filterTabsDesktop: {
-  //   display: 'block',
-  //   width: 300,
-  //   overflowX: 'scroll',
-  //   [theme.breakpoints.down('md')]: {
-  //     display: 'none',
-  //   },
-  // },
+
+  filterTabsDesktop: {
+    paddingTop: 15,
+    paddingBottom: 15,
+    width: 900,
+    whiteSpace: 'noWrap',
+    overflowX: 'auto',
+  },
   filterTabsMobile: {
     display: 'inline-block',
     paddingTop: 15,
@@ -204,43 +205,44 @@ export default function Categories() {
       <div className={classes.sectionDesktop}>
         <div className="mt-5 mb-5 d-flex justify-content-between align-items-center">
           <div className="d-flex justify-content-start align-items-center ">
-            <div>
-              <h1 className="heading">
-                Explore{' '}
-                <span>
-                  <img src="images/thunder.png" height="30px" />
-                </span>
-              </h1>
-            </div>
-            <div className="mx-3">
-              <div
+            <h1 className="heading">
+              Explore{' '}
+              <span>
+                <img src="images/thunder.png" height="30px" />
+              </span>
+            </h1>
+
+            <div className={classes.filterTabsDesktop}>
+              <p
                 className={selected === 0 ? classes.categoryTabActive : classes.categoryTab}
                 onClick={() => FilterList(0)}>
                 All
-              </div>
-              <div
+              </p>
+
+              <p
                 className={selected === 1 ? classes.categoryTabActive : classes.categoryTab}
                 onClick={() => FilterList(1)}>
                 Sword
-              </div>
-              <div
+              </p>
+
+              <p
                 className={selected === 2 ? classes.categoryTabActive : classes.categoryTab}
                 onClick={() => FilterList(2)}>
                 Paper Fan
-              </div>
-              <div
+              </p>
+              <p
                 className={selected === 3 ? classes.categoryTabActive : classes.categoryTab}
                 onClick={() => FilterList(3)}>
                 Bow & Arrow
-              </div>
-              <div className={classes.categoryTab} onClick={() => FilterList(4)}>
+              </p>
+              <p className={classes.categoryTab} onClick={() => FilterList(4)}>
                 Guns
-              </div>
-              <div className={classes.categoryTab}>Sceptre</div>
-              <div className={classes.categoryTab}>Ceramic vase</div>
-              <div className={classes.categoryTab}>Armor</div>
-              <div className={classes.categoryTab}>Hats</div>
-              <div className={classes.categoryTab}>Wings</div>
+              </p>
+              <p className={classes.categoryTab}>Sceptre</p>
+              <p className={classes.categoryTab}>Ceramic vase</p>
+              <p className={classes.categoryTab}>Armor</p>
+              <p className={classes.categoryTab}>Hats</p>
+              <p className={classes.categoryTab}>Wings</p>
             </div>
           </div>
           <div>

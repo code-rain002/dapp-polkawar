@@ -39,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     lineHeight: '25.7px',
     maxWidth: 500,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 14,
+    },
   },
   categoryTab: {
     display: 'inline-block',
@@ -67,6 +70,9 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: 0.5,
     fontSize: 22,
     lineHeight: '30.7px',
+    [theme.breakpoints.down('md')]: {
+      fontSize: 20,
+    },
   },
   levelText: {
     color: 'white',
@@ -76,11 +82,10 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 10,
   },
   imageWrapper: {
-    height: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
     padding: 30,
+    [theme.breakpoints.down('sm')]: {
+      padding: 0,
+    },
   },
   button: {
     color: '#D9047C',
@@ -102,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#ffffff',
     padding: '8px 16px 8px 16px',
     fontWeight: 600,
-    fontSize: '1.02vw',
+    fontSize: 14,
     textTransform: 'none',
   },
   modal: {
