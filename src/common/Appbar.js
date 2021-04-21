@@ -65,22 +65,12 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'start',
   },
   balanceButton: {
-    // borderRadius: '20px',
-    // background: `linear-gradient(73.28deg,#D9047C, #BF1088)`,
-    // lineHeight: '24px',
-    // verticalAlign: 'baseline',
-    // margin: 0,
-    // marginTop: 5,
-    // color: '#ffffff',
-    // padding: '8px 0px 8px 16px',
-    // fontWeight: 600,
-    // fontSize: '1.02vw',
-
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     border: '1px solid #616161',
     // background: 'linear-gradient(73.28deg,#D9047C 6.51%,#BF1088 88.45%)',
+    background: 'linear-gradient(73.28deg,#49b1fc 6.51%,#821aeb 88.45%)',
     borderRadius: '20px',
     position: 'relative',
     padding: '0 12px 0 40px',
@@ -99,7 +89,10 @@ const useStyles = makeStyles((theme) => ({
     top: '6px',
   },
 
-  icon: { fontSize: 24, color: '#616161' },
+  icon: {
+    fontSize: 24,
+    color: theme.palette.pbr.textPrimaryOpp,
+  },
   sectionDesktop: {
     display: 'none',
     [theme.breakpoints.up('md')]: {
@@ -232,7 +225,7 @@ export default function PrimarySearchAppBar() {
           {' '}
           <Link to="/">
             <Typography className={classes.title} variant="h6" noWrap>
-              <img src="images/symbol.png" alt="logo" height="40px" /> MarketPlace
+              <img src="images/symbol.png" alt="logo" height="40px" /> PolkaWar
             </Typography>
           </Link>
           <div className="d-flex justify-content-end">
@@ -283,7 +276,7 @@ export default function PrimarySearchAppBar() {
                     <AccountBalanceWallet className={classes.icon} />
                   </div>
                   <div>
-                    <strong style={{ color: '#616161' }}>38</strong>
+                    <strong style={{ color: '#e5e5e5' }}>386</strong>
                   </div>
                 </Button>
               </div>

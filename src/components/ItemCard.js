@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 30,
     backgroundColor: theme.palette.pbr.textPrimaryOpp,
     [theme.breakpoints.down('sm')]: {
-      width: 150,
+      width: 200,
       height: 290,
     },
   },
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Carter One',
     [theme.breakpoints.down('sm')]: {
       fontWeight: 700,
-      fontSize: 16,
+      fontSize: 18,
     },
   },
   mediaWrapper1: {
@@ -76,7 +76,6 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 12,
       paddingTop: 10,
       paddingRight: 5,
-      display: 'none',
     },
   },
   iconWrapper: {
@@ -99,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       textAlign: 'left',
       background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
-      padding: '2px 5px 2px 5px',
+      padding: '2px 7px 2px 7px',
       borderTopRightRadius: 50,
       borderBottomRightRadius: 50,
       height: 26,

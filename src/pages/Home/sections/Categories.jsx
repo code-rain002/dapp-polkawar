@@ -1,8 +1,10 @@
 import React, { Fragment, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ItemCard from '../../../components/ItemCard';
-import { FilterList, Tune } from '@material-ui/icons';
+import { Tune } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
+
+import CustomizedMenus from '../../../common/CustomizedMenus';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -200,15 +202,14 @@ export default function Categories() {
   const FilterList = (value) => {
     setSelected(value);
   };
+
   return (
     <div className="mt-5">
       <div className={classes.sectionDesktop}>
         <div className="mb-4">
           <div>
             <div style={{ float: 'right', width: 'fit-content', marginTop: 15 }}>
-              <div className={classes.categoryTab}>
-                <Tune /> Filter
-              </div>
+              <CustomizedMenus />
             </div>
 
             <div style={{ float: 'left', width: 'fit-content' }}>
@@ -243,14 +244,36 @@ export default function Categories() {
                   onClick={() => FilterList(3)}>
                   Bow & Arrow
                 </p>
-                <p className={classes.categoryTab} onClick={() => FilterList(4)}>
+                <p
+                  className={selected === 4 ? classes.categoryTabActive : classes.categoryTab}
+                  onClick={() => FilterList(4)}>
                   Guns
                 </p>
-                <p className={classes.categoryTab}>Sceptre</p>
-                <p className={classes.categoryTab}>Ceramic vase</p>
-                <p className={classes.categoryTab}>Armor</p>
-                <p className={classes.categoryTab}>Hats</p>
-                <p className={classes.categoryTab}>Wings</p>
+                <p
+                  className={selected === 5 ? classes.categoryTabActive : classes.categoryTab}
+                  onClick={() => FilterList(5)}>
+                  Sceptre
+                </p>
+                <p
+                  className={selected === 6 ? classes.categoryTabActive : classes.categoryTab}
+                  onClick={() => FilterList(6)}>
+                  Ceramic vase
+                </p>
+                <p
+                  className={selected === 7 ? classes.categoryTabActive : classes.categoryTab}
+                  onClick={() => FilterList(7)}>
+                  Armor
+                </p>
+                <p
+                  className={selected === 8 ? classes.categoryTabActive : classes.categoryTab}
+                  onClick={() => FilterList(8)}>
+                  Hats
+                </p>
+                <p
+                  className={selected === 9 ? classes.categoryTabActive : classes.categoryTab}
+                  onClick={() => FilterList(9)}>
+                  Wings
+                </p>
               </div>
             </div>
           </div>
@@ -267,9 +290,7 @@ export default function Categories() {
             </h1>
           </div>
           <div>
-            <IconButton className={classes.categoryTab}>
-              <Tune className={classes.icon} />
-            </IconButton>
+            <CustomizedMenus />
           </div>
         </div>
         <div className={classes.filterTabsMobile}>
@@ -293,21 +314,43 @@ export default function Categories() {
             onClick={() => FilterList(3)}>
             BowArrow
           </div>
-          <div className={classes.categoryTab} onClick={() => FilterList(4)}>
+          <div
+            className={selected === 4 ? classes.categoryTabActive : classes.categoryTab}
+            onClick={() => FilterList(4)}>
             Guns
           </div>
-          <div className={classes.categoryTab}>Sceptre</div>
-          <div className={classes.categoryTab}>CeramicVase</div>
-          <div className={classes.categoryTab}>Armor</div>
-          <div className={classes.categoryTab}>Hats</div>
-          <div className={classes.categoryTab}>Wings</div>
+          <div
+            className={selected === 5 ? classes.categoryTabActive : classes.categoryTab}
+            onClick={() => FilterList(5)}>
+            Sceptre
+          </div>
+          <div
+            className={selected === 6 ? classes.categoryTabActive : classes.categoryTab}
+            onClick={() => FilterList(6)}>
+            CeramicVase
+          </div>
+          <div
+            className={selected === 7 ? classes.categoryTabActive : classes.categoryTab}
+            onClick={() => FilterList(7)}>
+            Armor
+          </div>
+          <div
+            className={selected === 8 ? classes.categoryTabActive : classes.categoryTab}
+            onClick={() => FilterList(8)}>
+            Hats
+          </div>
+          <div
+            className={selected === 9 ? classes.categoryTabActive : classes.categoryTab}
+            onClick={() => FilterList(9)}>
+            Wings
+          </div>
         </div>
       </div>
 
       <div className="row mt-3">
         {items.map((item, index) => {
           return (
-            <div className="col-6 col-md-3" key={index}>
+            <div className="col-12 col-md-3" key={index}>
               <div className="d-flex justify-content-center">
                 {' '}
                 <ItemCard item={item} />
