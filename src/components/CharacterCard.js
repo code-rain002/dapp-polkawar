@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   card: {
-    width: 300,
+    width: 280,
     height: 420,
     borderRadius: 16,
     border: '4px solid #e5e5e5',

@@ -19,3 +19,21 @@ export const getItem = (id = 1000) => (dispatch) => {
       });
     });
 };
+
+//get items based on category
+export const getItems = (category = 'All') => (dispatch) => {
+  axios
+    .get(`${baseUrl}/items/${category}`)
+    .then((res) => {
+      dispatch({
+        type: GET_ITEMS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};

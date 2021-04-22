@@ -30,16 +30,16 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.pbr.textPrimary,
     fontWeight: 900,
     letterSpacing: 1,
-    fontSize: 26,
+    fontSize: 22,
     lineHeight: '35.7px',
     fontFamily: 'Carter One',
     [theme.breakpoints.down('sm')]: {
       fontWeight: 700,
-      fontSize: 18,
+      fontSize: 12,
     },
   },
   mediaWrapper1: {
-    height: 220,
+    height: 200,
     textAlign: 'center',
     [theme.breakpoints.down('sm')]: {
       height: 100,
@@ -136,10 +136,10 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
     margin: 0,
   },
-  ownerName: {
+  ownerCount: {
     color: 'white',
     textAlign: 'center',
-    fontSize: 13,
+    fontSize: 10,
     padding: 0,
     margin: 0,
   },
@@ -154,7 +154,9 @@ export default function ItemCard({ item }) {
           <div className="d-flex justify-content-between mt-2">
             <div className={classes.priceBadgeWrapper}>
               <h4 className={classes.pricingBadge}>
-                <span className={classes.pricingText}>{item.price} ETH</span>
+                <span className={classes.pricingText}>
+                  {item.price} {item.currency}
+                </span>
               </h4>
             </div>
             <div className="d-flex justify-content-center align-items-center">
@@ -167,12 +169,14 @@ export default function ItemCard({ item }) {
             </div>
           </div>
           <div className={classes.mediaWrapper1}>
-            <img src={item.imageUrl} className={classes.media} />
+            sa
+            {/* <img src={item.imageUrl} className={classes.media} /> */}
           </div>
           <div>
-            <h4 className={classes.title1}>{item.item_name}</h4>
-            <h6 className={classes.ownedText}>Owned by</h6>
-            <h6 className={classes.ownerName}>{item.owner}</h6>
+            <h4 className={classes.title1}>{item.name}</h4>
+            <h6 className={classes.ownedText}>
+              Owned by <span className="raindboxText">{item.owner.length} players</span>
+            </h6>
           </div>
           <div className="text-center mt-4">
             <Button variant="contained" className={classes.buyNowButton}>

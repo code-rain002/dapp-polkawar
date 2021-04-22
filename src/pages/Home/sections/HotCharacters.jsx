@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
   scrollItemPositions: {
     display: 'flex',
-    justifyContent: 'space-evenly',
+    justifyContent: 'start',
     [theme.breakpoints.down('md')]: {
       justifyContent: 'start',
     },
@@ -69,7 +69,7 @@ export default function HotCharacters() {
         <div className={classes.scrollItemPositions}>
           {topCharacters.map((character, index) => {
             return (
-              <div className="p-3">
+              <div style={{ paddingRight: 15, flexBasis: '25%' }}>
                 <CharacterCard item={character} />
               </div>
             );
