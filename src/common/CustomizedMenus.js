@@ -120,20 +120,12 @@ export default function CustomizedMenus() {
 
       <StyledMenu id="customized-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         <StyledMenuItem>
-          <ListItemText primary="Popularity" />
-        </StyledMenuItem>
-        <StyledMenuItem>
           <ListItemText primary="Price - Low to high" />
         </StyledMenuItem>
         <StyledMenuItem>
           <ListItemText primary="Price - High to low" />
         </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemText primary="Order - A-Z" />
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemText primary="Order - Z-A" />
-        </StyledMenuItem>
+
         <StyledMenuItem>
           <ListItemText primary="Level - 1-5" />
         </StyledMenuItem>

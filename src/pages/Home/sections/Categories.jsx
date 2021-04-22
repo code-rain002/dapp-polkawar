@@ -1,10 +1,9 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ItemCard from '../../../components/ItemCard';
-import { Tune } from '@material-ui/icons';
-import { IconButton } from '@material-ui/core';
-
 import CustomizedMenus from '../../../common/CustomizedMenus';
+import axios from 'axios';
+import { getItem } from './../../../actions/itemActions';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -91,6 +90,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Categories() {
   const classes = useStyles();
   const [selected, setSelected] = useState(0);
+  const [data, setData] = useState();
   const items = [
     {
       id: 1,
@@ -202,7 +202,21 @@ export default function Categories() {
   const FilterList = (value) => {
     setSelected(value);
   };
-
+  // const getItems = async () => {
+  //   const url = `http://localhost:3001/item/1000`;
+  //   let result = await axios.get(url).then((res) => {
+  //     if (res.status === 200) {
+  //       console.log(res.data);
+  //       return res.data;
+  //     } else {
+  //       console.log('Error from server!');
+  //     }
+  //   });
+  //   setData(result);
+  // };
+  // useEffect(() => {
+  //   getItem();
+  // }, []);
   return (
     <div className="mt-5">
       <div className={classes.sectionDesktop}>
