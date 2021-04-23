@@ -1,15 +1,11 @@
 var mongoose = require('mongoose');
 
 var UserModel = new mongoose.Schema({
-  id: {
-    type: Number,
-    required: true,
-  },
   address: {
     type: String,
     required: true,
   },
-  name: {
+  username: {
     type: String,
   },
   avatar: {
@@ -34,6 +30,7 @@ var UserModel = new mongoose.Schema({
   createdDate: {
     type: Date,
     required: true,
+    default: new Date(),
   },
 });
 const User = mongoose.model('User', UserModel, 'User');

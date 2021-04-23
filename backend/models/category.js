@@ -1,10 +1,6 @@
 var mongoose = require('mongoose');
 
 var UserModel = new mongoose.Schema({
-  id: {
-    type: Number,
-    required: true,
-  },
   name: {
     type: String,
     required: true,
@@ -20,6 +16,7 @@ var UserModel = new mongoose.Schema({
   createdDate: {
     type: Date,
     required: true,
+    default: new Date(),
   },
 });
 const Category = mongoose.model('Category', UserModel, 'Category');
