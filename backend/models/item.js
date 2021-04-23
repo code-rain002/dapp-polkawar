@@ -1,9 +1,9 @@
-var mongoose = require("mongoose");
+var mongoose = require('mongoose');
 
 var ItemModel = new mongoose.Schema({
   id: {
     type: Number,
-    required: true
+    required: true,
   },
   name: {
     type: String,
@@ -11,10 +11,10 @@ var ItemModel = new mongoose.Schema({
   },
   category: {
     type: Number,
-    required: true
+    required: true,
   },
   description: {
-    type: String
+    type: String,
   },
   tradeHistory: {
     type: Array,
@@ -30,10 +30,10 @@ var ItemModel = new mongoose.Schema({
   },
   level: {
     type: Number,
-    required: true
+    required: true,
   },
-  avartar: {
-    type: String
+  avatar: {
+    type: String,
   },
   createdDate: {
     type: Date,
@@ -43,21 +43,20 @@ var ItemModel = new mongoose.Schema({
     type: Number,
   },
   currency: {
-    type: String
+    type: String,
   },
   class: {
-    type: String
+    type: String,
   },
   isActived: {
     type: Number,
-    required: true
+    required: true,
   },
   isDeleted: {
     type: Number,
-    required: true
-  }
-
+    required: true,
+  },
 });
-const Item = mongoose.model("Item", ItemModel, "Item");
+const Item = mongoose.model('Item', ItemModel, 'Item');
 
 module.exports = Item;
