@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var UserModel = new mongoose.Schema({
+var CategoryModel = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -19,6 +19,6 @@ var UserModel = new mongoose.Schema({
     default: new Date(),
   },
 });
-const Category = mongoose.model('Category', UserModel, 'Category');
+const Category = mongoose.model('Category', CategoryModel, 'Category');
 
 module.exports = Category;

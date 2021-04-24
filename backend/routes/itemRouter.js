@@ -22,8 +22,13 @@ router.get('/item/:id', async (req, res, next) => {
 // Public
 // GET All Items based on category
 router.get('/items/:category', async (req, res, next) => {
-  const category = req.params.category;
   try {
+    const category = '';
+    if (req.params.category === 'All') {
+      category = '';
+    } else {
+      category = req.params.category;
+    }
     const data = await ItemDao.getItems(category);
     return res.status(200).send(data);
   } catch (error) {

@@ -10,6 +10,7 @@ var config = require('./configSys');
 var itemRouter = require('./routes/itemRouter');
 var userRouter = require('./routes/userRouter');
 var categoryRouter = require('./routes/categoryRouter');
+var characterRouter = require('./routes/characterRouter');
 
 var app = express();
 // view engine setup
@@ -36,6 +37,7 @@ mongoose.connect(config.MONGODB_URL, {
 app.use('/', itemRouter);
 app.use('/', userRouter);
 app.use('/', categoryRouter);
+app.use('/', characterRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

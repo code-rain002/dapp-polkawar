@@ -1,10 +1,6 @@
 var mongoose = require('mongoose');
 
-var UserModel = new mongoose.Schema({
-  id: {
-    type: Number,
-    required: true,
-  },
+var CharacterModel = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -15,7 +11,6 @@ var UserModel = new mongoose.Schema({
   level: {
     type: String,
     default: 0,
-    required: true,
   },
   image: {
     type: String,
@@ -25,8 +20,9 @@ var UserModel = new mongoose.Schema({
   createdDate: {
     type: Date,
     required: true,
+    default: new Date(),
   },
 });
-const Character = mongoose.model('Character', UserModel, 'Character');
+const Character = mongoose.model('Character', CharacterModel, 'Character');
 
 module.exports = Character;
