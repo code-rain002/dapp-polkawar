@@ -42,9 +42,9 @@ const useStyles = makeStyles((theme) => ({
     width: 'fit-content',
 
     borderRadius: '20px',
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: 500,
-    padding: '8px 20px 8px 20px',
+    padding: '8px 15px 8px 15px',
     marginRight: '12px',
     cursor: 'pointer',
     height: '40px',
@@ -78,6 +78,11 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     fontSize: 18,
   },
+  menuText: {
+    fontSize: 13,
+    fontWeight: 500,
+    fontFamily: 'Poppins',
+  },
 }));
 
 export default function CustomizedMenus() {
@@ -103,7 +108,7 @@ export default function CustomizedMenus() {
           color="primary"
           onClick={handleClick}
           className={classes.categoryTab}>
-          <Tune />
+          <Tune className={classes.icon} />
         </div>
       </div>
       <div className={classes.sectionDesktop}>
@@ -114,31 +119,31 @@ export default function CustomizedMenus() {
           color="primary"
           onClick={handleClick}
           className={classes.categoryTab}>
-          <Tune /> Sort
+          <Tune className={classes.icon} /> Sort
         </div>
       </div>
 
       <StyledMenu id="customized-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         <StyledMenuItem>
-          <ListItemText primary="Popularity" />
+          <ListItemText>
+            <span className={classes.menuText}>Price - Low to high</span>
+          </ListItemText>
         </StyledMenuItem>
         <StyledMenuItem>
-          <ListItemText primary="Price - Low to high" />
+          <ListItemText>
+            <span className={classes.menuText}>Price - High to low</span>
+          </ListItemText>
+        </StyledMenuItem>
+
+        <StyledMenuItem>
+          <ListItemText>
+            <span className={classes.menuText}>Level - 1-5</span>
+          </ListItemText>
         </StyledMenuItem>
         <StyledMenuItem>
-          <ListItemText primary="Price - High to low" />
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemText primary="Order - A-Z" />
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemText primary="Order - Z-A" />
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemText primary="Level - 1-5" />
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <ListItemText primary="Level - 5-1" />
+          <ListItemText>
+            <span className={classes.menuText}>Level - 5-1</span>
+          </ListItemText>
         </StyledMenuItem>
       </StyledMenu>
     </div>

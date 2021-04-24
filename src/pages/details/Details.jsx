@@ -1,9 +1,12 @@
-import React, { Fragment, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Dialog, Backdrop, Slide } from '@material-ui/core';
 import CustomeTable from '../../components/CustomTable';
 import CheckoutModel from '../../components/CheckoutModel';
 import GallerySlider from '../../components/GallerySlider';
+import { getItem } from './../../actions/itemActions';
+import propTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -119,83 +122,80 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Details() {
+function Details({ getItem, singleItem }) {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
+  const [item, setItem] = useState();
 
   const handleModal = (value) => {
     setOpen(value);
   };
 
-  const item = {
-    owner: 'Elvin Que',
-    avatar: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
-    item_name: 'Metalic Lightening Sward ',
-    price: '0.07',
-    level: 3,
-    item_count: '0.7',
-    bid: '0.5',
-    wishlisted: '76',
-    imageUrl: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
-  };
+  useEffect(() => {
+    getItem();
+  }, []);
+
+  useEffect(() => {
+    setItem(singleItem);
+  }, [singleItem]);
+
   return (
     <div style={{ overflowX: 'hidden' }}>
-      <div className="row g-0 mt-5">
-        <div className="col-12 col-md-7">
-          <div className={classes.imageWrapper}>
-            {/* <img src={item.imageUrl} style={{ height: 300 }} /> */}
-            <GallerySlider />
-          </div>
-        </div>
-        <div className="col-12 col-md-5 p-3">
-          <h5 className={classes.title}>{item.item_name}</h5>
-          <h6 className={classes.price}>
-            {item.price} ETH <span style={{ color: '#bdbdbd', paddingLeft: 10 }}>$18.16</span>
-          </h6>
-          <div className={classes.categoryTab}>
-            <img
-              src="https://www.freepnglogos.com/uploads/sword-png/sword-weapon-knighthood-vector-graphic-pixabay-21.png"
-              height="25px"
-              style={{ paddingRight: 10 }}
-            />
-            Sword
-          </div>
-          <div>
-            {' '}
-            <div className="d-flex justify-content-start align-items-center mt-2">
-              <h6 className={classes.levelText}>Level : </h6>
-              <div className={classes.iconWrapper}>
-                {Array.from(Array(item.level)).map((character) => {
-                  return <img src="https://pngimg.com/uploads/star/star_PNG1597.png" height="16px" />;
-                })}
-              </div>
+      {item ? (
+        <div className="row g-0 mt-5">
+          <div className="col-12 col-md-7">
+            <div className={classes.imageWrapper}>
+              <GallerySlider gallery={item.gallery} />
             </div>
           </div>
-          <p className={classes.description}>
-            Overload of information makes it harder to focus. When there is more information in our head than we can
-            effectively process, our brain starts to rush from one idea to another. Think of it as a form of mental
-            multitasking that makes your brain jump from one thought to another.
-          </p>{' '}
-          <div className="my-3 d-flex justify-content-start">
-            <div style={{ paddingRight: 10 }}>
-              <Button variant="contained" className={classes.buttonMain} onClick={() => handleModal(true)}>
-                Buy Now
-              </Button>
+          <div className="col-12 col-md-5 p-3">
+            <h5 className={classes.title}>{item.name}</h5>
+            <h6 className={classes.price}>
+              {item.price} {item.currency} <span style={{ color: '#bdbdbd', paddingLeft: 10 }}>$18.16</span>
+            </h6>
+            <div className={classes.categoryTab}>
+              <img
+                src="https://www.freepnglogos.com/uploads/sword-png/sword-weapon-knighthood-vector-graphic-pixabay-21.png"
+                height="25px"
+                style={{ paddingRight: 10 }}
+              />
+              {item.class}
             </div>
             <div>
-              <Button variant="contained" className={classes.button}>
-                Save for later
-              </Button>
+              {' '}
+              <div className="d-flex justify-content-start align-items-center mt-2">
+                <h6 className={classes.levelText}>Level : </h6>
+                <div className={classes.iconWrapper}>
+                  {Array.from(Array(item.level)).map((character) => {
+                    return <img src="https://pngimg.com/uploads/star/star_PNG1597.png" height="16px" />;
+                  })}
+                </div>
+              </div>
+            </div>
+            <p className={classes.description}>{item.description}</p>{' '}
+            <div className="my-3 d-flex justify-content-start">
+              <div style={{ paddingRight: 10 }}>
+                <Button variant="contained" className={classes.buttonMain} onClick={() => handleModal(true)}>
+                  Buy Now
+                </Button>
+              </div>
+              <div>
+                <Button variant="contained" className={classes.button}>
+                  Save for later
+                </Button>
+              </div>
+            </div>
+            <div>
+              <h6 className={classes.buyHistory}>Buy History</h6>
+              <hr style={{ color: 'yellow' }} />
+              <CustomeTable owner={item.owner} />
             </div>
           </div>
-          <div>
-            <h6 className={classes.buyHistory}>Buy History</h6>
-            <hr style={{ color: 'yellow' }} />
-            <CustomeTable />
-          </div>
         </div>
-      </div>
+      ) : (
+        'Loading...'
+      )}
       <Dialog
         className={classes.modal}
         open={open}
@@ -214,3 +214,15 @@ export default function Details() {
     </div>
   );
 }
+
+Details.propTypes = {
+  getItem: propTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  singleItem: state.items.item,
+});
+
+const mapDispatchToProps = { getItem };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Details);

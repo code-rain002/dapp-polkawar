@@ -28,6 +28,7 @@ export const theme = createMuiTheme({
   },
   typography: {
     fontFamily: [
+      'Carter One',
       'Poppins',
       'Work Sans',
       '-apple-system',

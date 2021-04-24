@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: 'baseline',
     wordSpacing: '0px',
     margin: 0,
-    fontWeight: 600,
+    fontWeight: 500,
     fontStyle: 'normal',
     letterSpacing: 0.1,
     textAlign: 'start',
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: 'baseline',
     wordSpacing: '0px',
     margin: 0,
-    fontWeight: 600,
+    fontWeight: 500,
     fontStyle: 'normal',
     letterSpacing: 0.1,
     textAlign: 'start',
@@ -69,8 +69,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     border: '1px solid #616161',
+    background: 'transparent',
     // background: 'linear-gradient(73.28deg,#D9047C 6.51%,#BF1088 88.45%)',
-    background: 'linear-gradient(73.28deg,#49b1fc 6.51%,#821aeb 88.45%)',
+    // background: 'linear-gradient(73.28deg,#49b1fc 6.51%,#821aeb 88.45%)',
     borderRadius: '20px',
     position: 'relative',
     padding: '0 12px 0 40px',
@@ -91,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
 
   icon: {
     fontSize: 24,
-    color: theme.palette.pbr.textPrimaryOpp,
+    color: '#616161',
   },
   sectionDesktop: {
     display: 'none',
@@ -153,7 +154,21 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     color: '#ffffff',
     padding: '5px 15px 5px 15px',
-    fontWeight: 600,
+    fontWeight: 500,
+  },
+  airdropButton: {
+    borderRadius: '50px',
+    background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
+    lineHeight: '24px',
+    verticalAlign: 'baseline',
+    letterSpacing: '-1px',
+    margin: 0,
+    marginTop: 5,
+    color: '#ffffff',
+    padding: '8px 16px 8px 16px',
+    fontWeight: 500,
+    fontSize: 16,
+    textTransform: 'none',
   },
 }));
 
@@ -180,10 +195,9 @@ export default function PrimarySearchAppBar() {
         <div>
           <List>
             {[
-              { name: 'Explore', link: '/' },
-              { name: 'My items', link: '/profile' },
-              { name: 'Following', link: '/profile' },
-              { name: 'Activity', link: '/profile' },
+              { name: 'Shop', link: '/' },
+              { name: 'My Home', link: '/profile' },
+              { name: 'Battle Room', link: '/profile' },
             ].map((tab, index) => (
               <Link to={tab.link}>
                 <ListItem button onClick={toggleDrawer(anchor, false)} key={index}>
@@ -195,8 +209,8 @@ export default function PrimarySearchAppBar() {
           <Divider />
           <List>
             {[
-              { name: 'How it works', id: 'https://farm.polkabridge.org/' },
-              { name: 'Community', id: 'https://launchpad.polkabridge.org/' },
+              { name: 'Landing Page', id: 'https://landing.polkawar.com/' },
+              { name: 'Get Airdrop', id: 'https://airdrop.polkawar.com/' },
             ].map((tab, index) => (
               <a href={tab.id} className={classes.mobileLink}>
                 <ListItem button key={tab.name}>
@@ -205,9 +219,16 @@ export default function PrimarySearchAppBar() {
               </a>
             ))}
             <ListItem button>
-              <a href="docs/whitepaper.pdf" style={{ textDecoration: 'none' }}>
-                <ListItemText primary={'Read Whitepaper'} className={classes.menuTitlePink} />
-              </a>
+              <div>
+                <Button className={classes.balanceButton}>
+                  <div className={classes.buttonIcon}>
+                    <AccountBalanceWallet className={classes.icon} />
+                  </div>
+                  <div>
+                    <strong style={{ color: '#616161' }}>386</strong>
+                  </div>
+                </Button>
+              </div>
             </ListItem>
           </List>
         </div>
@@ -235,7 +256,7 @@ export default function PrimarySearchAppBar() {
                 noWrap
                 className={navIndex === 0 ? classes.tabsActive : classes.tabs}
                 onClick={() => setNavIndex(0)}>
-                Explore
+                Shop
               </Typography>
             </Link>
             <Link to="/profile">
@@ -244,11 +265,11 @@ export default function PrimarySearchAppBar() {
                 noWrap
                 className={navIndex === 1 ? classes.tabsActive : classes.tabs}
                 onClick={() => setNavIndex(1)}>
-                My items
+                My Home
               </Typography>
             </Link>
             <Typography className={classes.tabs} variant="subtitle1" noWrap>
-              Following
+              Battle Room
             </Typography>
             <Link to="/profile">
               {' '}
@@ -257,18 +278,10 @@ export default function PrimarySearchAppBar() {
                 noWrap
                 className={navIndex === 3 ? classes.tabsActive : classes.tabs}
                 onClick={() => setNavIndex(3)}>
-                Activity
+                Landing Page
               </Typography>{' '}
             </Link>
-            <Typography className={classes.tabs} variant="subtitle1" noWrap>
-              |
-            </Typography>
-            <Typography className={classes.tabs} variant="subtitle1" noWrap>
-              How it works
-            </Typography>
-            <Typography className={classes.tabs} variant="subtitle1" noWrap>
-              Community
-            </Typography>
+
             <div className={classes.sectionDesktop}>
               <div>
                 <Button className={classes.balanceButton}>
@@ -279,6 +292,9 @@ export default function PrimarySearchAppBar() {
                     <strong style={{ color: '#e5e5e5' }}>386</strong>
                   </div>
                 </Button>
+              </div>
+              <div>
+                <Button className={classes.airdropButton}>Get Airdrop</Button>
               </div>
             </div>
           </div>

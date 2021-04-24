@@ -1,10 +1,10 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ItemCard from '../../../components/ItemCard';
-import { Tune } from '@material-ui/icons';
-import { IconButton } from '@material-ui/core';
-
 import CustomizedMenus from '../../../common/CustomizedMenus';
+import { getItems } from './../../../actions/itemActions';
+import propTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -19,11 +19,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline',
     border: '1px solid #616161',
     width: 'fit-content',
-
     borderRadius: '20px',
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: 500,
-    padding: '8px 20px 8px 20px',
+    padding: '8px 15px 8px 15px',
     marginRight: '12px',
     cursor: 'pointer',
     height: '40px',
@@ -41,9 +40,9 @@ const useStyles = makeStyles((theme) => ({
     width: 'fit-content',
     border: '1px solid #616161',
     borderRadius: '20px',
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: 500,
-    padding: '8px 20px 8px 20px',
+    padding: '8px 15px 8px 15px',
     height: '40px',
     marginRight: '12px',
     cursor: 'pointer',
@@ -88,128 +87,145 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Categories() {
+function Categories({ getItems, items }) {
   const classes = useStyles();
   const [selected, setSelected] = useState(0);
-  const items = [
-    {
-      id: 1,
-      owner: 'Elvin Que',
-      avatar: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
-      item_name: 'Sward ',
-      price: '0.7',
-      level: 3,
-      item_count: '0.7',
-      bid: '0.5',
-      wishlisted: '76',
-      imageUrl: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
-    },
-    {
-      id: 2,
-      owner: 'Dareen Leh',
-      avatar: 'https://static.newsbreak.com/people/200/per_thumb_31bb51c2b3d04a2aa57efe38543dee2a.jpg',
-      item_name: 'Katana',
-      price: '0.8',
-      level: 2,
+  const [collection, setCollection] = useState([]);
 
-      item_count: '0.7',
-      bid: '0.5',
-      wishlisted: '763',
-      imageUrl: 'https://i.pinimg.com/originals/c7/56/cb/c756cb1964fbb8108c21adf34cabc2af.png',
-    },
-    {
-      id: 3,
-      owner: 'Elvin Que',
-      avatar: 'https://static.newsbreak.com/people/200/per_thumb_31bb51c2b3d04a2aa57efe38543dee2a.jpg',
-      item_name: 'Bow and Arrow',
-      price: '0.7',
-      level: 1,
+  // const items = [
+  //   {
+  //     id: 1,
+  //     owner: 'Elvin Que',
+  //     avatar: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
+  //     item_name: 'Sward ',
+  //     price: '0.7',
+  //     level: 3,
+  //     item_count: '0.7',
+  //     bid: '0.5',
+  //     wishlisted: '76',
+  //     imageUrl: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
+  //   },
+  //   {
+  //     id: 2,
+  //     owner: 'Dareen Leh',
+  //     avatar: 'https://static.newsbreak.com/people/200/per_thumb_31bb51c2b3d04a2aa57efe38543dee2a.jpg',
+  //     item_name: 'Katana',
+  //     price: '0.8',
+  //     level: 2,
 
-      item_count: '0.7',
-      bid: '0.5',
-      wishlisted: '76',
-      imageUrl: 'https://cdn2.iconfinder.com/data/icons/flat-icons-19/512/Hunting_bow.png',
-    },
-    {
-      id: 4,
-      owner: 'Elvin Que',
-      avatar:
-        'https://lh3.googleusercontent.com/proxy/TtrgyCSW1oZphe2UJmk2eNxTjVmwIXhi3dWbn2K689Dx08_P-WT0AtJ3JmCQdAJehMvicxbavmDb3axnqjEwdKImUsF563243VVanY2UCvfPsEM2Fu04-D46TDE',
-      item_name: 'Sward ',
-      price: '0.7',
-      item_count: '0.7',
-      bid: '0.5',
-      level: 4,
+  //     item_count: '0.7',
+  //     bid: '0.5',
+  //     wishlisted: '763',
+  //     imageUrl: 'https://i.pinimg.com/originals/c7/56/cb/c756cb1964fbb8108c21adf34cabc2af.png',
+  //   },
+  //   {
+  //     id: 3,
+  //     owner: 'Elvin Que',
+  //     avatar: 'https://static.newsbreak.com/people/200/per_thumb_31bb51c2b3d04a2aa57efe38543dee2a.jpg',
+  //     item_name: 'Bow and Arrow',
+  //     price: '0.7',
+  //     level: 1,
 
-      wishlisted: '76',
-      imageUrl: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
-    },
-    {
-      id: 5,
-      owner: 'Dareen Leh',
-      avatar: 'https://static.newsbreak.com/people/200/per_thumb_31bb51c2b3d04a2aa57efe38543dee2a.jpg',
-      item_name: 'Katana',
-      price: '0.8',
-      item_count: '0.7',
-      bid: '0.5',
-      level: 5,
+  //     item_count: '0.7',
+  //     bid: '0.5',
+  //     wishlisted: '76',
+  //     imageUrl: 'https://cdn2.iconfinder.com/data/icons/flat-icons-19/512/Hunting_bow.png',
+  //   },
+  //   {
+  //     id: 4,
+  //     owner: 'Elvin Que',
+  //     avatar:
+  //       'https://lh3.googleusercontent.com/proxy/TtrgyCSW1oZphe2UJmk2eNxTjVmwIXhi3dWbn2K689Dx08_P-WT0AtJ3JmCQdAJehMvicxbavmDb3axnqjEwdKImUsF563243VVanY2UCvfPsEM2Fu04-D46TDE',
+  //     item_name: 'Sward ',
+  //     price: '0.7',
+  //     item_count: '0.7',
+  //     bid: '0.5',
+  //     level: 4,
 
-      wishlisted: '763',
-      imageUrl: 'https://i.pinimg.com/originals/c7/56/cb/c756cb1964fbb8108c21adf34cabc2af.png',
-    },
-    {
-      id: 6,
-      owner: 'Elvin Que',
-      avatar: 'https://static.newsbreak.com/people/200/per_thumb_31bb51c2b3d04a2aa57efe38543dee2a.jpg',
-      item_name: 'Bow and Arrow',
-      price: '0.7',
-      item_count: '0.7',
-      bid: '0.5',
-      level: 2,
+  //     wishlisted: '76',
+  //     imageUrl: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
+  //   },
+  //   {
+  //     id: 5,
+  //     owner: 'Dareen Leh',
+  //     avatar: 'https://static.newsbreak.com/people/200/per_thumb_31bb51c2b3d04a2aa57efe38543dee2a.jpg',
+  //     item_name: 'Katana',
+  //     price: '0.8',
+  //     item_count: '0.7',
+  //     bid: '0.5',
+  //     level: 5,
 
-      wishlisted: '76',
-      imageUrl: 'https://cdn2.iconfinder.com/data/icons/flat-icons-19/512/Hunting_bow.png',
-    },
-    {
-      id: 7,
-      owner: 'Elvin Que',
-      avatar:
-        'https://lh3.googleusercontent.com/proxy/TtrgyCSW1oZphe2UJmk2eNxTjVmwIXhi3dWbn2K689Dx08_P-WT0AtJ3JmCQdAJehMvicxbavmDb3axnqjEwdKImUsF563243VVanY2UCvfPsEM2Fu04-D46TDE',
-      item_name: 'Sward ',
-      price: '0.7',
-      level: 4,
+  //     wishlisted: '763',
+  //     imageUrl: 'https://i.pinimg.com/originals/c7/56/cb/c756cb1964fbb8108c21adf34cabc2af.png',
+  //   },
+  //   {
+  //     id: 6,
+  //     owner: 'Elvin Que',
+  //     avatar: 'https://static.newsbreak.com/people/200/per_thumb_31bb51c2b3d04a2aa57efe38543dee2a.jpg',
+  //     item_name: 'Bow and Arrow',
+  //     price: '0.7',
+  //     item_count: '0.7',
+  //     bid: '0.5',
+  //     level: 2,
 
-      item_count: '0.7',
-      bid: '0.5',
-      wishlisted: '76',
-      imageUrl: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
-    },
-    {
-      id: 8,
-      owner: 'Dareen Leh',
-      avatar: 'https://static.newsbreak.com/people/200/per_thumb_31bb51c2b3d04a2aa57efe38543dee2a.jpg',
-      item_name: 'Katana',
-      price: '0.8',
-      level: 3,
+  //     wishlisted: '76',
+  //     imageUrl: 'https://cdn2.iconfinder.com/data/icons/flat-icons-19/512/Hunting_bow.png',
+  //   },
+  //   {
+  //     id: 7,
+  //     owner: 'Elvin Que',
+  //     avatar:
+  //       'https://lh3.googleusercontent.com/proxy/TtrgyCSW1oZphe2UJmk2eNxTjVmwIXhi3dWbn2K689Dx08_P-WT0AtJ3JmCQdAJehMvicxbavmDb3axnqjEwdKImUsF563243VVanY2UCvfPsEM2Fu04-D46TDE',
+  //     item_name: 'Sward ',
+  //     price: '0.7',
+  //     level: 4,
 
-      item_count: '0.7',
-      bid: '0.5',
-      wishlisted: '763',
-      imageUrl: 'https://i.pinimg.com/originals/c7/56/cb/c756cb1964fbb8108c21adf34cabc2af.png',
-    },
-  ];
+  //     item_count: '0.7',
+  //     bid: '0.5',
+  //     wishlisted: '76',
+  //     imageUrl: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
+  //   },
+  //   {
+  //     id: 8,
+  //     owner: 'Dareen Leh',
+  //     avatar: 'https://static.newsbreak.com/people/200/per_thumb_31bb51c2b3d04a2aa57efe38543dee2a.jpg',
+  //     item_name: 'Katana',
+  //     price: '0.8',
+  //     level: 3,
+
+  //     item_count: '0.7',
+  //     bid: '0.5',
+  //     wishlisted: '763',
+  //     imageUrl: 'https://i.pinimg.com/originals/c7/56/cb/c756cb1964fbb8108c21adf34cabc2af.png',
+  //   },
+  // ];
 
   const FilterList = (value) => {
     setSelected(value);
   };
+
+  //Calling actions
+  //Get all items
+
+  useEffect(() => {
+    getItems();
+  }, []);
+
+  useEffect(() => {
+    if (items !== null) {
+      setCollection(items);
+    }
+  }, [items]);
 
   return (
     <div className="mt-5">
       <div className={classes.sectionDesktop}>
         <div className="mb-4">
           <div>
-            <div style={{ float: 'right', width: 'fit-content', marginTop: 15 }}>
-              <CustomizedMenus />
+            <div style={{ float: 'right', width: '150px', marginTop: 15 }}>
+              <div className="d-flex justify-content-end">
+                <CustomizedMenus />
+              </div>
             </div>
 
             <div style={{ float: 'left', width: 'fit-content' }}>
@@ -348,17 +364,29 @@ export default function Categories() {
       </div>
 
       <div className="row mt-3">
-        {items.map((item, index) => {
-          return (
-            <div className="col-12 col-md-3" key={index}>
-              <div className="d-flex justify-content-center">
-                {' '}
-                <ItemCard item={item} />
-              </div>
-            </div>
-          );
-        })}
+        {collection !== null
+          ? collection.map((item, index) => {
+              return (
+                <div className="col-12 col-md-3" key={index}>
+                  <div className="d-flex justify-content-center">
+                    <ItemCard item={item} />
+                  </div>
+                </div>
+              );
+            })
+          : 'Loading'}
       </div>
     </div>
   );
 }
+Categories.propTypes = {
+  getItems: propTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  items: state.items.items,
+});
+
+const mapDispatchToProps = { getItems };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Categories);
