@@ -16,5 +16,15 @@ router.get("/item/:id", async (req, res, next) => {
     return res.status(400).send("error");
   }
 });
+router.get("/items/:pageIndex/:pageSize", async (req, res, next) => {
+  const pageIndex = req.params.pageIndex;
+  const pageSize = req.params.pageSize;
+  try {
+    const data = await ItemDao.getListItems(pageIndex, pageSize);
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(400).send("error");
+  }
+});
 
 module.exports = router;
