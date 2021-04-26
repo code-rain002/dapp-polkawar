@@ -1,10 +1,6 @@
 var mongoose = require('mongoose');
 
 var ItemModel = new mongoose.Schema({
-  id: {
-    type: Number,
-    required: true,
-  },
   name: {
     type: String,
     required: true,
@@ -12,6 +8,7 @@ var ItemModel = new mongoose.Schema({
   category: {
     type: Number,
     required: true,
+    default: 0,
   },
   description: {
     type: String,
@@ -31,13 +28,15 @@ var ItemModel = new mongoose.Schema({
   level: {
     type: Number,
     required: true,
+    default: 0,
   },
-  avatar: {
+  image: {
     type: String,
   },
   createdDate: {
     type: Date,
     required: true,
+    default: new Date(),
   },
   price: {
     type: Number,
@@ -51,10 +50,12 @@ var ItemModel = new mongoose.Schema({
   isActived: {
     type: Number,
     required: true,
+    default: 0,
   },
   isDeleted: {
     type: Number,
     required: true,
+    default: 0,
   },
 });
 const Item = mongoose.model('Item', ItemModel, 'Item');

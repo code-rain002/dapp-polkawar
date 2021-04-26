@@ -23,16 +23,30 @@ router.get('/item/:id', async (req, res, next) => {
 // GET All Items based on category
 router.get('/items/:category', async (req, res, next) => {
   try {
-    const category = '';
-    if (req.params.category === 'All') {
-      category = '';
-    } else {
-      category = req.params.category;
-    }
-    const data = await ItemDao.getItems(category);
+    const data = await ItemDao.getItems(req.params.category);
     return res.status(200).send(data);
   } catch (error) {
     return res.status(400).send('error');
   }
 });
+
+// Public
+// POST items based on category
+router.post('/item', async (req, res, next) => {
+  var itemData = {
+    name: req.body.name,
+    description: req.body.description ? req.body.description : '',
+    level: req.body.level ? req.body.level : 0,
+    image: req.body.image ? req.body.image : '',
+    class: req.body.category ? req.body.category : '',
+  };
+
+  try {
+    const data = await ItemDao.createItem(itemData);
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(400).send('error');
+  }
+});
+
 module.exports = router;

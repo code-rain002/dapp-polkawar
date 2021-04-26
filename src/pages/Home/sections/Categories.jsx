@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ItemCard from '../../../components/ItemCard';
 import CustomizedMenus from '../../../common/CustomizedMenus';
-import { getItems } from './../../../actions/itemActions';
+import { getItems, getCategories } from './../../../actions/itemActions';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -87,118 +87,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Categories({ getItems, items }) {
+function Categories({ getItems, items, categories }) {
   const classes = useStyles();
   const [selected, setSelected] = useState(0);
   const [collection, setCollection] = useState([]);
-
-  // const items = [
-  //   {
-  //     id: 1,
-  //     owner: 'Elvin Que',
-  //     avatar: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
-  //     item_name: 'Sward ',
-  //     price: '0.7',
-  //     level: 3,
-  //     item_count: '0.7',
-  //     bid: '0.5',
-  //     wishlisted: '76',
-  //     imageUrl: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
-  //   },
-  //   {
-  //     id: 2,
-  //     owner: 'Dareen Leh',
-  //     avatar: 'https://static.newsbreak.com/people/200/per_thumb_31bb51c2b3d04a2aa57efe38543dee2a.jpg',
-  //     item_name: 'Katana',
-  //     price: '0.8',
-  //     level: 2,
-
-  //     item_count: '0.7',
-  //     bid: '0.5',
-  //     wishlisted: '763',
-  //     imageUrl: 'https://i.pinimg.com/originals/c7/56/cb/c756cb1964fbb8108c21adf34cabc2af.png',
-  //   },
-  //   {
-  //     id: 3,
-  //     owner: 'Elvin Que',
-  //     avatar: 'https://static.newsbreak.com/people/200/per_thumb_31bb51c2b3d04a2aa57efe38543dee2a.jpg',
-  //     item_name: 'Bow and Arrow',
-  //     price: '0.7',
-  //     level: 1,
-
-  //     item_count: '0.7',
-  //     bid: '0.5',
-  //     wishlisted: '76',
-  //     imageUrl: 'https://cdn2.iconfinder.com/data/icons/flat-icons-19/512/Hunting_bow.png',
-  //   },
-  //   {
-  //     id: 4,
-  //     owner: 'Elvin Que',
-  //     avatar:
-  //       'https://lh3.googleusercontent.com/proxy/TtrgyCSW1oZphe2UJmk2eNxTjVmwIXhi3dWbn2K689Dx08_P-WT0AtJ3JmCQdAJehMvicxbavmDb3axnqjEwdKImUsF563243VVanY2UCvfPsEM2Fu04-D46TDE',
-  //     item_name: 'Sward ',
-  //     price: '0.7',
-  //     item_count: '0.7',
-  //     bid: '0.5',
-  //     level: 4,
-
-  //     wishlisted: '76',
-  //     imageUrl: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
-  //   },
-  //   {
-  //     id: 5,
-  //     owner: 'Dareen Leh',
-  //     avatar: 'https://static.newsbreak.com/people/200/per_thumb_31bb51c2b3d04a2aa57efe38543dee2a.jpg',
-  //     item_name: 'Katana',
-  //     price: '0.8',
-  //     item_count: '0.7',
-  //     bid: '0.5',
-  //     level: 5,
-
-  //     wishlisted: '763',
-  //     imageUrl: 'https://i.pinimg.com/originals/c7/56/cb/c756cb1964fbb8108c21adf34cabc2af.png',
-  //   },
-  //   {
-  //     id: 6,
-  //     owner: 'Elvin Que',
-  //     avatar: 'https://static.newsbreak.com/people/200/per_thumb_31bb51c2b3d04a2aa57efe38543dee2a.jpg',
-  //     item_name: 'Bow and Arrow',
-  //     price: '0.7',
-  //     item_count: '0.7',
-  //     bid: '0.5',
-  //     level: 2,
-
-  //     wishlisted: '76',
-  //     imageUrl: 'https://cdn2.iconfinder.com/data/icons/flat-icons-19/512/Hunting_bow.png',
-  //   },
-  //   {
-  //     id: 7,
-  //     owner: 'Elvin Que',
-  //     avatar:
-  //       'https://lh3.googleusercontent.com/proxy/TtrgyCSW1oZphe2UJmk2eNxTjVmwIXhi3dWbn2K689Dx08_P-WT0AtJ3JmCQdAJehMvicxbavmDb3axnqjEwdKImUsF563243VVanY2UCvfPsEM2Fu04-D46TDE',
-  //     item_name: 'Sward ',
-  //     price: '0.7',
-  //     level: 4,
-
-  //     item_count: '0.7',
-  //     bid: '0.5',
-  //     wishlisted: '76',
-  //     imageUrl: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
-  //   },
-  //   {
-  //     id: 8,
-  //     owner: 'Dareen Leh',
-  //     avatar: 'https://static.newsbreak.com/people/200/per_thumb_31bb51c2b3d04a2aa57efe38543dee2a.jpg',
-  //     item_name: 'Katana',
-  //     price: '0.8',
-  //     level: 3,
-
-  //     item_count: '0.7',
-  //     bid: '0.5',
-  //     wishlisted: '763',
-  //     imageUrl: 'https://i.pinimg.com/originals/c7/56/cb/c756cb1964fbb8108c21adf34cabc2af.png',
-  //   },
-  // ];
+  const [itemCategories, setItemCategories] = useState([]);
 
   const FilterList = (value) => {
     setSelected(value);
@@ -208,6 +101,7 @@ function Categories({ getItems, items }) {
   //Get all items
 
   useEffect(() => {
+    getCategories();
     getItems();
   }, []);
 
@@ -215,7 +109,10 @@ function Categories({ getItems, items }) {
     if (items !== null) {
       setCollection(items);
     }
-  }, [items]);
+    if (categories !== null) {
+      setItemCategories(categories);
+    }
+  }, [items, categories]);
 
   return (
     <div className="mt-5">
@@ -381,12 +278,14 @@ function Categories({ getItems, items }) {
 }
 Categories.propTypes = {
   getItems: propTypes.func.isRequired,
+  getCategories: propTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   items: state.items.items,
+  categories: state.items.categories,
 });
 
-const mapDispatchToProps = { getItems };
+const mapDispatchToProps = { getItems, getCategories };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories);

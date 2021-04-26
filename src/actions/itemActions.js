@@ -37,3 +37,21 @@ export const getItems = (category = 'All') => (dispatch) => {
       });
     });
 };
+
+//GET all item categories
+export const getCategories = () => (dispatch) => {
+  axios
+    .get(`${baseUrl}/categories`)
+    .then((res) => {
+      dispatch({
+        type: GET_ITEMS_CATEGORY,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response,
+      });
+    });
+};
