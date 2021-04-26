@@ -169,8 +169,7 @@ export default function ItemCard({ item }) {
             </div>
           </div>
           <div className={classes.mediaWrapper1}>
-            sa
-            {/* <img src={item.imageUrl} className={classes.media} /> */}
+            <img src={item.image} className={classes.media} />
           </div>
           <div>
             <h4 className={classes.title1}>{item.name}</h4>

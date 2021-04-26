@@ -35,6 +35,8 @@ router.get('/items/:category', async (req, res, next) => {
 router.post('/item', async (req, res, next) => {
   var itemData = {
     name: req.body.name,
+    price: req.body.price ? req.body.price : 0,
+    currency: req.body.currency ? req.body.currency : 'ETH',
     description: req.body.description ? req.body.description : '',
     level: req.body.level ? req.body.level : 0,
     image: req.body.image ? req.body.image : '',
