@@ -31,6 +31,17 @@ router.get('/items/:category', async (req, res, next) => {
 });
 
 // Public
+// GET All Categories of the items
+router.get('/items/categorylist', async (req, res, next) => {
+  try {
+    const data = await ItemDao.getCategories();
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(400).send('error');
+  }
+});
+
+// Public
 // POST items based on category
 router.post('/item', async (req, res, next) => {
   var itemData = {
@@ -40,7 +51,7 @@ router.post('/item', async (req, res, next) => {
     description: req.body.description ? req.body.description : '',
     level: req.body.level ? req.body.level : 0,
     image: req.body.image ? req.body.image : '',
-    class: req.body.category ? req.body.category : '',
+    category: req.body.category ? req.body.category : 'none',
   };
 
   try {

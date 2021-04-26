@@ -40,7 +40,7 @@ export const getItems = (category = 'All') => (dispatch) => {
 
 //GET all item categories
 export const getCategories = () => (dispatch) => {
-  console.log('Calling');
+  console.log('Calling ji');
   axios
     .get(`${baseUrl}/categories`)
     .then((res) => {

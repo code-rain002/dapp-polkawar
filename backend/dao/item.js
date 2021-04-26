@@ -15,6 +15,9 @@ const itemDao = {
     return await ItemModel.find({});
   },
 
+  async getCategories() {
+    return await ItemModel.distinct('category');
+  },
   async createItem(itemData) {
     console.log(itemData);
 

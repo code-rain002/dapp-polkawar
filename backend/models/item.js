@@ -6,9 +6,9 @@ var ItemModel = new mongoose.Schema({
     required: true,
   },
   category: {
-    type: Number,
+    type: String,
     required: true,
-    default: 0,
+    default: 'none',
   },
   description: {
     type: String,
@@ -40,13 +40,15 @@ var ItemModel = new mongoose.Schema({
   },
   price: {
     type: Number,
+    required: true,
+    default: 0,
   },
   currency: {
     type: String,
+    required: true,
+    default: 'ETH',
   },
-  class: {
-    type: String,
-  },
+
   isActived: {
     type: Number,
     required: true,

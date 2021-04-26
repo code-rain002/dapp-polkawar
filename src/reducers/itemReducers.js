@@ -1,9 +1,9 @@
 import { GET_ITEMS_CATEGORY, GET_ITEMS, GET_ITEM } from '../actions/types';
 
 const initalState = {
-  categories: null,
+  categories: [],
   item: null,
-  items: null,
+  items: [],
 };
 
 export default function (state = initalState, action) {

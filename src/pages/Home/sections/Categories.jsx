@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: '12px',
     cursor: 'pointer',
     height: '40px',
+    textTransform: 'capitalize',
 
     color: theme.palette.pbr.textPrimary,
     [theme.breakpoints.down('md')]: {
@@ -46,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
     height: '40px',
     marginRight: '12px',
     cursor: 'pointer',
+    textTransform: 'capitalize',
     backgroundColor: theme.palette.pbr.textPrimary,
     color: '#fffffff',
     [theme.breakpoints.down('md')]: {
@@ -87,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Categories({ getItems, items, categories }) {
+function Categories({ getItems, getCategories, items, categories }) {
   const classes = useStyles();
   const [selected, setSelected] = useState(0);
   const [collection, setCollection] = useState([]);
@@ -140,8 +142,16 @@ function Categories({ getItems, items, categories }) {
                   onClick={() => FilterList(0)}>
                   All
                 </p>
-
-                <p
+                {itemCategories.map((cat, index) => {
+                  return (
+                    <p
+                      className={selected === index + 1 ? classes.categoryTabActive : classes.categoryTab}
+                      onClick={() => FilterList(index + 1)}>
+                      {cat.name}
+                    </p>
+                  );
+                })}
+                {/* <p
                   className={selected === 1 ? classes.categoryTabActive : classes.categoryTab}
                   onClick={() => FilterList(1)}>
                   Sword
@@ -186,7 +196,7 @@ function Categories({ getItems, items, categories }) {
                   className={selected === 9 ? classes.categoryTabActive : classes.categoryTab}
                   onClick={() => FilterList(9)}>
                   Wings
-                </p>
+                </p> */}
               </div>
             </div>
           </div>
