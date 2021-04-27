@@ -10,3 +10,6 @@ export const GET_CHARACTERS = 'GET_CHARACTERS';
 
 //User reducers
 export const GET_USER = 'GET_USER';
+
+//Authentication reducers
+export const GET_CURRENT_USER = 'GET_CURRENT_USER';

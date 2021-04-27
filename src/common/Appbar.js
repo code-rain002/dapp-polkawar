@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import propTypes from 'prop-types';
+import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -14,6 +16,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { Button } from '@material-ui/core';
 import { AccountBalanceWallet, Close } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
+import { authenticateUser } from './../actions/authActions';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -164,17 +167,20 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: '-1px',
     margin: 0,
     marginTop: 5,
+    marginLeft: 10,
     color: '#ffffff',
     padding: '8px 16px 8px 16px',
-    fontWeight: 500,
+    fontWeight: 400,
     fontSize: 16,
     textTransform: 'none',
   },
 }));
 
-export default function PrimarySearchAppBar() {
+function PrimaryAppbar({ authenticateUser, authenticated, user }) {
   const classes = useStyles();
   const [navIndex, setNavIndex] = useState(0);
+  const address = '0x9D7117a07fca9F22911d379A9fd5118A5FA4F448';
+  const [userData, setUserData] = useState(null);
   const [state, setState] = React.useState({
     right: false,
   });
@@ -239,6 +245,16 @@ export default function PrimarySearchAppBar() {
     </div>
   );
 
+  const connectWallet = () => {
+    authenticateUser(address);
+  };
+
+  useEffect(() => {
+    if (user !== null) {
+      setUserData(user);
+    }
+  }, [authenticated, user]);
+
   return (
     <div className={classes.grow}>
       <AppBar position="static" style={{ background: '#16181D', boxShadow: 'none', borderBottom: '1px solid #e9e9e9' }}>
@@ -283,16 +299,24 @@ export default function PrimarySearchAppBar() {
             </Link>
 
             <div className={classes.sectionDesktop}>
-              <div>
-                <Button className={classes.balanceButton}>
-                  <div className={classes.buttonIcon}>
-                    <AccountBalanceWallet className={classes.icon} />
-                  </div>
-                  <div>
-                    <strong style={{ color: '#e5e5e5' }}>386</strong>
-                  </div>
-                </Button>
-              </div>
+              {authenticated ? (
+                <div>
+                  <Button className={classes.balanceButton}>
+                    <div className={classes.buttonIcon}>
+                      <AccountBalanceWallet className={classes.icon} />
+                    </div>
+                    <div>
+                      <strong style={{ color: '#e5e5e5' }}>386</strong>
+                    </div>
+                  </Button>
+                </div>
+              ) : (
+                <div>
+                  <Button className={classes.airdropButton} onClick={connectWallet}>
+                    Connect your wallet
+                  </Button>
+                </div>
+              )}
               <div>
                 <Button className={classes.airdropButton}>Get Airdrop</Button>
               </div>
@@ -333,3 +357,15 @@ export default function PrimarySearchAppBar() {
     </div>
   );
 }
+PrimaryAppbar.propTypes = {
+  authenticateUser: propTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  authenticated: state.auth.authenticated,
+  user: state.auth.user,
+});
+
+const mapDispatchToProps = { authenticateUser };
+
+export default connect(mapStateToProps, mapDispatchToProps)(PrimaryAppbar);

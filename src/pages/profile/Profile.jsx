@@ -2,14 +2,14 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button } from '@material-ui/core';
+import { Button, ButtonBase } from '@material-ui/core';
 import { Share } from '@material-ui/icons';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TabPanel from '../../components/TabPanel';
 import CustomButton from '../../components/CustomButton';
-import { getUser } from './../../actions/userActions';
+import { authenticateUser } from './../../actions/authActions';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -106,9 +106,24 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 12,
     },
   },
+  airdropButton: {
+    borderRadius: '50px',
+    background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
+    lineHeight: '24px',
+    verticalAlign: 'baseline',
+    letterSpacing: '-1px',
+    margin: 0,
+    marginTop: 5,
+    marginLeft: 10,
+    color: '#ffffff',
+    padding: '8px 16px 8px 16px',
+    fontWeight: 400,
+    fontSize: 16,
+    textTransform: 'none',
+  },
 }));
 
-function Profile({ getUser, user }) {
+function Profile({ authenticateUser, user, authenticated }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const address = '0x9D7117a07fca9F22911d379A9fd5118A5FA4F448';
@@ -118,16 +133,17 @@ function Profile({ getUser, user }) {
     setValue(newValue);
   };
 
-  useEffect(() => {
-    getUser(address);
-  }, []);
+  const connectWallet = () => {
+    authenticateUser(address);
+  };
 
   useEffect(() => {
     if (user !== null) {
       setUserData(user);
     }
-  }, [user]);
-  return user !== null ? (
+  }, [authenticated, user]);
+
+  return authenticated ? (
     <div>
       {/* <div className={classes.cover}>
         <div className={classes.buttonWrapper}>
@@ -287,18 +303,23 @@ function Profile({ getUser, user }) {
       <div></div>
     </div>
   ) : (
-    'Loading'
+    <div className="mt-5 text-center">
+      <Button className={classes.airdropButton} onClick={connectWallet}>
+        Connect your wallet
+      </Button>
+    </div>
   );
 }
 
 Profile.propTypes = {
-  getUser: propTypes.func.isRequired,
+  authenticateUser: propTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  user: state.user.user,
+  authenticated: state.auth.authenticated,
+  user: state.auth.user,
 });
 
-const mapDispatchToProps = { getUser };
+const mapDispatchToProps = { authenticateUser };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
