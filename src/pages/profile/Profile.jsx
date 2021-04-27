@@ -10,6 +10,7 @@ import Tab from '@material-ui/core/Tab';
 import TabPanel from '../../components/TabPanel';
 import CustomButton from '../../components/CustomButton';
 import { authenticateUser } from './../../actions/authActions';
+import web3 from './../../web';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -134,7 +135,11 @@ function Profile({ authenticateUser, user, authenticated }) {
   };
 
   const connectWallet = () => {
-    authenticateUser(address);
+    web3.eth.requestAccounts().then((accounts) => {
+      const accountAddress = accounts[0];
+      console.log(accountAddress);
+      authenticateUser(accountAddress);
+    });
   };
 
   useEffect(() => {

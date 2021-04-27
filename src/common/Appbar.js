@@ -17,6 +17,7 @@ import { Button } from '@material-ui/core';
 import { AccountBalanceWallet, Close } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import { authenticateUser } from './../actions/authActions';
+import web3 from './../web';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -246,7 +247,11 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
   );
 
   const connectWallet = () => {
-    authenticateUser(address);
+    web3.eth.requestAccounts().then((accounts) => {
+      const accountAddress = accounts[0];
+      console.log(accountAddress);
+      authenticateUser(accountAddress);
+    });
   };
 
   useEffect(() => {

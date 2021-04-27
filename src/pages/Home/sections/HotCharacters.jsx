@@ -84,7 +84,7 @@ function HotCharacters({ characters, getCharacters }) {
         <div className={classes.scrollItemPositions}>
           {charactersList.map((character, index) => {
             return (
-              <div style={{ paddingRight: 15, flexBasis: '25%' }}>
+              <div style={{ paddingRight: 15, flexBasis: '25%' }} key={index}>
                 <CharacterCard item={character} />
               </div>
             );
