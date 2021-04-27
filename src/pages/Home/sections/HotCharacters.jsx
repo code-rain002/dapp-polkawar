@@ -1,6 +1,9 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import propTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import CharacterCard from '../../../components/CharacterCard';
+import { getCharacters } from './../../../actions/characterActions';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -29,8 +32,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function HotCharacters() {
+function HotCharacters({ characters, getCharacters }) {
   const classes = useStyles();
+  const [charactersList, setCharactersList] = useState([]);
+
+  useEffect(() => {
+    getCharacters();
+  }, []);
+
+  useEffect(() => {
+    if (characters !== null) {
+      setCharactersList(characters);
+    }
+  }, [characters]);
+
   const topCharacters = [
     {
       id: 1,
@@ -67,7 +82,7 @@ export default function HotCharacters() {
 
       <div className={classes.characterScroll}>
         <div className={classes.scrollItemPositions}>
-          {topCharacters.map((character, index) => {
+          {charactersList.map((character, index) => {
             return (
               <div style={{ paddingRight: 15, flexBasis: '25%' }}>
                 <CharacterCard item={character} />
@@ -79,3 +94,15 @@ export default function HotCharacters() {
     </Fragment>
   );
 }
+
+HotCharacters.propTypes = {
+  getCharacters: propTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  characters: state.characters.characters,
+});
+
+const mapDispatchToProps = { getCharacters };
+
+export default connect(mapStateToProps, mapDispatchToProps)(HotCharacters);
