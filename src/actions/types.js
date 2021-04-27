@@ -7,3 +7,6 @@ export const GET_ITEM = 'GET_ITEM';
 
 //Character reducers
 export const GET_CHARACTERS = 'GET_CHARACTERS';
+
+//User reducers
+export const GET_USER = 'GET_USER';

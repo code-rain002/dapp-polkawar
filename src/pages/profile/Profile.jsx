@@ -1,5 +1,7 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import propTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Button } from '@material-ui/core';
 import { Share } from '@material-ui/icons';
 import Paper from '@material-ui/core/Paper';
@@ -7,6 +9,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TabPanel from '../../components/TabPanel';
 import CustomButton from '../../components/CustomButton';
+import { getUser } from './../../actions/userActions';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -105,31 +108,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Profile() {
+function Profile({ getUser, user }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
+  const address = '0x9D7117a07fca9F22911d379A9fd5118A5FA4F448';
+  const [userData, setUserData] = useState(null);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  return (
-    <Fragment>
-      <div className={classes.cover}>
-        {/* <div className={classes.buttonWrapper}>
+
+  useEffect(() => {
+    getUser(address);
+  }, []);
+
+  useEffect(() => {
+    if (user !== null) {
+      setUserData(user);
+    }
+  }, [user]);
+  return user !== null ? (
+    <div>
+      {/* <div className={classes.cover}>
+        <div className={classes.buttonWrapper}>
           <Button variant="contained" className={classes.button}>
             Add Cover
           </Button>
-        </div> */}
-      </div>
+        </div>
+      </div> */}
       <div className="text-center mt-5">
-        <img
-          src="https://i.pinimg.com/originals/b1/92/4d/b1924dce177345b5485bb5490ab3441f.jpg"
-          height="100px"
-          alt="profile"
-          className={classes.avatarWrapper}
-        />
+        <img src={user.avatar} height="100px" alt="profile" className={classes.avatarWrapper} />
       </div>
-      <h6 className={classes.title}>Dorrein Nil Jaan</h6>
+      <h6 className={classes.title}>{user.username}</h6>
       <div className="d-flex justify-content-center">
         <div className={classes.buttonWrapper}>
           <Button variant="contained" className={classes.button}>
@@ -162,99 +172,133 @@ export default function Profile() {
         <div style={{ maxWidth: 1000 }}>
           {' '}
           <TabPanel value={value} index={0}>
-            <div className="text-center">
-              <div className="my-3">
-                <img src="images/character.png" height="100px" alt="character" />
-              </div>
+            {user.characters.length !== 0 ? (
+              <div>Characters List</div>
+            ) : (
               <div className="text-center">
-                <h6 className={classes.title}>No items found</h6>
-                <div className="d-flex justify-content-center">
-                  <p className={classes.subheading}>
-                    Come back soon! Or try to browse something for you on our marketplace
-                  </p>
+                <div className="my-3">
+                  <img src="images/character.png" height="100px" alt="character" />
+                </div>
+                <div className="text-center">
+                  <h6 className={classes.title}>No items found</h6>
+                  <div className="d-flex justify-content-center">
+                    <p className={classes.subheading}>
+                      Come back soon! Or try to browse something for you on our marketplace
+                    </p>
+                  </div>
+                </div>
+                <div className={classes.buttonWrapper}>
+                  <CustomButton title="Browse marketplace" />
                 </div>
               </div>
-              <div className={classes.buttonWrapper}>
-                <CustomButton title="Browse marketplace" />
-              </div>
-            </div>
+            )}
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <div className="text-center">
-              <div className="my-3">
-                <img src="images/man.png" height="100px" alt="sale" />
-              </div>
+            {user.onSale.length !== 0 ? (
+              <div>Sale Items List</div>
+            ) : (
               <div className="text-center">
-                <h6 className={classes.title}>No items found</h6>
-                <div className="d-flex justify-content-center">
-                  <p className={classes.subheading}>
-                    Come back soon! Or try to browse something for you on our marketplace
-                  </p>
+                <div className="my-3">
+                  <img src="images/man.png" height="100px" alt="sale" />
+                </div>
+                <div className="text-center">
+                  <h6 className={classes.title}>No items found</h6>
+                  <div className="d-flex justify-content-center">
+                    <p className={classes.subheading}>
+                      Come back soon! Or try to browse something for you on our marketplace
+                    </p>
+                  </div>
+                </div>
+                <div className={classes.buttonWrapper}>
+                  <CustomButton title="Put on sale" />
                 </div>
               </div>
-              <div className={classes.buttonWrapper}>
-                <CustomButton title="Put on sale" />
-              </div>
-            </div>
+            )}
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <div className="text-center">
-              <div className="my-3">
-                <img src="images/dice.png" height="100px" alt="equipment" />
-              </div>
+            {user.equipments.length !== 0 ? (
+              <div>Equipments List</div>
+            ) : (
               <div className="text-center">
-                <h6 className={classes.title}>No items found</h6>
-                <div className="d-flex justify-content-center">
-                  <p className={classes.subheading}>
-                    Come back soon! Or try to browse something for you on our marketplace
-                  </p>
+                <div className="my-3">
+                  <img src="images/dice.png" height="100px" alt="equipment" />
+                </div>
+                <div className="text-center">
+                  <h6 className={classes.title}>No items found</h6>
+                  <div className="d-flex justify-content-center">
+                    <p className={classes.subheading}>
+                      Come back soon! Or try to browse something for you on our marketplace
+                    </p>
+                  </div>
+                </div>
+                <div className={classes.buttonWrapper}>
+                  <CustomButton title="Browse marketplace" />
                 </div>
               </div>
-              <div className={classes.buttonWrapper}>
-                <CustomButton title="Browse marketplace" />
-              </div>
-            </div>
+            )}
           </TabPanel>
           <TabPanel value={value} index={3}>
-            <div className="text-center">
-              <div className="my-3">
-                <img src="images/battle.png" height="100px" alt="battle" />
-              </div>
+            {user.battles.length !== 0 ? (
+              <div>Battles List</div>
+            ) : (
               <div className="text-center">
-                <h6 className={classes.title}>No items found</h6>
-                <div className="d-flex justify-content-center">
-                  <p className={classes.subheading}>
-                    Come back soon! Or try to browse something for you on our marketplace
-                  </p>
+                <div className="my-3">
+                  <img src="images/battle.png" height="100px" alt="battle" />
+                </div>
+                <div className="text-center">
+                  <h6 className={classes.title}>No items found</h6>
+                  <div className="d-flex justify-content-center">
+                    <p className={classes.subheading}>
+                      Come back soon! Or try to browse something for you on our marketplace
+                    </p>
+                  </div>
+                </div>
+                <div className={classes.buttonWrapper}>
+                  <CustomButton title="Challenge players" alt="battle" />
                 </div>
               </div>
-              <div className={classes.buttonWrapper}>
-                <CustomButton title="Challenge players" alt="battle" />
-              </div>
-            </div>
+            )}
           </TabPanel>
           <TabPanel value={value} index={4}>
-            <div className="text-center">
-              <div className="my-3">
-                <img src="images/flag.png" height="100px" alt="activity" />
-              </div>
+            {user.activity.length !== 0 ? (
+              <div>Activity List</div>
+            ) : (
               <div className="text-center">
-                <h6 className={classes.title}>No Activity found</h6>
-                <div className="d-flex justify-content-center">
-                  <p className={classes.subheading}>
-                    Come back soon! Or try to browse something for you on our marketplace
-                  </p>
+                <div className="my-3">
+                  <img src="images/flag.png" height="100px" alt="activity" />
+                </div>
+                <div className="text-center">
+                  <h6 className={classes.title}>No Activity found</h6>
+                  <div className="d-flex justify-content-center">
+                    <p className={classes.subheading}>
+                      Come back soon! Or try to browse something for you on our marketplace
+                    </p>
+                  </div>
+                </div>
+                <div className={classes.buttonWrapper}>
+                  <CustomButton title="Join battle" />
                 </div>
               </div>
-              <div className={classes.buttonWrapper}>
-                <CustomButton title="Join battle" />
-              </div>
-            </div>
+            )}
           </TabPanel>
         </div>
       </div>
 
       <div></div>
-    </Fragment>
+    </div>
+  ) : (
+    'Loading'
   );
 }
+
+Profile.propTypes = {
+  getUser: propTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  user: state.user.user,
+});
+
+const mapDispatchToProps = { getUser };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
