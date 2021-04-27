@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   mediaWrapper: {
-    height: 220,
+    height: 240,
     textAlign: 'center',
     [theme.breakpoints.down('sm')]: {
       height: 120,
@@ -92,7 +92,7 @@ export default function CharacterCard({ item, index }) {
           {/* <h6 style={{ color: 'white', fontSize: 12 }}>Level </h6> */}
         </div>
         <div className={classes.mediaWrapper}>
-          <img src={item.image} className={classes.media} />
+          <img src={`data/characters/${item.image}`} className={classes.media} />
         </div>
         <div className="mt-5">
           <h4 className={classes.title}>{item.name}</h4>

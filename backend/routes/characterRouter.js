@@ -33,6 +33,7 @@ router.get('/characters', async (req, res, next) => {
 // POST create new character based on details
 router.post('/character', async (req, res, next) => {
   var characterData = {
+    id: req.body.id,
     name: req.body.name,
     description: req.body.description ? req.body.description : '',
     level: req.body.level ? req.body.level : '',

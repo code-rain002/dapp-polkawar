@@ -161,6 +161,7 @@ function Profile({ authenticateUser, user, authenticated }) {
         <img src={user.avatar} height="100px" alt="profile" className={classes.avatarWrapper} />
       </div>
       <h6 className={classes.title}>{user.username}</h6>
+      <h6 className={classes.title}>( {user.address} )</h6>
       <div className="d-flex justify-content-center">
         <div className={classes.buttonWrapper}>
           <Button variant="contained" className={classes.button}>

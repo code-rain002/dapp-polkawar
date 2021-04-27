@@ -1,6 +1,10 @@
 var mongoose = require('mongoose');
 
 var CharacterModel = new mongoose.Schema({
+  id: {
+    type: Number,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
@@ -16,7 +20,6 @@ var CharacterModel = new mongoose.Schema({
     type: String,
     required: true,
   },
-
   createdDate: {
     type: Date,
     required: true,
