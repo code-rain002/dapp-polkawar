@@ -6,7 +6,7 @@ const limit = 15;
 
 const characterDao = {
   async getCharacterById() {
-    return await CharacterModel.find({ _id });
+    return await CharacterModel.find({ id });
   },
 
   async getCharacters() {
