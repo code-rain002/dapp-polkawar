@@ -19,15 +19,15 @@ const itemDao = {
     return await ItemModel.distinct('category');
   },
   async createItem(itemData) {
-    console.log(itemData);
+    // console.log(itemData);
 
-    let itemCount = await ItemModel.find({ name: itemData.name }).countDocuments();
-    if (itemCount === 0) {
-      ItemModel.insertMany([itemData]);
-    }
-    console.log('Count' + itemCount);
-    console.log(itemData);
-
+    // let itemCount = await ItemModel.find({ name: itemData.name }).countDocuments();
+    // if (itemCount === 0) {
+    //   ItemModel.insertMany([itemData]);
+    // }
+    // console.log('Count' + itemCount);
+    // console.log(itemData);
+    ItemModel.insertMany(itemData);
     return await ItemModel.findOne({ name: itemData.name });
   },
 };

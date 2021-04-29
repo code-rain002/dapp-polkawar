@@ -19,11 +19,21 @@ router.get('/categories', async (req, res, next) => {
 
 // POST create new user based on details
 router.post('/category', async (req, res, next) => {
-  var categoryData = {
-    name: req.body.name,
-    image: req.body.image ? req.body.image : '',
-    description: req.body.description ? req.body.description : '',
-  };
+  let categoryData = [
+    { name: 'sword' },
+    { name: 'paper fan' },
+    { name: 'bow and arrow' },
+    { name: 'guns' },
+    { name: 'sceptre' },
+    { name: 'ceramic vase' },
+    { name: 'armor' },
+    { name: 'hats' },
+    { name: 'wings' },
+  ];
+  // var categoryData = {
+  //   name: req.body.name,
+  //   description: req.body.description ? req.body.description : '',
+  // };
 
   try {
     const data = await CategoryDao.createCategory(categoryData);
