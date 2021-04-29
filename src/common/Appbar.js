@@ -180,7 +180,6 @@ const useStyles = makeStyles((theme) => ({
 function PrimaryAppbar({ authenticateUser, authenticated, user }) {
   const classes = useStyles();
   const [navIndex, setNavIndex] = useState(0);
-  const address = '0x9D7117a07fca9F22911d379A9fd5118A5FA4F448';
   const [userData, setUserData] = useState(null);
   const [state, setState] = React.useState({
     right: false,

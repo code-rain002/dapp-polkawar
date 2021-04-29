@@ -8,10 +8,6 @@ var CategoryModel = new mongoose.Schema({
   description: {
     type: String,
   },
-  image: {
-    type: String,
-    required: true,
-  },
 
   createdDate: {
     type: Date,

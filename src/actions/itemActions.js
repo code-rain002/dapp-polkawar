@@ -20,10 +20,16 @@ export const getItem = (id = 1000) => (dispatch) => {
     });
 };
 
-//get items based on category
-export const getItems = (category = 'All') => (dispatch) => {
+//get items based on category and pagination
+export const getItems = (category, pageNo, pageSize = 8) => (dispatch) => {
+  let url = '';
+  if (category === 'All') {
+    url = `${baseUrl}/items/${pageNo}/${pageSize}`;
+  } else {
+    url = `${baseUrl}/items/${category}`;
+  }
   axios
-    .get(`${baseUrl}/items/${category}`)
+    .get(url)
     .then((res) => {
       dispatch({
         type: GET_ITEMS,

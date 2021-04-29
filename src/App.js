@@ -24,7 +24,7 @@ export default function App() {
               <Route exact path="/profile">
                 <Profile />
               </Route>
-              <Route exact path="/character/:id">
+              <Route exact path="/item/:id">
                 <Details />
               </Route>
             </Switch>

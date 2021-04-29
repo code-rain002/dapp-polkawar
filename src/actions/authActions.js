@@ -4,8 +4,11 @@ import { GET_CURRENT_USER, GET_ERRORS } from './types';
 
 //GET all characters
 export const authenticateUser = (address) => (dispatch) => {
+  let userData = {
+    address: address,
+  };
   axios
-    .get(`${baseUrl}/user/${address}`)
+    .post(`${baseUrl}/user`, userData)
     .then((res) => {
       dispatch({
         type: GET_CURRENT_USER,

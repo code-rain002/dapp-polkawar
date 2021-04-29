@@ -5,6 +5,7 @@ import CustomizedMenus from '../../../common/CustomizedMenus';
 import { getItems, getCategories } from './../../../actions/itemActions';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -91,20 +92,19 @@ const useStyles = makeStyles((theme) => ({
 
 function Categories({ getItems, getCategories, items, categories }) {
   const classes = useStyles();
-  const [selected, setSelected] = useState(0);
+
   const [collection, setCollection] = useState([]);
   const [itemCategories, setItemCategories] = useState([]);
+  const [selectedCat, setSelectedCat] = useState('All');
+  const [pageNo, setPageNo] = useState(0);
 
   const FilterList = (value) => {
-    setSelected(value);
+    setSelectedCat(value);
   };
-
-  //Calling actions
-  //Get all items
 
   useEffect(() => {
     getCategories();
-    getItems();
+    getItems(selectedCat, pageNo);
   }, []);
 
   useEffect(() => {
@@ -116,6 +116,27 @@ function Categories({ getItems, getCategories, items, categories }) {
     }
   }, [items, categories]);
 
+  useEffect(() => {
+    getItems(selectedCat, pageNo);
+  }, [selectedCat]);
+
+  const sortItems = (type) => {
+    let data = items;
+    if (type === 'p1') {
+      data.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+    }
+    if (type === 'p2') {
+      data.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+    }
+    if (type === 'l1') {
+      data.sort((a, b) => parseInt(a.level) - parseInt(b.level));
+    }
+    if (type === 'l2') {
+      data.sort((a, b) => parseInt(b.level) - parseInt(a.level));
+    }
+
+    setCollection(data);
+  };
   return (
     <div className="mt-5">
       <div className={classes.sectionDesktop}>
@@ -123,7 +144,7 @@ function Categories({ getItems, getCategories, items, categories }) {
           <div>
             <div style={{ float: 'right', width: '150px', marginTop: 15 }}>
               <div className="d-flex justify-content-end">
-                <CustomizedMenus />
+                <CustomizedMenus sortFn={sortItems} />
               </div>
             </div>
 
@@ -138,65 +159,19 @@ function Categories({ getItems, getCategories, items, categories }) {
             <div style={{ width: '100%' }}>
               <div className={classes.filterTabsDesktop}>
                 <p
-                  className={selected === 0 ? classes.categoryTabActive : classes.categoryTab}
-                  onClick={() => FilterList(0)}>
+                  className={selectedCat === 'All' ? classes.categoryTabActive : classes.categoryTab}
+                  onClick={() => FilterList('All')}>
                   All
                 </p>
                 {itemCategories.map((cat, index) => {
                   return (
                     <p
-                      className={selected === index + 1 ? classes.categoryTabActive : classes.categoryTab}
-                      onClick={() => FilterList(index + 1)}>
+                      className={selectedCat === cat.name ? classes.categoryTabActive : classes.categoryTab}
+                      onClick={() => FilterList(cat.name)}>
                       {cat.name}
                     </p>
                   );
                 })}
-                {/* <p
-                  className={selected === 1 ? classes.categoryTabActive : classes.categoryTab}
-                  onClick={() => FilterList(1)}>
-                  Sword
-                </p>
-
-                <p
-                  className={selected === 2 ? classes.categoryTabActive : classes.categoryTab}
-                  onClick={() => FilterList(2)}>
-                  Paper Fan
-                </p>
-                <p
-                  className={selected === 3 ? classes.categoryTabActive : classes.categoryTab}
-                  onClick={() => FilterList(3)}>
-                  Bow & Arrow
-                </p>
-                <p
-                  className={selected === 4 ? classes.categoryTabActive : classes.categoryTab}
-                  onClick={() => FilterList(4)}>
-                  Guns
-                </p>
-                <p
-                  className={selected === 5 ? classes.categoryTabActive : classes.categoryTab}
-                  onClick={() => FilterList(5)}>
-                  Sceptre
-                </p>
-                <p
-                  className={selected === 6 ? classes.categoryTabActive : classes.categoryTab}
-                  onClick={() => FilterList(6)}>
-                  Ceramic vase
-                </p>
-                <p
-                  className={selected === 7 ? classes.categoryTabActive : classes.categoryTab}
-                  onClick={() => FilterList(7)}>
-                  Armor
-                </p>
-                <p
-                  className={selected === 8 ? classes.categoryTabActive : classes.categoryTab}
-                  onClick={() => FilterList(8)}>
-                  Hats
-                </p>
-                <p
-                  className={selected === 9 ? classes.categoryTabActive : classes.categoryTab}
-                  onClick={() => FilterList(9)}>
-                  Wings
-                </p> */}
               </div>
             </div>
           </div>
@@ -218,61 +193,26 @@ function Categories({ getItems, getCategories, items, categories }) {
         </div>
         <div className={classes.filterTabsMobile}>
           <div
-            className={selected === 0 ? classes.categoryTabActive : classes.categoryTab}
-            onClick={() => FilterList(0)}>
+            className={selectedCat === 'All' ? classes.categoryTabActive : classes.categoryTab}
+            onClick={() => FilterList('All')}>
             All
           </div>
-          <div
-            className={selected === 1 ? classes.categoryTabActive : classes.categoryTab}
-            onClick={() => FilterList(1)}>
-            Sword
-          </div>
-          <div
-            className={selected === 2 ? classes.categoryTabActive : classes.categoryTab}
-            onClick={() => FilterList(2)}>
-            PaperFan
-          </div>
-          <div
-            className={selected === 3 ? classes.categoryTabActive : classes.categoryTab}
-            onClick={() => FilterList(3)}>
-            BowArrow
-          </div>
-          <div
-            className={selected === 4 ? classes.categoryTabActive : classes.categoryTab}
-            onClick={() => FilterList(4)}>
-            Guns
-          </div>
-          <div
-            className={selected === 5 ? classes.categoryTabActive : classes.categoryTab}
-            onClick={() => FilterList(5)}>
-            Sceptre
-          </div>
-          <div
-            className={selected === 6 ? classes.categoryTabActive : classes.categoryTab}
-            onClick={() => FilterList(6)}>
-            CeramicVase
-          </div>
-          <div
-            className={selected === 7 ? classes.categoryTabActive : classes.categoryTab}
-            onClick={() => FilterList(7)}>
-            Armor
-          </div>
-          <div
-            className={selected === 8 ? classes.categoryTabActive : classes.categoryTab}
-            onClick={() => FilterList(8)}>
-            Hats
-          </div>
-          <div
-            className={selected === 9 ? classes.categoryTabActive : classes.categoryTab}
-            onClick={() => FilterList(9)}>
-            Wings
-          </div>
+
+          {itemCategories.map((cat, index) => {
+            return (
+              <div
+                className={selectedCat === cat.name ? classes.categoryTabActive : classes.categoryTab}
+                onClick={() => FilterList(cat.name)}>
+                {cat.name}
+              </div>
+            );
+          })}
         </div>
       </div>
 
       <div className="row mt-3">
-        {collection !== null
-          ? collection.map((item, index) => {
+        {items !== null
+          ? items.map((item, index) => {
               return (
                 <div className="col-12 col-md-3" key={index}>
                   <div className="d-flex justify-content-center">

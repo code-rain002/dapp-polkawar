@@ -10,14 +10,13 @@ const categoryDao = {
   },
 
   async createCategory(categoryData) {
-    console.log(categoryData);
-
-    let categoryCount = await CategoryModel.find({ name: categoryData.name }).countDocuments();
-    if (categoryCount === 0) {
-      CategoryModel.insertMany([categoryData]);
-    }
-    console.log(categoryCount);
-    return await CategoryModel.findOne({ name: categoryData.name });
+    // let categoryCount = await CategoryModel.find({ name: categoryData.name }).countDocuments();
+    // if (categoryCount === 0) {
+    //   CategoryModel.insertMany([categoryData]);
+    // }
+    // console.log(categoryCount);
+    CategoryModel.insertMany(categoryData);
+    return await CategoryModel.find({});
   },
 };
 

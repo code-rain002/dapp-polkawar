@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomizedMenus() {
+export default function CustomizedMenus({ sortFn }) {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -98,6 +98,10 @@ export default function CustomizedMenus() {
     setAnchorEl(null);
   };
 
+  const selectMenu = (type) => {
+    sortFn(type);
+    setAnchorEl(null);
+  };
   return (
     <div>
       <div className={classes.sectionMobile}>
@@ -124,23 +128,23 @@ export default function CustomizedMenus() {
       </div>
 
       <StyledMenu id="customized-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-        <StyledMenuItem>
+        <StyledMenuItem onClick={() => selectMenu('p1')}>
           <ListItemText>
             <span className={classes.menuText}>Price - Low to high</span>
           </ListItemText>
         </StyledMenuItem>
-        <StyledMenuItem>
+        <StyledMenuItem onClick={() => selectMenu('p2')}>
           <ListItemText>
             <span className={classes.menuText}>Price - High to low</span>
           </ListItemText>
         </StyledMenuItem>
 
-        <StyledMenuItem>
+        <StyledMenuItem onClick={() => selectMenu('l1')}>
           <ListItemText>
             <span className={classes.menuText}>Level - 1-5</span>
           </ListItemText>
         </StyledMenuItem>
-        <StyledMenuItem>
+        <StyledMenuItem onClick={() => selectMenu('l2')}>
           <ListItemText>
             <span className={classes.menuText}>Level - 5-1</span>
           </ListItemText>

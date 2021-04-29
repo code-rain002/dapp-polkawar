@@ -14,14 +14,15 @@ const characterDao = {
   },
 
   async createCharacter(characterData) {
-    console.log(characterData);
+    // console.log(characterData);
 
-    let characterCount = await CharacterModel.find({ name: characterData.name }).countDocuments();
-    if (characterCount === 0) {
-      CharacterModel.insertMany([characterData]);
-    }
-    console.log(characterCount);
-    return await CharacterModel.findOne({ name: characterData.name });
+    // let characterCount = await CharacterModel.find({ name: characterData.name }).countDocuments();
+    // if (characterCount === 0) {
+    //   CharacterModel.insertMany([characterData]);
+    // }
+    // console.log(characterCount);
+    CharacterModel.insertMany(characterData);
+    return await CharacterModel.find({});
   },
 };
 

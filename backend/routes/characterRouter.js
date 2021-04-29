@@ -32,14 +32,43 @@ router.get('/characters', async (req, res, next) => {
 
 // POST create new character based on details
 router.post('/character', async (req, res, next) => {
-  var characterData = {
-    id: req.body.id,
-    name: req.body.name,
-    description: req.body.description ? req.body.description : '',
-    level: req.body.level ? req.body.level : '',
-    image: req.body.image ? req.body.image : '',
-  };
-
+  // var characterData = {
+  //   id: req.body.id,
+  //   name: req.body.name,
+  //   description: req.body.description ? req.body.description : '',
+  //   level: req.body.level ? req.body.level : '',
+  //   image: req.body.image ? req.body.image : '',
+  // };
+  var characterData = [
+    {
+      id: 1,
+      name: 'Fleet',
+      description: 'No description',
+      level: 0,
+      image: 'fleet.png',
+    },
+    {
+      id: 2,
+      name: 'Giao',
+      description: 'No description',
+      level: 0,
+      image: 'giao.png',
+    },
+    {
+      id: 3,
+      name: 'Reen',
+      description: 'No description',
+      level: 0,
+      image: 'reen.png',
+    },
+    {
+      id: 4,
+      name: 'Shyan',
+      description: 'No description',
+      level: 0,
+      image: 'shyan.png',
+    },
+  ];
   try {
     const data = await CharacterDao.createCharacter(characterData);
     return res.status(200).send(data);
