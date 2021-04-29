@@ -6,7 +6,7 @@ const limit = 15;
 
 const itemDao = {
   async getItemById(id) {
-    return await ItemModel.findOne({ id });
+    return await ItemModel.findOne({ _id: id });
   },
 
   async getItems(category) {

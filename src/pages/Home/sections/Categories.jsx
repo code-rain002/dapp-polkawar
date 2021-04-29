@@ -92,17 +92,15 @@ const useStyles = makeStyles((theme) => ({
 
 function Categories({ getItems, getCategories, items, categories }) {
   const classes = useStyles();
-  const [selectedCat, setSelectedCat] = useState('All');
+
   const [collection, setCollection] = useState([]);
   const [itemCategories, setItemCategories] = useState([]);
+  const [selectedCat, setSelectedCat] = useState('All');
   const [pageNo, setPageNo] = useState(0);
 
   const FilterList = (value) => {
     setSelectedCat(value);
   };
-
-  //Calling actions
-  //Get all items
 
   useEffect(() => {
     getCategories();
@@ -122,8 +120,7 @@ function Categories({ getItems, getCategories, items, categories }) {
     getItems(selectedCat, pageNo);
   }, [selectedCat]);
 
-  const sortItems = (type = 'p2') => {
-    console.log(type);
+  const sortItems = (type) => {
     let data = items;
     if (type === 'p1') {
       data.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
@@ -137,16 +134,12 @@ function Categories({ getItems, getCategories, items, categories }) {
     if (type === 'l2') {
       data.sort((a, b) => parseInt(b.level) - parseInt(a.level));
     }
-    // setTimeout(() => {
-    //   setCollection(data);
-    // }, 50);
+
     setCollection(data);
-    console.log(collection);
   };
   return (
     <div className="mt-5">
       <div className={classes.sectionDesktop}>
-        <Button onClick={() => sortItems('l1')}>Sorting now</Button>
         <div className="mb-4">
           <div>
             <div style={{ float: 'right', width: '150px', marginTop: 15 }}>
@@ -218,8 +211,8 @@ function Categories({ getItems, getCategories, items, categories }) {
       </div>
 
       <div className="row mt-3">
-        {collection !== null
-          ? collection.map((item, index) => {
+        {items !== null
+          ? items.map((item, index) => {
               return (
                 <div className="col-12 col-md-3" key={index}>
                   <div className="d-flex justify-content-center">

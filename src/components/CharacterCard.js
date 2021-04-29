@@ -1,8 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Avatar, Card, CardHeader, Typography } from '@material-ui/core';
-import { Star } from '@material-ui/icons';
-import { Link } from 'react-router-dom';
+import { Card } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -85,14 +83,14 @@ export default function CharacterCard({ item, index }) {
             <h6 style={{ color: 'white', fontSize: 14, paddingTop: 10, paddingRight: 5 }}>Level: </h6>
 
             <div className={classes.iconWrapper}>
-              <img src="images/swords.png" height="24px" />
+              <img src="images/swords.png" height="24px" alt="level" />
             </div>
             <h6 className={classes.levelText}>{item.level} </h6>
           </div>
           {/* <h6 style={{ color: 'white', fontSize: 12 }}>Level </h6> */}
         </div>
         <div className={classes.mediaWrapper}>
-          <img src={`data/characters/${item.image}`} className={classes.media} />
+          <img src={`data/characters/${item.image}`} className={classes.media} alt="character" />
         </div>
         <div className="mt-5">
           <h4 className={classes.title}>{item.name}</h4>

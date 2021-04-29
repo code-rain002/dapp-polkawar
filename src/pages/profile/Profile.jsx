@@ -158,7 +158,12 @@ function Profile({ authenticateUser, user, authenticated }) {
         </div>
       </div> */}
       <div className="text-center mt-5">
-        <img src={user.avatar} height="100px" alt="profile" className={classes.avatarWrapper} />
+        <img
+          src={user.avatar ? user.avatar : 'images/avatar.jpg'}
+          height="100px"
+          alt="profile"
+          className={classes.avatarWrapper}
+        />
       </div>
       <h6 className={classes.title}>{user.username}</h6>
       <h6 className={classes.title}>( {user.address} )</h6>
@@ -210,7 +215,7 @@ function Profile({ authenticateUser, user, authenticated }) {
                   </div>
                 </div>
                 <div className={classes.buttonWrapper}>
-                  <CustomButton title="Browse marketplace" />
+                  <CustomButton title="Browse marketplace" link={'/'} />
                 </div>
               </div>
             )}
@@ -254,7 +259,7 @@ function Profile({ authenticateUser, user, authenticated }) {
                   </div>
                 </div>
                 <div className={classes.buttonWrapper}>
-                  <CustomButton title="Browse marketplace" />
+                  <CustomButton title="Browse marketplace" link={'/'} />
                 </div>
               </div>
             )}

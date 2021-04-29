@@ -7,6 +7,7 @@ import GallerySlider from '../../components/GallerySlider';
 import { getItem } from './../../actions/itemActions';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -96,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'none',
     borderRadius: '50px',
     padding: '8px 16px 8px 16px',
-    fontWeight: 600,
+    fontWeight: 400,
     background: `linear-gradient(to bottom,#fce3ee, #fce3ee)`,
     fontSize: 14,
   },
@@ -109,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     color: '#ffffff',
     padding: '8px 16px 8px 16px',
-    fontWeight: 600,
+    fontWeight: 400,
     fontSize: 14,
     textTransform: 'none',
   },
@@ -124,6 +125,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Details({ getItem, singleItem }) {
   const classes = useStyles();
+  let { id } = useParams();
 
   const [open, setOpen] = React.useState(false);
   const [item, setItem] = useState();
@@ -133,7 +135,7 @@ function Details({ getItem, singleItem }) {
   };
 
   useEffect(() => {
-    getItem();
+    getItem(id);
   }, []);
 
   useEffect(() => {
@@ -154,14 +156,7 @@ function Details({ getItem, singleItem }) {
             <h6 className={classes.price}>
               {item.price} {item.currency} <span style={{ color: '#bdbdbd', paddingLeft: 10 }}>$18.16</span>
             </h6>
-            <div className={classes.categoryTab}>
-              <img
-                src="https://www.freepnglogos.com/uploads/sword-png/sword-weapon-knighthood-vector-graphic-pixabay-21.png"
-                height="25px"
-                style={{ paddingRight: 10 }}
-              />
-              {item.class}
-            </div>
+            <div className={classes.categoryTab}>{item.category}</div>
             <div>
               {' '}
               <div className="d-flex justify-content-start align-items-center mt-2">
@@ -192,25 +187,25 @@ function Details({ getItem, singleItem }) {
               <CustomeTable owner={item.owner} />
             </div>
           </div>
+          <Dialog
+            className={classes.modal}
+            open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={() => handleModal(false)}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}>
+            <div style={{ backgroundColor: 'black' }}>
+              <CheckoutModel value={open} onClose={handleModal} item={item} />
+            </div>
+          </Dialog>{' '}
         </div>
       ) : (
         'Loading...'
       )}
-      <Dialog
-        className={classes.modal}
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={() => handleModal(false)}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}>
-        <div style={{ backgroundColor: 'black' }}>
-          <CheckoutModel value={open} onClose={handleModal} />
-        </div>
-      </Dialog>
     </div>
   );
 }

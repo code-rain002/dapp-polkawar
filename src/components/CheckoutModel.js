@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: 'baseline',
     textAlign: 'left',
     color: 'black',
-    fontWeight: 800,
+    fontWeight: 700,
     letterSpacing: 0.5,
     fontSize: 32,
     lineHeight: '70px',
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: 'baseline',
     textAlign: 'left',
     color: 'black',
-    fontWeight: 500,
+    fontWeight: 400,
     fontSize: 16,
     lineHeight: '25.7px',
   },
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: 'baseline',
     textAlign: 'left',
     color: '#757575',
-    fontWeight: 500,
+    fontWeight: 400,
     fontSize: 15,
     letterSpacing: 'normal',
     lineHeight: '15px',
@@ -90,20 +90,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CheckoutModel({ value, onClose }) {
+export default function CheckoutModel({ value, onClose, item }) {
   const classes = useStyles();
 
-  const item = {
-    owner: 'Elvin Que',
-    avatar: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
-    item_name: 'Metalic Lightening Sward ',
-    price: '0.07',
-    level: 3,
-    item_count: '0.7',
-    bid: '0.5',
-    wishlisted: '76',
-    imageUrl: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
-  };
+  // const item = {
+  //   owner: 'Elvin Que',
+  //   avatar: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
+  //   item_name: 'Metalic Lightening Sward ',
+  //   price: '0.07',
+  //   level: 3,
+  //   item_count: '0.7',
+  //   bid: '0.5',
+  //   wishlisted: '76',
+  //   imageUrl: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
+  // };
   return (
     <div className={classes.card}>
       <div className="d-flex justify-content-between">
@@ -117,27 +117,26 @@ export default function CheckoutModel({ value, onClose }) {
       </div>
       <div className="mb-4">
         <p className={classes.description}>
-          You are about to purchase <strong>{item.item_name}</strong> from <strong>{item.owner}</strong>
+          You are about to purchase <strong>{item.name}</strong> from <strong>Marketplace</strong>.
         </p>
       </div>
       <div>
         <p className={classes.quantity}>1</p>
         <hr />
-        <p className={classes.quantity}>Enter quantity. 3 available</p>
+        <p className={classes.quantity}>3 available</p>
       </div>
       <div className="d-flex justify-content-between">
         <h6 className={classes.quantity}>{item.price}</h6>
-        <p className={classes.price}>ETH</p>
+        <p className={classes.price}>{item.currency}</p>
       </div>
       <hr style={{ paddingTop: 0, marginTop: 0 }} />
       <div className="d-flex justify-content-between">
         <h6 className={classes.text}>Your balance</h6>
-        <p className={classes.textValue}>0.1 ETH</p>
+        <p className={classes.textValue}>
+          {item.price} {item.currency}
+        </p>
       </div>
-      <div className="d-flex justify-content-between">
-        <h6 className={classes.text}>Service fees</h6>
-        <p className={classes.textValue}>0.1 ETH</p>
-      </div>
+
       <div className="d-flex justify-content-between">
         <h6 className={classes.text}>You will pay</h6>
         <p className={classes.textValue}>0.1 ETH</p>
@@ -149,7 +148,7 @@ export default function CheckoutModel({ value, onClose }) {
           </Button>
         </div>
         <div>
-          <Button variant="default" className={classes.buttonCancel}>
+          <Button variant="default" className={classes.buttonCancel} onClick={() => onClose(false)}>
             Cancel
           </Button>
         </div>

@@ -11,6 +11,7 @@ var UserModel = new mongoose.Schema({
   avatar: {
     type: String,
   },
+
   characters: {
     type: Array,
   },

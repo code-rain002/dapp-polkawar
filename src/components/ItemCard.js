@@ -149,7 +149,7 @@ export default function ItemCard({ item }) {
 
   return (
     <div>
-      <Link to={`item/${item.id}`}>
+      <Link to={`item/${item._id}`}>
         <Card className={classes.card1} elevation={0}>
           <div className="d-flex justify-content-between mt-2">
             <div className={classes.priceBadgeWrapper}>

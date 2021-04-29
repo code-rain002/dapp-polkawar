@@ -89,7 +89,6 @@ export default function CustomizedMenus({ sortFn }) {
   const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [selected, setSelected] = React.useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
