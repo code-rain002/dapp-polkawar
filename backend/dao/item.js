@@ -6,18 +6,22 @@ const limit = 15;
 
 const itemDao = {
   async getItemById(id) {
-    console.log(id);
     return await ItemModel.findOne({ id });
   },
 
   async getItems(category) {
-    console.log('category ' + category);
-    return await ItemModel.find({});
+    if (category === 'All') {
+      return await ItemModel.find({});
+    } else {
+      return await ItemModel.find({ category: category });
+    }
   },
 
-  async getCategories() {
-    return await ItemModel.distinct('category');
+  async getListItems(pageIndex, pageSize) {
+    let skipped = pageIndex * pageSize;
+    return await ItemModel.find({}).skip(skipped).limit(pageSize);
   },
+
   async createItem(itemData) {
     // console.log(itemData);
 

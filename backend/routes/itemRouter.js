@@ -18,16 +18,6 @@ router.get('/item/:id', async (req, res, next) => {
     return res.status(400).send('error');
   }
 });
-router.get("/items/:pageIndex/:pageSize", async (req, res, next) => {
-  const pageIndex = req.params.pageIndex;
-  const pageSize = req.params.pageSize;
-  try {
-    const data = await ItemDao.getListItems(pageIndex, pageSize);
-    return res.status(200).send(data);
-  } catch (error) {
-    return res.status(400).send("error");
-  }
-});
 
 // Public
 // GET All Items based on category
@@ -41,18 +31,22 @@ router.get('/items/:category', async (req, res, next) => {
 });
 
 // Public
+// GET All Items pagination
+router.get('/items/:pageIndex/:pageSize', async (req, res, next) => {
+  const pageIndex = parseInt(req.params.pageIndex);
+  const pageSize = parseInt(req.params.pageSize);
+  try {
+    const data = await ItemDao.getListItems(pageIndex, pageSize);
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(400).send('error');
+  }
+});
+
+// Public
 // POST items based on category
 router.post('/item', async (req, res, next) => {
-  // var itemData = {
-  //   name: req.body.name,
-  //   price: req.body.price ? req.body.price : 0,
-  //   currency: req.body.currency ? req.body.currency : 'ETH',
-  //   description: req.body.description ? req.body.description : '',
-  //   level: req.body.level ? req.body.level : 0,
-  //   image: req.body.image ? req.body.image : '',
-  //   category: req.body.category ? req.body.category : 'none',
-  // };
-  var itemData = [
+  var swordData = [
     {
       name: 'Normal Sword',
       price: '0.3',
@@ -99,8 +93,56 @@ router.post('/item', async (req, res, next) => {
       category: 'sword',
     },
   ];
+
+  var gunData = [
+    {
+      name: 'Normal Gun',
+      price: '1.3',
+      currency: 'ETH',
+      description: 'No description',
+      level: 1,
+      image: 'gun1.png',
+      category: 'gun',
+    },
+    {
+      name: 'Speed Gun',
+      price: '1.6',
+      currency: 'ETH',
+      description: 'No description',
+      level: 2,
+      image: 'gun1.png',
+      category: 'gun',
+    },
+    {
+      name: 'Light Gun',
+      price: '1.8',
+      currency: 'ETH',
+      description: 'No description',
+      level: 3,
+      image: 'gun1.png',
+      category: 'gun',
+    },
+    {
+      name: 'Fast Gun',
+      price: '2.0',
+      currency: 'ETH',
+      description: 'No description',
+      level: 4,
+      image: 'gun1.png',
+      category: 'gun',
+    },
+    {
+      name: 'Fire Gun',
+      price: '2.9',
+      currency: 'ETH',
+      description: 'No description',
+      level: 5,
+      image: 'gun1.png',
+      category: 'gun',
+    },
+  ];
   try {
-    const data = await ItemDao.createItem(itemData);
+    const data = await ItemDao.createItem(gunData);
     return res.status(200).send(data);
   } catch (error) {
     return res.status(400).send('error');
