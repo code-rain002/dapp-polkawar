@@ -142,7 +142,7 @@ router.post('/item', async (req, res, next) => {
     },
   ];
   try {
-    const data = await ItemDao.createItem(gunData);
+    const data = await ItemDao.createItem(swordData);
     return res.status(200).send(data);
   } catch (error) {
     return res.status(400).send('error');
