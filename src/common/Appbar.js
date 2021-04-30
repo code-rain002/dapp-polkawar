@@ -254,6 +254,13 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
   };
 
   useEffect(() => {
+    const userAdd = localStorage.getItem('userAddress');
+    if (userAdd) {
+      authenticateUser(userAdd);
+    }
+  }, []);
+
+  useEffect(() => {
     if (user !== null) {
       setUserData(user);
     }
