@@ -23,12 +23,12 @@ router.post('/category', async (req, res, next) => {
     { name: 'sword' },
     { name: 'paper fan' },
     { name: 'bow and arrow' },
-    { name: 'guns' },
+    { name: 'gun' },
     { name: 'sceptre' },
     { name: 'ceramic vase' },
     { name: 'armor' },
-    { name: 'hats' },
-    { name: 'wings' },
+    { name: 'hat' },
+    { name: 'wing' },
   ];
   // var categoryData = {
   //   name: req.body.name,

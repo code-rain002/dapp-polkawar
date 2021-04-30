@@ -273,7 +273,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
           {' '}
           <Link to="/">
             <Typography className={classes.title} variant="h6" noWrap>
-              <img src="images/symbol.png" alt="logo" height="40px" /> PolkaWar
+              <img src="images/polkawar.png" alt="logo" height="40px" /> PolkaWar
             </Typography>
           </Link>
           <div className="d-flex justify-content-end">
@@ -336,7 +336,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
           <div className={classes.sectionMobile}>
             <div>
               <Link to="/">
-                <img src="logo.png" alt="logo" height="50px" />
+                <img src="images/polkawar.png" alt="logo" height="50px" /> PolkaWar
               </Link>
             </div>
 
