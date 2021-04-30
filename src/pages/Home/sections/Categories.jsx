@@ -82,11 +82,11 @@ const useStyles = makeStyles((theme) => ({
     overflowX: 'auto',
   },
   filterTabsMobile: {
-    display: 'inline-block',
     paddingTop: 15,
     paddingBottom: 15,
-    width: '100%',
-    overflowX: 'scroll',
+
+    whiteSpace: 'noWrap',
+    overflowX: 'auto',
   },
 }));
 
@@ -191,22 +191,24 @@ function Categories({ getItems, getCategories, items, categories }) {
             <CustomizedMenus />
           </div>
         </div>
-        <div className={classes.filterTabsMobile}>
-          <div
-            className={selectedCat === 'All' ? classes.categoryTabActive : classes.categoryTab}
-            onClick={() => FilterList('All')}>
-            All
-          </div>
+        <div style={{ width: '100%' }}>
+          <div className={classes.filterTabsMobile}>
+            <p
+              className={selectedCat === 'All' ? classes.categoryTabActive : classes.categoryTab}
+              onClick={() => FilterList('All')}>
+              All
+            </p>
 
-          {itemCategories.map((cat, index) => {
-            return (
-              <div
-                className={selectedCat === cat.name ? classes.categoryTabActive : classes.categoryTab}
-                onClick={() => FilterList(cat.name)}>
-                {cat.name}
-              </div>
-            );
-          })}
+            {itemCategories.map((cat, index) => {
+              return (
+                <p
+                  className={selectedCat === cat.name ? classes.categoryTabActive : classes.categoryTab}
+                  onClick={() => FilterList(cat.name)}>
+                  {cat.name}
+                </p>
+              );
+            })}
+          </div>
         </div>
       </div>
 

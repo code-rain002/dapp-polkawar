@@ -14,6 +14,7 @@ export const authenticateUser = (address) => (dispatch) => {
         type: GET_CURRENT_USER,
         payload: res.data,
       });
+      localStorage.setItem('userAddress', address);
     })
     .catch((err) => {
       dispatch({
