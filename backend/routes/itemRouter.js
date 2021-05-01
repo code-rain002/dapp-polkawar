@@ -53,7 +53,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 1,
-      image: 'sword1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/sword1.png',
       category: 'sword',
     },
     {
@@ -62,7 +62,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 2,
-      image: 'sword1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/sword1.png',
       category: 'sword',
     },
     {
@@ -71,7 +71,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 3,
-      image: 'sword1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/sword1.png',
       category: 'sword',
     },
     {
@@ -80,7 +80,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 4,
-      image: 'sword1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/sword1.png',
       category: 'sword',
     },
     {
@@ -89,7 +89,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 5,
-      image: 'sword1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/sword1.png',
       category: 'sword',
     },
   ];
@@ -101,7 +101,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 1,
-      image: 'gun1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/gun1.png',
       category: 'gun',
     },
     {
@@ -110,7 +110,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 2,
-      image: 'gun1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/gun1.png',
       category: 'gun',
     },
     {
@@ -119,7 +119,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 3,
-      image: 'gun1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/gun1.png',
       category: 'gun',
     },
     {
@@ -128,7 +128,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 4,
-      image: 'gun1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/gun1.png',
       category: 'gun',
     },
     {
@@ -137,16 +137,25 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 5,
-      image: 'gun1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/gun1.png',
       category: 'gun',
     },
   ];
   try {
-    const data = await ItemDao.createItem(gunData);
+    const data = await ItemDao.createItem([...gunData, ...swordData]);
     return res.status(200).send(data);
   } catch (error) {
     return res.status(400).send('error');
   }
 });
 
+// DELETE items based on category
+// router.delete('/item', async (req, res, next) => {
+//   try {
+//     const data = await ItemDao.deleteItem();
+//     return res.status(200).send(data);
+//   } catch (error) {
+//     return res.status(400).send('error');
+//   }
+// });
 module.exports = router;

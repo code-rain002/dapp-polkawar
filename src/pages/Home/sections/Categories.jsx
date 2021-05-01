@@ -95,6 +95,7 @@ function Categories({ getItems, getCategories, items, categories }) {
 
   const [collection, setCollection] = useState([]);
   const [itemCategories, setItemCategories] = useState([]);
+  const [numbers, setNumbers] = useState([1, 5, 4, 2, 3]);
   const [selectedCat, setSelectedCat] = useState('All');
   const [pageNo, setPageNo] = useState(0);
 
@@ -121,20 +122,24 @@ function Categories({ getItems, getCategories, items, categories }) {
   }, [selectedCat]);
 
   const sortItems = (type) => {
-    let data = items;
+    let data = [];
+
+    let vvv = numbers.splice(0, 2);
+
     if (type === 'p1') {
-      data.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+      data = items.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
     }
     if (type === 'p2') {
-      data.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+      data = items.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
     }
     if (type === 'l1') {
-      data.sort((a, b) => parseInt(a.level) - parseInt(b.level));
+      data = items.sort((a, b) => parseInt(a.level) - parseInt(b.level));
     }
     if (type === 'l2') {
-      data.sort((a, b) => parseInt(b.level) - parseInt(a.level));
+      data = items.sort((a, b) => parseInt(b.level) - parseInt(a.level));
     }
-
+    console.log(vvv);
+    setNumbers(vvv);
     setCollection(data);
   };
   return (
@@ -188,7 +193,7 @@ function Categories({ getItems, getCategories, items, categories }) {
             </h1>
           </div>
           <div>
-            <CustomizedMenus />
+            <CustomizedMenus sortFn={sortItems} />
           </div>
         </div>
         <div style={{ width: '100%' }}>

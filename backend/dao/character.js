@@ -14,16 +14,14 @@ const characterDao = {
   },
 
   async createCharacter(characterData) {
-    // console.log(characterData);
-
-    // let characterCount = await CharacterModel.find({ name: characterData.name }).countDocuments();
-    // if (characterCount === 0) {
-    //   CharacterModel.insertMany([characterData]);
-    // }
-    // console.log(characterCount);
-    CharacterModel.insertMany(characterData);
+    await CharacterModel.insertMany(characterData);
     return await CharacterModel.find({});
   },
+
+  // async deleteCharacter() {
+  //   await CharacterModel.deleteMany({});
+  //   return await CharacterModel.find({});
+  // },
 };
 
 module.exports = characterDao;

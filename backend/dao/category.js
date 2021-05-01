@@ -10,14 +10,14 @@ const categoryDao = {
   },
 
   async createCategory(categoryData) {
-    // let categoryCount = await CategoryModel.find({ name: categoryData.name }).countDocuments();
-    // if (categoryCount === 0) {
-    //   CategoryModel.insertMany([categoryData]);
-    // }
-    // console.log(categoryCount);
-    CategoryModel.insertMany(categoryData);
+    await CategoryModel.insertMany(categoryData);
     return await CategoryModel.find({});
   },
+
+  // async deleteCategory() {
+  //   await CategoryModel.deleteMany({});
+  //   return await CategoryModel.find({});
+  // },
 };
 
 module.exports = categoryDao;

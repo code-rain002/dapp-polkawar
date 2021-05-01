@@ -23,17 +23,14 @@ const itemDao = {
   },
 
   async createItem(itemData) {
-    // console.log(itemData);
-
-    // let itemCount = await ItemModel.find({ name: itemData.name }).countDocuments();
-    // if (itemCount === 0) {
-    //   ItemModel.insertMany([itemData]);
-    // }
-    // console.log('Count' + itemCount);
-    // console.log(itemData);
-    ItemModel.insertMany(itemData);
-    return await ItemModel.findOne({ name: itemData.name });
+    await ItemModel.insertMany(itemData);
+    return await ItemModel.find({});
   },
+
+  // async deleteItem() {
+  //   await ItemModel.deleteMany({});
+  //   return await ItemModel.find({});
+  // },
 };
 
 module.exports = itemDao;
