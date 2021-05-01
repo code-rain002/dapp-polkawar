@@ -72,12 +72,6 @@ export default function CharacterCard({ item, index }) {
   return (
     <div>
       <Card className={classes.card} elevation={0}>
-        {/* <div className="d-flex justify-content-center align-items-center mt-2">
-            <div className={classes.iconWrapper}>
-              <img src="images/uniform.png" height="28px" />
-            </div>
-            <h6 className={classes.levelText}>{item.level} </h6>
-          </div> */}
         <div className="d-flex flex-row justify-content-center align-items-end" style={{ paddingRight: 10 }}>
           <div className="d-flex justify-content-center align-items-center mt-2">
             <h6 style={{ color: 'white', fontSize: 14, paddingTop: 10, paddingRight: 5 }}>Level: </h6>
@@ -87,15 +81,12 @@ export default function CharacterCard({ item, index }) {
             </div>
             <h6 className={classes.levelText}>{item.level} </h6>
           </div>
-          {/* <h6 style={{ color: 'white', fontSize: 12 }}>Level </h6> */}
         </div>
         <div className={classes.mediaWrapper}>
-          <img src={`data/characters/${item.image}`} className={classes.media} alt="character" />
+          <img src={`${item.image}`} className={classes.media} alt="character" />
         </div>
         <div className="mt-5">
           <h4 className={classes.title}>{item.name}</h4>
-          {/* <p style={{ color: 'white', textAlign: 'center', fontSize: 10, padding: 0, margin: 0 }}>Owned by</p>
-            <p style={{ color: 'white', textAlign: 'center', fontSize: 13, padding: 0, margin: 0 }}>{item.owner}</p> */}
         </div>
       </Card>
     </div>

@@ -30,10 +30,6 @@ router.post('/category', async (req, res, next) => {
     { name: 'hat' },
     { name: 'wing' },
   ];
-  // var categoryData = {
-  //   name: req.body.name,
-  //   description: req.body.description ? req.body.description : '',
-  // };
 
   try {
     const data = await CategoryDao.createCategory(categoryData);
@@ -42,4 +38,14 @@ router.post('/category', async (req, res, next) => {
     return res.status(400).send('error');
   }
 });
+
+// DELETE create new user based on details
+// router.delete('/category', async (req, res, next) => {
+//   try {
+//     const data = await CategoryDao.deleteCategory();
+//     return res.status(200).send(data);
+//   } catch (error) {
+//     return res.status(400).send('error');
+//   }
+// });
 module.exports = router;
