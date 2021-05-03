@@ -174,6 +174,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     fontSize: 16,
     textTransform: 'none',
+    textDecoration: 'none',
   },
 }));
 
@@ -273,7 +274,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
           {' '}
           <Link to="/">
             <Typography className={classes.title} variant="h6" noWrap>
-              <img src="images/polkawar.png" alt="logo" height="70px" />
+              <img src="images/polkawar.png" alt="logo" height="65px" />
             </Typography>
           </Link>
           <div className="d-flex justify-content-end">
@@ -329,7 +330,9 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
                 </div>
               )}
               <div>
-                <Button className={classes.airdropButton}>Get Airdrop</Button>
+                <Link to={'/airdrop'}>
+                  <Button className={classes.airdropButton}>Get Airdrop</Button>
+                </Link>
               </div>
             </div>
           </div>

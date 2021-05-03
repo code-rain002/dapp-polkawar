@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.0-beta3",
+    "node-sass": "^5.0.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-alice-carousel": "^2.5.1",

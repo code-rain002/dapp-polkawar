@@ -29,6 +29,7 @@ router.post('/category', async (req, res, next) => {
     { name: 'armor' },
     { name: 'hat' },
     { name: 'wing' },
+    { name: 'helmet' },
   ];
 
   try {
@@ -40,12 +41,12 @@ router.post('/category', async (req, res, next) => {
 });
 
 // DELETE create new user based on details
-// router.delete('/category', async (req, res, next) => {
-//   try {
-//     const data = await CategoryDao.deleteCategory();
-//     return res.status(200).send(data);
-//   } catch (error) {
-//     return res.status(400).send('error');
-//   }
-// });
+router.delete('/category', async (req, res, next) => {
+  try {
+    const data = await CategoryDao.deleteCategory();
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(400).send('error');
+  }
+});
 module.exports = router;

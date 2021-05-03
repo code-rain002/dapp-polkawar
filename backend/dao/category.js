@@ -14,10 +14,10 @@ const categoryDao = {
     return await CategoryModel.find({});
   },
 
-  // async deleteCategory() {
-  //   await CategoryModel.deleteMany({});
-  //   return await CategoryModel.find({});
-  // },
+  async deleteCategory() {
+    await CategoryModel.deleteMany({});
+    return await CategoryModel.find({});
+  },
 };
 
 module.exports = categoryDao;

@@ -66,3 +66,8 @@ a {
 .slide {
   height: 500;
 }
+.hexagon {
+  width: 100px;
+  height: 55px;
+  position: relative;
+}
