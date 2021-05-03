@@ -46,6 +46,53 @@ router.get('/items/:pageIndex/:pageSize', async (req, res, next) => {
 // Public
 // POST items based on category
 router.post('/item', async (req, res, next) => {
+  var armorData = [
+    {
+      name: 'Armor',
+      price: '0.1',
+      currency: 'ETH',
+      description: 'No description',
+      level: 1,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/armor.png',
+      category: 'armor',
+    },
+    {
+      name: 'Armor',
+      price: '1.6',
+      currency: 'ETH',
+      description: 'No description',
+      level: 2,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/armor.png',
+      category: 'armor',
+    },
+    {
+      name: 'Armor',
+      price: '1.8',
+      currency: 'ETH',
+      description: 'No description',
+      level: 3,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/armor.png',
+      category: 'armor',
+    },
+    {
+      name: 'Armor',
+      price: '2.0',
+      currency: 'ETH',
+      description: 'No description',
+      level: 4,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/armor.png',
+      category: 'armor',
+    },
+    {
+      name: 'Armor',
+      price: '2.9',
+      currency: 'ETH',
+      description: 'No description',
+      level: 5,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/armor.png',
+      category: 'armor',
+    },
+  ];
   var swordData = [
     {
       name: 'Normal Sword',
@@ -53,7 +100,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 1,
-      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/sword1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/sword.png',
       category: 'sword',
     },
     {
@@ -62,7 +109,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 2,
-      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/sword1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/sword.png',
       category: 'sword',
     },
     {
@@ -71,7 +118,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 3,
-      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/sword1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/sword.png',
       category: 'sword',
     },
     {
@@ -80,7 +127,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 4,
-      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/sword1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/sword.png',
       category: 'sword',
     },
     {
@@ -89,7 +136,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 5,
-      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/sword1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/sword.png',
       category: 'sword',
     },
   ];
@@ -101,7 +148,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 1,
-      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/gun1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/gun.png',
       category: 'gun',
     },
     {
@@ -110,7 +157,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 2,
-      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/gun1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/gun.png',
       category: 'gun',
     },
     {
@@ -119,7 +166,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 3,
-      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/gun1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/gun.png',
       category: 'gun',
     },
     {
@@ -128,7 +175,7 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 4,
-      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/gun1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/gun.png',
       category: 'gun',
     },
     {
@@ -137,12 +184,209 @@ router.post('/item', async (req, res, next) => {
       currency: 'ETH',
       description: 'No description',
       level: 5,
-      image: 'https://gateway.pinata.cloud/ipfs/Qmck3797CcrXR28sj9hKMKTRTqcVnN5dJft2t16m6uZDWZ/items/gun1.png',
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/gun.png',
       category: 'gun',
     },
   ];
+  var bowData = [
+    {
+      name: 'Bow',
+      price: '0.2',
+      currency: 'ETH',
+      description: 'No description',
+      level: 1,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/bow.png',
+      category: 'bow and arrow',
+    },
+    {
+      name: 'Bow',
+      price: '0.3',
+      currency: 'ETH',
+      description: 'No description',
+      level: 2,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/bow.png',
+      category: 'bow and arrow',
+    },
+    {
+      name: 'Bow',
+      price: '0.5',
+      currency: 'ETH',
+      description: 'No description',
+      level: 3,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/bow.png',
+      category: 'bow and arrow',
+    },
+    {
+      name: 'Bow',
+      price: '0.6',
+      currency: 'ETH',
+      description: 'No description',
+      level: 4,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/bow.png',
+      category: 'bow and arrow',
+    },
+    {
+      name: 'Bow',
+      price: '0.9',
+      currency: 'ETH',
+      description: 'No description',
+      level: 5,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/bow.png',
+      category: 'bow and arrow',
+    },
+  ];
+
+  var helmetData = [
+    {
+      name: 'Helmet',
+      price: '0.2',
+      currency: 'ETH',
+      description: 'No description',
+      level: 1,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/helmet.png',
+      category: 'helmet',
+    },
+    {
+      name: 'Helmet',
+      price: '0.3',
+      currency: 'ETH',
+      description: 'No description',
+      level: 2,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/helmet.png',
+      category: 'helmet',
+    },
+    {
+      name: 'Helmet',
+      price: '0.5',
+      currency: 'ETH',
+      description: 'No description',
+      level: 3,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/helmet.png',
+      category: 'helmet',
+    },
+    {
+      name: 'Helmet',
+      price: '0.6',
+      currency: 'ETH',
+      description: 'No description',
+      level: 4,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/helmet.png',
+      category: 'helmet',
+    },
+    {
+      name: 'Helmet',
+      price: '0.9',
+      currency: 'ETH',
+      description: 'No description',
+      level: 5,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/helmet.png',
+      category: 'helmet',
+    },
+  ];
+  var wingData = [
+    {
+      name: 'Wing',
+      price: '0.2',
+      currency: 'ETH',
+      description: 'No description',
+      level: 1,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/wing.png',
+      category: 'wing',
+    },
+    {
+      name: 'Wing',
+      price: '0.3',
+      currency: 'ETH',
+      description: 'No description',
+      level: 2,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/wing.png',
+      category: 'wing',
+    },
+    {
+      name: 'Wing',
+      price: '0.5',
+      currency: 'ETH',
+      description: 'No description',
+      level: 3,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/wing.png',
+      category: 'wing',
+    },
+    {
+      name: 'Wing',
+      price: '0.6',
+      currency: 'ETH',
+      description: 'No description',
+      level: 4,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/wing.png',
+      category: 'wing',
+    },
+    {
+      name: 'Wing',
+      price: '0.9',
+      currency: 'ETH',
+      description: 'No description',
+      level: 5,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/wing.png',
+      category: 'wing',
+    },
+  ];
+  var sceptreData = [
+    {
+      name: 'Sceptre',
+      price: '0.2',
+      currency: 'ETH',
+      description: 'No description',
+      level: 1,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/sceptre.png',
+      category: 'sceptre',
+    },
+    {
+      name: 'Sceptre',
+      price: '0.3',
+      currency: 'ETH',
+      description: 'No description',
+      level: 2,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/sceptre.png',
+      category: 'sceptre',
+    },
+    {
+      name: 'Sceptre',
+      price: '0.5',
+      currency: 'ETH',
+      description: 'No description',
+      level: 3,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/sceptre.png',
+      category: 'sceptre',
+    },
+    {
+      name: 'Sceptre',
+      price: '0.6',
+      currency: 'ETH',
+      description: 'No description',
+      level: 4,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/sceptre.png',
+      category: 'sceptre',
+    },
+    {
+      name: 'Sceptre',
+      price: '0.9',
+      currency: 'ETH',
+      description: 'No description',
+      level: 5,
+      image: 'https://gateway.pinata.cloud/ipfs/QmX6U3cGjwzgYpwvzLvy5brfiR3it28pEnHrdWGqRD77gn/sceptre.png',
+      category: 'sceptre',
+    },
+  ];
   try {
-    const data = await ItemDao.createItem([...gunData, ...swordData]);
+    const data = await ItemDao.createItem([
+      ...gunData,
+      ...swordData,
+      ...bowData,
+      ...armorData,
+      ...helmetData,
+      ...wingData,
+      ...sceptreData,
+    ]);
     return res.status(200).send(data);
   } catch (error) {
     return res.status(400).send('error');
@@ -150,12 +394,12 @@ router.post('/item', async (req, res, next) => {
 });
 
 // DELETE items based on category
-// router.delete('/item', async (req, res, next) => {
-//   try {
-//     const data = await ItemDao.deleteItem();
-//     return res.status(200).send(data);
-//   } catch (error) {
-//     return res.status(400).send('error');
-//   }
-// });
+router.delete('/item', async (req, res, next) => {
+  try {
+    const data = await ItemDao.deleteItem();
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(400).send('error');
+  }
+});
 module.exports = router;

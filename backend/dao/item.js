@@ -27,10 +27,10 @@ const itemDao = {
     return await ItemModel.find({});
   },
 
-  // async deleteItem() {
-  //   await ItemModel.deleteMany({});
-  //   return await ItemModel.find({});
-  // },
+  async deleteItem() {
+    await ItemModel.deleteMany({});
+    return await ItemModel.find({});
+  },
 };
 
 module.exports = itemDao;
