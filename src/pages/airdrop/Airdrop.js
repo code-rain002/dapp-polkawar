@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import './hexagon.scss';
 import Wheel from '../../components/Wheel';
 import imageBaseUrl from './../../actions/imageBaseUrl';
+import { Button } from '@material-ui/core';
+import Grow from '@material-ui/core/Grow';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -14,93 +16,7 @@ const useStyles = makeStyles((theme) => ({
       padding: 10,
     },
   },
-  title: {
-    verticalAlign: 'baseline',
-    textAlign: 'left',
-    color: theme.palette.pbr.textPrimary,
-    fontWeight: 800,
-    letterSpacing: 0.5,
-    fontSize: 32,
-    lineHeight: '40.7px',
-    [theme.breakpoints.down('md')]: {
-      fontSize: 22,
-      lineHeight: '30.7px',
-    },
-  },
-  price: {
-    verticalAlign: 'baseline',
-    textAlign: 'left',
-    color: theme.palette.pbr.textPrimary,
-    fontWeight: 700,
-    fontSize: 20,
-    lineHeight: '30.7px',
-  },
-  description: {
-    verticalAlign: 'baseline',
-    textAlign: 'left',
-    color: theme.palette.pbr.textSecondary,
-    fontWeight: 500,
-    fontSize: 16,
-    lineHeight: '25.7px',
-    maxWidth: 500,
-    [theme.breakpoints.down('md')]: {
-      fontSize: 14,
-    },
-  },
-  categoryTab: {
-    display: 'inline-block',
-    border: '1px solid #616161',
-    borderRadius: '20px',
-    fontSize: 16,
-    fontWeight: 500,
-    padding: '8px 20px 8px 20px',
-    minWidth: '60px',
-    marginTop: 10,
-    marginBottom: 10,
-    cursor: 'pointer',
-    color: theme.palette.pbr.textPrimary,
-    [theme.breakpoints.down('md')]: {
-      padding: '6px 14px 6px 14px',
-      fontSize: 13,
-      height: '35px',
-      marginRight: '5px',
-    },
-  },
-  buyHistory: {
-    verticalAlign: 'baseline',
-    textAlign: 'left',
-    color: theme.palette.pbr.textPrimary,
-    fontWeight: 800,
-    letterSpacing: 0.5,
-    fontSize: 22,
-    lineHeight: '30.7px',
-    [theme.breakpoints.down('md')]: {
-      fontSize: 20,
-    },
-  },
-  levelText: {
-    color: 'white',
-    fontWeight: 600,
-    fontSize: 15,
-    paddingTop: 10,
-    paddingRight: 10,
-  },
-  imageWrapper: {
-    padding: 30,
-    [theme.breakpoints.down('sm')]: {
-      padding: 0,
-    },
-  },
-  button: {
-    color: '#D9047C',
-    backgroundColor: 'white',
-    textTransform: 'none',
-    borderRadius: '50px',
-    padding: '8px 16px 8px 16px',
-    fontWeight: 400,
-    background: `linear-gradient(to bottom,#fce3ee, #fce3ee)`,
-    fontSize: 14,
-  },
+
   buttonMain: {
     borderRadius: '50px',
     background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
@@ -109,22 +25,85 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: '-1px',
     margin: 0,
     color: '#ffffff',
-    padding: '8px 16px 8px 16px',
-    fontWeight: 400,
-    fontSize: 14,
+    padding: '12px 20px 12px 20px',
+    fontWeight: 500,
+    fontSize: 18,
     textTransform: 'none',
   },
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textDecoration: 'none',
-    outline: 'none',
+  timerButton: {
+    borderRadius: '50px',
+    background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
+
+    lineHeight: '24px',
+    verticalAlign: 'baseline',
+    letterSpacing: '-1px',
+    margin: 0,
+    color: '#ffffff',
+    padding: '12px 20px 12px 20px',
+    fontWeight: 400,
+    fontSize: 18,
+    textTransform: 'none',
   },
 }));
 
 function Airdrop({}) {
   const classes = useStyles();
+  const [spinned, setSpinned] = useState(false);
+  const [checked, setChecked] = React.useState(true);
+  const [time, setTime] = React.useState({ d: 0, h: 0, m: 0, s: 0 });
+  const [seconds, setSeconds] = React.useState(Math.abs(new Date('2021-06-01') - Date.now()) / 1000);
+  const [activate, setActivate] = React.useState(false);
+
+  const secondsToTime = (secs) => {
+    let days = Math.floor(secs / (60 * 60 * 24));
+    let divisor_for_hours = secs % (60 * 60 * 24);
+
+    let hours = Math.floor(divisor_for_hours / (60 * 60));
+
+    let divisor_for_minutes = secs % (60 * 60);
+    let minutes = Math.floor(divisor_for_minutes / 60);
+
+    let divisor_for_seconds = divisor_for_minutes % 60;
+    let seconds = Math.ceil(divisor_for_seconds);
+
+    let obj = {
+      d: days,
+      h: hours,
+      m: minutes,
+      s: seconds,
+    };
+    return obj;
+  };
+  let timer = 0;
+  useEffect(() => {
+    let timeLeftVar = secondsToTime(seconds);
+    setTime(timeLeftVar);
+    startTimer();
+  }, []);
+  useEffect(() => {
+    if (seconds === 0) {
+      setActivate(true);
+    } else {
+      let timeLeftVar = secondsToTime(seconds);
+      setTime(timeLeftVar);
+    }
+  }, [seconds]);
+
+  const startTimer = () => {
+    if (timer === 0 && seconds > 0) {
+      timer = setInterval(countDown, 1000);
+    }
+  };
+
+  const countDown = () => {
+    setSeconds(() => seconds - 1);
+
+    // Check if we're at zero.
+    if (seconds == 0) {
+      clearInterval(timer);
+    }
+  };
+
   const items = [
     <div>
       Armor
@@ -167,14 +146,49 @@ function Airdrop({}) {
       <img src={`${imageBaseUrl}/QmNTNGAQjMbTPukVi7LCwa4fvGzzUzkaUFYHqsLGk2KWGA`} height="70px" />
     </div>,
   ];
+
   return (
     <div className={classes.spacing}>
       <div class="mb-1">
-        <h3 className="text-center " style={{ color: 'white' }}>
+        <h3 className="text-center " style={{ color: 'yellow' }}>
           Spin! & Get Airdrop
         </h3>
 
-        <Wheel items={items} />
+        <Wheel items={items} spinned={spinned} setSpinned={setSpinned} />
+        {spinned && (
+          <div className="text-center mt-3">
+            <div className={classes.root}>
+              <div className={classes.container}>
+                <Grow in={checked} timeout={1000}>
+                  <div className="text-center ">
+                    <h3 className="text-center " style={{ color: 'white', fontSize: 18 }}>
+                      Congratulations! You have won.
+                    </h3>
+                    <div className="mt-5">
+                      <img src={`${imageBaseUrl}/QmYPaKCKa6N6Y1f7NfHcX2cSpJRSatf41brUPffa84YNQm`} height="250px" />
+                    </div>
+                    <div>
+                      <h5 style={{ color: 'white', fontSize: 28 }}>Armor</h5>
+                    </div>
+                  </div>
+                </Grow>
+              </div>
+            </div>
+
+            <div className="mt-5">
+              <Button variant="outlined" className={activate ? classes.buttonMain : classes.timerButton}>
+                {activate ? (
+                  'Claim Now'
+                ) : (
+                  <div>
+                    {' '}
+                    Claim in {time.d} D : {time.h} H : {time.m} M
+                  </div>
+                )}
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

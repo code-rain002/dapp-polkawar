@@ -23,11 +23,14 @@ export default class Wheel extends Component {
       this.setState({ selectedItem: null });
       setTimeout(this.selectItem, 500);
     }
+    setTimeout(() => {
+      this.props.setSpinned(true);
+    }, 4000);
   }
 
   render() {
     const { selectedItem } = this.state;
-    const { items } = this.props;
+    const { items, spinned, setSpinned } = this.props;
 
     const wheelVars = {
       '--nb-item': items.length,
@@ -36,22 +39,28 @@ export default class Wheel extends Component {
     const spinning = selectedItem !== null ? 'spinning' : '';
 
     return (
-      <div className="wheel-container">
-        <div className={`wheel ${spinning}`} style={wheelVars}>
-          {items.map((item, index) => (
-            <div className="wheel-item" key={index} style={{ '--item-nb': index }}>
-              {item}
+      <div>
+        {!spinned ? (
+          <div className="wheel-container">
+            <div className={`wheel ${spinning}`} style={wheelVars}>
+              {items.map((item, index) => (
+                <div className="wheel-item" key={index} style={{ '--item-nb': index }}>
+                  {item}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <div className="text-center mt-3">
-          <Button
-            onClick={this.selectItem}
-            variant="contained"
-            style={{ backgroundColor: 'blue', color: 'white', borderRadius: 20, fontSize: 18, marginRight: 10 }}>
-            Spin now
-          </Button>
-        </div>
+            <div className="text-center mt-3">
+              <Button
+                onClick={this.selectItem}
+                variant="contained"
+                style={{ backgroundColor: 'blue', color: 'white', borderRadius: 20, fontSize: 18, marginRight: 10 }}>
+                Spin now
+              </Button>
+            </div>
+          </div>
+        ) : (
+          'Claim'
+        )}
       </div>
     );
   }
