@@ -18,10 +18,10 @@ const characterDao = {
     return await CharacterModel.find({});
   },
 
-  // async deleteCharacter() {
-  //   await CharacterModel.deleteMany({});
-  //   return await CharacterModel.find({});
-  // },
+  async deleteCharacter() {
+    await CharacterModel.deleteMany({});
+    return await CharacterModel.find({});
+  },
 };
 
 module.exports = characterDao;

@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import { FavoriteBorderOutlined } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
+import imageBaseUrl from './../actions/imageBaseUrl';
 
 const useStyles = makeStyles((theme) => ({
   card1: {
@@ -169,7 +170,7 @@ export default function ItemCard({ item }) {
             </div>
           </div>
           <div className={classes.mediaWrapper1}>
-            <img src={`${item.image}`} className={classes.media} />
+            <img src={`${imageBaseUrl}/${item.image}`} className={classes.media} />
           </div>
           <div>
             <h4 className={classes.title1}>{item.name}</h4>

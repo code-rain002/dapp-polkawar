@@ -20,16 +20,16 @@ router.get('/categories', async (req, res, next) => {
 // POST create new user based on details
 router.post('/category', async (req, res, next) => {
   let categoryData = [
-    { name: 'sword' },
-    { name: 'paper fan' },
-    { name: 'bow and arrow' },
-    { name: 'gun' },
-    { name: 'sceptre' },
-    { name: 'ceramic vase' },
     { name: 'armor' },
-    { name: 'hat' },
-    { name: 'wing' },
+    { name: 'bow and arrow' },
     { name: 'helmet' },
+    { name: 'gun' },
+    { name: 'knife' },
+    { name: 'magic vase' },
+    { name: 'sword' },
+    { name: 'tessen' },
+    { name: 'sceptre' },
+    { name: 'wing' },
   ];
 
   try {

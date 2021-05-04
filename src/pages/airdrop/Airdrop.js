@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import './hexagon.scss';
+import Wheel from '../../components/Wheel';
+import imageBaseUrl from './../../actions/imageBaseUrl';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -123,42 +125,56 @@ const useStyles = makeStyles((theme) => ({
 
 function Airdrop({}) {
   const classes = useStyles();
-
+  const items = [
+    <div>
+      Armor
+      <img src={`${imageBaseUrl}/QmYPaKCKa6N6Y1f7NfHcX2cSpJRSatf41brUPffa84YNQm`} height="70px" />
+    </div>,
+    <div>
+      Helmet
+      <img src={`${imageBaseUrl}/Qmath2HgLVjGy3CmmzmLshoDThqFrQNj4ueRrd8YEAQgDA`} height="70px" />
+    </div>,
+    <div>
+      Sword
+      <img src={`${imageBaseUrl}/QmYqV2jhYyZJBmvx5kU6KycFkTTG2F2MGCGtiMJrS8g4dE`} height="70px" />
+    </div>,
+    <div>
+      Knife
+      <img src={`${imageBaseUrl}/QmYBRqwjCu95NpTbkwRmseUEKd1wNS4ZvyuQZWPDZaZjNs`} height="70px" />
+    </div>,
+    <div>
+      Tessen
+      <img src={`${imageBaseUrl}/QmTyG1N1d5XaS28EvuH4nvaFC6S38NgYt87BeySvsoS98n`} height="70px" />
+    </div>,
+    <div>
+      Bow
+      <img src={`${imageBaseUrl}/QmbVbMQiDjhvtLGFNnJ3VoXACHbPJusQBzMQ43mpYvxFsd`} height="70px" />
+    </div>,
+    <div>
+      Gun
+      <img src={`${imageBaseUrl}/QmfZSKVadAmSonNyvDvkLNTb2nL35GJ82CRqDUFhGQ8CgQ`} height="70px" />
+    </div>,
+    <div>
+      Wing
+      <img src={`${imageBaseUrl}/QmbqwfPekXBqC3CCwt5nAiAcEV5ku6ASk7wnRuQfV8kWua`} height="70px" />
+    </div>,
+    <div>
+      Sceptre
+      <img src={`${imageBaseUrl}/QmQfKtYBdDB8fDxUo6c53RbZUd7oe3agHjEWqt9kA3P2PD`} height="70px" />
+    </div>,
+    <div>
+      Magic Vase
+      <img src={`${imageBaseUrl}/QmNTNGAQjMbTPukVi7LCwa4fvGzzUzkaUFYHqsLGk2KWGA`} height="70px" />
+    </div>,
+  ];
   return (
     <div className={classes.spacing}>
-      <div className="">
-        <div>
-          <h1 className="heading">Get Airdrop</h1>
-        </div>
-        <div>
-          <div class="mt-3">
-            <div class="hexagon"></div>
-            <div>Sword</div>
-          </div>
-          <div class="mt-3">
-            <div class="hexagon">
-              <div>Sword</div>
-            </div>
-          </div>
-          <div class="mt-3">
-            <div class="hexagon">
-              <div>Sword</div>
-            </div>
-          </div>
-          <div class="mt-3">
-            <div class="hexagon">
-              <div>Sword</div>
-            </div>
-          </div>
-          <div class="mt-3">
-            <div class="hexagon">
-              <div>Sword</div>
-            </div>
-          </div>
-          <div class="mt-3">
-            <div class="hexagon"></div>
-          </div>
-        </div>
+      <div class="mb-1">
+        <h3 className="text-center " style={{ color: 'white' }}>
+          Spin! & Get Airdrop
+        </h3>
+
+        <Wheel items={items} />
       </div>
     </div>
   );
