@@ -5,6 +5,7 @@ import Wheel from '../../components/Wheel';
 import imageBaseUrl from './../../actions/imageBaseUrl';
 import { Button } from '@material-ui/core';
 import Grow from '@material-ui/core/Grow';
+import CountdownTimer from './../../components/CountdownTimer';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -50,59 +51,8 @@ function Airdrop({}) {
   const classes = useStyles();
   const [spinned, setSpinned] = useState(false);
   const [checked, setChecked] = React.useState(true);
-  const [time, setTime] = React.useState({ d: 0, h: 0, m: 0, s: 0 });
-  const [seconds, setSeconds] = React.useState(Math.abs(new Date('2021-06-01') - Date.now()) / 1000);
+
   const [activate, setActivate] = React.useState(false);
-
-  const secondsToTime = (secs) => {
-    let days = Math.floor(secs / (60 * 60 * 24));
-    let divisor_for_hours = secs % (60 * 60 * 24);
-
-    let hours = Math.floor(divisor_for_hours / (60 * 60));
-
-    let divisor_for_minutes = secs % (60 * 60);
-    let minutes = Math.floor(divisor_for_minutes / 60);
-
-    let divisor_for_seconds = divisor_for_minutes % 60;
-    let seconds = Math.ceil(divisor_for_seconds);
-
-    let obj = {
-      d: days,
-      h: hours,
-      m: minutes,
-      s: seconds,
-    };
-    return obj;
-  };
-  let timer = 0;
-  useEffect(() => {
-    let timeLeftVar = secondsToTime(seconds);
-    setTime(timeLeftVar);
-    startTimer();
-  }, []);
-  useEffect(() => {
-    if (seconds === 0) {
-      setActivate(true);
-    } else {
-      let timeLeftVar = secondsToTime(seconds);
-      setTime(timeLeftVar);
-    }
-  }, [seconds]);
-
-  const startTimer = () => {
-    if (timer === 0 && seconds > 0) {
-      timer = setInterval(countDown, 1000);
-    }
-  };
-
-  const countDown = () => {
-    setSeconds(() => seconds - 1);
-
-    // Check if we're at zero.
-    if (seconds == 0) {
-      clearInterval(timer);
-    }
-  };
 
   const items = [
     <div>
@@ -181,8 +131,7 @@ function Airdrop({}) {
                   'Claim Now'
                 ) : (
                   <div>
-                    {' '}
-                    Claim in {time.d} D : {time.h} H : {time.m} M
+                    <CountdownTimer />
                   </div>
                 )}
               </Button>
