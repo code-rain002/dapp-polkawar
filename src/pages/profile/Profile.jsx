@@ -1,8 +1,8 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, ButtonBase } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { Share } from '@material-ui/icons';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';

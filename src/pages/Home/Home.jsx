@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import HotCharacters from './sections/HotCharacters';
 import Categories from './sections/Categories';

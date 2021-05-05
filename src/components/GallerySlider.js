@@ -7,13 +7,13 @@ export default function GallerySLider() {
   return (
     <Carousel showThumbs={true} thumbWidth={width} dynamicHeight={false}>
       <div>
-        <img src="https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png" />
+        <img alt="galley1" src="https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png" />
       </div>
       <div>
-        <img src="https://eskipaper.com/images/sword-pictures-1.jpg" />
+        <img alt="galley2" src="https://eskipaper.com/images/sword-pictures-1.jpg" />
       </div>
       <div>
-        <img src="https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png" />
+        <img alt="galley3" src="https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png" />
       </div>
     </Carousel>
   );

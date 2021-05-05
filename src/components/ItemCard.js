@@ -1,10 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Avatar, Button, CardHeader, Typography } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import IconButton from '@material-ui/core/IconButton';
-import { FavoriteBorderOutlined } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 import imageBaseUrl from './../actions/imageBaseUrl';
 
@@ -164,13 +161,19 @@ export default function ItemCard({ item }) {
               <h6 className={classes.levelText}>Level : </h6>
               <div className={classes.iconWrapper}>
                 {Array.from(Array(item.level)).map((character) => {
-                  return <img src="https://pngimg.com/uploads/star/star_PNG1597.png" className={classes.levelImage} />;
+                  return (
+                    <img
+                      alt="level"
+                      src="https://pngimg.com/uploads/star/star_PNG1597.png"
+                      className={classes.levelImage}
+                    />
+                  );
                 })}
               </div>
             </div>
           </div>
           <div className={classes.mediaWrapper1}>
-            <img src={`${imageBaseUrl}/${item.image}`} className={classes.media} />
+            <img alt="item" src={`${imageBaseUrl}/${item.image}`} className={classes.media} />
           </div>
           <div>
             <h4 className={classes.title1}>{item.name}</h4>
