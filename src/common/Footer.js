@@ -36,7 +36,7 @@ export default function Footer() {
           <img src="images/symbol.png" alt="logo" height="50px" />
         </div>
         <p className={classes.para}>
-          Copyright 2021 <span className={classes.highlight}>PolkaBridge</span>. All Rights Reserved.
+          Copyright 2021 <span className={classes.highlight}>PolkaWar</span>. All Rights Reserved.
         </p>
       </div>
     </div>
