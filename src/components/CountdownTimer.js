@@ -11,7 +11,7 @@ function CountdownTimer() {
         D: Math.floor(difference / (1000 * 60 * 60 * 24)),
         H: Math.floor((difference / (1000 * 60 * 60)) % 24),
         M: Math.floor((difference / 1000 / 60) % 60),
-        // S: Math.floor((difference / 1000) % 60),
+        S: Math.floor((difference / 1000) % 60),
       };
     }
 
@@ -35,16 +35,16 @@ function CountdownTimer() {
     }
 
     timerComponents.push(
-      <span>
+      <span style={{ paddingLeft: 10 }}>
         {timeLeft[interval]}
         {interval}
-        {'   '}
+        {'     '}
       </span>,
     );
   });
   return (
     <div>
-      <h2>Claim your airdrop</h2>
+      <h3>Claim your airdrop</h3>
       {timerComponents.length ? timerComponents : <span>Time's up!</span>}
     </div>
   );

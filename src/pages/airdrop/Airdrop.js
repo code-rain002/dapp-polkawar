@@ -6,6 +6,7 @@ import imageBaseUrl from './../../actions/imageBaseUrl';
 import { Button } from '@material-ui/core';
 import Grow from '@material-ui/core/Grow';
 import CountdownTimer from './../../components/CountdownTimer';
+import web3 from './../../web';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -51,9 +52,21 @@ function Airdrop({}) {
   const classes = useStyles();
   const [spinned, setSpinned] = useState(false);
   const [checked, setChecked] = React.useState(true);
+  const [metamaskAvailable, setMetamaskAvailable] = React.useState(false);
 
   const [activate, setActivate] = React.useState(false);
 
+  const checkMetamask = () => {
+    if (web3 !== undefined) {
+      setMetamaskAvailable(true);
+    } else {
+      setMetamaskAvailable(false);
+    }
+  };
+
+  useEffect(() => {
+    checkMetamask();
+  }, []);
   const items = [
     <div>
       Armor
@@ -99,46 +112,53 @@ function Airdrop({}) {
 
   return (
     <div className={classes.spacing}>
-      <div class="mb-1">
-        <h3 className="text-center " style={{ color: 'yellow' }}>
-          Spin! & Get Airdrop
-        </h3>
+      {metamaskAvailable ? (
+        <div class="mb-1">
+          <h3 className="text-center " style={{ color: 'yellow' }}>
+            Spin! & Get Airdrop
+          </h3>
 
-        <Wheel items={items} spinned={spinned} setSpinned={setSpinned} />
-        {spinned && (
-          <div className="text-center mt-3">
-            <div className={classes.root}>
-              <div className={classes.container}>
-                <Grow in={checked} timeout={1000}>
-                  <div className="text-center ">
-                    <h3 className="text-center " style={{ color: 'white', fontSize: 18 }}>
-                      Congratulations! You have won.
-                    </h3>
-                    <div className="mt-5">
-                      <img src={`${imageBaseUrl}/QmYPaKCKa6N6Y1f7NfHcX2cSpJRSatf41brUPffa84YNQm`} height="250px" />
+          <Wheel items={items} spinned={spinned} setSpinned={setSpinned} />
+          {spinned && (
+            <div className="text-center mt-3">
+              <div className={classes.root}>
+                <div className={classes.container}>
+                  <Grow in={checked} timeout={1000}>
+                    <div className="text-center ">
+                      <h3 className="text-center " style={{ color: 'white', fontSize: 18 }}>
+                        Congratulations! You have won.
+                      </h3>
+                      <div className="mt-5">
+                        <img src={`${imageBaseUrl}/QmYPaKCKa6N6Y1f7NfHcX2cSpJRSatf41brUPffa84YNQm`} height="250px" />
+                      </div>
+                      <div>
+                        <h5 style={{ color: 'white', fontSize: 28 }}>Armor</h5>
+                      </div>
                     </div>
+                  </Grow>
+                </div>
+              </div>
+
+              <div className="mt-5">
+                <Button variant="outlined" className={activate ? classes.buttonMain : classes.timerButton}>
+                  {activate ? (
+                    'Claim Now'
+                  ) : (
                     <div>
-                      <h5 style={{ color: 'white', fontSize: 28 }}>Armor</h5>
+                      <CountdownTimer />
                     </div>
-                  </div>
-                </Grow>
+                  )}
+                </Button>
               </div>
             </div>
-
-            <div className="mt-5">
-              <Button variant="outlined" className={activate ? classes.buttonMain : classes.timerButton}>
-                {activate ? (
-                  'Claim Now'
-                ) : (
-                  <div>
-                    <CountdownTimer />
-                  </div>
-                )}
-              </Button>
-            </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      ) : (
+        <div className="mt-5 text-center">
+          <h4 style={{ color: 'yellow' }}>Metamask missing!</h4>
+          <p style={{ color: 'white' }}>Install metamask first and then only you will be able to spin.</p>
+        </div>
+      )}
     </div>
   );
 }

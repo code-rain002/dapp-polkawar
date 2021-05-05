@@ -15,9 +15,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Button } from '@material-ui/core';
 import { AccountBalanceWallet, Close } from '@material-ui/icons';
+import Snackbar from '@material-ui/core/Snackbar';
 import { Link } from 'react-router-dom';
 import { authenticateUser } from './../actions/authActions';
 import web3 from './../web';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -178,6 +180,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 function PrimaryAppbar({ authenticateUser, authenticated, user }) {
   const classes = useStyles();
   const [navIndex, setNavIndex] = useState(0);
@@ -185,6 +190,13 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
   const [state, setState] = React.useState({
     right: false,
   });
+  const [alert, setAlert] = React.useState(false);
+  const vertical = 'top';
+  const horizontal = 'right';
+
+  const handleClose = () => {
+    setAlert(false);
+  };
 
   const toggleDrawer = (anchor, open) => (event) => {
     setState({ ...state, [anchor]: open });
@@ -216,8 +228,8 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
           <Divider />
           <List>
             {[
-              { name: 'Landing Page', id: 'https://landing.polkawar.com/' },
-              { name: 'Get Airdrop', id: 'https://airdrop.polkawar.com/' },
+              { name: 'Landing Page', id: 'https://polkawar.com' },
+              { name: 'Get Airdrop', id: '/airdrop' },
             ].map((tab, index) => (
               <a href={tab.id} className={classes.mobileLink}>
                 <ListItem button key={tab.name}>
@@ -247,11 +259,15 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
   );
 
   const connectWallet = () => {
-    web3.eth.requestAccounts().then((accounts) => {
-      const accountAddress = accounts[0];
-      console.log(accountAddress);
-      authenticateUser(accountAddress);
-    });
+    if (web3 !== undefined) {
+      web3.eth.requestAccounts().then((accounts) => {
+        const accountAddress = accounts[0];
+        console.log(accountAddress);
+        authenticateUser(accountAddress);
+      });
+    } else {
+      setAlert(true);
+    }
   };
 
   useEffect(() => {
@@ -269,6 +285,14 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
 
   return (
     <div className={classes.grow}>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={alert}
+        onClose={handleClose}
+        message={'Install metamask first!'}
+        key={vertical + horizontal}>
+        <Alert severity="error">Install metamask first!</Alert>
+      </Snackbar>
       <AppBar position="static" style={{ background: '#16181D', boxShadow: 'none', borderBottom: '1px solid #e9e9e9' }}>
         <Toolbar className="d-flex justify-content-around">
           {' '}
@@ -299,7 +323,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
             <Typography className={classes.tabs} variant="subtitle1" noWrap>
               Battle Room
             </Typography>
-            <Link to="/profile">
+            <a href="https://polkawar.com">
               {' '}
               <Typography
                 variant="subtitle1"
@@ -308,7 +332,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
                 onClick={() => setNavIndex(3)}>
                 Landing Page
               </Typography>{' '}
-            </Link>
+            </a>
 
             <div className={classes.sectionDesktop}>
               {authenticated ? (
@@ -325,7 +349,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
               ) : (
                 <div>
                   <Button className={classes.airdropButton} onClick={connectWallet}>
-                    Connect your wallet
+                    {web3 !== undefined ? 'Connect your wallet' : 'Missing Metamask!'}
                   </Button>
                 </div>
               )}
