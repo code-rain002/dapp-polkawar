@@ -216,7 +216,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
           <Divider />
           <List>
             {[
-              { name: 'Landing Page', id: 'https://landing.polkawar.com/' },
+              { name: 'Landing Page', id: 'https://polkawar.com/' },
               { name: 'Get Airdrop', id: 'https://airdrop.polkawar.com/' },
             ].map((tab, index) => (
               <a href={tab.id} className={classes.mobileLink}>
