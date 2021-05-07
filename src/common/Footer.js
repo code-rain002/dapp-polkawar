@@ -14,10 +14,12 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 10,
     paddingBottom: 10,
     textAlign: 'center',
+    color: 'white',
   },
 
   highlight: {
     color: theme.palette.pbr.primary,
+    paddingLeft: 5,
   },
 
   icon: {
@@ -33,7 +35,7 @@ export default function Footer() {
     <div className={classes.background}>
       <div className="container text-center">
         <div>
-          <img src="images/symbol.png" alt="logo" height="50px" />
+          <img src="images/polkawar.png" alt="logo" height="50px" />
         </div>
         <p className={classes.para}>
           Copyright 2021 <span className={classes.highlight}>PolkaWar</span>. All Rights Reserved.

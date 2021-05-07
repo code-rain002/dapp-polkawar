@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import './hexagon.scss';
 import Wheel from '../../components/Wheel';
 import imageBaseUrl from './../../actions/imageBaseUrl';
 import { Button } from '@material-ui/core';
