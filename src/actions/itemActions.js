@@ -22,11 +22,13 @@ export const getItem = (id = 1000) => (dispatch) => {
 
 //get items based on category and pagination
 export const getItems = (category, pageNo, pageSize = 8) => (dispatch) => {
+  let smallCategory = category.toLowerCase();
+
   let url = '';
-  if (category === 'All') {
+  if (smallCategory === 'all') {
     url = `${baseUrl}/items/${pageNo}/${pageSize}`;
   } else {
-    url = `${baseUrl}/items/${category}`;
+    url = `${baseUrl}/items/${smallCategory}`;
   }
   axios
     .get(url)

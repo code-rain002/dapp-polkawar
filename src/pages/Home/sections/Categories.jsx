@@ -105,7 +105,7 @@ function Categories({ getItems, getCategories, items, categories }) {
 
   useEffect(() => {
     getCategories();
-    getItems(selectedCat, pageNo);
+    getItems(selectedCat.toLowerCase(), pageNo);
   }, []);
 
   useEffect(() => {

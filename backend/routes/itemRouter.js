@@ -22,6 +22,7 @@ router.get('/item/:id', async (req, res, next) => {
 // Public
 // GET All Items based on category
 router.get('/items/:category', async (req, res, next) => {
+  console.log(req.params.category);
   try {
     const data = await ItemDao.getItems(req.params.category);
     return res.status(200).send(data);
@@ -195,7 +196,7 @@ router.post('/item', async (req, res, next) => {
       description: 'No description',
       level: 1,
       image: 'QmYBRqwjCu95NpTbkwRmseUEKd1wNS4ZvyuQZWPDZaZjNs',
-      category: 'knife',
+      category: 'big knife',
     },
     {
       name: 'Knife',
@@ -204,7 +205,7 @@ router.post('/item', async (req, res, next) => {
       description: 'No description',
       level: 2,
       image: 'QmYBRqwjCu95NpTbkwRmseUEKd1wNS4ZvyuQZWPDZaZjNs',
-      category: 'knife',
+      category: 'big knife',
     },
     {
       name: 'Knife',
@@ -213,7 +214,7 @@ router.post('/item', async (req, res, next) => {
       description: 'No description',
       level: 3,
       image: 'QmYBRqwjCu95NpTbkwRmseUEKd1wNS4ZvyuQZWPDZaZjNs',
-      category: 'knife',
+      category: 'big knife',
     },
     {
       name: 'Knife',
@@ -222,16 +223,16 @@ router.post('/item', async (req, res, next) => {
       description: 'No description',
       level: 4,
       image: 'QmYBRqwjCu95NpTbkwRmseUEKd1wNS4ZvyuQZWPDZaZjNs',
-      category: 'knife',
+      category: 'big knife',
     },
     {
-      name: 'Knife',
+      name: 'Big Knife',
       price: '0.9',
       currency: 'ETH',
       description: 'No description',
       level: 5,
       image: 'QmYBRqwjCu95NpTbkwRmseUEKd1wNS4ZvyuQZWPDZaZjNs',
-      category: 'knife',
+      category: 'big knife',
     },
   ];
   var tessenData = [
@@ -289,7 +290,7 @@ router.post('/item', async (req, res, next) => {
       description: 'No description',
       level: 1,
       image: 'QmbVbMQiDjhvtLGFNnJ3VoXACHbPJusQBzMQ43mpYvxFsd',
-      category: 'bow and arrow',
+      category: 'bow & arrow',
     },
     {
       name: 'Bow',
@@ -298,7 +299,7 @@ router.post('/item', async (req, res, next) => {
       description: 'No description',
       level: 2,
       image: 'QmbVbMQiDjhvtLGFNnJ3VoXACHbPJusQBzMQ43mpYvxFsd',
-      category: 'bow and arrow',
+      category: 'bow & arrow',
     },
     {
       name: 'Bow',
@@ -307,7 +308,7 @@ router.post('/item', async (req, res, next) => {
       description: 'No description',
       level: 3,
       image: 'QmbVbMQiDjhvtLGFNnJ3VoXACHbPJusQBzMQ43mpYvxFsd',
-      category: 'bow and arrow',
+      category: 'bow & arrow',
     },
     {
       name: 'Bow',
@@ -316,7 +317,7 @@ router.post('/item', async (req, res, next) => {
       description: 'No description',
       level: 4,
       image: 'QmbVbMQiDjhvtLGFNnJ3VoXACHbPJusQBzMQ43mpYvxFsd',
-      category: 'bow and arrow',
+      category: 'bow & arrow',
     },
     {
       name: 'Bow',
@@ -325,7 +326,7 @@ router.post('/item', async (req, res, next) => {
       description: 'No description',
       level: 5,
       image: 'QmbVbMQiDjhvtLGFNnJ3VoXACHbPJusQBzMQ43mpYvxFsd',
-      category: 'bow and arrow',
+      category: 'bow & arrow',
     },
   ];
   var gunData = [
