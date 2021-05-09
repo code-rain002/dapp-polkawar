@@ -65,7 +65,7 @@ export default function SocialLinks() {
           <div className="d-flex justify-content-center mt-4">
             <div className={classes.iconWrapper}>
               <Tooltip title="Twitter" aria-label="add1">
-                <a href="https://twitter.com/realpolkabridge">
+                <a href="https://twitter.com/polkawarnft">
                   <IconButton aria-label="Twitter">
                     <Twitter className={classes.icon} />
                   </IconButton>
@@ -74,27 +74,43 @@ export default function SocialLinks() {
             </div>
             <div className={classes.iconWrapper}>
               <Tooltip title="Telegram">
-                <a href="https://t.me/polkabridgegroup">
+                <a href="https://t.me/polkawarchat">
                   <IconButton aria-label="Telegram">
                     <Telegram className={classes.icon} />
                   </IconButton>
                 </a>
               </Tooltip>
             </div>
-
+            <div className={classes.iconWrapper}>
+              <Tooltip title="Medium">
+                <a href="https://medium.com/@polkawar">
+                  <IconButton aria-label="Medium">
+                    <img src="images/medium.png" style={{ height: 25, marginTop: 5, borderRadius: '50%' }} />
+                  </IconButton>
+                </a>
+              </Tooltip>
+            </div>{' '}
+            <div className={classes.iconWrapper}>
+              <Tooltip title="Discord">
+                <a href="https://discord.gg/NQFjXkMqgk">
+                  <IconButton aria-label="Discord">
+                    <img src="images/discord.png" style={{ height: 20, marginTop: 7 }} />
+                  </IconButton>
+                </a>
+              </Tooltip>
+            </div>
             <div className={classes.iconWrapper}>
               <Tooltip title="Github">
-                <a href="https://github.com/cyclese96">
+                <a href="https://github.com/polkawar">
                   <IconButton aria-label="Github">
                     <GitHub className={classes.icon} />
                   </IconButton>
                 </a>
               </Tooltip>
             </div>
-
             <div className={classes.iconWrapper}>
               <Tooltip title="Email">
-                <a href="mailto:support@polkawar.com">
+                <a href="mailto:hello@polkawar.com">
                   <IconButton aria-label="Email">
                     <Email className={classes.icon} />
                   </IconButton>
