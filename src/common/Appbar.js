@@ -245,7 +245,10 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
                     <AccountBalanceWallet className={classes.icon} />
                   </div>
                   <div>
-                    <strong style={{ color: '#616161' }}>386</strong>
+                    <strong style={{ color: '#616161' }}>
+                      {' '}
+                      {ethBal !== null && parseFloat(ethBal).toFixed(4) + ' ETH'}{' '}
+                    </strong>
                   </div>
                 </Button>
               </div>
@@ -274,6 +277,17 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
       setAlert(true);
     }
   };
+  const getBalance = () => {
+    if (web3 !== undefined) {
+      web3.eth.requestAccounts().then((accounts) => {
+        const accountAddress = accounts[0];
+        web3.eth.getBalance(accountAddress, (err, balance) => {
+          let ethBalance = web3.utils.fromWei(balance);
+          setEthBal(ethBalance);
+        });
+      });
+    }
+  };
 
   useEffect(() => {
     const userAdd = localStorage.getItem('userAddress');
@@ -281,6 +295,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
       web3.eth.requestAccounts().then((accounts) => {
         const accountAddress = accounts[0];
       });
+      getBalance();
     } else {
       setAlert(true);
     }
