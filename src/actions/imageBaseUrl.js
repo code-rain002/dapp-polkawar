@@ -1,2 +1,2 @@
-const imageBaseUrl = 'https://gateway.pinata.cloud/ipfs/';
+const imageBaseUrl = 'https://gateway.ipfs.io/ipfs/';
 export default imageBaseUrl;
