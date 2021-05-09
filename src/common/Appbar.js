@@ -187,6 +187,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
   const classes = useStyles();
   const [navIndex, setNavIndex] = useState(0);
   const [userData, setUserData] = useState(null);
+  const [ethBal, setEthBal] = useState(null);
   const [state, setState] = React.useState({
     right: false,
   });
@@ -264,6 +265,10 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
         const accountAddress = accounts[0];
         console.log(accountAddress);
         authenticateUser(accountAddress);
+        web3.eth.getBalance(accountAddress, (err, balance) => {
+          let ethBalance = web3.utils.fromWei(balance);
+          setEthBal(ethBalance);
+        });
       });
     } else {
       setAlert(true);
@@ -272,6 +277,14 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
 
   useEffect(() => {
     const userAdd = localStorage.getItem('userAddress');
+    if (web3 !== undefined) {
+      web3.eth.requestAccounts().then((accounts) => {
+        const accountAddress = accounts[0];
+      });
+    } else {
+      setAlert(true);
+    }
+
     if (userAdd) {
       authenticateUser(userAdd);
     }
@@ -342,7 +355,9 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
                       <AccountBalanceWallet className={classes.icon} />
                     </div>
                     <div>
-                      <strong style={{ color: '#e5e5e5' }}>386</strong>
+                      <strong style={{ color: '#e5e5e5' }}>
+                        {ethBal !== null && parseFloat(ethBal).toFixed(4) + ' ETH'}{' '}
+                      </strong>
                     </div>
                   </Button>
                 </div>

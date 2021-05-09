@@ -127,7 +127,6 @@ const useStyles = makeStyles((theme) => ({
 function Profile({ authenticateUser, user, authenticated }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
-  const address = '0x9D7117a07fca9F22911d379A9fd5118A5FA4F448';
   const [userData, setUserData] = useState(null);
 
   const handleChange = (event, newValue) => {
