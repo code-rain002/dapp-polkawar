@@ -13,15 +13,28 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Button } from '@material-ui/core';
+import { Backdrop, Slide } from '@material-ui/core';
+import { Button, Dialog } from '@material-ui/core';
 import { AccountBalanceWallet, Close } from '@material-ui/icons';
 import Snackbar from '@material-ui/core/Snackbar';
 import { Link } from 'react-router-dom';
-import { authenticateUser } from './../actions/authActions';
+import { authenticateUser, signOutUser } from './../actions/authActions';
 import web3 from './../web';
 import MuiAlert from '@material-ui/lab/Alert';
+import BalancePopup from './BalancePopup';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const useStyles = makeStyles((theme) => ({
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textDecoration: 'none',
+    outline: 'none',
+  },
   grow: {
     flexGrow: 1,
   },
@@ -183,11 +196,12 @@ const useStyles = makeStyles((theme) => ({
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-function PrimaryAppbar({ authenticateUser, authenticated, user }) {
+function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
   const classes = useStyles();
   const [navIndex, setNavIndex] = useState(0);
   const [userData, setUserData] = useState(null);
   const [ethBal, setEthBal] = useState(null);
+  const [popup, setPopup] = useState(false);
   const [state, setState] = React.useState({
     right: false,
   });
@@ -202,7 +216,14 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
   const toggleDrawer = (anchor, open) => (event) => {
     setState({ ...state, [anchor]: open });
   };
+  const togglePopup = () => {
+    setPopup(!popup);
+  };
 
+  const signOut = () => {
+    signOutUser(userData.address);
+    setPopup(!popup);
+  };
   const list = (anchor) => (
     <div
       className={clsx(classes.list, {
@@ -365,7 +386,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
             <div className={classes.sectionDesktop}>
               {authenticated ? (
                 <div>
-                  <Button className={classes.balanceButton}>
+                  <Button className={classes.balanceButton} onClick={togglePopup}>
                     <div className={classes.buttonIcon}>
                       <AccountBalanceWallet className={classes.icon} />
                     </div>
@@ -421,6 +442,25 @@ function PrimaryAppbar({ authenticateUser, authenticated, user }) {
             </div>
           </div>
         </Toolbar>
+        <Dialog
+          className={classes.modal}
+          open={popup}
+          keepMounted
+          onClose={togglePopup}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}>
+          <div style={{ backgroundColor: 'black' }}>
+            <BalancePopup
+              address={userData !== null && userData.address}
+              pwar={1323}
+              togglePopup={togglePopup}
+              signOut={signOut}
+            />
+          </div>
+        </Dialog>
       </AppBar>
     </div>
   );
@@ -434,6 +474,6 @@ const mapStateToProps = (state) => ({
   user: state.auth.user,
 });
 
-const mapDispatchToProps = { authenticateUser };
+const mapDispatchToProps = { authenticateUser, signOutUser };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PrimaryAppbar);

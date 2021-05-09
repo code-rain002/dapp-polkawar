@@ -1,4 +1,4 @@
-import { GET_CURRENT_USER } from '../actions/types';
+import { GET_CURRENT_USER, REMOVE_CURRENT_USER } from '../actions/types';
 
 const initalState = {
   authenticated: false,
@@ -13,6 +13,13 @@ export default function (state = initalState, action) {
         authenticated: !state.authenticated,
         user: action.payload,
       };
+    case REMOVE_CURRENT_USER:
+      return {
+        ...state,
+        authenticated: false,
+        user: null,
+      };
+
     default:
       return state;
   }

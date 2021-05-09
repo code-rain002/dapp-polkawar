@@ -1,8 +1,8 @@
 import axios from 'axios';
 import baseUrl from '../actions/baseUrl';
-import { GET_CURRENT_USER, GET_ERRORS } from './types';
+import { GET_CURRENT_USER, REMOVE_CURRENT_USER, GET_ERRORS } from './types';
 
-//GET all characters
+//GET user authenticated
 export const authenticateUser = (address) => (dispatch) => {
   let userData = {
     address: address,
@@ -22,4 +22,13 @@ export const authenticateUser = (address) => (dispatch) => {
         payload: err.response,
       });
     });
+};
+
+//User signout
+export const signOutUser = (address) => (dispatch) => {
+  dispatch({
+    type: REMOVE_CURRENT_USER,
+    payload: address,
+  });
+  localStorage.setItem('userAddress', '');
 };
