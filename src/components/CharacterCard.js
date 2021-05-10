@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Card } from '@material-ui/core';
+import imageBaseUrl from './../actions/imageBaseUrl';
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -83,7 +84,7 @@ export default function CharacterCard({ item, index }) {
           </div>
         </div>
         <div className={classes.mediaWrapper}>
-          <img src={`${item.image}`} className={classes.media} alt="character" />
+          <img src={`${imageBaseUrl}/${item.image}`} className={classes.media} alt="character" />
         </div>
         <div className="mt-5">
           <h4 className={classes.title}>{item.name}</h4>
