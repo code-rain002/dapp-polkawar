@@ -6,11 +6,13 @@ import { Button } from '@material-ui/core';
 import Grow from '@material-ui/core/Grow';
 import CountdownTimer from './../../components/CountdownTimer';
 import web3 from './../../web';
+import { connect } from 'react-redux';
+import ConnectButton from '../../components/ConnectButton';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
     overflowX: 'hidden',
-    padding: 50,
+    padding: 30,
     // background: 'url("https://wallpaperaccess.com/full/3819332.gif")',
 
     [theme.breakpoints.down('md')]: {
@@ -47,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Airdrop({}) {
+function Airdrop({ authenticated }) {
   const classes = useStyles();
   const [spinned, setSpinned] = useState(false);
   const [metamaskAvailable, setMetamaskAvailable] = React.useState(false);
@@ -110,55 +112,120 @@ function Airdrop({}) {
 
   return (
     <div className={classes.spacing}>
-      {metamaskAvailable ? (
-        <div class="mb-1">
-          <h3 className="text-center " style={{ color: 'yellow' }}>
-            Spin! & Get Airdrop
-          </h3>
+      {authenticated ? (
+        metamaskAvailable ? (
+          <div class="mb-5">
+            <h3 className="text-center " style={{ color: 'yellow' }}>
+              Spin! & Get Airdrop
+            </h3>
 
-          <Wheel items={items} spinned={spinned} setSpinned={setSpinned} />
-          {spinned && (
-            <div className="text-center mt-3">
-              <div className={classes.root}>
-                <div className={classes.container}>
-                  <Grow in={true} timeout={1000}>
-                    <div className="text-center ">
-                      <h3 className="text-center " style={{ color: 'white', fontSize: 18 }}>
-                        Congratulations! You have won.
-                      </h3>
-                      <div className="mt-5">
-                        <img src={`${imageBaseUrl}/QmYPaKCKa6N6Y1f7NfHcX2cSpJRSatf41brUPffa84YNQm`} height="250px" />
-                      </div>
+            <div>
+              <Wheel items={items} spinned={spinned} setSpinned={setSpinned} />
+            </div>
+            {spinned && (
+              <div className="text-center mt-1">
+                <div className={classes.root}>
+                  <div className={classes.container}>
+                    <Grow in={true} timeout={1000}>
                       <div>
-                        <h5 style={{ color: 'white', fontSize: 28 }}>Armor</h5>
+                        <div className=" container">
+                          <div>
+                            <h3 className="text-center " style={{ color: 'white', fontSize: 18 }}>
+                              Congratulations! You have won.
+                            </h3>
+                            <div className="d-flex justify-content-center align-items-end">
+                              <div>
+                                <div className="mt-5">
+                                  <img
+                                    src={`${imageBaseUrl}/QmaakejLSXFw6HoC3AQYUe3HqJZMWx2i2ZTTbAX3WURwv6/armor_magician_lv2.png`}
+                                    height="200px"
+                                  />
+                                </div>
+                                <div>
+                                  <h5 style={{ color: 'white', fontSize: 28 }}>Armor</h5>
+                                </div>
+                              </div>
+                              <div style={{ color: 'white', fontSize: 60, height: 200, width: 150 }}>+</div>
+                              <div style={{ paddingLeft: 20 }}>
+                                {' '}
+                                <div className="mt-5">
+                                  <img
+                                    src={`https://freepngimg.com/thumb/coins/10-2-coins-transparent-thumb.png`}
+                                    height="80px"
+                                  />
+                                  <div className="mt-5">
+                                    <h5 style={{ color: 'white', fontSize: 28 }}>25 PWAR</h5>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="mt-5 d-flex flex-column justify-content-center align-items-center">
+                              <h3 style={{ fontSize: 21, color: 'white' }}>Claim your airdrop</h3>
+                              <Button
+                                variant="outlined"
+                                className={activate ? classes.buttonMain : classes.timerButton}>
+                                {activate ? (
+                                  'Claim Now'
+                                ) : (
+                                  <div>
+                                    <CountdownTimer />
+                                  </div>
+                                )}
+                              </Button>
+                              <div className="mt-5">
+                                <p style={{ color: 'yellow', fontSize: 16, textAlign: 'center' }}>
+                                  Airdrop requirements:
+                                </p>
+                                <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
+                                  1. You will receive 1 NFT item and 25 PWAR tokens.
+                                </p>
+                                <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
+                                  2. Do following tasks
+                                  <ul>
+                                    <li>
+                                      <a href="https://t.me/polkawarchat">Join Telegram</a>
+                                    </li>
+                                    <li>
+                                      <a href="https://twitter.com/polkawarnft">Follow Twitter</a>
+                                    </li>
+                                    <li>
+                                      <a href="https://medium.com/@polkawar">Follow Medium</a>
+                                    </li>
+                                  </ul>
+                                </p>{' '}
+                                <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
+                                  3. You can claim your rewards after 1st June, 2021.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>{' '}
                       </div>
-                    </div>
-                  </Grow>
+                    </Grow>
+                  </div>
                 </div>
               </div>
-
-              <div className="mt-5">
-                <Button variant="outlined" className={activate ? classes.buttonMain : classes.timerButton}>
-                  {activate ? (
-                    'Claim Now'
-                  ) : (
-                    <div>
-                      <CountdownTimer />
-                    </div>
-                  )}
-                </Button>
-              </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        ) : (
+          <div className="mt-5 text-center">
+            <h4 style={{ color: 'yellow' }}>Metamask missing!</h4>
+            <p style={{ color: 'white' }}>Install metamask first and then only you will be able to spin.</p>
+          </div>
+        )
       ) : (
-        <div className="mt-5 text-center">
-          <h4 style={{ color: 'yellow' }}>Metamask missing!</h4>
-          <p style={{ color: 'white' }}>Install metamask first and then only you will be able to spin.</p>
+        <div>
+          <ConnectButton />
         </div>
       )}
     </div>
   );
 }
 
-export default Airdrop;
+const mapStateToProps = (state) => ({
+  authenticated: state.auth.authenticated,
+});
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Airdrop);

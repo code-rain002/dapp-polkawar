@@ -43,8 +43,8 @@ function CountdownTimer() {
   });
   return (
     <div>
-      <h3>Claim your airdrop</h3>
-      {timerComponents.length ? timerComponents : <span>Time's up!</span>}
+      {/* <h3 style={{ fontSize: 21 }}>Claim your airdrop</h3> */}
+      {timerComponents.length ? timerComponents : <span>Claim Now</span>}
     </div>
   );
 }

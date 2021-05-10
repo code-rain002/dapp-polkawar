@@ -7,13 +7,13 @@ export default function GallerySLider() {
   return (
     <Carousel showThumbs={true} thumbWidth={width} dynamicHeight={false}>
       <div>
-        <img alt="galley1" src="https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png" />
+        <img alt="galley1" src="https://gateway.pinata.cloud/ipfs/QmeUVJwVRunLY1b7buTZu8iSB25U4to3fkPtSKUEoq1Fhn" />
       </div>
       <div>
-        <img alt="galley2" src="https://eskipaper.com/images/sword-pictures-1.jpg" />
+        <img alt="galley2" src="https://gateway.pinata.cloud/ipfs/QmQJDRkUnmXU2ZLA9sV2uzYZ4aFxbB32jJM26XA3YPARXL" />
       </div>
       <div>
-        <img alt="galley3" src="https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png" />
+        <img alt="galley3" src="https://gateway.pinata.cloud/ipfs/QmYswvsFQDCSYaXssTHAGtpP7cDsWVo7Fwx94pfoi3Ruzv" />
       </div>
     </Carousel>
   );
