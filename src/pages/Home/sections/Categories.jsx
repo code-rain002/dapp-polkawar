@@ -5,7 +5,7 @@ import CustomizedMenus from '../../../common/CustomizedMenus';
 import { getItems, getCategories } from './../../../actions/itemActions';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button } from '@material-ui/core';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -105,7 +105,7 @@ function Categories({ getItems, getCategories, items, categories }) {
 
   useEffect(() => {
     getCategories();
-    getItems(selectedCat.toLowerCase(), pageNo);
+    // getItems(selectedCat.toLowerCase(), pageNo);
   }, []);
 
   useEffect(() => {
@@ -118,8 +118,18 @@ function Categories({ getItems, getCategories, items, categories }) {
   }, [items, categories]);
 
   useEffect(() => {
-    getItems(selectedCat, pageNo);
+    fetchMoreItems();
   }, [selectedCat]);
+
+  const fetchMoreItems = async () => {
+    if (selectedCat.toLowerCase() === 'all') {
+      getItems(selectedCat.toLowerCase(), pageNo);
+      setPageNo((pageNo) => pageNo + 1);
+    } else {
+      setPageNo(0);
+      getItems(selectedCat.toLowerCase(), pageNo);
+    }
+  };
 
   const sortItems = (type) => {
     let data = [];
@@ -217,19 +227,18 @@ function Categories({ getItems, getCategories, items, categories }) {
         </div>
       </div>
 
-      <div className="row mt-3">
-        {items !== null
-          ? items.map((item, index) => {
-              return (
-                <div className="col-12 col-md-3" key={index}>
-                  <div className="d-flex justify-content-center">
-                    <ItemCard item={item} />
-                  </div>
-                </div>
-              );
-            })
-          : 'Loading'}
-      </div>
+      <InfiniteScroll dataLength={items.length} next={fetchMoreItems} hasMore={true}>
+        <div className="row mt-3">
+          {' '}
+          {items.map((item, index) => (
+            <div className="col-12 col-md-3" key={index}>
+              <div className="d-flex justify-content-center">
+                <ItemCard item={item} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </InfiniteScroll>
     </div>
   );
 }
