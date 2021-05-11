@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-export default function GallerySLider() {
-  const [width, setWidth] = useState(100);
+import imageBaseUrl from './../actions/imageBaseUrl';
+export default function GallerySLider({ gallery }) {
+  const [width, setWidth] = useState(60);
 
   return (
-    <Carousel showThumbs={true} thumbWidth={width} dynamicHeight={false}>
-      <div>
-        <img alt="galley1" src="https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png" />
-      </div>
-      <div>
-        <img alt="galley2" src="https://eskipaper.com/images/sword-pictures-1.jpg" />
-      </div>
-      <div>
-        <img alt="galley3" src="https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png" />
-      </div>
-    </Carousel>
+    <div>
+      <Carousel showThumbs={true} width={'80%'} thumbWidth={width} dynamicHeight={false}>
+        {gallery.map((singleSlide) => {
+          return (
+            <div>
+              <img alt="galley1" src={`${imageBaseUrl}/${singleSlide}`} />
+            </div>
+          );
+        })}
+      </Carousel>
+    </div>
   );
 }

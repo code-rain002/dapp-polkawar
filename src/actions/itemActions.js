@@ -30,12 +30,17 @@ export const getItems = (category, pageNo, pageSize = 8) => (dispatch) => {
   } else {
     url = `${baseUrl}/items/${smallCategory}`;
   }
+
   axios
     .get(url)
     .then((res) => {
+      let response = {
+        category: smallCategory,
+        data: res.data,
+      };
       dispatch({
         type: GET_ITEMS,
-        payload: res.data,
+        payload: response,
       });
     })
     .catch((err) => {

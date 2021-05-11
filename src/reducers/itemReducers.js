@@ -17,7 +17,7 @@ export default function (state = initalState, action) {
     case GET_ITEMS:
       return {
         ...state,
-        items: action.payload,
+        items: action.payload.category === 'all' ? [...state.items, ...action.payload.data] : action.payload.data,
       };
     case GET_ITEM:
       return {
