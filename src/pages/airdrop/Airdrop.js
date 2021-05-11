@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Airdrop({ authenticated }) {
   const classes = useStyles();
-  const [spinned, setSpinned] = useState(true);
+  const [spinned, setSpinned] = useState(false);
   const [metamaskAvailable, setMetamaskAvailable] = React.useState(false);
 
   const [activate, setActivate] = React.useState(false);
