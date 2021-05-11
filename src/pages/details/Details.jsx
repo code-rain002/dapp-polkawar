@@ -154,7 +154,7 @@ function Details({ getItem, singleItem }) {
           <div className="col-12 col-md-5 p-3">
             <h5 className={classes.title}>{item.name}</h5>
             <h6 className={classes.price}>
-              {item.price} {item.currency} <span style={{ color: '#bdbdbd', paddingLeft: 10 }}>$18.16</span>
+              {item.price} {item.currency} <span style={{ color: '#bdbdbd', paddingLeft: 10 }}></span>
             </h6>
             <div className={classes.categoryTab}>{item.category}</div>
             <div>

@@ -56,6 +56,11 @@ router.post('/item', async (req, res, next) => {
       level: 1,
       image: 'QmYPaKCKa6N6Y1f7NfHcX2cSpJRSatf41brUPffa84YNQm',
       category: 'armor',
+      gallery: [
+        'QmPtX8ZUs7eXy7W1SNDnwXkR4wvxvCy8cjgFSmXjzAmfVm',
+        'QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz',
+        'QmehQyAK2zcuVeuJgY9GWTo4GP2hcXaaHGoehXQZD9XV55',
+      ],
     },
     {
       name: 'Armor Archer',
@@ -65,6 +70,11 @@ router.post('/item', async (req, res, next) => {
       level: 2,
       image: 'QmXeawPHD5Gqug8gm8RNQ8xjKGxboHRu52GfBjMnJBBkgn',
       category: 'armor',
+      gallery: [
+        'QmPtX8ZUs7eXy7W1SNDnwXkR4wvxvCy8cjgFSmXjzAmfVm',
+        'QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz',
+        'QmehQyAK2zcuVeuJgY9GWTo4GP2hcXaaHGoehXQZD9XV55',
+      ],
     },
     {
       name: 'Armor Magician',
@@ -74,6 +84,11 @@ router.post('/item', async (req, res, next) => {
       level: 2,
       image: 'QmfHwGHzL98a9W2r6MdB4pbCzCj3NkSYQ9CFmaggi1tLsk',
       category: 'armor',
+      gallery: [
+        'QmPtX8ZUs7eXy7W1SNDnwXkR4wvxvCy8cjgFSmXjzAmfVm',
+        'QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz',
+        'QmehQyAK2zcuVeuJgY9GWTo4GP2hcXaaHGoehXQZD9XV55',
+      ],
     },
     {
       name: 'Armor Warrior',
@@ -83,6 +98,11 @@ router.post('/item', async (req, res, next) => {
       level: 2,
       image: 'QmXfuoXRaLUD1RWkzxxe6oLJGHuvGVnnGeoUfJuQ33SKc2',
       category: 'armor',
+      gallery: [
+        'QmPtX8ZUs7eXy7W1SNDnwXkR4wvxvCy8cjgFSmXjzAmfVm',
+        'QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz',
+        'QmehQyAK2zcuVeuJgY9GWTo4GP2hcXaaHGoehXQZD9XV55',
+      ],
     },
     {
       name: 'Armor',
@@ -92,6 +112,11 @@ router.post('/item', async (req, res, next) => {
       level: 3,
       image: 'QmYPaKCKa6N6Y1f7NfHcX2cSpJRSatf41brUPffa84YNQm',
       category: 'armor',
+      gallery: [
+        'QmPtX8ZUs7eXy7W1SNDnwXkR4wvxvCy8cjgFSmXjzAmfVm',
+        'QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz',
+        'QmehQyAK2zcuVeuJgY9GWTo4GP2hcXaaHGoehXQZD9XV55',
+      ],
     },
     {
       name: 'Armor',
@@ -101,6 +126,11 @@ router.post('/item', async (req, res, next) => {
       level: 4,
       image: 'QmYPaKCKa6N6Y1f7NfHcX2cSpJRSatf41brUPffa84YNQm',
       category: 'armor',
+      gallery: [
+        'QmPtX8ZUs7eXy7W1SNDnwXkR4wvxvCy8cjgFSmXjzAmfVm',
+        'QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz',
+        'QmehQyAK2zcuVeuJgY9GWTo4GP2hcXaaHGoehXQZD9XV55',
+      ],
     },
     {
       name: 'Armor',
@@ -110,6 +140,11 @@ router.post('/item', async (req, res, next) => {
       level: 5,
       image: 'QmYPaKCKa6N6Y1f7NfHcX2cSpJRSatf41brUPffa84YNQm',
       category: 'armor',
+      gallery: [
+        'QmPtX8ZUs7eXy7W1SNDnwXkR4wvxvCy8cjgFSmXjzAmfVm',
+        'QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz',
+        'QmehQyAK2zcuVeuJgY9GWTo4GP2hcXaaHGoehXQZD9XV55',
+      ],
     },
   ];
   var helmetData = [
@@ -121,6 +156,11 @@ router.post('/item', async (req, res, next) => {
       level: 1,
       image: 'Qmath2HgLVjGy3CmmzmLshoDThqFrQNj4ueRrd8YEAQgDA',
       category: 'helmet',
+      gallery: [
+        'QmXFFJk8Qk5DNKoszm7AbxK39symaqu3GVEUVwcFMSkvd3',
+        'QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4',
+        'QmT2rjE1hhmiNJuoUY4Zc4tAty49sK5wv9tfxgKQqbibWf',
+      ],
     },
     {
       name: 'Helmet Archer',
@@ -130,6 +170,11 @@ router.post('/item', async (req, res, next) => {
       level: 2,
       image: 'QmPunBCQtPfD1ezDQS9CB6ZCePVqhDWbywucffiUnrV47t',
       category: 'helmet',
+      gallery: [
+        'QmXFFJk8Qk5DNKoszm7AbxK39symaqu3GVEUVwcFMSkvd3',
+        'QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4',
+        'QmT2rjE1hhmiNJuoUY4Zc4tAty49sK5wv9tfxgKQqbibWf',
+      ],
     },
     {
       name: 'Helmet Magician',
@@ -139,6 +184,11 @@ router.post('/item', async (req, res, next) => {
       level: 2,
       image: 'QmTviHX6baCsB4bHWzFvrnhh9wCtEVqw8vgrDcURyJFhVi',
       category: 'helmet',
+      gallery: [
+        'QmXFFJk8Qk5DNKoszm7AbxK39symaqu3GVEUVwcFMSkvd3',
+        'QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4',
+        'QmT2rjE1hhmiNJuoUY4Zc4tAty49sK5wv9tfxgKQqbibWf',
+      ],
     },
     {
       name: 'Helmet Warrior',
@@ -148,6 +198,11 @@ router.post('/item', async (req, res, next) => {
       level: 2,
       image: 'QmULgjWZWnkoh6MxsP4JbYyvnRzXFzf3aGjHTmegmgtogG',
       category: 'helmet',
+      gallery: [
+        'QmXFFJk8Qk5DNKoszm7AbxK39symaqu3GVEUVwcFMSkvd3',
+        'QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4',
+        'QmT2rjE1hhmiNJuoUY4Zc4tAty49sK5wv9tfxgKQqbibWf',
+      ],
     },
     {
       name: 'Helmet',
@@ -157,6 +212,11 @@ router.post('/item', async (req, res, next) => {
       level: 3,
       image: 'Qmath2HgLVjGy3CmmzmLshoDThqFrQNj4ueRrd8YEAQgDA',
       category: 'helmet',
+      gallery: [
+        'QmXFFJk8Qk5DNKoszm7AbxK39symaqu3GVEUVwcFMSkvd3',
+        'QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4',
+        'QmT2rjE1hhmiNJuoUY4Zc4tAty49sK5wv9tfxgKQqbibWf',
+      ],
     },
     {
       name: 'Helmet',
@@ -166,6 +226,11 @@ router.post('/item', async (req, res, next) => {
       level: 4,
       image: 'Qmath2HgLVjGy3CmmzmLshoDThqFrQNj4ueRrd8YEAQgDA',
       category: 'helmet',
+      gallery: [
+        'QmXFFJk8Qk5DNKoszm7AbxK39symaqu3GVEUVwcFMSkvd3',
+        'QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4',
+        'QmT2rjE1hhmiNJuoUY4Zc4tAty49sK5wv9tfxgKQqbibWf',
+      ],
     },
     {
       name: 'Helmet',
@@ -175,6 +240,11 @@ router.post('/item', async (req, res, next) => {
       level: 5,
       image: 'Qmath2HgLVjGy3CmmzmLshoDThqFrQNj4ueRrd8YEAQgDA',
       category: 'helmet',
+      gallery: [
+        'QmXFFJk8Qk5DNKoszm7AbxK39symaqu3GVEUVwcFMSkvd3',
+        'QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4',
+        'QmT2rjE1hhmiNJuoUY4Zc4tAty49sK5wv9tfxgKQqbibWf',
+      ],
     },
   ];
   var swordData = [
@@ -186,6 +256,11 @@ router.post('/item', async (req, res, next) => {
       level: 1,
       image: 'QmYqV2jhYyZJBmvx5kU6KycFkTTG2F2MGCGtiMJrS8g4dE',
       category: 'sword',
+      gallery: [
+        'QmV5ePoHh2XGzPmhxy5b3NGriauCfHqxoT7M2pLSWzujVu',
+        'QmWo1CTuCVie2N8EKhFaBXA5FUP9Luj1sjJBZLUyy8ssb4',
+        'QmeeG3xVTnGt19hVcZcfruw15aWSGohPudebX8U7nNez9X',
+      ],
     },
     {
       name: 'Sword',
@@ -195,6 +270,11 @@ router.post('/item', async (req, res, next) => {
       level: 2,
       image: 'QmUWwRX9jQmfDyRgi7mkG5Bxj3JmfuedpHN1YiuvQgmWB8',
       category: 'sword',
+      gallery: [
+        'QmV5ePoHh2XGzPmhxy5b3NGriauCfHqxoT7M2pLSWzujVu',
+        'QmWo1CTuCVie2N8EKhFaBXA5FUP9Luj1sjJBZLUyy8ssb4',
+        'QmeeG3xVTnGt19hVcZcfruw15aWSGohPudebX8U7nNez9X',
+      ],
     },
     {
       name: 'Lightening Sword',
@@ -204,6 +284,11 @@ router.post('/item', async (req, res, next) => {
       level: 3,
       image: 'QmYqV2jhYyZJBmvx5kU6KycFkTTG2F2MGCGtiMJrS8g4dE',
       category: 'sword',
+      gallery: [
+        'QmV5ePoHh2XGzPmhxy5b3NGriauCfHqxoT7M2pLSWzujVu',
+        'QmWo1CTuCVie2N8EKhFaBXA5FUP9Luj1sjJBZLUyy8ssb4',
+        'QmeeG3xVTnGt19hVcZcfruw15aWSGohPudebX8U7nNez9X',
+      ],
     },
     {
       name: 'Sharp Sword',
@@ -213,6 +298,11 @@ router.post('/item', async (req, res, next) => {
       level: 4,
       image: 'QmYqV2jhYyZJBmvx5kU6KycFkTTG2F2MGCGtiMJrS8g4dE',
       category: 'sword',
+      gallery: [
+        'QmV5ePoHh2XGzPmhxy5b3NGriauCfHqxoT7M2pLSWzujVu',
+        'QmWo1CTuCVie2N8EKhFaBXA5FUP9Luj1sjJBZLUyy8ssb4',
+        'QmeeG3xVTnGt19hVcZcfruw15aWSGohPudebX8U7nNez9X',
+      ],
     },
     {
       name: 'Fire Sword',
@@ -222,6 +312,11 @@ router.post('/item', async (req, res, next) => {
       level: 5,
       image: 'QmYqV2jhYyZJBmvx5kU6KycFkTTG2F2MGCGtiMJrS8g4dE',
       category: 'sword',
+      gallery: [
+        'QmV5ePoHh2XGzPmhxy5b3NGriauCfHqxoT7M2pLSWzujVu',
+        'QmWo1CTuCVie2N8EKhFaBXA5FUP9Luj1sjJBZLUyy8ssb4',
+        'QmeeG3xVTnGt19hVcZcfruw15aWSGohPudebX8U7nNez9X',
+      ],
     },
   ];
   var knifeData = [
@@ -327,6 +422,11 @@ router.post('/item', async (req, res, next) => {
       level: 1,
       image: 'QmbVbMQiDjhvtLGFNnJ3VoXACHbPJusQBzMQ43mpYvxFsd',
       category: 'bow & arrow',
+      gallery: [
+        'QmVYVp3RhTL2BgdLg4CPejuxPDcMRjiWv6f218vPZa4xYg',
+        'QmYu9frvTRuySJYupkYthz77fMH9dg1ugiri4fHUuuGRTX',
+        'QmPQwFLd5YukQUqF7RGxTvaJQUGemqKqH9mYVea5uETmNR',
+      ],
     },
     {
       name: 'Bow',
@@ -336,6 +436,11 @@ router.post('/item', async (req, res, next) => {
       level: 2,
       image: 'QmbbESs5Hh25yfnpXr6oqcGLjADTrc7s7YsgCoso81eiqq',
       category: 'bow & arrow',
+      gallery: [
+        'QmVYVp3RhTL2BgdLg4CPejuxPDcMRjiWv6f218vPZa4xYg',
+        'QmYu9frvTRuySJYupkYthz77fMH9dg1ugiri4fHUuuGRTX',
+        'QmPQwFLd5YukQUqF7RGxTvaJQUGemqKqH9mYVea5uETmNR',
+      ],
     },
     {
       name: 'Bow',
@@ -345,6 +450,11 @@ router.post('/item', async (req, res, next) => {
       level: 3,
       image: 'QmbVbMQiDjhvtLGFNnJ3VoXACHbPJusQBzMQ43mpYvxFsd',
       category: 'bow & arrow',
+      gallery: [
+        'QmVYVp3RhTL2BgdLg4CPejuxPDcMRjiWv6f218vPZa4xYg',
+        'QmYu9frvTRuySJYupkYthz77fMH9dg1ugiri4fHUuuGRTX',
+        'QmPQwFLd5YukQUqF7RGxTvaJQUGemqKqH9mYVea5uETmNR',
+      ],
     },
     {
       name: 'Bow',
@@ -354,6 +464,11 @@ router.post('/item', async (req, res, next) => {
       level: 4,
       image: 'QmbVbMQiDjhvtLGFNnJ3VoXACHbPJusQBzMQ43mpYvxFsd',
       category: 'bow & arrow',
+      gallery: [
+        'QmVYVp3RhTL2BgdLg4CPejuxPDcMRjiWv6f218vPZa4xYg',
+        'QmYu9frvTRuySJYupkYthz77fMH9dg1ugiri4fHUuuGRTX',
+        'QmPQwFLd5YukQUqF7RGxTvaJQUGemqKqH9mYVea5uETmNR',
+      ],
     },
     {
       name: 'Bow',
@@ -363,6 +478,11 @@ router.post('/item', async (req, res, next) => {
       level: 5,
       image: 'QmbVbMQiDjhvtLGFNnJ3VoXACHbPJusQBzMQ43mpYvxFsd',
       category: 'bow & arrow',
+      gallery: [
+        'QmVYVp3RhTL2BgdLg4CPejuxPDcMRjiWv6f218vPZa4xYg',
+        'QmYu9frvTRuySJYupkYthz77fMH9dg1ugiri4fHUuuGRTX',
+        'QmPQwFLd5YukQUqF7RGxTvaJQUGemqKqH9mYVea5uETmNR',
+      ],
     },
   ];
   var gunData = [
@@ -486,6 +606,11 @@ router.post('/item', async (req, res, next) => {
       level: 1,
       image: 'QmQfKtYBdDB8fDxUo6c53RbZUd7oe3agHjEWqt9kA3P2PD',
       category: 'sceptre',
+      gallery: [
+        'QmbQuSokDVyFgdFYa58kgviw7GWZjHXxJiyXcryY74EUee',
+        'QmfRkN8ZqNRgVqugfNvHhBEfznzAhKkYDwnrKuXMRcTjyV',
+        'QmYLW8udGSi1q6S2oFTnq8giiCcELDQoED8JmJUURyazav',
+      ],
     },
     {
       name: 'Sceptre',
@@ -495,6 +620,11 @@ router.post('/item', async (req, res, next) => {
       level: 2,
       image: 'QmfFMuyunWj2ekumVJAJBidTa5XnBgXiHMbSsWWbk9EQz6',
       category: 'sceptre',
+      gallery: [
+        'QmbQuSokDVyFgdFYa58kgviw7GWZjHXxJiyXcryY74EUee',
+        'QmfRkN8ZqNRgVqugfNvHhBEfznzAhKkYDwnrKuXMRcTjyV',
+        'QmYLW8udGSi1q6S2oFTnq8giiCcELDQoED8JmJUURyazav',
+      ],
     },
 
     {
@@ -505,6 +635,11 @@ router.post('/item', async (req, res, next) => {
       level: 3,
       image: 'QmQfKtYBdDB8fDxUo6c53RbZUd7oe3agHjEWqt9kA3P2PD',
       category: 'sceptre',
+      gallery: [
+        'QmbQuSokDVyFgdFYa58kgviw7GWZjHXxJiyXcryY74EUee',
+        'QmfRkN8ZqNRgVqugfNvHhBEfznzAhKkYDwnrKuXMRcTjyV',
+        'QmYLW8udGSi1q6S2oFTnq8giiCcELDQoED8JmJUURyazav',
+      ],
     },
     {
       name: 'Sceptre',
@@ -514,6 +649,11 @@ router.post('/item', async (req, res, next) => {
       level: 4,
       image: 'QmQfKtYBdDB8fDxUo6c53RbZUd7oe3agHjEWqt9kA3P2PD',
       category: 'sceptre',
+      gallery: [
+        'QmbQuSokDVyFgdFYa58kgviw7GWZjHXxJiyXcryY74EUee',
+        'QmfRkN8ZqNRgVqugfNvHhBEfznzAhKkYDwnrKuXMRcTjyV',
+        'QmYLW8udGSi1q6S2oFTnq8giiCcELDQoED8JmJUURyazav',
+      ],
     },
     {
       name: 'Sceptre',
@@ -523,6 +663,11 @@ router.post('/item', async (req, res, next) => {
       level: 5,
       image: 'QmQfKtYBdDB8fDxUo6c53RbZUd7oe3agHjEWqt9kA3P2PD',
       category: 'sceptre',
+      gallery: [
+        'QmbQuSokDVyFgdFYa58kgviw7GWZjHXxJiyXcryY74EUee',
+        'QmfRkN8ZqNRgVqugfNvHhBEfznzAhKkYDwnrKuXMRcTjyV',
+        'QmYLW8udGSi1q6S2oFTnq8giiCcELDQoED8JmJUURyazav',
+      ],
     },
   ];
   var magicvaseData = [
@@ -534,6 +679,12 @@ router.post('/item', async (req, res, next) => {
       level: 1,
       image: 'QmNTNGAQjMbTPukVi7LCwa4fvGzzUzkaUFYHqsLGk2KWGA',
       category: 'magic vase',
+      gallery: [
+        'QmUZBnrGcr89g4jFE3yvjFyjRSnZGiNUGLSx3bgLRcvwd2',
+        'QmTGSFsdAbKi4EspTWHVAjBCf8KomKZFF3HzoiDXRsmk5x',
+        'QmapZSPXv5vzbvjNa1T191SPzA9Zo2ufZ4JEQtVi3pCSS3',
+        'QmNc3mNzvHoxd12XK4pXtRqZARJrrNPouSfhRMyX5Cief8',
+      ],
     },
     {
       name: 'Magic Vase',
@@ -543,6 +694,12 @@ router.post('/item', async (req, res, next) => {
       level: 2,
       image: 'QmZ9epNvmbH6cndrKexxh3E7FLQvzfp89nvSehVuZsZ6JX',
       category: 'magic vase',
+      gallery: [
+        'QmUZBnrGcr89g4jFE3yvjFyjRSnZGiNUGLSx3bgLRcvwd2',
+        'QmTGSFsdAbKi4EspTWHVAjBCf8KomKZFF3HzoiDXRsmk5x',
+        'QmapZSPXv5vzbvjNa1T191SPzA9Zo2ufZ4JEQtVi3pCSS3',
+        'QmNc3mNzvHoxd12XK4pXtRqZARJrrNPouSfhRMyX5Cief8',
+      ],
     },
     {
       name: 'Magic Vase',
@@ -552,6 +709,12 @@ router.post('/item', async (req, res, next) => {
       level: 3,
       image: 'QmNTNGAQjMbTPukVi7LCwa4fvGzzUzkaUFYHqsLGk2KWGA',
       category: 'magic vase',
+      gallery: [
+        'QmUZBnrGcr89g4jFE3yvjFyjRSnZGiNUGLSx3bgLRcvwd2',
+        'QmTGSFsdAbKi4EspTWHVAjBCf8KomKZFF3HzoiDXRsmk5x',
+        'QmapZSPXv5vzbvjNa1T191SPzA9Zo2ufZ4JEQtVi3pCSS3',
+        'QmNc3mNzvHoxd12XK4pXtRqZARJrrNPouSfhRMyX5Cief8',
+      ],
     },
     {
       name: 'Magic Vase',
@@ -561,6 +724,12 @@ router.post('/item', async (req, res, next) => {
       level: 4,
       image: 'QmNTNGAQjMbTPukVi7LCwa4fvGzzUzkaUFYHqsLGk2KWGA',
       category: 'magic vase',
+      gallery: [
+        'QmUZBnrGcr89g4jFE3yvjFyjRSnZGiNUGLSx3bgLRcvwd2',
+        'QmTGSFsdAbKi4EspTWHVAjBCf8KomKZFF3HzoiDXRsmk5x',
+        'QmapZSPXv5vzbvjNa1T191SPzA9Zo2ufZ4JEQtVi3pCSS3',
+        'QmNc3mNzvHoxd12XK4pXtRqZARJrrNPouSfhRMyX5Cief8',
+      ],
     },
     {
       name: 'Magic Vase',
@@ -570,6 +739,12 @@ router.post('/item', async (req, res, next) => {
       level: 5,
       image: 'QmNTNGAQjMbTPukVi7LCwa4fvGzzUzkaUFYHqsLGk2KWGA',
       category: 'magic vase',
+      gallery: [
+        'QmUZBnrGcr89g4jFE3yvjFyjRSnZGiNUGLSx3bgLRcvwd2',
+        'QmTGSFsdAbKi4EspTWHVAjBCf8KomKZFF3HzoiDXRsmk5x',
+        'QmapZSPXv5vzbvjNa1T191SPzA9Zo2ufZ4JEQtVi3pCSS3',
+        'QmNc3mNzvHoxd12XK4pXtRqZARJrrNPouSfhRMyX5Cief8',
+      ],
     },
   ];
   try {

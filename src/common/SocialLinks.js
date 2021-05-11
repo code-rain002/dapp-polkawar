@@ -85,7 +85,7 @@ export default function SocialLinks() {
               <Tooltip title="Medium">
                 <a href="https://medium.com/@polkawar">
                   <IconButton aria-label="Medium">
-                    <img src="images/medium.png" style={{ height: 25, marginTop: 5, borderRadius: '50%' }} />
+                    <img src="/images/medium.png" style={{ height: 25, marginTop: 5, borderRadius: '50%' }} />
                   </IconButton>
                 </a>
               </Tooltip>
@@ -94,7 +94,7 @@ export default function SocialLinks() {
               <Tooltip title="Discord">
                 <a href="https://discord.gg/NQFjXkMqgk">
                   <IconButton aria-label="Discord">
-                    <img src="images/discord.png" style={{ height: 20, marginTop: 7 }} />
+                    <img src="/images/discord.png" style={{ height: 20, marginTop: 7 }} />
                   </IconButton>
                 </a>
               </Tooltip>

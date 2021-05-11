@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   background: {
     height: '100%',
-    width: 400,
+    width: 500,
   },
   padding: {
     paddingTop: 20,
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     textTransform: 'none',
     borderRadius: '50px',
-    padding: '8px 16px 8px 16px',
+    padding: '8px 20px 8px 20px',
     fontWeight: 400,
     background: `linear-gradient(to bottom,#fce3ee, #fce3ee)`,
     fontSize: 14,
@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: '0px',
     margin: 0,
     color: '#ffffff',
-    padding: '8px 16px 8px 16px',
+    padding: '8px 20px 8px 20px',
+
     fontWeight: 400,
     fontSize: 14,
     textTransform: 'none',
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'left',
     color: theme.palette.pbr.primary,
 
-    fontSize: 20,
+    fontSize: 22,
   },
   subtitle: {
     fontWeight: 400,
@@ -67,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'left',
     color: ' #757575',
 
-    fontSize: 12,
+    fontSize: 14,
   },
   para: {
     fontWeight: 400,
@@ -78,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 10,
     textAlign: 'left',
     color: 'white',
-    fontSize: 16,
+    fontSize: 18,
   },
 }));
 export default function BalancePopup({ address, pwar, togglePopup, signOut }) {

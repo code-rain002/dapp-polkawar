@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Airdrop({ authenticated }) {
   const classes = useStyles();
-  const [spinned, setSpinned] = useState(false);
+  const [spinned, setSpinned] = useState(true);
   const [metamaskAvailable, setMetamaskAvailable] = React.useState(false);
 
   const [activate, setActivate] = React.useState(false);
@@ -149,11 +149,8 @@ function Airdrop({ authenticated }) {
                               <div style={{ paddingLeft: 20 }}>
                                 {' '}
                                 <div className="mt-5">
-                                  <img
-                                    src={`https://freepngimg.com/thumb/coins/10-2-coins-transparent-thumb.png`}
-                                    height="80px"
-                                  />
-                                  <div className="mt-5">
+                                  <img src={`/token.png`} height="150px" />
+                                  <div className="mt-3">
                                     <h5 style={{ color: 'white', fontSize: 28 }}>25 PWAR</h5>
                                   </div>
                                 </div>
