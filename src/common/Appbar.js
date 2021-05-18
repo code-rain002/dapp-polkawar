@@ -332,6 +332,13 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
     }
   }, [authenticated, user]);
 
+  useEffect(() => {
+    window.ethereum.on('accountsChanged', function (accounts) {
+      window.location.reload(true);
+
+      console.log('Account changed');
+    });
+  }, []);
   return (
     <div className={classes.grow}>
       <Snackbar

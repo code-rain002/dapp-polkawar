@@ -181,6 +181,7 @@ function Categories({ getItems, getCategories, items, categories }) {
                 {itemCategories.map((cat, index) => {
                   return (
                     <p
+                      key={index}
                       className={selectedCat === cat.name ? classes.categoryTabActive : classes.categoryTab}
                       onClick={() => FilterList(cat.name)}>
                       {cat.name}
@@ -217,6 +218,7 @@ function Categories({ getItems, getCategories, items, categories }) {
             {itemCategories.map((cat, index) => {
               return (
                 <p
+                  key={index}
                   className={selectedCat === cat.name ? classes.categoryTabActive : classes.categoryTab}
                   onClick={() => FilterList(cat.name)}>
                   {cat.name}
