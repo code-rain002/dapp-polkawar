@@ -23,10 +23,6 @@ import web3 from './../web';
 import MuiAlert from '@material-ui/lab/Alert';
 import BalancePopup from './BalancePopup';
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
@@ -201,28 +197,29 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
   const [navIndex, setNavIndex] = useState(0);
   const [userData, setUserData] = useState(null);
   const [ethBal, setEthBal] = useState(null);
+  const [userAdd, setUserAdd] = useState(null);
   const [popup, setPopup] = useState(false);
   const [state, setState] = React.useState({
     right: false,
   });
-  const [alert, setAlert] = React.useState(false);
+  const [alert, setAlert] = React.useState({ status: false, message: '' });
   const vertical = 'top';
   const horizontal = 'right';
 
   const handleClose = () => {
-    setAlert(false);
+    setAlert({ status: false, message: '' });
   };
 
   const toggleDrawer = (anchor, open) => (event) => {
     setState({ ...state, [anchor]: open });
   };
-  const togglePopup = () => {
-    setPopup(!popup);
+  const togglePopup = (value) => {
+    setPopup(value);
   };
 
-  const signOut = () => {
-    signOutUser(userData.address);
-    setPopup(!popup);
+  const signOut = (currentAddress) => {
+    signOutUser(currentAddress);
+    setPopup(false);
   };
   const list = (anchor) => (
     <div
@@ -284,52 +281,53 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
   );
 
   const checkNetwork = () => {
-    if (web3.currentProvider.networkVersion === 56) {
+    if (web3.currentProvider.networkVersion === '56') {
       return true;
     } else {
       return false;
     }
   };
-  const connectWallet = () => {
+
+  const getBalance = (currentAddress) => {
     if (web3 !== undefined) {
-      web3.eth.requestAccounts().then((accounts) => {
-        const accountAddress = accounts[0];
-        console.log(accountAddress);
-        authenticateUser(accountAddress);
-        web3.eth.getBalance(accountAddress, (err, balance) => {
-          let ethBalance = web3.utils.fromWei(balance);
-          setEthBal(ethBalance);
-        });
+      web3.eth.getBalance(currentAddress, (err, balance) => {
+        let ethBalance = web3.utils.fromWei(balance);
+        setEthBal(ethBalance);
       });
-    } else {
-      setAlert(true);
     }
   };
-  const getBalance = () => {
+
+  const connectWallet = () => {
     if (web3 !== undefined) {
-      web3.eth.requestAccounts().then((accounts) => {
-        const accountAddress = accounts[0];
-        web3.eth.getBalance(accountAddress, (err, balance) => {
-          let ethBalance = web3.utils.fromWei(balance);
-          setEthBal(ethBalance);
+      if (checkNetwork()) {
+        web3.eth.requestAccounts().then((accounts) => {
+          const accountAddress = accounts[0];
+          setUserAdd(accountAddress);
+          authenticateUser(accountAddress);
+          getBalance(accountAddress);
         });
-      });
+      } else {
+        setAlert({ status: true, message: 'Wrong Network' });
+      }
+    } else {
+      setAlert({ status: true, message: 'Install metamask first!' });
     }
   };
 
   useEffect(() => {
-    const userAdd = localStorage.getItem('userAddress');
     if (web3 !== undefined) {
       web3.eth.requestAccounts().then((accounts) => {
         const accountAddress = accounts[0];
+        const userAdd = localStorage.getItem('userAddress');
+        if (accountAddress !== userAdd) {
+          authenticateUser(userAdd);
+        }
+        setUserAdd(accountAddress);
+        authenticateUser(userAdd);
+        getBalance(accountAddress);
       });
-      getBalance();
     } else {
-      setAlert(true);
-    }
-
-    if (userAdd) {
-      authenticateUser(userAdd);
+      setAlert({ status: true, message: 'Install metamask first!' });
     }
   }, []);
 
@@ -337,29 +335,45 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
     if (user !== null) {
       setUserData(user);
     }
-  }, [authenticated, user]);
+  }, [user]);
 
   useEffect(() => {
     window.ethereum.on('accountsChanged', function (accounts) {
-      const accountAddress = accounts[0];
-      console.log(accountAddress);
+      web3.eth.requestAccounts().then((accounts) => {
+        const accountAddress = accounts[0];
+        setUserAdd(accountAddress);
+        console.log(accountAddress);
+        authenticateUser(accountAddress);
+        console.log('Account changed');
+        window.location.reload(true);
+      });
+    });
+    window.ethereum.on('networkChanged', function (accounts) {
+      if (checkNetwork()) {
+        web3.eth.requestAccounts().then((accounts) => {
+          const accountAddress = accounts[0];
+          setUserAdd(accountAddress);
 
-      authenticateUser(accountAddress);
-      localStorage.setItem('userAddress', accountAddress);
-      window.location.reload(true);
-
-      console.log('Account changed');
+          getBalance(accountAddress);
+          authenticateUser(accountAddress);
+        });
+      } else {
+        setAlert({ status: true, message: 'Wrong Network' });
+        signOut(userAdd);
+      }
     });
   }, []);
+
   return (
     <div className={classes.grow}>
       <Snackbar
+        autoHideDuration={4000}
         anchorOrigin={{ vertical, horizontal }}
-        open={alert}
+        open={alert.status}
         onClose={handleClose}
-        message={'Install metamask first!'}
+        message={alert.message}
         key={vertical + horizontal}>
-        <Alert severity="error">Install metamask first!</Alert>
+        <Alert severity="error">{alert.message}</Alert>
       </Snackbar>
       <AppBar position="static" style={{ background: '#16181D', boxShadow: 'none', borderBottom: '1px solid #e9e9e9' }}>
         <Toolbar className="d-flex justify-content-around">
@@ -405,7 +419,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
             <div className={classes.sectionDesktop}>
               {authenticated ? (
                 <div>
-                  <Button className={classes.balanceButton} onClick={togglePopup}>
+                  <Button className={classes.balanceButton} onClick={() => togglePopup(true)}>
                     <div className={classes.buttonIcon}>
                       <AccountBalanceWallet className={classes.icon} />
                     </div>
@@ -465,7 +479,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
           className={classes.modal}
           open={popup}
           keepMounted
-          onClose={togglePopup}
+          onClose={() => togglePopup(false)}
           closeAfterTransition
           BackdropComponent={Backdrop}
           BackdropProps={{
@@ -475,8 +489,8 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
             <BalancePopup
               address={userData !== null && userData.address}
               pwar={1323}
-              togglePopup={togglePopup}
-              signOut={signOut}
+              togglePopup={() => togglePopup(false)}
+              signOut={() => signOut(userAdd)}
             />
           </div>
         </Dialog>

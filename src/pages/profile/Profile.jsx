@@ -128,17 +128,30 @@ function Profile({ authenticateUser, user, authenticated }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [userData, setUserData] = useState(null);
+  const [error, setError] = useState('');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  const checkNetwork = () => {
+    if (web3.currentProvider.networkVersion === '56') {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const connectWallet = () => {
-    web3.eth.requestAccounts().then((accounts) => {
-      const accountAddress = accounts[0];
-      console.log(accountAddress);
-      authenticateUser(accountAddress);
-    });
+    if (checkNetwork()) {
+      web3.eth.requestAccounts().then((accounts) => {
+        const accountAddress = accounts[0];
+        authenticateUser(accountAddress);
+        setError('');
+      });
+    } else {
+      setError('Wrong Network!');
+    }
   };
 
   useEffect(() => {
@@ -310,6 +323,9 @@ function Profile({ authenticateUser, user, authenticated }) {
       <Button className={classes.airdropButton} onClick={connectWallet}>
         Connect your wallet
       </Button>
+      <p className="mt-2 text-center" style={{ color: 'yellow' }}>
+        {error}
+      </p>
     </div>
   );
 }
