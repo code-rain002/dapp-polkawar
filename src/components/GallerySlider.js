@@ -7,7 +7,7 @@ export default function GallerySLider({ gallery }) {
 
   return (
     <div>
-      <Carousel showThumbs={true} width={'80%'} thumbWidth={width} dynamicHeight={false}>
+      <Carousel showThumbs={true} width={'75%'} thumbWidth={width} dynamicHeight={false}>
         {gallery.map((singleSlide) => {
           return (
             <div>
