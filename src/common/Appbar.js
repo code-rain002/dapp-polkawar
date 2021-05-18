@@ -268,7 +268,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
                   <div>
                     <strong style={{ color: '#616161' }}>
                       {' '}
-                      {ethBal !== null && parseFloat(ethBal).toFixed(4) + ' ETH'}{' '}
+                      {ethBal !== null && parseFloat(ethBal).toFixed(4) + ' BNB'}{' '}
                     </strong>
                   </div>
                 </Button>
@@ -283,6 +283,13 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
     </div>
   );
 
+  const checkNetwork = () => {
+    if (web3.currentProvider.networkVersion === 56) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   const connectWallet = () => {
     if (web3 !== undefined) {
       web3.eth.requestAccounts().then((accounts) => {
@@ -334,6 +341,11 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
 
   useEffect(() => {
     window.ethereum.on('accountsChanged', function (accounts) {
+      const accountAddress = accounts[0];
+      console.log(accountAddress);
+
+      authenticateUser(accountAddress);
+      localStorage.setItem('userAddress', accountAddress);
       window.location.reload(true);
 
       console.log('Account changed');
@@ -399,7 +411,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
                     </div>
                     <div>
                       <strong style={{ color: '#e5e5e5' }}>
-                        {ethBal !== null && parseFloat(ethBal).toFixed(4) + ' ETH'}{' '}
+                        {ethBal !== null && parseFloat(ethBal).toFixed(4) + ' BNB'}{' '}
                       </strong>
                     </div>
                   </Button>

@@ -93,17 +93,6 @@ const useStyles = makeStyles((theme) => ({
 export default function CheckoutModel({ value, onClose, item }) {
   const classes = useStyles();
 
-  // const item = {
-  //   owner: 'Elvin Que',
-  //   avatar: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
-  //   item_name: 'Metalic Lightening Sward ',
-  //   price: '0.07',
-  //   level: 3,
-  //   item_count: '0.7',
-  //   bid: '0.5',
-  //   wishlisted: '76',
-  //   imageUrl: 'https://www.transparentpng.com/thumb/sword/ItXk4y-sword-transparent.png',
-  // };
   return (
     <div className={classes.card}>
       <div className="d-flex justify-content-between">
@@ -139,7 +128,10 @@ export default function CheckoutModel({ value, onClose, item }) {
 
       <div className="d-flex justify-content-between">
         <h6 className={classes.text}>You will pay</h6>
-        <p className={classes.textValue}>0.1 ETH</p>
+        <p className={classes.textValue}>
+          {' '}
+          {item.price} {item.currency}
+        </p>
       </div>
       <div className="my-3 d-flex flex-column justify-content-start">
         <div style={{ paddingBottom: 10 }}>

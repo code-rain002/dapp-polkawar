@@ -51,7 +51,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Armor',
       price: '0.1',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 1,
       image: 'QmYPaKCKa6N6Y1f7NfHcX2cSpJRSatf41brUPffa84YNQm',
@@ -65,7 +65,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Armor Archer',
       price: '1.6',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 2,
       image: 'QmXeawPHD5Gqug8gm8RNQ8xjKGxboHRu52GfBjMnJBBkgn',
@@ -79,7 +79,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Armor Magician',
       price: '1.6',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 2,
       image: 'QmfHwGHzL98a9W2r6MdB4pbCzCj3NkSYQ9CFmaggi1tLsk',
@@ -93,7 +93,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Armor Warrior',
       price: '1.6',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 2,
       image: 'QmXfuoXRaLUD1RWkzxxe6oLJGHuvGVnnGeoUfJuQ33SKc2',
@@ -107,7 +107,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Armor Archer',
       price: '1.8',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 3,
       image: 'QmSFDevQSuPZw269NVTHANN5iyxS4MRSJ8ZDkqQYK49Ahg',
@@ -121,7 +121,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Armor Magician',
       price: '1.8',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 3,
       image: 'QmRrvV4oFsgerbJSeXHbe5KeH81rQunsvUe1vo44SM5hPs',
@@ -135,7 +135,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Armor Warrior',
       price: '1.8',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 3,
       image: 'QmUV92tnTrFYNYwwQGSAA5AMnrBkPKcSwmg9NDmfACwstM',
@@ -149,7 +149,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Armor',
       price: '2.0',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 4,
       image: 'QmYPaKCKa6N6Y1f7NfHcX2cSpJRSatf41brUPffa84YNQm',
@@ -163,7 +163,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Armor',
       price: '2.9',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 5,
       image: 'QmYPaKCKa6N6Y1f7NfHcX2cSpJRSatf41brUPffa84YNQm',
@@ -179,7 +179,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Helmet',
       price: '0.2',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 1,
       image: 'Qmath2HgLVjGy3CmmzmLshoDThqFrQNj4ueRrd8YEAQgDA',
@@ -193,7 +193,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Helmet Archer',
       price: '0.3',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 2,
       image: 'QmPunBCQtPfD1ezDQS9CB6ZCePVqhDWbywucffiUnrV47t',
@@ -207,7 +207,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Helmet Magician',
       price: '0.3',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 2,
       image: 'QmTviHX6baCsB4bHWzFvrnhh9wCtEVqw8vgrDcURyJFhVi',
@@ -221,7 +221,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Helmet Warrior',
       price: '0.3',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 2,
       image: 'QmULgjWZWnkoh6MxsP4JbYyvnRzXFzf3aGjHTmegmgtogG',
@@ -235,7 +235,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Helmet Archer',
       price: '0.5',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 3,
       image: 'QmUhnTKJUmwoKL4ZmxGntLXAwAgMKN5uBEGYu4ZNKG5n9d',
@@ -249,7 +249,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Helmet Magician',
       price: '0.5',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 3,
       image: 'QmWvJSCwm2Hw6vuhBF3M1TeEx9jvBVddHWhSxsqZ6XHRA6',
@@ -263,7 +263,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Helmet Warrior',
       price: '0.5',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 3,
       image: 'QmcArUKSiHxYNwE58nXfkq6MxMVS4XZvRSDkoQnVXmGDjg',
@@ -277,7 +277,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Helmet',
       price: '0.6',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 4,
       image: 'Qmath2HgLVjGy3CmmzmLshoDThqFrQNj4ueRrd8YEAQgDA',
@@ -291,7 +291,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Helmet',
       price: '0.9',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 5,
       image: 'Qmath2HgLVjGy3CmmzmLshoDThqFrQNj4ueRrd8YEAQgDA',
@@ -307,7 +307,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Normal Sword',
       price: '0.3',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 1,
       image: 'QmYqV2jhYyZJBmvx5kU6KycFkTTG2F2MGCGtiMJrS8g4dE',
@@ -321,7 +321,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Sword',
       price: '0.4',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 2,
       image: 'QmUWwRX9jQmfDyRgi7mkG5Bxj3JmfuedpHN1YiuvQgmWB8',
@@ -335,7 +335,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Lightening Sword',
       price: '0.5',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 3,
       image: 'QmZ8K4DxcKJjYUsSqQDBXzXBeaWcpt96Yuy9Cg3nu2hXx5',
@@ -349,7 +349,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Sharp Sword',
       price: '0.7',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 4,
       image: 'QmYqV2jhYyZJBmvx5kU6KycFkTTG2F2MGCGtiMJrS8g4dE',
@@ -363,7 +363,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Fire Sword',
       price: '1.0',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 5,
       image: 'QmYqV2jhYyZJBmvx5kU6KycFkTTG2F2MGCGtiMJrS8g4dE',
@@ -379,7 +379,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Knife',
       price: '0.2',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 1,
       image: 'QmYBRqwjCu95NpTbkwRmseUEKd1wNS4ZvyuQZWPDZaZjNs',
@@ -388,7 +388,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Knife',
       price: '0.3',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 2,
       image: 'QmW7xTbUrhhoCQtzNhp3SUMrp7s8sEfvuoyq2ASNbrhWQ3',
@@ -397,7 +397,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Knife',
       price: '0.5',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 3,
       image: 'Qmb69r56kXY4Z6w3ZJUuu7qSyNZYhdfLVPjckzhmKgQihB',
@@ -406,7 +406,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Knife',
       price: '0.6',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 4,
       image: 'QmYBRqwjCu95NpTbkwRmseUEKd1wNS4ZvyuQZWPDZaZjNs',
@@ -415,7 +415,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Big Knife',
       price: '0.9',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 5,
       image: 'QmYBRqwjCu95NpTbkwRmseUEKd1wNS4ZvyuQZWPDZaZjNs',
@@ -426,7 +426,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Tessen',
       price: '0.2',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 1,
       image: 'QmTyG1N1d5XaS28EvuH4nvaFC6S38NgYt87BeySvsoS98n',
@@ -435,7 +435,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Tessen',
       price: '0.3',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 2,
       image: 'Qma4sijb9J3FE4aLUhog5N697TMzTzUXV7EMECjgbg2oTZ',
@@ -444,7 +444,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Tessen',
       price: '0.5',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 3,
       image: 'Qmd8HcuLGaJ8t2v77hhYNFpVgPHniDKiwTE6FwZzyjEURm',
@@ -453,7 +453,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Tessen',
       price: '0.6',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 4,
       image: 'QmTyG1N1d5XaS28EvuH4nvaFC6S38NgYt87BeySvsoS98n',
@@ -462,7 +462,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Tessen',
       price: '0.9',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 5,
       image: 'QmTyG1N1d5XaS28EvuH4nvaFC6S38NgYt87BeySvsoS98n',
@@ -473,7 +473,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Bow',
       price: '0.2',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 1,
       image: 'QmbVbMQiDjhvtLGFNnJ3VoXACHbPJusQBzMQ43mpYvxFsd',
@@ -487,7 +487,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Bow',
       price: '0.3',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 2,
       image: 'QmbbESs5Hh25yfnpXr6oqcGLjADTrc7s7YsgCoso81eiqq',
@@ -501,7 +501,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Bow',
       price: '0.5',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 3,
       image: 'QmXhj7e9X3SYRegodCWPDqWo5wvHeCFCELr7bWgvKQxcBR',
@@ -515,7 +515,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Bow',
       price: '0.6',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 4,
       image: 'QmbVbMQiDjhvtLGFNnJ3VoXACHbPJusQBzMQ43mpYvxFsd',
@@ -529,7 +529,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Bow',
       price: '0.9',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 5,
       image: 'QmbVbMQiDjhvtLGFNnJ3VoXACHbPJusQBzMQ43mpYvxFsd',
@@ -545,7 +545,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Normal Gun',
       price: '1.3',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 1,
       image: 'QmWAdCmcPVhryxHMcgSKcHa88B5S8rhNCYLTDmKKg33iU4',
@@ -554,7 +554,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Speed Gun',
       price: '1.6',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 2,
       image: 'QmfZSKVadAmSonNyvDvkLNTb2nL35GJ82CRqDUFhGQ8CgQ',
@@ -563,7 +563,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Light Gun',
       price: '1.8',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 3,
       image: 'QmPgyQnuzXdLzWHJ9J21HSPF3oBjtAZXtS7jLvVRu7NBGv',
@@ -572,7 +572,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Fast Gun',
       price: '2.0',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 4,
       image: 'QmfZSKVadAmSonNyvDvkLNTb2nL35GJ82CRqDUFhGQ8CgQ',
@@ -581,7 +581,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Fire Gun',
       price: '2.9',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 5,
       image: 'QmfZSKVadAmSonNyvDvkLNTb2nL35GJ82CRqDUFhGQ8CgQ',
@@ -592,7 +592,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Wing Archer',
       price: '0.2',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 1,
       image: 'QmbqwfPekXBqC3CCwt5nAiAcEV5ku6ASk7wnRuQfV8kWua',
@@ -601,7 +601,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Wing Archer',
       price: '0.3',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 2,
       image: 'QmWUC8UvoWprjdiEzjE8hMpsdTYVHo9NSvWSmwNcUTiyit',
@@ -610,7 +610,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Wing Magician',
       price: '0.3',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 2,
       image: 'QmPd33F1dPDXAdto7qJkNg1WqoQYNfVF1SHb7z9bwuejWU',
@@ -619,7 +619,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Wing Warrior',
       price: '0.3',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 2,
       image: 'QmbfLPK8tLzAgBMsN5oeFj8N16tD8D7r9bSmA4LMUtBQDr',
@@ -628,7 +628,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Wing Archer',
       price: '0.5',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 3,
       image: 'QmThgWZpEiXvyatNk6ALXwR7emCApuDKgBaefFsYtbQZwF',
@@ -637,7 +637,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Wing Magician',
       price: '0.5',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 3,
       image: 'QmUZ3NNE4TANsGnCgv8rFMTGU9A1npV3odLDki8HBdAfSR',
@@ -646,7 +646,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Wing Warrior',
       price: '0.5',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 3,
       image: 'QmXcHaJGDKYR7NneL8vhNuLAfqBgzqek3ug1F2HREFm5zv',
@@ -655,7 +655,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Wing',
       price: '0.6',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 4,
       image: 'QmbqwfPekXBqC3CCwt5nAiAcEV5ku6ASk7wnRuQfV8kWua',
@@ -664,7 +664,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Wing',
       price: '0.9',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 5,
       image: 'QmbqwfPekXBqC3CCwt5nAiAcEV5ku6ASk7wnRuQfV8kWua',
@@ -675,7 +675,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Sceptre',
       price: '0.2',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 1,
       image: 'QmQfKtYBdDB8fDxUo6c53RbZUd7oe3agHjEWqt9kA3P2PD',
@@ -689,7 +689,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Sceptre',
       price: '0.3',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 2,
       image: 'QmfFMuyunWj2ekumVJAJBidTa5XnBgXiHMbSsWWbk9EQz6',
@@ -704,7 +704,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Sceptre',
       price: '0.5',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 3,
       image: 'QmYXKooL4KvF6C6rTRvR1DaGLxcgScP2cg5gm1mPWHrM2b',
@@ -718,7 +718,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Sceptre',
       price: '0.6',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 4,
       image: 'QmQfKtYBdDB8fDxUo6c53RbZUd7oe3agHjEWqt9kA3P2PD',
@@ -732,7 +732,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Sceptre',
       price: '0.9',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 5,
       image: 'QmQfKtYBdDB8fDxUo6c53RbZUd7oe3agHjEWqt9kA3P2PD',
@@ -748,7 +748,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Magic Vase',
       price: '0.2',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 1,
       image: 'QmNTNGAQjMbTPukVi7LCwa4fvGzzUzkaUFYHqsLGk2KWGA',
@@ -763,7 +763,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Magic Vase',
       price: '0.3',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 2,
       image: 'QmZ9epNvmbH6cndrKexxh3E7FLQvzfp89nvSehVuZsZ6JX',
@@ -778,7 +778,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Magic Vase',
       price: '0.5',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 3,
       image: 'QmR4JYoUmGWQdVUgwggr4V8NBrVRC5CMVdKuhuFLPMDh7u',
@@ -793,7 +793,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Magic Vase',
       price: '0.6',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 4,
       image: 'QmNTNGAQjMbTPukVi7LCwa4fvGzzUzkaUFYHqsLGk2KWGA',
@@ -808,7 +808,7 @@ router.post('/item', async (req, res, next) => {
     {
       name: 'Magic Vase',
       price: '0.9',
-      currency: 'ETH',
+      currency: 'BNB',
       description: 'No description',
       level: 5,
       image: 'QmNTNGAQjMbTPukVi7LCwa4fvGzzUzkaUFYHqsLGk2KWGA',

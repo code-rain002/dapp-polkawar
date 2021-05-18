@@ -149,13 +149,6 @@ function Profile({ authenticateUser, user, authenticated }) {
 
   return authenticated ? (
     <div>
-      {/* <div className={classes.cover}>
-        <div className={classes.buttonWrapper}>
-          <Button variant="contained" className={classes.button}>
-            Add Cover
-          </Button>
-        </div>
-      </div> */}
       <div className="text-center mt-5">
         <img
           src={user.avatar ? user.avatar : 'images/avatar.jpg'}
