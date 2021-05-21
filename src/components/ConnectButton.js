@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button } from '@material-ui/core';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -21,16 +22,27 @@ const useStyles = makeStyles((theme) => ({
 
 function ConnectButton({ authenticateUser }) {
   const classes = useStyles();
+  const [error, setError] = useState('');
 
-  const connectWallet = () => {
-    if (web3 !== undefined) {
-      web3.eth.requestAccounts().then((accounts) => {
-        const accountAddress = accounts[0];
-
-        authenticateUser(accountAddress);
-      });
+  const checkNetwork = () => {
+    if (web3.currentProvider.networkVersion === '56') {
+      return true;
+    } else {
+      return false;
     }
   };
+  const connectWallet = () => {
+    if (checkNetwork()) {
+      web3.eth.requestAccounts().then((accounts) => {
+        const accountAddress = accounts[0];
+        authenticateUser(accountAddress);
+        setError('');
+      });
+    } else {
+      setError('Wrong Network!');
+    }
+  };
+
   return (
     <div className="my-5 text-center">
       <div className="mt-5 text-center">
@@ -41,6 +53,9 @@ function ConnectButton({ authenticateUser }) {
         <Button className={classes.button} onClick={connectWallet}>
           {web3 !== undefined ? 'Connect your wallet' : 'Missing Metamask!'}
         </Button>
+        <div className="mt-2" style={{ color: 'yellow' }}>
+          {error}
+        </div>
       </div>
     </div>
   );

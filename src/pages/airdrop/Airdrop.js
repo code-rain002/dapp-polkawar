@@ -53,14 +53,30 @@ function Airdrop({ authenticated }) {
   const classes = useStyles();
   const [spinned, setSpinned] = useState(false);
   const [metamaskAvailable, setMetamaskAvailable] = React.useState(false);
+  const [error, setError] = React.useState({ title: '', msg: '' });
 
   const [activate, setActivate] = React.useState(false);
+
+  const checkNetwork = () => {
+    if (web3.currentProvider.networkVersion === '56') {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   const checkMetamask = () => {
     if (web3 !== undefined) {
       setMetamaskAvailable(true);
+      if (!checkNetwork()) {
+        setError({
+          title: 'Wrong Network!',
+          msg: 'Change network to Binance Smart Chain first then only you will be able to spin.',
+        });
+      }
     } else {
       setMetamaskAvailable(false);
+      setError({ title: 'Metamask missing!', msg: 'Install metamask first and then only you will be able to spin.' });
     }
   };
 
@@ -113,7 +129,7 @@ function Airdrop({ authenticated }) {
   return (
     <div className={classes.spacing}>
       {authenticated ? (
-        metamaskAvailable ? (
+        metamaskAvailable && checkNetwork() ? (
           <div class="mb-5">
             <h3 className="text-center " style={{ color: 'yellow' }}>
               Spin! & Get Airdrop
@@ -206,8 +222,8 @@ function Airdrop({ authenticated }) {
           </div>
         ) : (
           <div className="mt-5 text-center">
-            <h4 style={{ color: 'yellow' }}>Metamask missing!</h4>
-            <p style={{ color: 'white' }}>Install metamask first and then only you will be able to spin.</p>
+            <h4 style={{ color: 'yellow' }}>{error.title}</h4>
+            <p style={{ color: 'white' }}>{error.msg}</p>
           </div>
         )
       ) : (
