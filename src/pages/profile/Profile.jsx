@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button } from '@material-ui/core';
+import { Button, Dialog, Backdrop, Slide } from '@material-ui/core';
 import { Share } from '@material-ui/icons';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
@@ -11,6 +11,11 @@ import TabPanel from '../../components/TabPanel';
 import CustomButton from '../../components/CustomButton';
 import { authenticateUser } from './../../actions/authActions';
 import web3 from './../../web';
+import CreateCharacterForm from '../../components/CreateCharacterForm';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -127,11 +132,16 @@ const useStyles = makeStyles((theme) => ({
 function Profile({ authenticateUser, user, authenticated }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
+  const [characterPopup, setCharacterPopup] = useState(false);
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState('');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const createCharacterPopup = () => {
+    setCharacterPopup(!characterPopup);
   };
 
   const checkNetwork = () => {
@@ -172,7 +182,7 @@ function Profile({ authenticateUser, user, authenticated }) {
       </div>
       <h6 className={classes.title}>{user.username}</h6>
       <h6 className={classes.title}>( {user.address} )</h6>
-      <div className="d-flex justify-content-center">
+      {/* <div className="d-flex justify-content-center">
         <div className={classes.buttonWrapper}>
           <Button variant="contained" className={classes.button}>
             Edit Profile
@@ -184,7 +194,8 @@ function Profile({ authenticateUser, user, authenticated }) {
             <Share />
           </Button>
         </div>
-      </div>
+      </div> */}
+      <div className="mt-5"></div>
       <div className={classes.tabWrapper}>
         <Paper square className={classes.tabs}>
           <Tabs
@@ -212,15 +223,18 @@ function Profile({ authenticateUser, user, authenticated }) {
                   <img src="images/character.png" height="100px" alt="character" />
                 </div>
                 <div className="text-center">
-                  <h6 className={classes.title}>No items found</h6>
+                  <h6 className={classes.title}>No character found</h6>
                   <div className="d-flex justify-content-center">
                     <p className={classes.subheading}>
-                      Come back soon! Or try to browse something for you on our marketplace
+                      Create your character! <br />
+                      and personalise your gaming experience
                     </p>
                   </div>
                 </div>
                 <div className={classes.buttonWrapper}>
-                  <CustomButton title="Browse marketplace" link={'/'} />
+                  <Button variant="contained" className={classes.button} onClick={createCharacterPopup}>
+                    Create Character
+                  </Button>
                 </div>
               </div>
             )}
@@ -315,8 +329,22 @@ function Profile({ authenticateUser, user, authenticated }) {
           </TabPanel>
         </div>
       </div>
-
       <div></div>
+      <Dialog
+        className={classes.modal}
+        open={characterPopup}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={() => createCharacterPopup(false)}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}>
+        <div style={{ backgroundColor: 'black' }}>
+          <CreateCharacterForm />
+        </div>
+      </Dialog>{' '}
     </div>
   ) : (
     <div className="mt-5 text-center">
