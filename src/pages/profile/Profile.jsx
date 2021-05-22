@@ -11,7 +11,7 @@ import CustomButton from '../../components/CustomButton';
 import { authenticateUser } from './../../actions/authActions';
 import web3 from './../../web';
 import CreateCharacterForm from '../../components/CreateCharacterForm';
-import contractConnection from './../../connection';
+import pwrContract from './../../utils/pwrConnection';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -139,18 +139,11 @@ function Profile({ authenticateUser, user, authenticated }) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const callContract = () => {
-    const userAddress = '0x9D7117a07fca9F22911d379A9fd5118A5FA4F448';
-
-    // contractConnection.methods.balanceOf(userAddress).call((err, result) => {
-    //   console.log(result);
-    //   console.log(err);
-    // });
-    contractConnection.methods.balanceOf(userAddress).call((err, result) => {
-      console.log('Result:  ' + result);
-      console.log('error : ' + err);
-    });
-  };
+  // const createCharacterContract = () => {
+  //   pwrContract.methods.balanceOf(userAddress).call((err, result) => {
+  //     console.log('Balance:  ' + result);
+  //   });
+  // };
 
   const createCharacterPopup = () => {
     setCharacterPopup(!characterPopup);
@@ -192,9 +185,6 @@ function Profile({ authenticateUser, user, authenticated }) {
           className={classes.avatarWrapper}
         />
       </div>
-      <Button style={{ backgroundColor: 'blue' }} onClick={callContract}>
-        Click Here
-      </Button>
       <h6 className={classes.title}>{user.username}</h6>
       <h6 className={classes.title}>( {user.address} )</h6>
       {/* <div className="d-flex justify-content-center">

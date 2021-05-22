@@ -22,6 +22,7 @@ import { authenticateUser, signOutUser } from './../actions/authActions';
 import web3 from './../web';
 import MuiAlert from '@material-ui/lab/Alert';
 import BalancePopup from './BalancePopup';
+import pwrContract from './../utils/pwrConnection';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -197,6 +198,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
   const [navIndex, setNavIndex] = useState(0);
   const [userData, setUserData] = useState(null);
   const [ethBal, setEthBal] = useState(null);
+  const [pwrBal, setPwrBal] = useState(0);
   const [userAdd, setUserAdd] = useState(null);
   const [popup, setPopup] = useState(false);
   const [state, setState] = React.useState({
@@ -294,9 +296,16 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
         let ethBalance = web3.utils.fromWei(balance);
         setEthBal(ethBalance);
       });
+      getPWRBalance();
     }
   };
-
+  const getPWRBalance = async () => {
+    if (userData) {
+      pwrContract.methods.balanceOf(userData.address).call((err, result) => {
+        setPwrBal(result);
+      });
+    }
+  };
   const connectWallet = () => {
     if (web3 !== undefined) {
       if (checkNetwork()) {
@@ -488,7 +497,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
           <div style={{ backgroundColor: 'black' }}>
             <BalancePopup
               address={userData !== null && userData.address}
-              pwar={1323}
+              pwar={pwrBal}
               togglePopup={() => togglePopup(false)}
               signOut={() => signOut(userAdd)}
             />
