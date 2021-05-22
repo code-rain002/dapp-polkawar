@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Dialog, Backdrop, Slide } from '@material-ui/core';
-import { Share } from '@material-ui/icons';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -12,6 +11,7 @@ import CustomButton from '../../components/CustomButton';
 import { authenticateUser } from './../../actions/authActions';
 import web3 from './../../web';
 import CreateCharacterForm from '../../components/CreateCharacterForm';
+import contractConnection from './../../connection';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -139,6 +139,18 @@ function Profile({ authenticateUser, user, authenticated }) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const callContract = () => {
+    const userAddress = '0x9D7117a07fca9F22911d379A9fd5118A5FA4F448';
+
+    // contractConnection.methods.balanceOf(userAddress).call((err, result) => {
+    //   console.log(result);
+    //   console.log(err);
+    // });
+    contractConnection.methods.balanceOf(userAddress).call((err, result) => {
+      console.log('Result:  ' + result);
+      console.log('error : ' + err);
+    });
+  };
 
   const createCharacterPopup = () => {
     setCharacterPopup(!characterPopup);
@@ -180,6 +192,9 @@ function Profile({ authenticateUser, user, authenticated }) {
           className={classes.avatarWrapper}
         />
       </div>
+      <Button style={{ backgroundColor: 'blue' }} onClick={callContract}>
+        Click Here
+      </Button>
       <h6 className={classes.title}>{user.username}</h6>
       <h6 className={classes.title}>( {user.address} )</h6>
       {/* <div className="d-flex justify-content-center">

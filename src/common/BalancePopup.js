@@ -1,5 +1,6 @@
 import { Button, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import contractConnection from './../connection';
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -85,6 +86,12 @@ const useStyles = makeStyles((theme) => ({
 export default function BalancePopup({ address, pwar, togglePopup, signOut }) {
   const classes = useStyles();
 
+  const getBalance = () => {
+    let data = contractConnection.methods.balanceOf('0x9D7117a07fca9F22911d379A9fd5118A5FA4F448');
+    //console.log(data);
+    return data;
+  };
+
   return (
     <div className={classes.background}>
       <div className="container text-center">
@@ -98,7 +105,7 @@ export default function BalancePopup({ address, pwar, togglePopup, signOut }) {
         </div>
         <div style={{ paddingLeft: 20 }}>
           <h6 className={classes.subtitle}>Balance</h6>
-          <p className={classes.para}>{pwar} PWAR</p>
+          <p className={classes.para}>{23} PWAR</p>
         </div>
         <div>
           <div className="my-3 d-flex justify-content-start">
