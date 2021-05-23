@@ -23,6 +23,7 @@ import web3 from './../web';
 import MuiAlert from '@material-ui/lab/Alert';
 import BalancePopup from './BalancePopup';
 import pwrContract from './../utils/pwrConnection';
+import constants from './../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -198,7 +199,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
   const [navIndex, setNavIndex] = useState(0);
   const [userData, setUserData] = useState(null);
   const [ethBal, setEthBal] = useState(null);
-  const [pwrBal, setPwrBal] = useState(0);
+  const [pwrBal, setPwrBal] = useState(10);
   const [userAdd, setUserAdd] = useState(null);
   const [popup, setPopup] = useState(false);
   const [state, setState] = React.useState({
@@ -283,7 +284,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
   );
 
   const checkNetwork = () => {
-    if (web3.currentProvider.networkVersion === '56') {
+    if (web3.currentProvider.networkVersion === constants.network_id) {
       return true;
     } else {
       return false;
