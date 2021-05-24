@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, Divider, Input, MenuItem, Select, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Close } from '@material-ui/icons';
+import { createItem } from './../actions/smartActions/SmartActions';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -71,13 +72,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CreateCharacterForm({ onClose }) {
+export default function CreateCharacterForm({ onClose, user }) {
   const classes = useStyles();
   const [characterName, setCharacterName] = useState('');
   const [characterClass, setCharacterClass] = useState('Warrior');
 
   const changeClass = (e) => {
     setCharacterClass(e.target.value);
+  };
+
+  const submitForm = async () => {
+    await createItem(user.address, characterClass);
+    onClose(false);
   };
   return (
     <div className={classes.card}>
@@ -86,7 +92,7 @@ export default function CreateCharacterForm({ onClose }) {
           <h5 className={classes.title}>Create Character</h5>
         </div>{' '}
         <Divider style={{ backgroundColor: 'black' }} />
-        <div className="p-2 mt-3">
+        {/* <div className="p-2 mt-3">
           <TextField
             label={<p className={classes.label}>Character Name</p>}
             type="text"
@@ -95,8 +101,9 @@ export default function CreateCharacterForm({ onClose }) {
             }}
             className={classes.textField}
             fullWidth
+            onChange={(e) => setCharacterName(e.target.value)}
           />
-        </div>
+        </div> */}
         <div className="p-2 mt-3 float-left">
           <TextField
             select
@@ -117,7 +124,7 @@ export default function CreateCharacterForm({ onClose }) {
           </TextField>
         </div>
         <div>
-          <Button variant="contained" className={classes.buttonProceed}>
+          <Button variant="contained" className={classes.buttonProceed} onClick={submitForm}>
             Create Now
           </Button>
         </div>

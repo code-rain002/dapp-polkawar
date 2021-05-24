@@ -8,10 +8,9 @@ import CountdownTimer from './../../components/CountdownTimer';
 import web3 from './../../web';
 import { connect } from 'react-redux';
 import ConnectButton from '../../components/ConnectButton';
-import airdropContract from './../../utils/airdropConnection';
-import itemContract from './../../utils/itemConnection';
 import constants from './../../utils/constants';
 import axios from 'axios';
+import { isJoinAirdrop, getAirdrop, tokenURI } from './../../actions/smartActions/SmartActions';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -85,20 +84,16 @@ function Airdrop({ authenticated, user }) {
       setError({ title: 'Metamask missing!', msg: 'Install metamask first and then only you will be able to spin.' });
     }
   };
-  const isSpinned = () => {
+  const isSpinned = async () => {
     if (user) {
-      airdropContract.methods.isJoinAirdrop(user.address).call((err, result) => {
-        if (result > 0) {
-          setAirdropJoined(true);
-          itemContract.methods.tokenURI(result).call((err, response) => {
-            axios.get(`${imageBaseUrl}/${response}`).then((res) => {
-              let result = res.data;
-              console.log('isSpinned called');
-              setItemJson(result);
-            });
-          });
-        }
-      });
+      let joined = await isJoinAirdrop(user.address);
+      if (joined > 0) {
+        setAirdropJoined(true);
+        let itemString = await tokenURI(joined);
+        await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
+          setItemJson(res.data);
+        });
+      }
     }
   };
   useEffect(() => {
@@ -148,33 +143,23 @@ function Airdrop({ authenticated, user }) {
     </div>,
   ];
 
-  const checkAirdrop = () => {
+  const checkAirdrop = async () => {
     //call getAirdrop function
+    console.log('checkAirdrop Execution');
+    let execution = await getAirdrop();
 
-    let userProvidedSeed =
-      'stable elegant thrive remind fitness carbon link lecture icon same license buyer final skirt holiday';
-
-    airdropContract.methods.getAirdrop(userProvidedSeed).send((err, result1) => {
-      console.log('getAirdrop executed');
-
-      setTimeout(() => {
-        airdropContract.methods.isJoinAirdrop(user.address).call((err, res) => {
-          console.log('isJoinAirdrop:  ' + res);
-          if (res > 0) {
-            itemContract.methods.tokenURI(res).call((err, response) => {
-              console.log('nftHash:  ' + response);
-
-              axios.get(`${imageBaseUrl}/${response}`).then((res) => {
-                let result = res.data;
-                console.log('checkAirdrop called');
-                setItemJson(result);
-                setSpinned(true);
-              });
-            });
-          }
-        });
+    if (execution) {
+      setTimeout(async () => {
+        let joined = await isJoinAirdrop(user.address);
+        if (joined > 0) {
+          setAirdropJoined(true);
+          let itemDetails = await tokenURI(joined);
+          setItemJson(itemDetails);
+          console.log('Joined' + joined);
+          console.log('itemDetails' + itemDetails);
+        }
       }, 3000);
-    });
+    }
   };
 
   const claimAirdrop = () => {
