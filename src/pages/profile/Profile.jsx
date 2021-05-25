@@ -221,8 +221,8 @@ function Profile({ authenticateUser, user, authenticated }) {
     setValue(newValue);
   };
 
-  const createCharacterPopup = () => {
-    setCharacterPopup(!characterPopup);
+  const toggleCharacterPopup = (value) => {
+    setCharacterPopup(value);
   };
 
   const checkNetwork = () => {
@@ -364,7 +364,7 @@ function Profile({ authenticateUser, user, authenticated }) {
                       </div>
                     </div>
                     <div className={classes.buttonWrapper}>
-                      <Button variant="contained" className={classes.button} onClick={createCharacterPopup}>
+                      <Button variant="contained" className={classes.button} onClick={toggleCharacterPopup}>
                         Create Character
                       </Button>
                     </div>
@@ -469,14 +469,14 @@ function Profile({ authenticateUser, user, authenticated }) {
         open={characterPopup}
         TransitionComponent={Transition}
         keepMounted
-        onClose={() => createCharacterPopup(false)}
+        onClose={() => toggleCharacterPopup(false)}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
         }}>
         <div style={{ backgroundColor: 'black' }}>
-          <CreateCharacterForm user={user} />
+          <CreateCharacterForm user={user} onClose={() => toggleCharacterPopup(false)} />
         </div>
       </Dialog>{' '}
     </div>

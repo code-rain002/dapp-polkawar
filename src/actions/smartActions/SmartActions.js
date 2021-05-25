@@ -2,7 +2,6 @@ import airdropContract from './../../utils/airdropConnection';
 import itemContract from './../../utils/itemConnection';
 import characterContract from './../../utils/characterConnection';
 import pwrContract from './../../utils/pwrConnection';
-import constants from './../../utils/constants';
 import axios from 'axios';
 import imageBaseUrl from './../imageBaseUrl';
 
@@ -12,18 +11,22 @@ import imageBaseUrl from './../imageBaseUrl';
 //RETURNS number
 export const isJoinAirdrop = (address) => {
   return airdropContract.methods.isJoinAirdrop(address).call((err, response) => {
+    console.log('isJoinAirdrop: ' + response);
+
     return response;
   });
 };
 
 //Write getAirdrop
 //RETURNS only execution function
-export const getAirdrop = () => {
+export const getAirdrop = async (userAddress) => {
   let userProvidedSeed =
     'stable elegant thrive remind fitness carbon link lecture icon same license buyer final skirt holiday';
-
-  return airdropContract.methods.getAirdrop(userProvidedSeed).send((err, response) => {
-    console.log('Executed');
+  console.log(userAddress);
+  return await airdropContract.methods.getAirdrop(userProvidedSeed).send({ from: userAddress }, (err, response) => {
+    console.log('getAirdrop');
+    console.log(err);
+    console.log(response);
     return true;
   });
 };
@@ -32,6 +35,7 @@ export const getAirdrop = () => {
 //RETURNS Item json string
 export const tokenURI = (tokenId) => {
   return itemContract.methods.tokenURI(tokenId).call(async (err, response) => {
+    console.log('tokenURI: ' + response);
     return response;
   });
 };
@@ -49,7 +53,7 @@ export const createItem = (address, characterClass) => {
   let characterURI = level0Characters[characterClass];
   console.log('Address' + address);
   console.log('URI' + characterURI);
-  return characterContract.methods.createItem(address, characterURI).send({ from: address });
+  characterContract.methods.createItem(address, characterURI).send({ from: address });
 };
 
 //READ get Owner Token ID
