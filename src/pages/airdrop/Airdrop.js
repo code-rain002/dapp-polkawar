@@ -146,7 +146,7 @@ function Airdrop({ authenticated, user }) {
   const checkAirdrop = async () => {
     //call getAirdrop function
     console.log('checkAirdrop Execution');
-    let execution = await getAirdrop();
+    let execution = await getAirdrop(user.address);
 
     if (execution) {
       setTimeout(async () => {
