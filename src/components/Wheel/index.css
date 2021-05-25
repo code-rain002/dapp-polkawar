@@ -10,8 +10,8 @@
   --item-nb: 0;
   --selected-item: 0;
   --nb-turn: 5;
-  --spinning-duration: 6s;
-  --reset-duration: 4s;
+  --spinning-duration: 50s;
+  --reset-duration: 15s;
 }
 
 /* Conteneur de la roue = cercle rose extérieur */

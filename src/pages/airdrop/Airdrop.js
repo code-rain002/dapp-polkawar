@@ -11,6 +11,7 @@ import ConnectButton from '../../components/ConnectButton';
 import constants from './../../utils/constants';
 import axios from 'axios';
 import { isJoinAirdrop, getAirdrop, tokenURI } from './../../actions/smartActions/SmartActions';
+import Loader from './../../components/Loader';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -55,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
 function Airdrop({ authenticated, user }) {
   const classes = useStyles();
   const [spinned, setSpinned] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [airdropJoined, setAirdropJoined] = useState(false);
   const [itemJson, setItemJson] = useState(null);
   const [metamaskAvailable, setMetamaskAvailable] = React.useState(false);
@@ -88,14 +90,18 @@ function Airdrop({ authenticated, user }) {
     if (user) {
       console.log('Calling isJoinAirdrop from isSpinned');
       let joined = await isJoinAirdrop(user.address);
-      if (joined > 0) {
+
+      if (parseInt(joined) > 0) {
         setAirdropJoined(true);
         console.log('Calling tokenURI from isSpinned');
-
         let itemString = await tokenURI(joined);
         await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
           setItemJson(res.data);
+          setLoading(false);
         });
+      }
+      if (parseInt(joined) === 0) {
+        setLoading(false);
       }
     }
   };
@@ -157,137 +163,169 @@ function Airdrop({ authenticated, user }) {
         console.log('Calling isJoinAirdrop from checkAirdrop');
 
         let joined = await isJoinAirdrop(user.address);
-        if (joined > 0) {
+        if (parseInt(joined) > 0) {
           setAirdropJoined(true);
           console.log('Calling tokenURI from checkAirdrop');
 
           let itemDetails = await tokenURI(joined);
-          setItemJson(itemDetails);
-          console.log('Joined' + joined);
-          console.log('itemDetails' + itemDetails);
+          if (itemDetails !== null) {
+            setItemJson(itemDetails);
+            console.log('Joined' + joined);
+            console.log('itemDetails' + itemDetails);
+            setLoading(false);
+          }
         }
-      }, 3000);
+        if (parseInt(joined) === 0) {
+          let reJoined = await isJoinAirdrop(user.address);
+          if (reJoined > 0) {
+            setAirdropJoined(true);
+            console.log('Calling tokenURI from checkAirdrop');
+
+            let itemDetails = await tokenURI(joined);
+            if (itemDetails !== null) {
+              setItemJson(itemDetails);
+              console.log('Joined' + joined);
+              console.log('itemDetails' + itemDetails);
+              setLoading(false);
+            }
+          }
+        }
+      }, 10000);
     }
   };
 
   const claimAirdrop = () => {
     console.log('Claimed');
   };
+
+  const metamaskNetwork = () => {
+    if (metamaskAvailable && checkNetwork()) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   return (
     <div className={classes.spacing}>
-      {authenticated ? (
-        metamaskAvailable && checkNetwork() ? (
-          <div>
-            {!airdropJoined && (
-              <div class="mb-5">
-                <h3 className="text-center " style={{ color: 'yellow' }}>
-                  Spin! & Get Airdrop
-                </h3>
+      {!loading ? (
+        authenticated ? (
+          metamaskNetwork ? (
+            <div>
+              {!airdropJoined && (
+                <div class="mb-5">
+                  <h3 className="text-center " style={{ color: 'yellow' }}>
+                    Spin! & Get Airdrop
+                  </h3>
 
-                <div>
-                  <Wheel items={items} spinned={spinned} checkAirdrop={checkAirdrop} userAddress={user.address} />
-                </div>
-              </div>
-            )}
-
-            {(spinned || airdropJoined) && (
-              <div className="text-center mt-1">
-                <div className={classes.root}>
-                  <div className={classes.container}>
-                    <Grow in={true} timeout={1000}>
-                      <div>
-                        <div className=" container">
-                          <div>
-                            <h3 className="text-center " style={{ color: 'white', fontSize: 18 }}>
-                              Congratulations! You have won.
-                            </h3>
-                            <div className="d-flex justify-content-center align-items-end">
-                              {itemJson !== null && (
-                                <div>
-                                  <div className="mt-5">
-                                    <img src={`${imageBaseUrl}/${itemJson.hashimage}`} height="200px" />
-                                  </div>
-                                  <div>
-                                    <h5
-                                      style={{
-                                        color: 'white',
-                                        fontSize: 28,
-                                      }}>
-                                      {itemJson.description}
-                                    </h5>
-                                  </div>
-                                </div>
-                              )}
-
-                              <div style={{ color: 'white', fontSize: 60, height: 200, width: 150 }}>+</div>
-                              <div style={{ paddingLeft: 20 }}>
-                                {' '}
-                                <div className="mt-5">
-                                  <img src={`/token.png`} height="150px" />
-                                  <div className="mt-3">
-                                    <h5 style={{ color: 'white', fontSize: 28 }}>25 PWAR</h5>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="mt-5 d-flex flex-column justify-content-center align-items-center">
-                              <h3 style={{ fontSize: 21, color: 'white' }}>Claim your airdrop</h3>
-                              <Button
-                                variant="outlined"
-                                onClick={activate ? claimAirdrop : null}
-                                className={activate ? classes.buttonMain : classes.timerButton}>
-                                {activate ? (
-                                  'Claim Now'
-                                ) : (
-                                  <div>
-                                    <CountdownTimer enableClaim={setActivate} />
-                                  </div>
-                                )}
-                              </Button>
-                              <div className="mt-5">
-                                <p style={{ color: 'yellow', fontSize: 16, textAlign: 'center' }}>
-                                  Airdrop requirements:
-                                </p>
-                                <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
-                                  1. You will receive 1 NFT item and 25 PWAR tokens.
-                                </p>
-                                <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
-                                  2. Do following tasks
-                                  <ul>
-                                    <li>
-                                      <a href="https://t.me/polkawarchat">Join Telegram</a>
-                                    </li>
-                                    <li>
-                                      <a href="https://twitter.com/polkawarnft">Follow Twitter</a>
-                                    </li>
-                                    <li>
-                                      <a href="https://medium.com/@polkawar">Follow Medium</a>
-                                    </li>
-                                  </ul>
-                                </p>{' '}
-                                <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
-                                  3. You can claim your rewards after 1st July, 2021.
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>{' '}
-                      </div>
-                    </Grow>
+                  <div>
+                    <Wheel items={items} spinned={spinned} checkAirdrop={checkAirdrop} userAddress={user.address} />
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+
+              {(spinned || airdropJoined) && (
+                <div className="text-center mt-1">
+                  <div className={classes.root}>
+                    <div className={classes.container}>
+                      <Grow in={true} timeout={1000}>
+                        <div>
+                          <div className=" container">
+                            <div>
+                              <h3 className="text-center " style={{ color: 'white', fontSize: 20 }}>
+                                Congratulations! You have won.
+                              </h3>
+                              <div className="d-flex justify-content-center align-items-end">
+                                {itemJson !== null && (
+                                  <div>
+                                    <div className="mt-3">
+                                      <img src={`${imageBaseUrl}/${itemJson.hashimage}`} height="200px" />
+                                    </div>
+                                    <div>
+                                      <h5
+                                        style={{
+                                          color: 'white',
+                                          fontSize: 28,
+                                        }}>
+                                        {itemJson.description}
+                                      </h5>
+                                    </div>
+                                  </div>
+                                )}
+
+                                <div style={{ color: 'white', fontSize: 60, height: 200, width: 150 }}>+</div>
+                                <div style={{ paddingLeft: 20 }}>
+                                  {' '}
+                                  <div className="mt-5">
+                                    <img src={`/token.png`} height="150px" />
+                                    <div className="mt-3">
+                                      <h5 style={{ color: 'white', fontSize: 28 }}>25 PWAR</h5>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="mt-5 d-flex flex-column justify-content-center align-items-center">
+                                <h3 style={{ fontSize: 21, color: 'white' }}>Claim your airdrop</h3>
+                                <Button
+                                  variant="outlined"
+                                  onClick={activate ? claimAirdrop : null}
+                                  className={activate ? classes.buttonMain : classes.timerButton}>
+                                  {activate ? (
+                                    'Claim Now'
+                                  ) : (
+                                    <div>
+                                      <CountdownTimer enableClaim={setActivate} />
+                                    </div>
+                                  )}
+                                </Button>
+                                <div className="mt-5">
+                                  <p style={{ color: 'yellow', fontSize: 16, textAlign: 'center' }}>
+                                    Airdrop requirements:
+                                  </p>
+                                  <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
+                                    1. You will receive 1 NFT item and 25 PWAR tokens.
+                                  </p>
+                                  <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
+                                    2. Do following tasks
+                                    <ul>
+                                      <li>
+                                        <a href="https://t.me/polkawarchat">Join Telegram</a>
+                                      </li>
+                                      <li>
+                                        <a href="https://twitter.com/polkawarnft">Follow Twitter</a>
+                                      </li>
+                                      <li>
+                                        <a href="https://medium.com/@polkawar">Follow Medium</a>
+                                      </li>
+                                    </ul>
+                                  </p>{' '}
+                                  <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
+                                    3. You can claim your rewards after 1st July, 2021.
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>{' '}
+                        </div>
+                      </Grow>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="mt-5 text-center">
+              <h4 style={{ color: 'yellow' }}>{error.title}</h4>
+              <p style={{ color: 'white' }}>{error.msg}</p>
+            </div>
+          )
         ) : (
-          <div className="mt-5 text-center">
-            <h4 style={{ color: 'yellow' }}>{error.title}</h4>
-            <p style={{ color: 'white' }}>{error.msg}</p>
+          <div>
+            <ConnectButton />
           </div>
         )
       ) : (
-        <div>
-          <ConnectButton />
+        <div className="text-center mt-5">
+          <Loader />
         </div>
       )}
     </div>

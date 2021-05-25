@@ -372,7 +372,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
         signOut(userAdd);
       }
     });
-  }, []);
+  }, [user]);
 
   return (
     <div className={classes.grow}>

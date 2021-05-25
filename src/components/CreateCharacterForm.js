@@ -3,6 +3,7 @@ import { Button, Divider, Input, MenuItem, Select, TextField } from '@material-u
 import { makeStyles } from '@material-ui/core/styles';
 import { Close } from '@material-ui/icons';
 import { createItem } from './../actions/smartActions/SmartActions';
+import Loader from './Loader';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -72,9 +73,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CreateCharacterForm({ onClose, user }) {
+export default function CreateCharacterForm({ onClose, user, getCharacter }) {
   const classes = useStyles();
-  const [characterName, setCharacterName] = useState('');
+
+  const [loading, setLoading] = useState(false);
+  const [completed, setCompleted] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const [error, setError] = useState('');
   const [characterClass, setCharacterClass] = useState('Warrior');
 
   const changeClass = (e) => {
@@ -82,53 +87,83 @@ export default function CreateCharacterForm({ onClose, user }) {
   };
 
   const submitForm = async () => {
-    await createItem(user.address, characterClass);
-    onClose(false);
+    setLoading(true);
+    setError('Character is creating... please wait');
+
+    let response = await createItem(user.address, characterClass);
+    if (response) {
+      setError('Transaction Completed');
+      getCharacter();
+      setCompleted(true);
+    } else {
+      setError('Transaction Failed');
+      setFailed(true);
+      setCompleted(true);
+    }
   };
   return (
     <div className={classes.card}>
-      <div className="container text-center">
-        <div>
-          <h5 className={classes.title}>Create Character</h5>
-        </div>{' '}
-        <Divider style={{ backgroundColor: 'black' }} />
-        {/* <div className="p-2 mt-3">
-          <TextField
-            label={<p className={classes.label}>Character Name</p>}
-            type="text"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            className={classes.textField}
-            fullWidth
-            onChange={(e) => setCharacterName(e.target.value)}
-          />
-        </div> */}
-        <div className="p-2 mt-3 float-left">
-          <TextField
-            select
-            label={<p className={classes.label}>Class</p>}
-            value={characterClass}
-            className={classes.textField}
-            onChange={changeClass}
-            fullWidth>
-            <MenuItem value={'Warrior'} className={classes.menuItem}>
-              Warrior
-            </MenuItem>
-            <MenuItem value={'Magician'} className={classes.menuItem}>
-              Magician
-            </MenuItem>
-            <MenuItem value={'Archer'} className={classes.menuItem}>
-              Archer
-            </MenuItem>
-          </TextField>
+      {!loading ? (
+        <div className="container text-center">
+          <div>
+            <h5 className={classes.title}>Create Character</h5>
+          </div>{' '}
+          <Divider style={{ backgroundColor: 'black' }} />
+          <div className="p-2 mt-3 float-left">
+            <TextField
+              select
+              label={<p className={classes.label}>Class</p>}
+              value={characterClass}
+              className={classes.textField}
+              onChange={changeClass}
+              fullWidth>
+              <MenuItem value={'Warrior'} className={classes.menuItem}>
+                Warrior
+              </MenuItem>
+              <MenuItem value={'Magician'} className={classes.menuItem}>
+                Magician
+              </MenuItem>
+              <MenuItem value={'Archer'} className={classes.menuItem}>
+                Archer
+              </MenuItem>
+            </TextField>
+          </div>
+          <div>
+            <Button variant="contained" className={classes.buttonProceed} onClick={submitForm}>
+              Create Now
+            </Button>
+          </div>
         </div>
-        <div>
-          <Button variant="contained" className={classes.buttonProceed} onClick={submitForm}>
-            Create Now
-          </Button>
+      ) : (
+        <div className="container text-center">
+          <div>
+            <h5 className="text-center">Transaction Status</h5>
+            <Divider style={{ backgroundColor: 'black' }} />
+            {completed ? (
+              failed ? (
+                <div className="text-center my-5">
+                  <img src="https://icon-library.com/images/17c52fbb9e.svg.svg" height="100px" />
+                </div>
+              ) : (
+                <div className="text-center my-5">
+                  <img src="https://www.freeiconspng.com/thumbs/success-icon/success-icon-10.png" height="100px" />
+                </div>
+              )
+            ) : (
+              <div className="text-center">
+                <Loader />
+              </div>
+            )}
+
+            <h5 className="text-center">{error}</h5>
+            <div>
+              <Button variant="contained" className={classes.buttonProceed} onClick={onClose}>
+                Close Now
+              </Button>
+            </div>
+          </div>{' '}
         </div>
-      </div>
+      )}
     </div>
   );
 }

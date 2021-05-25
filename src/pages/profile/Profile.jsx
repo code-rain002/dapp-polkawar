@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.pbr.textPrimary,
     fontWeight: 800,
     letterSpacing: 0.5,
-    fontSize: 16,
+    fontSize: 15,
     lineHeight: '20.7px',
   },
   subheading: {
@@ -192,7 +192,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.pbr.textPrimary,
     fontWeight: 900,
     letterSpacing: 1,
-    fontSize: 26,
+    fontSize: 16,
     lineHeight: '35.7px',
     fontFamily: 'Carter One',
     [theme.breakpoints.down('sm')]: {
@@ -476,7 +476,7 @@ function Profile({ authenticateUser, user, authenticated }) {
           timeout: 500,
         }}>
         <div style={{ backgroundColor: 'black' }}>
-          <CreateCharacterForm user={user} onClose={() => toggleCharacterPopup(false)} />
+          <CreateCharacterForm user={user} onClose={() => toggleCharacterPopup(false)} getCharacter={getCharacter} />
         </div>
       </Dialog>{' '}
     </div>

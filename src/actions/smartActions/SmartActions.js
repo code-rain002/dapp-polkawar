@@ -27,7 +27,7 @@ export const getAirdrop = async (userAddress) => {
   return await airdropContract.methods.getAirdrop(userProvidedSeed).send({ from: userAddress }, (err, response) => {
     console.log('getAirdrop');
     console.log(err);
-    console.log(response);
+
     return true;
   });
 };
@@ -59,7 +59,11 @@ export const createItem = async (address, characterClass) => {
     console.log('createItem');
     console.log(err);
     console.log(response);
-    return response;
+    if (err) {
+      return false;
+    } else {
+      return true;
+    }
   });
 };
 
