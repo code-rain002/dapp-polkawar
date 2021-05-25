@@ -124,8 +124,9 @@ const airdropConstant = {
   ],
 };
 
-var web3 = new Web3(new Web3.providers.HttpProvider(airdropConstant.rpcUrl));
-
+//var web3 = new Web3(new Web3.providers.HttpProvider(airdropConstant.rpcUrl));
+var web3 = new Web3(window.ethereum);
 var airdropContract = new web3.eth.Contract(airdropConstant.abi, airdropConstant.contractAddress);
+
 
 export default airdropContract;

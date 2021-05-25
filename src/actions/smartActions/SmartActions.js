@@ -23,7 +23,9 @@ export const getAirdrop = async (userAddress) => {
   let userProvidedSeed =
     'stable elegant thrive remind fitness carbon link lecture icon same license buyer final skirt holiday';
   console.log(userAddress);
-  return await airdropContract.methods.getAirdrop(userProvidedSeed).send({ from: userAddress }, (err, response) => {
+
+
+  return airdropContract.methods.getAirdrop(userProvidedSeed).send({ from: userAddress }, (err, response) => {
     console.log('getAirdrop');
     console.log(err);
     console.log(response);
