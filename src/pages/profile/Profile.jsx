@@ -248,10 +248,10 @@ function Profile({ authenticateUser, user, authenticated }) {
   const getCharacter = async () => {
     if (user) {
       let ownerTokenId = await tokenOfOwnerByIndex(user.address, 0);
-
       let characterHash = await tokenURICharacter(ownerTokenId);
+
       await axios.get(`${imageBaseUrl}${characterHash}`).then((res) => {
-        let tempObject = [...characters, res.data];
+        let tempObject = [res.data];
         setCharacters(tempObject);
         console.log(tempObject);
       });
@@ -336,13 +336,13 @@ function Profile({ authenticateUser, user, authenticated }) {
                             </div>
                             <div className={classes.mediaWrapper}>
                               <img
-                                src={`${imageBaseUrl}/${character.hashimage}`}
+                                src={`${imageBaseUrl}/${character.image}`}
                                 className={classes.media}
                                 alt="character"
                               />
                             </div>
                             <div className="mt-5">
-                              <h4 className={classes.title}>{character.description}</h4>
+                              <h4 className={classes.title}>{character.name}</h4>
                             </div>
                           </Card>
                         </div>

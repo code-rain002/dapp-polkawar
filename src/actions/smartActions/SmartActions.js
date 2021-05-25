@@ -78,7 +78,7 @@ export const tokenOfOwnerByIndex = (address, value) => {
 //READ get Character item
 //RETURNS Character json string
 export const tokenURICharacter = (tokenId) => {
-  return itemContract.methods.tokenURI(tokenId).call(async (err, response) => {
+  return characterContract.methods.tokenURI(tokenId).call(async (err, response) => {
     return response;
   });
 };
