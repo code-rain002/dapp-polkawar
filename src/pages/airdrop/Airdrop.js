@@ -8,6 +8,9 @@ import CountdownTimer from './../../components/CountdownTimer';
 import web3 from './../../web';
 import { connect } from 'react-redux';
 import ConnectButton from '../../components/ConnectButton';
+import constants from './../../utils/constants';
+import axios from 'axios';
+import { isJoinAirdrop, getAirdrop, tokenURI } from './../../actions/smartActions/SmartActions';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -49,16 +52,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Airdrop({ authenticated }) {
+function Airdrop({ authenticated, user }) {
   const classes = useStyles();
   const [spinned, setSpinned] = useState(false);
+  const [airdropJoined, setAirdropJoined] = useState(false);
+  const [itemJson, setItemJson] = useState(null);
   const [metamaskAvailable, setMetamaskAvailable] = React.useState(false);
   const [error, setError] = React.useState({ title: '', msg: '' });
 
   const [activate, setActivate] = React.useState(false);
 
   const checkNetwork = () => {
-    if (web3.currentProvider.networkVersion === '56') {
+    if (web3.currentProvider.networkVersion === constants.network_id) {
       return true;
     } else {
       return false;
@@ -79,9 +84,21 @@ function Airdrop({ authenticated }) {
       setError({ title: 'Metamask missing!', msg: 'Install metamask first and then only you will be able to spin.' });
     }
   };
-
+  const isSpinned = async () => {
+    if (user) {
+      let joined = await isJoinAirdrop(user.address);
+      if (joined > 0) {
+        setAirdropJoined(true);
+        let itemString = await tokenURI(joined);
+        await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
+          setItemJson(res.data);
+        });
+      }
+    }
+  };
   useEffect(() => {
     checkMetamask();
+    isSpinned();
   }, []);
   const items = [
     <div>
@@ -126,19 +143,46 @@ function Airdrop({ authenticated }) {
     </div>,
   ];
 
+  const checkAirdrop = async () => {
+    //call getAirdrop function
+    console.log('checkAirdrop Execution');
+    let execution = await getAirdrop();
+
+    if (execution) {
+      setTimeout(async () => {
+        let joined = await isJoinAirdrop(user.address);
+        if (joined > 0) {
+          setAirdropJoined(true);
+          let itemDetails = await tokenURI(joined);
+          setItemJson(itemDetails);
+          console.log('Joined' + joined);
+          console.log('itemDetails' + itemDetails);
+        }
+      }, 3000);
+    }
+  };
+
+  const claimAirdrop = () => {
+    console.log('Claimed');
+  };
   return (
     <div className={classes.spacing}>
       {authenticated ? (
         metamaskAvailable && checkNetwork() ? (
-          <div class="mb-5">
-            <h3 className="text-center " style={{ color: 'yellow' }}>
-              Spin! & Get Airdrop
-            </h3>
+          <div>
+            {!airdropJoined && (
+              <div class="mb-5">
+                <h3 className="text-center " style={{ color: 'yellow' }}>
+                  Spin! & Get Airdrop
+                </h3>
 
-            <div>
-              <Wheel items={items} spinned={spinned} setSpinned={setSpinned} />
-            </div>
-            {spinned && (
+                <div>
+                  <Wheel items={items} spinned={spinned} checkAirdrop={checkAirdrop} userAddress={user.address} />
+                </div>
+              </div>
+            )}
+
+            {(spinned || airdropJoined) && (
               <div className="text-center mt-1">
                 <div className={classes.root}>
                   <div className={classes.container}>
@@ -150,17 +194,23 @@ function Airdrop({ authenticated }) {
                               Congratulations! You have won.
                             </h3>
                             <div className="d-flex justify-content-center align-items-end">
-                              <div>
-                                <div className="mt-5">
-                                  <img
-                                    src={`${imageBaseUrl}/QmaakejLSXFw6HoC3AQYUe3HqJZMWx2i2ZTTbAX3WURwv6/armor_magician_lv2.png`}
-                                    height="200px"
-                                  />
-                                </div>
+                              {itemJson !== null && (
                                 <div>
-                                  <h5 style={{ color: 'white', fontSize: 28 }}>Armor</h5>
+                                  <div className="mt-5">
+                                    <img src={`${imageBaseUrl}/${itemJson.hashimage}`} height="200px" />
+                                  </div>
+                                  <div>
+                                    <h5
+                                      style={{
+                                        color: 'white',
+                                        fontSize: 28,
+                                      }}>
+                                      {itemJson.description}
+                                    </h5>
+                                  </div>
                                 </div>
-                              </div>
+                              )}
+
                               <div style={{ color: 'white', fontSize: 60, height: 200, width: 150 }}>+</div>
                               <div style={{ paddingLeft: 20 }}>
                                 {' '}
@@ -176,12 +226,13 @@ function Airdrop({ authenticated }) {
                               <h3 style={{ fontSize: 21, color: 'white' }}>Claim your airdrop</h3>
                               <Button
                                 variant="outlined"
+                                onClick={activate ? claimAirdrop : null}
                                 className={activate ? classes.buttonMain : classes.timerButton}>
                                 {activate ? (
                                   'Claim Now'
                                 ) : (
                                   <div>
-                                    <CountdownTimer />
+                                    <CountdownTimer enableClaim={setActivate} />
                                   </div>
                                 )}
                               </Button>
@@ -207,7 +258,7 @@ function Airdrop({ authenticated }) {
                                   </ul>
                                 </p>{' '}
                                 <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
-                                  3. You can claim your rewards after 1st June, 2021.
+                                  3. You can claim your rewards after 1st July, 2021.
                                 </p>
                               </div>
                             </div>
@@ -237,6 +288,7 @@ function Airdrop({ authenticated }) {
 
 const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated,
+  user: state.auth.user,
 });
 
 const mapDispatchToProps = {};

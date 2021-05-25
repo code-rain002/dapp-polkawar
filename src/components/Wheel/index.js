@@ -8,11 +8,14 @@ export default class Wheel extends Component {
     super(props);
     this.state = {
       selectedItem: null,
+      nftItem: null,
     };
     this.selectItem = this.selectItem.bind(this);
   }
 
   selectItem() {
+    this.props.checkAirdrop();
+
     if (this.state.selectedItem === null) {
       const selectedItem = Math.floor(Math.random() * this.props.items.length);
       if (this.props.onSelectItem) {
@@ -21,16 +24,13 @@ export default class Wheel extends Component {
       this.setState({ selectedItem });
     } else {
       this.setState({ selectedItem: null });
-      setTimeout(this.selectItem, 500);
+      setTimeout(this.selectItem, 2000);
     }
-    setTimeout(() => {
-      this.props.setSpinned(true);
-    }, 4000);
   }
 
   render() {
     const { selectedItem } = this.state;
-    const { items, spinned, setSpinned } = this.props;
+    const { items, spinned } = this.props;
 
     const wheelVars = {
       '--nb-item': items.length,

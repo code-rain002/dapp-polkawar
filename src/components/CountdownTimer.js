@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-function CountdownTimer() {
+function CountdownTimer({ enableClaim }) {
   const calculateTimeLeft = () => {
     let year = new Date().getFullYear();
-    const difference = +new Date(`2021-07-1`) - +new Date();
+    const difference = +new Date(`July 1, 2021 00:00:00 UTC`) - +new Date();
     let timeLeft = {};
 
     if (difference > 0) {
@@ -13,6 +13,8 @@ function CountdownTimer() {
         M: Math.floor((difference / 1000 / 60) % 60),
         S: Math.floor((difference / 1000) % 60),
       };
+    } else {
+      enableClaim(true);
     }
 
     return timeLeft;
@@ -29,10 +31,6 @@ function CountdownTimer() {
   const timerComponents = [];
 
   Object.keys(timeLeft).forEach((interval) => {
-    if (!timeLeft[interval]) {
-      return;
-    }
-
     timerComponents.push(
       <span style={{ paddingLeft: 10 }}>
         {timeLeft[interval]}
@@ -41,12 +39,7 @@ function CountdownTimer() {
       </span>,
     );
   });
-  return (
-    <div>
-      {/* <h3 style={{ fontSize: 21 }}>Claim your airdrop</h3> */}
-      {timerComponents.length ? timerComponents : <span>Claim Now</span>}
-    </div>
-  );
+  return <div>{timerComponents.length ? timerComponents : <span>Claim Now</span>}</div>;
 }
 
 export default CountdownTimer;

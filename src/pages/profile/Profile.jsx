@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Dialog, Backdrop, Slide } from '@material-ui/core';
+import { Button, Dialog, Backdrop, Slide, Card } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -11,7 +11,10 @@ import CustomButton from '../../components/CustomButton';
 import { authenticateUser } from './../../actions/authActions';
 import web3 from './../../web';
 import CreateCharacterForm from '../../components/CreateCharacterForm';
-import contractConnection from './../../connection';
+import { tokenOfOwnerByIndex, tokenURICharacter } from './../../actions/smartActions/SmartActions';
+import axios from 'axios';
+import imageBaseUrl from './../../actions/imageBaseUrl';
+import CharacterCard from '../../components/CharacterCard';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -127,29 +130,95 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     textTransform: 'none',
   },
+  scrollItemPositions: {
+    display: 'flex',
+    justifyContent: 'start',
+    [theme.breakpoints.down('md')]: {
+      justifyContent: 'start',
+    },
+  },
+  characterScroll: {
+    whiteSpace: 'noWrap',
+    overflowX: 'auto',
+    paddingTop: 10,
+    [theme.breakpoints.down('md')]: {
+      paddingTop: 0,
+    },
+  },
+  media: {
+    height: '100%',
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 10,
+    [theme.breakpoints.down('sm')]: {
+      height: '150px',
+    },
+  },
+
+  icon: {
+    color: 'orange',
+    fontSize: 30,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 20,
+    },
+  },
+
+  levelText: {
+    color: 'white',
+    fontWeight: 700,
+    fontSize: 16,
+    paddingTop: 10,
+    paddingLeft: 5,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14,
+    },
+  },
+  card: {
+    width: 280,
+    height: 420,
+    borderRadius: 16,
+    border: '4px solid #e5e5e5',
+    marginBottom: 30,
+    backgroundColor: theme.palette.pbr.textPrimaryOpp,
+    [theme.breakpoints.down('sm')]: {
+      width: 180,
+      height: 250,
+    },
+  },
+
+  title: {
+    verticalAlign: 'baseline',
+    textAlign: 'center',
+    color: theme.palette.pbr.textPrimary,
+    fontWeight: 900,
+    letterSpacing: 1,
+    fontSize: 26,
+    lineHeight: '35.7px',
+    fontFamily: 'Carter One',
+    [theme.breakpoints.down('sm')]: {
+      fontWeight: 700,
+      fontSize: 16,
+    },
+  },
+  mediaWrapper: {
+    height: 240,
+    textAlign: 'center',
+    [theme.breakpoints.down('sm')]: {
+      height: 120,
+    },
+  },
 }));
 
 function Profile({ authenticateUser, user, authenticated }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [characterPopup, setCharacterPopup] = useState(false);
+  const [characters, setCharacters] = useState([]);
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState('');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
-  const callContract = () => {
-    const userAddress = '0x9D7117a07fca9F22911d379A9fd5118A5FA4F448';
-
-    // contractConnection.methods.balanceOf(userAddress).call((err, result) => {
-    //   console.log(result);
-    //   console.log(err);
-    // });
-    contractConnection.methods.balanceOf(userAddress).call((err, result) => {
-      console.log('Result:  ' + result);
-      console.log('error : ' + err);
-    });
   };
 
   const createCharacterPopup = () => {
@@ -176,11 +245,27 @@ function Profile({ authenticateUser, user, authenticated }) {
     }
   };
 
+  const getCharacter = async () => {
+    if (user) {
+      let ownerTokenId = await tokenOfOwnerByIndex(user.address, 0);
+
+      let characterHash = await tokenURICharacter(ownerTokenId);
+      await axios.get(`${imageBaseUrl}${characterHash}`).then((res) => {
+        let tempObject = [...characters, res.data];
+        setCharacters(tempObject);
+        console.log(tempObject);
+      });
+    }
+  };
   useEffect(() => {
     if (user !== null) {
       setUserData(user);
     }
   }, [authenticated, user]);
+
+  useEffect(() => {
+    getCharacter();
+  }, []);
 
   return authenticated ? (
     <div>
@@ -192,9 +277,6 @@ function Profile({ authenticateUser, user, authenticated }) {
           className={classes.avatarWrapper}
         />
       </div>
-      <Button style={{ backgroundColor: 'blue' }} onClick={callContract}>
-        Click Here
-      </Button>
       <h6 className={classes.title}>{user.username}</h6>
       <h6 className={classes.title}>( {user.address} )</h6>
       {/* <div className="d-flex justify-content-center">
@@ -230,29 +312,66 @@ function Profile({ authenticateUser, user, authenticated }) {
         <div style={{ maxWidth: 1000 }}>
           {' '}
           <TabPanel value={value} index={0}>
-            {user.characters.length !== 0 ? (
-              <div>Characters List</div>
-            ) : (
-              <div className="text-center">
-                <div className="my-3">
-                  <img src="images/character.png" height="100px" alt="character" />
-                </div>
-                <div className="text-center">
-                  <h6 className={classes.title}>No character found</h6>
-                  <div className="d-flex justify-content-center">
-                    <p className={classes.subheading}>
-                      Create your character! <br />
-                      and personalise your gaming experience
-                    </p>
+            <div className={classes.characterScroll}>
+              <div className={classes.scrollItemPositions}>
+                {characters.length !== 0 ? (
+                  characters.map((character, index) => {
+                    return (
+                      <div style={{ paddingRight: 15, flexBasis: '25%' }} key={index}>
+                        <div>
+                          <Card className={classes.card} elevation={0}>
+                            <div
+                              className="d-flex flex-row justify-content-center align-items-end"
+                              style={{ paddingRight: 10 }}>
+                              <div className="d-flex justify-content-center align-items-center mt-2">
+                                <h6 style={{ color: 'white', fontSize: 14, paddingTop: 10, paddingRight: 5 }}>
+                                  Level:{' '}
+                                </h6>
+
+                                <div className={classes.iconWrapper}>
+                                  <img src="images/swords.png" height="24px" alt="level" />
+                                </div>
+                                <h6 className={classes.levelText}>{character.level} </h6>
+                              </div>
+                            </div>
+                            <div className={classes.mediaWrapper}>
+                              <img
+                                src={`${imageBaseUrl}/${character.hashimage}`}
+                                className={classes.media}
+                                alt="character"
+                              />
+                            </div>
+                            <div className="mt-5">
+                              <h4 className={classes.title}>{character.description}</h4>
+                            </div>
+                          </Card>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="text-center">
+                    <div className="my-3">
+                      <img src="images/character.png" height="100px" alt="character" />
+                    </div>
+                    <div className="text-center">
+                      <h6 className={classes.title}>No character found</h6>
+                      <div className="d-flex justify-content-center">
+                        <p className={classes.subheading}>
+                          Create your character! <br />
+                          and personalise your gaming experience
+                        </p>
+                      </div>
+                    </div>
+                    <div className={classes.buttonWrapper}>
+                      <Button variant="contained" className={classes.button} onClick={createCharacterPopup}>
+                        Create Character
+                      </Button>
+                    </div>
                   </div>
-                </div>
-                <div className={classes.buttonWrapper}>
-                  <Button variant="contained" className={classes.button} onClick={createCharacterPopup}>
-                    Create Character
-                  </Button>
-                </div>
+                )}
               </div>
-            )}
+            </div>
           </TabPanel>
           <TabPanel value={value} index={1}>
             {user.onSale.length !== 0 ? (
@@ -357,7 +476,7 @@ function Profile({ authenticateUser, user, authenticated }) {
           timeout: 500,
         }}>
         <div style={{ backgroundColor: 'black' }}>
-          <CreateCharacterForm />
+          <CreateCharacterForm user={user} />
         </div>
       </Dialog>{' '}
     </div>
