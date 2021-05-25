@@ -24,8 +24,7 @@ export const getAirdrop = async (userAddress) => {
     'stable elegant thrive remind fitness carbon link lecture icon same license buyer final skirt holiday';
   console.log(userAddress);
 
-
-  return airdropContract.methods.getAirdrop(userProvidedSeed).send({ from: userAddress }, (err, response) => {
+  return await airdropContract.methods.getAirdrop(userProvidedSeed).send({ from: userAddress }, (err, response) => {
     console.log('getAirdrop');
     console.log(err);
     console.log(response);
@@ -46,7 +45,7 @@ export const tokenURI = (tokenId) => {
 
 //WRITE create new character for user
 //RETURNS Item json string
-export const createItem = (address, characterClass) => {
+export const createItem = async (address, characterClass) => {
   let level0Characters = {
     Archer: 'QmPcXjjpsVAAKhd7qk6xknaUj3k1S2ypWMXRRBa5GM77wZ',
     Magician: 'QmVHa4x8irQfGvHPDtSxCKgNZHcQKXV388hmCVZ7LvQ8wZ',
@@ -55,7 +54,13 @@ export const createItem = (address, characterClass) => {
   let characterURI = level0Characters[characterClass];
   console.log('Address' + address);
   console.log('URI' + characterURI);
-  characterContract.methods.createItem(address, characterURI).send({ from: address });
+
+  return await characterContract.methods.createItem(address, characterURI).send({ from: address }, (err, response) => {
+    console.log('createItem');
+    console.log(err);
+    console.log(response);
+    return response;
+  });
 };
 
 //READ get Owner Token ID

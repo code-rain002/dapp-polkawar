@@ -194,7 +194,8 @@ const characterConstant = {
   ],
 };
 
-var web3 = new Web3(new Web3.providers.HttpProvider(characterConstant.rpcUrl));
+//var web3 = new Web3(new Web3.providers.HttpProvider(characterConstant.rpcUrl));
+var web3 = new Web3(window.ethereum);
 
 var characterContract = new web3.eth.Contract(characterConstant.abi, characterConstant.contractAddress);
 

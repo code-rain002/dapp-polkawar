@@ -86,9 +86,12 @@ function Airdrop({ authenticated, user }) {
   };
   const isSpinned = async () => {
     if (user) {
+      console.log('Calling isJoinAirdrop from isSpinned');
       let joined = await isJoinAirdrop(user.address);
       if (joined > 0) {
         setAirdropJoined(true);
+        console.log('Calling tokenURI from isSpinned');
+
         let itemString = await tokenURI(joined);
         await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
           setItemJson(res.data);
@@ -145,14 +148,19 @@ function Airdrop({ authenticated, user }) {
 
   const checkAirdrop = async () => {
     //call getAirdrop function
-    console.log('checkAirdrop Execution');
+    console.log('Calling getAirdrop from checkAirdrop');
+
     let execution = await getAirdrop(user.address);
 
     if (execution) {
       setTimeout(async () => {
+        console.log('Calling isJoinAirdrop from checkAirdrop');
+
         let joined = await isJoinAirdrop(user.address);
         if (joined > 0) {
           setAirdropJoined(true);
+          console.log('Calling tokenURI from checkAirdrop');
+
           let itemDetails = await tokenURI(joined);
           setItemJson(itemDetails);
           console.log('Joined' + joined);
