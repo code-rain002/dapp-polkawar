@@ -68,34 +68,6 @@ function HotCharacters({ characters, getCharacters }) {
     }
   }, [characters]);
 
-  const topCharacters = [
-    {
-      id: 1,
-      item_name: 'Paul Walling',
-      level: 39,
-      imageUrl: 'http://pngimg.com/uploads/ninja/ninja_PNG18.png',
-    },
-    {
-      id: 2,
-      item_name: 'Julia Sen',
-      level: 13,
-      imageUrl: 'https://casinoburst.com/wp-content/uploads/2017/11/NetEnt-Game-Character.png',
-    },
-    {
-      id: 3,
-      item_name: 'Robert Clawn',
-      level: 267,
-      imageUrl:
-        'https://profiles.bugcrowdusercontent.com/avatars/0c9ebb2ded806d7ffda75cd0b95eb70c/Ninja1024x1024-1024x1024.png',
-    },
-    {
-      id: 4,
-      item_name: 'Kakie Jhan',
-      level: 54,
-      imageUrl: 'https://s3.amazonaws.com/gameartpartnersimagehost/wp-content/uploads/edd/2015/08/Featured-Image6.png',
-    },
-  ];
-
   return (
     <Fragment>
       <div>

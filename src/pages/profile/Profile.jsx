@@ -246,19 +246,25 @@ function Profile({ authenticateUser, user, authenticated }) {
   };
 
   const getCharacter = async () => {
-    if (user) {
-      let ownerTokenId = await tokenOfOwnerByIndex(user.address, 0);
-      let characterHash = await tokenURICharacter(ownerTokenId);
-      await axios.get(`${imageBaseUrl}${characterHash}`).then((res) => {
-        let tempObject = [res.data];
-        setCharacters(tempObject);
-        console.log(tempObject);
+    if (checkNetwork()) {
+      web3.eth.requestAccounts().then(async (accounts) => {
+        const accountAddress = accounts[0];
+        let ownerTokenId = await tokenOfOwnerByIndex(accountAddress, 0);
+        let characterHash = await tokenURICharacter(ownerTokenId);
+        await axios.get(`${imageBaseUrl}${characterHash}`).then((res) => {
+          let tempObject = [res.data];
+          setCharacters(tempObject);
+          console.log(tempObject);
+        });
       });
+    } else {
+      setError('Only support BSC network');
     }
   };
   useEffect(() => {
     if (user !== null) {
       setUserData(user);
+      getCharacter();
     }
   }, [authenticated, user]);
 
