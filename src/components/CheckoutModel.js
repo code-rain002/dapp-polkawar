@@ -130,7 +130,6 @@ export default function CheckoutModel({ value, onClose, item }) {
       <div>
         <p className={classes.quantity}>1</p>
         <hr />
-        <p className={classes.quantity}>3 available</p>
       </div>
       <div className="d-flex justify-content-between">
         <h6 className={classes.quantity}>{item.price}</h6>
@@ -148,7 +147,7 @@ export default function CheckoutModel({ value, onClose, item }) {
         <h6 className={classes.text}>You will pay</h6>
         <p className={classes.textValue}>
           {' '}
-          {bnbBal} {item.currency}
+          {item.price} {item.currency}
         </p>
       </div>
       <div className="my-3 d-flex flex-column justify-content-start">
