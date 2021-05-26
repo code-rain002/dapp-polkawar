@@ -241,7 +241,7 @@ function Profile({ authenticateUser, user, authenticated }) {
         setError('');
       });
     } else {
-      setError('Wrong Network!');
+      setError('Only support BSC network');
     }
   };
 

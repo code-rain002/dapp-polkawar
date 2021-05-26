@@ -36,13 +36,35 @@ function HotCharacters({ characters, getCharacters }) {
   const classes = useStyles();
   const [charactersList, setCharactersList] = useState([]);
 
+  const updateCharacters = () => {
+    let names = [
+      'Paul Williams',
+      'Nafa Jain',
+      'Darren Jil',
+      'Shubham Sharma',
+      'Jay',
+      'Akram',
+      'Zin Loof',
+      'Engitan Suc',
+      'Crypto Boss',
+      'Devil King',
+    ];
+    let updatedData = characters.map((character, index) => {
+      character.name = names[index];
+      return character;
+    });
+    let filteredData = updatedData.filter((character) => {
+      return character.level !== '0';
+    });
+    setCharactersList(filteredData);
+  };
   useEffect(() => {
     getCharacters();
   }, []);
 
   useEffect(() => {
     if (characters !== null) {
-      setCharactersList(characters);
+      updateCharacters();
     }
   }, [characters]);
 

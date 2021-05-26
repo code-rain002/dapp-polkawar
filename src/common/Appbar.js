@@ -315,7 +315,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
           getBalance(accountAddress);
         });
       } else {
-        setAlert({ status: true, message: 'Wrong Network' });
+        setAlert({ status: true, message: 'Only support BSC network' });
       }
     } else {
       setAlert({ status: true, message: 'Install metamask first!' });
@@ -367,7 +367,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
           authenticateUser(accountAddress);
         });
       } else {
-        setAlert({ status: true, message: 'Wrong Network' });
+        setAlert({ status: true, message: 'Only support BSC network' });
         signOut(userAdd);
       }
     });

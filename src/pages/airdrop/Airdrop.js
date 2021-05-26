@@ -76,7 +76,7 @@ function Airdrop({ authenticated, user }) {
       setMetamaskAvailable(true);
       if (!checkNetwork()) {
         setError({
-          title: 'Wrong Network!',
+          title: 'Only support BSC network',
           msg: 'Change network to Binance Smart Chain first then only you will be able to spin.',
         });
       }
