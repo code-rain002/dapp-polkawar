@@ -1,6 +1,8 @@
+import { useState, useEffect } from 'react';
 import { Button, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Close } from '@material-ui/icons';
+import web3 from './../web';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -92,7 +94,23 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CheckoutModel({ value, onClose, item }) {
   const classes = useStyles();
+  const [bnbBal, setBnbBal] = useState(0);
 
+  const getBnbBalance = async () => {
+    if (web3 !== undefined) {
+      web3.eth.requestAccounts().then((accounts) => {
+        const currentAddress = accounts[0];
+        web3.eth.getBalance(currentAddress, (err, balance) => {
+          let bnbBalance = web3.utils.fromWei(balance);
+          setBnbBal(bnbBalance);
+        });
+      });
+    }
+    return 'Error!';
+  };
+  useEffect(() => {
+    getBnbBalance();
+  }, []);
   return (
     <div className={classes.card}>
       <div className="d-flex justify-content-between">
@@ -122,7 +140,7 @@ export default function CheckoutModel({ value, onClose, item }) {
       <div className="d-flex justify-content-between">
         <h6 className={classes.text}>Your balance</h6>
         <p className={classes.textValue}>
-          {item.price} {item.currency}
+          {bnbBal} {item.currency}
         </p>
       </div>
 
@@ -130,7 +148,7 @@ export default function CheckoutModel({ value, onClose, item }) {
         <h6 className={classes.text}>You will pay</h6>
         <p className={classes.textValue}>
           {' '}
-          {item.price} {item.currency}
+          {bnbBal} {item.currency}
         </p>
       </div>
       <div className="my-3 d-flex flex-column justify-content-start">

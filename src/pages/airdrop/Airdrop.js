@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Wheel from '../../components/Wheel';
-import imageBaseUrl from './../../actions/imageBaseUrl';
-import { Button } from '@material-ui/core';
-import Grow from '@material-ui/core/Grow';
-import CountdownTimer from './../../components/CountdownTimer';
-import web3 from './../../web';
-import { connect } from 'react-redux';
-import ConnectButton from '../../components/ConnectButton';
-import constants from './../../utils/constants';
 import axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
+import { Button, Grow } from '@material-ui/core';
+import { connect } from 'react-redux';
 import { isJoinAirdrop, getAirdrop, tokenURI } from './../../actions/smartActions/SmartActions';
 import Loader from './../../components/Loader';
+import CountdownTimer from './../../components/CountdownTimer';
+import ConnectButton from '../../components/ConnectButton';
+import Wheel from '../../components/Wheel';
+import web3 from './../../web';
+import constants from './../../utils/constants';
+import imageBaseUrl from './../../actions/imageBaseUrl';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -86,14 +85,14 @@ function Airdrop({ authenticated, user }) {
       setError({ title: 'Metamask missing!', msg: 'Install metamask first and then only you will be able to spin.' });
     }
   };
+
   const isSpinned = async () => {
     if (user) {
-      console.log('Calling isJoinAirdrop from isSpinned');
       let joined = await isJoinAirdrop(user.address);
 
       if (parseInt(joined) > 0) {
         setAirdropJoined(true);
-        console.log('Calling tokenURI from isSpinned');
+
         let itemString = await tokenURI(joined);
         await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
           setItemJson(res.data);
@@ -154,24 +153,17 @@ function Airdrop({ authenticated, user }) {
 
   const checkAirdrop = async () => {
     //call getAirdrop function
-    console.log('Calling getAirdrop from checkAirdrop');
 
     let execution = await getAirdrop(user.address);
 
     if (execution) {
       setTimeout(async () => {
-        console.log('Calling isJoinAirdrop from checkAirdrop');
-
         let joined = await isJoinAirdrop(user.address);
         if (parseInt(joined) > 0) {
           setAirdropJoined(true);
-          console.log('Calling tokenURI from checkAirdrop');
-
           let itemDetails = await tokenURI(joined);
           if (itemDetails !== null) {
             setItemJson(itemDetails);
-            console.log('Joined' + joined);
-            console.log('itemDetails' + itemDetails);
             setLoading(false);
           }
         }
@@ -179,13 +171,9 @@ function Airdrop({ authenticated, user }) {
           let reJoined = await isJoinAirdrop(user.address);
           if (reJoined > 0) {
             setAirdropJoined(true);
-            console.log('Calling tokenURI from checkAirdrop');
-
             let itemDetails = await tokenURI(joined);
             if (itemDetails !== null) {
               setItemJson(itemDetails);
-              console.log('Joined' + joined);
-              console.log('itemDetails' + itemDetails);
               setLoading(false);
             }
           }

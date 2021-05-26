@@ -2,27 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import MenuIcon from '@material-ui/icons/Menu';
+import {
+  ListItem,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  SwipeableDrawer,
+  List,
+  Divider,
+  ListItemText,
+  Backdrop,
+  Button,
+  Dialog,
+  Snackbar,
+} from '@material-ui/core';
 import clsx from 'clsx';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import { Backdrop, Slide } from '@material-ui/core';
-import { Button, Dialog } from '@material-ui/core';
 import { AccountBalanceWallet, Close } from '@material-ui/icons';
-import Snackbar from '@material-ui/core/Snackbar';
+import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 import { authenticateUser, signOutUser } from './../actions/authActions';
 import web3 from './../web';
 import MuiAlert from '@material-ui/lab/Alert';
 import BalancePopup from './BalancePopup';
-import pwrContract from './../utils/pwrConnection';
+import { getPwarBalance } from './../actions/smartActions/SmartActions';
 import constants from './../utils/constants';
 
 const useStyles = makeStyles((theme) => ({
@@ -199,7 +202,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
   const [navIndex, setNavIndex] = useState(0);
   const [userData, setUserData] = useState(null);
   const [ethBal, setEthBal] = useState(null);
-  const [pwrBal, setPwrBal] = useState(10);
+  const [pwarBal, setPwarBal] = useState(10);
   const [userAdd, setUserAdd] = useState(null);
   const [popup, setPopup] = useState(false);
   const [state, setState] = React.useState({
@@ -291,22 +294,17 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
     }
   };
 
-  const getBalance = (currentAddress) => {
+  const getBalance = async (currentAddress) => {
     if (web3 !== undefined) {
       web3.eth.getBalance(currentAddress, (err, balance) => {
         let ethBalance = web3.utils.fromWei(balance);
         setEthBal(ethBalance);
       });
-      getPWRBalance();
+      let pwarBalance = await getPwarBalance(currentAddress);
+      setPwarBal(pwarBalance);
     }
   };
-  const getPWRBalance = async () => {
-    if (userData) {
-      pwrContract.methods.balanceOf(userData.address).call((err, result) => {
-        setPwrBal(result);
-      });
-    }
-  };
+
   const connectWallet = () => {
     if (web3 !== undefined) {
       if (checkNetwork()) {
@@ -327,14 +325,14 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
   useEffect(() => {
     if (web3 !== undefined) {
       web3.eth.requestAccounts().then((accounts) => {
-        const accountAddress = accounts[0];
-        const userAdd = localStorage.getItem('userAddress');
-        if (accountAddress !== userAdd) {
-          authenticateUser(userAdd);
+        const currentAddress = accounts[0];
+        const localAddress = localStorage.getItem('userAddress');
+        if (currentAddress !== localAddress) {
+          authenticateUser(currentAddress);
         }
-        setUserAdd(accountAddress);
-        authenticateUser(userAdd);
-        getBalance(accountAddress);
+        setUserAdd(currentAddress);
+        authenticateUser(currentAddress);
+        getBalance(currentAddress);
       });
     } else {
       setAlert({ status: true, message: 'Install metamask first!' });
@@ -348,6 +346,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
   }, [user]);
 
   useEffect(() => {
+    //Events to detect changes in account or network.
     window.ethereum.on('accountsChanged', function (accounts) {
       web3.eth.requestAccounts().then((accounts) => {
         const accountAddress = accounts[0];
@@ -498,7 +497,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
           <div style={{ backgroundColor: 'black' }}>
             <BalancePopup
               address={userData !== null && userData.address}
-              pwar={pwrBal}
+              pwar={pwarBal}
               togglePopup={() => togglePopup(false)}
               signOut={() => signOut(userAdd)}
             />

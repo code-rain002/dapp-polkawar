@@ -82,3 +82,14 @@ export const tokenURICharacter = (tokenId) => {
     return response;
   });
 };
+
+//PWAR Functions
+
+//READ
+//Returns PWR Balance of User
+
+export const getPwarBalance = (userAddress) => {
+  return pwrContract.methods.balanceOf(userAddress).call(async (err, response) => {
+    return response;
+  });
+};

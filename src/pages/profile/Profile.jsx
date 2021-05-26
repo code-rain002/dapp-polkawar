@@ -14,7 +14,7 @@ import CreateCharacterForm from '../../components/CreateCharacterForm';
 import { tokenOfOwnerByIndex, tokenURICharacter } from './../../actions/smartActions/SmartActions';
 import axios from 'axios';
 import imageBaseUrl from './../../actions/imageBaseUrl';
-import CharacterCard from '../../components/CharacterCard';
+import constants from './../../utils/constants';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -226,7 +226,7 @@ function Profile({ authenticateUser, user, authenticated }) {
   };
 
   const checkNetwork = () => {
-    if (web3.currentProvider.networkVersion === '56') {
+    if (web3.currentProvider.networkVersion === constants.network_id) {
       return true;
     } else {
       return false;
@@ -249,7 +249,6 @@ function Profile({ authenticateUser, user, authenticated }) {
     if (user) {
       let ownerTokenId = await tokenOfOwnerByIndex(user.address, 0);
       let characterHash = await tokenURICharacter(ownerTokenId);
-
       await axios.get(`${imageBaseUrl}${characterHash}`).then((res) => {
         let tempObject = [res.data];
         setCharacters(tempObject);
@@ -279,19 +278,6 @@ function Profile({ authenticateUser, user, authenticated }) {
       </div>
       <h6 className={classes.title}>{user.username}</h6>
       <h6 className={classes.title}>( {user.address} )</h6>
-      {/* <div className="d-flex justify-content-center">
-        <div className={classes.buttonWrapper}>
-          <Button variant="contained" className={classes.button}>
-            Edit Profile
-          </Button>
-        </div>
-        <div className={classes.buttonWrapper}>
-          <Button variant="contained" className={classes.button}>
-            Share
-            <Share />
-          </Button>
-        </div>
-      </div> */}
       <div className="mt-5"></div>
       <div className={classes.tabWrapper}>
         <Paper square className={classes.tabs}>
@@ -302,11 +288,11 @@ function Profile({ authenticateUser, user, authenticated }) {
             onChange={handleChange}
             variant="scrollable"
             scrollButtons="auto">
-            <Tab label="Character" className={classes.tab} />
+            <Tab label="Characters" className={classes.tab} />
             <Tab label="On Sale" className={classes.tab} />
             <Tab label="Equipment Bag" className={classes.tab} />
-            <Tab label="History battle" className={classes.tab} />
-            <Tab label="Activity" className={classes.tab} />
+            <Tab label="History battles" className={classes.tab} />
+            <Tab label="Activities" className={classes.tab} />
           </Tabs>
         </Paper>
         <div style={{ maxWidth: 1000 }}>
