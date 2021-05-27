@@ -1,5 +1,6 @@
 import axios from 'axios';
 import baseUrl from '../actions/baseUrl';
+import { authenticateUser } from './authActions';
 import { GET_USER, GET_ERRORS } from './types';
 
 //GET user details
@@ -24,13 +25,14 @@ export const getUser = (address) => (dispatch) => {
 //Arguments (userName);
 export const updateUsername = (userName, address) => (dispatch) => {
   let userData = {
-    username: username,
+    username: userName,
     address: address,
   };
   axios
-    .patch(`${baseUrl}/user/username}`, userData)
+    .patch(`${baseUrl}/user/username`, userData)
     .then((res) => {
       console.log(res.data);
+      dispatch(authenticateUser(userData.address));
       // dispatch({
       //   type: UPDATE_USER,
       //   payload: res.data,

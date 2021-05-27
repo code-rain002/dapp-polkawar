@@ -10,7 +10,7 @@ export default function (state = initalState, action) {
     case GET_CURRENT_USER:
       return {
         ...state,
-        authenticated: !state.authenticated,
+        authenticated: true,
         user: action.payload,
       };
     case REMOVE_CURRENT_USER:

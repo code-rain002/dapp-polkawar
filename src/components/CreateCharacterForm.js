@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Button, Divider, Input, MenuItem, Select, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Close } from '@material-ui/icons';
 import { createItem } from './../actions/smartActions/SmartActions';
+import { updateUsername } from './../actions/userActions';
 import Loader from './Loader';
+import propTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -73,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter }) {
+function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, updateUsername }) {
   const classes = useStyles();
 
   const [loading, setLoading] = useState(false);
@@ -83,7 +85,7 @@ export default function CreateCharacterForm({ stopPopupClicking, onClose, user, 
   const [characterName, setCharacterName] = useState('');
   const [characterClass, setCharacterClass] = useState('Warrior');
 
-  const changeClass = (e) => {
+  const changeClass = async (e) => {
     setCharacterClass(e.target.value);
   };
 
@@ -100,6 +102,8 @@ export default function CreateCharacterForm({ stopPopupClicking, onClose, user, 
       stopPopupClicking(false);
 
       //Integration of username update
+      updateUsername(characterName, user.address);
+
       //Integration of ownTokenID
     } else {
       setError('Transaction Failed');
@@ -184,3 +188,16 @@ export default function CreateCharacterForm({ stopPopupClicking, onClose, user, 
     </div>
   );
 }
+
+CreateCharacterForm.propTypes = {
+  authenticateUser: propTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  authenticated: state.auth.authenticated,
+  user: state.auth.user,
+});
+
+const mapDispatchToProps = { updateUsername };
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateCharacterForm);
