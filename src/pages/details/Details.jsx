@@ -172,7 +172,7 @@ function Details({ getItem, singleItem }) {
             <div className="my-3 d-flex justify-content-start">
               <div style={{ paddingRight: 10 }}>
                 <Button variant="contained" className={classes.buttonMain} onClick={() => handleModal(true)}>
-                  Buy Now
+                  Purchase
                 </Button>
               </div>
               <div>

@@ -7,6 +7,10 @@ import web3 from './../web';
 const useStyles = makeStyles((theme) => ({
   card: {
     width: 400,
+    height: 300,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     border: '1px solid #e5e5e5',
     borderRadius: 14,
     padding: '8px 16px 8px 16px',
@@ -113,7 +117,8 @@ export default function CheckoutModel({ value, onClose, item }) {
   }, []);
   return (
     <div className={classes.card}>
-      <div className="d-flex justify-content-between">
+      <h6 className={classes.title}>Coming Soon</h6>
+      {/* <div className="d-flex justify-content-between">
         <h5 className={classes.title}>Checkout</h5>
         <div>
           {' '}
@@ -162,6 +167,7 @@ export default function CheckoutModel({ value, onClose, item }) {
           </Button>
         </div>
       </div>
+     */}
     </div>
   );
 }
