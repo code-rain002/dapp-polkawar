@@ -98,6 +98,9 @@ export default function CreateCharacterForm({ stopPopupClicking, onClose, user, 
       getCharacter();
       setCompleted(true);
       stopPopupClicking(false);
+
+      //Integration of username update
+      //Integration of ownTokenID
     } else {
       setError('Transaction Failed');
       setFailed(true);

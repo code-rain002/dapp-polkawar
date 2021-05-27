@@ -22,10 +22,13 @@ export const getUser = (address) => (dispatch) => {
 
 //POST username
 //Arguments (userName);
-export const updateUsername = (userName) => (dispatch) => {
-  let data = userName;
+export const updateUsername = (userName, address) => (dispatch) => {
+  let userData = {
+    username: username,
+    address: address,
+  };
   axios
-    .post(`${baseUrl}/user/update}`, data)
+    .patch(`${baseUrl}/user/username}`, userData)
     .then((res) => {
       console.log(res.data);
       // dispatch({

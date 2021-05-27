@@ -255,6 +255,7 @@ function Profile({ authenticateUser, user, authenticated }) {
         await axios.get(`${imageBaseUrl}${characterHash}`).then((res) => {
           let tempObject = [res.data];
           setCharacters(tempObject);
+
           console.log(tempObject);
         });
       });
@@ -283,8 +284,8 @@ function Profile({ authenticateUser, user, authenticated }) {
           className={classes.avatarWrapper}
         />
       </div>
-      <h6 className={classes.title}>{user.username}</h6>
       <h6 className={classes.title}>( {user.address} )</h6>
+      <h6 className={classes.title}>{user.username}</h6>
       <div className="mt-5"></div>
       <div className={classes.tabWrapper}>
         <Paper square className={classes.tabs}>
@@ -327,6 +328,9 @@ function Profile({ authenticateUser, user, authenticated }) {
                                 <h6 className={classes.levelText}>{character.level} </h6>
                               </div>
                             </div>
+                            <div className="text-center">
+                              <h6 style={{ color: 'yellow', fontSize: 14 }}>{character.name} </h6>
+                            </div>
                             <div className={classes.mediaWrapper}>
                               <img
                                 src={`${imageBaseUrl}/${character.image}`}
@@ -335,7 +339,7 @@ function Profile({ authenticateUser, user, authenticated }) {
                               />
                             </div>
                             <div className="mt-5">
-                              <h4 className={classes.title}>{character.name}</h4>
+                              <h4 className={classes.title}>{user.username}</h4>
                             </div>
                           </Card>
                         </div>
