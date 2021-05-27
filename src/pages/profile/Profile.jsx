@@ -213,6 +213,7 @@ function Profile({ authenticateUser, user, authenticated }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [characterPopup, setCharacterPopup] = useState(false);
+  const [stopPopupClick, setStopPopupClick] = useState(false);
   const [characters, setCharacters] = useState([]);
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState('');
@@ -388,7 +389,7 @@ function Profile({ authenticateUser, user, authenticated }) {
             )}
           </TabPanel>
           <TabPanel value={value} index={2}>
-            {user.equipments.length !== 0 ? (
+            {user.ownTokenIds.length !== 0 ? (
               <div>Equipments List</div>
             ) : (
               <div className="text-center">
@@ -464,11 +465,17 @@ function Profile({ authenticateUser, user, authenticated }) {
         onClose={() => toggleCharacterPopup(false)}
         closeAfterTransition
         BackdropComponent={Backdrop}
+        disableBackdropClick={stopPopupClick}
         BackdropProps={{
           timeout: 500,
         }}>
         <div style={{ backgroundColor: 'black' }}>
-          <CreateCharacterForm user={user} onClose={() => toggleCharacterPopup(false)} getCharacter={getCharacter} />
+          <CreateCharacterForm
+            user={user}
+            onClose={() => toggleCharacterPopup(false)}
+            getCharacter={getCharacter}
+            stopPopupClicking={setStopPopupClick}
+          />
         </div>
       </Dialog>{' '}
     </div>

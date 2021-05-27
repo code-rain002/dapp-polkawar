@@ -12,9 +12,22 @@ var CharacterModel = new mongoose.Schema({
   description: {
     type: String,
   },
+
   level: {
     type: String,
     default: 0,
+  },
+  properties: {
+    type: Object,
+    default: {
+      hp: 30,
+      mp: 21,
+      pAtk: 6,
+      mAtk: 0,
+      pDef: 7,
+      mDef: 7,
+      spd: 0.7,
+    },
   },
   image: {
     type: String,

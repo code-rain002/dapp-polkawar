@@ -19,3 +19,27 @@ export const getCharacters = () => (dispatch) => {
       });
     });
 };
+
+//POST character created from user
+//Arguments (tokenId,type);
+export const createUserCharacter = (tokenId, type) => (dispatch) => {
+  let characterData = {
+    tokenId: tokenId,
+    type: type,
+  };
+  axios
+    .post(`${baseUrl}/character/create}`, { characterData })
+    .then((res) => {
+      console.log(res.data);
+      // dispatch({
+      //   type: CREATE_CHARACTER,
+      //   payload: res.data,
+      // });
+    })
+    .catch((err) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response,
+      });
+    });
+};

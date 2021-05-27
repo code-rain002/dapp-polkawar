@@ -15,12 +15,13 @@ var UserModel = new mongoose.Schema({
   characters: {
     type: Array,
   },
+  ownTokenIds: {
+    type: Array,
+  },
   onSale: {
     type: Array,
   },
-  equipments: {
-    type: Array,
-  },
+
   battles: {
     type: Array,
   },

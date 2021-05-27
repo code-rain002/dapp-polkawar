@@ -73,13 +73,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CreateCharacterForm({ onClose, user, getCharacter }) {
+export default function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter }) {
   const classes = useStyles();
 
   const [loading, setLoading] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [failed, setFailed] = useState(false);
   const [error, setError] = useState('');
+  const [characterName, setCharacterName] = useState('');
   const [characterClass, setCharacterClass] = useState('Warrior');
 
   const changeClass = (e) => {
@@ -87,6 +88,7 @@ export default function CreateCharacterForm({ onClose, user, getCharacter }) {
   };
 
   const submitForm = async () => {
+    stopPopupClicking(true);
     setLoading(true);
     setError('Character is creating... please wait');
 
@@ -95,10 +97,12 @@ export default function CreateCharacterForm({ onClose, user, getCharacter }) {
       setError('Transaction Completed');
       getCharacter();
       setCompleted(true);
+      stopPopupClicking(false);
     } else {
       setError('Transaction Failed');
       setFailed(true);
       setCompleted(true);
+      stopPopupClicking(false);
     }
   };
   return (
@@ -109,6 +113,16 @@ export default function CreateCharacterForm({ onClose, user, getCharacter }) {
             <h5 className={classes.title}>Create Character</h5>
           </div>{' '}
           <Divider style={{ backgroundColor: 'black' }} />
+          <div className="p-2 mt-3 float-left">
+            <TextField
+              label={<p className={classes.label}>Character Name</p>}
+              value={characterName}
+              placeholder="Enter your character name"
+              className={classes.textField}
+              onChange={(e) => setCharacterName(e.target.value)}
+              fullWidth
+            />
+          </div>
           <div className="p-2 mt-3 float-left">
             <TextField
               select
@@ -156,11 +170,11 @@ export default function CreateCharacterForm({ onClose, user, getCharacter }) {
             )}
 
             <h5 className="text-center">{error}</h5>
-            <div>
+            {/* <div>
               <Button variant="contained" className={classes.buttonProceed} onClick={onClose}>
                 Close Now
               </Button>
-            </div>
+            </div> */}
           </div>{' '}
         </div>
       )}
