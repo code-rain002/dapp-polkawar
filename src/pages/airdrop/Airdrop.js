@@ -108,6 +108,11 @@ function Airdrop({ authenticated, user }) {
     checkMetamask();
     isSpinned();
   }, []);
+
+  useEffect(() => {
+    checkMetamask();
+    isSpinned();
+  }, [user]);
   const items = [
     <div>
       Armor
