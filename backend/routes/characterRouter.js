@@ -36,6 +36,16 @@ router.post('/character', async (req, res, next) => {
     {
       id: 1,
       name: 'Magician',
+      properties: {
+        hp: 27,
+        mp: 22,
+        pAtk: 2,
+        mAtk: 10,
+        pDef: 4,
+        mDef: 6,
+        spd: 0.3,
+      },
+
       description:
         'The magician is the character who has mysterious magic, supernatural tricks and inherits the power of the evil darkness',
       level: 0,
@@ -60,6 +70,15 @@ router.post('/character', async (req, res, next) => {
     {
       id: 4,
       name: 'Archer',
+      properties: {
+        hp: 29,
+        mp: 25,
+        pAtk: 9,
+        mAtk: 2,
+        pDef: 4,
+        mDef: 4,
+        spd: 1,
+      },
       description: 'The archer is the character with fast attack speed and angelic beauty.',
       level: 0,
       image: 'QmchE9x6ggMAZPyZZ49Q2QKJ3bcAHNnSSHtooR7s3ZWmtE',
@@ -81,6 +100,15 @@ router.post('/character', async (req, res, next) => {
     {
       id: 7,
       name: 'Warrior',
+      properties: {
+        hp: 30,
+        mp: 21,
+        pAtk: 6,
+        mAtk: 0,
+        pDef: 7,
+        mDef: 7,
+        spd: 0.7,
+      },
       description: 'The Warrior is a character with high strength and the most powerful one in PolkaWar.',
       level: 0,
       image: 'QmYn3SNyCXenSbwE4QYSVUK1RTJudxY2VfucUfwodwKQRz',

@@ -56,6 +56,11 @@ router.post('/item', async (req, res, next) => {
       level: 1,
       image: 'QmZboN1rGU9nzwsMA5FWgcKzPvqSL1VLwmrL7jrvNSNoxz',
       category: 'armor',
+      properties: {
+        hp: 10,
+        mp: 6,
+        prot: 5,
+      },
       gallery: [
         'QmPtX8ZUs7eXy7W1SNDnwXkR4wvxvCy8cjgFSmXjzAmfVm',
         'QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz',
@@ -70,6 +75,11 @@ router.post('/item', async (req, res, next) => {
       level: 1,
       image: 'QmYXtV5pPfGKNec8DdLP3RhQM6fGyJ9TSVGTsVDKLNTDMF',
       category: 'armor',
+      properties: {
+        hp: 10,
+        mp: 6,
+        prot: 5,
+      },
       gallery: [
         'QmPtX8ZUs7eXy7W1SNDnwXkR4wvxvCy8cjgFSmXjzAmfVm',
         'QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz',
@@ -84,6 +94,11 @@ router.post('/item', async (req, res, next) => {
       level: 1,
       image: 'QmYPaKCKa6N6Y1f7NfHcX2cSpJRSatf41brUPffa84YNQm',
       category: 'armor',
+      properties: {
+        hp: 10,
+        mp: 6,
+        prot: 5,
+      },
       gallery: [
         'QmPtX8ZUs7eXy7W1SNDnwXkR4wvxvCy8cjgFSmXjzAmfVm',
         'QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz',
@@ -212,6 +227,11 @@ router.post('/item', async (req, res, next) => {
       level: 1,
       image: 'QmQGVeyBvum2Z4Uc8W8Dna1SUB1wjmTPMth2oCarxMENyp',
       category: 'helmet',
+      properties: {
+        hp: 5,
+        mp: 3,
+        prot: 2,
+      },
       gallery: [
         'QmXFFJk8Qk5DNKoszm7AbxK39symaqu3GVEUVwcFMSkvd3',
         'QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4',
@@ -226,6 +246,11 @@ router.post('/item', async (req, res, next) => {
       level: 1,
       image: 'QmZhcjqaUVP4wnrHMJHwURhBzeg2qgbbe9B8dhX52iroVB',
       category: 'helmet',
+      properties: {
+        hp: 5,
+        mp: 3,
+        prot: 2,
+      },
       gallery: [
         'QmXFFJk8Qk5DNKoszm7AbxK39symaqu3GVEUVwcFMSkvd3',
         'QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4',
@@ -240,6 +265,11 @@ router.post('/item', async (req, res, next) => {
       level: 1,
       image: 'Qmath2HgLVjGy3CmmzmLshoDThqFrQNj4ueRrd8YEAQgDA',
       category: 'helmet',
+      properties: {
+        hp: 5,
+        mp: 3,
+        prot: 2,
+      },
       gallery: [
         'QmXFFJk8Qk5DNKoszm7AbxK39symaqu3GVEUVwcFMSkvd3',
         'QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4',
@@ -368,6 +398,11 @@ router.post('/item', async (req, res, next) => {
       level: 1,
       image: 'QmYqV2jhYyZJBmvx5kU6KycFkTTG2F2MGCGtiMJrS8g4dE',
       category: 'sword',
+      properties: {
+        bd: 30,
+        bns: 7,
+        acc: 5,
+      },
       gallery: [
         'QmV5ePoHh2XGzPmhxy5b3NGriauCfHqxoT7M2pLSWzujVu',
         'QmWo1CTuCVie2N8EKhFaBXA5FUP9Luj1sjJBZLUyy8ssb4',
@@ -438,6 +473,11 @@ router.post('/item', async (req, res, next) => {
       currency: 'BNB',
       description: 'Base Damage: 32, Bonus: +5%, Accuracy: +4',
       level: 1,
+      properties: {
+        bd: 32,
+        bns: 5,
+        acc: 4,
+      },
       image: 'QmYBRqwjCu95NpTbkwRmseUEKd1wNS4ZvyuQZWPDZaZjNs',
       category: 'big knife',
     },
@@ -485,6 +525,11 @@ router.post('/item', async (req, res, next) => {
       currency: 'BNB',
       description: 'Base Damage: 26, Bonus: +8%, Accuracy: +4',
       level: 1,
+      properties: {
+        bd: 26,
+        bns: 8,
+        acc: 4,
+      },
       image: 'QmTyG1N1d5XaS28EvuH4nvaFC6S38NgYt87BeySvsoS98n',
       category: 'tessen',
     },
@@ -534,6 +579,11 @@ router.post('/item', async (req, res, next) => {
       level: 1,
       image: 'QmbVbMQiDjhvtLGFNnJ3VoXACHbPJusQBzMQ43mpYvxFsd',
       category: 'bow & arrow',
+      properties: {
+        bd: 29,
+        bns: 9,
+        acc: 4,
+      },
       gallery: [
         'QmVYVp3RhTL2BgdLg4CPejuxPDcMRjiWv6f218vPZa4xYg',
         'QmYu9frvTRuySJYupkYthz77fMH9dg1ugiri4fHUuuGRTX',
@@ -604,6 +654,11 @@ router.post('/item', async (req, res, next) => {
       currency: 'BNB',
       description: 'Base Damage: 36, Bonus: +5%, Accuracy: +3',
       level: 1,
+      properties: {
+        bd: 36,
+        bns: 5,
+        acc: 3,
+      },
       image: 'QmWAdCmcPVhryxHMcgSKcHa88B5S8rhNCYLTDmKKg33iU4',
       category: 'gun',
     },
@@ -651,6 +706,11 @@ router.post('/item', async (req, res, next) => {
       currency: 'BNB',
       description: 'HP: 7, MP: 5, Protection: +3',
       level: 1,
+      properties: {
+        hp: 7,
+        mp: 5,
+        prot: 3,
+      },
       image: 'QmSE1fRkifzczAYwNk3cZBvhrFgzefjxjWyjt7qguktKhX',
       category: 'wing',
     },
@@ -660,6 +720,11 @@ router.post('/item', async (req, res, next) => {
       currency: 'BNB',
       description: 'HP: 7, MP: 5, Protection: +3',
       level: 1,
+      properties: {
+        hp: 7,
+        mp: 5,
+        prot: 3,
+      },
       image: 'QmSwZWV1fbUUPmHPidAkxqNbxtsXi6jPMdN4AeV3euDdVE',
       category: 'wing',
     },
@@ -669,6 +734,11 @@ router.post('/item', async (req, res, next) => {
       currency: 'BNB',
       description: 'HP: 7, MP: 5, Protection: +3',
       level: 1,
+      properties: {
+        hp: 7,
+        mp: 5,
+        prot: 3,
+      },
       image: 'QmbqwfPekXBqC3CCwt5nAiAcEV5ku6ASk7wnRuQfV8kWua',
       category: 'wing',
     },
@@ -752,6 +822,11 @@ router.post('/item', async (req, res, next) => {
       currency: 'BNB',
       description: 'Base Damage: 31, Bonus: +6%, Accuracy: +3',
       level: 1,
+      properties: {
+        bd: 31,
+        bns: 6,
+        acc: 3,
+      },
       image: 'QmQfKtYBdDB8fDxUo6c53RbZUd7oe3agHjEWqt9kA3P2PD',
       category: 'sceptre',
       gallery: [
@@ -825,6 +900,11 @@ router.post('/item', async (req, res, next) => {
       currency: 'BNB',
       description: 'Base Damage: 2, Bonus: +6%, Accuracy: +1',
       level: 1,
+      properties: {
+        bd: 2,
+        bns: 6,
+        acc: 1,
+      },
       image: 'QmNTNGAQjMbTPukVi7LCwa4fvGzzUzkaUFYHqsLGk2KWGA',
       category: 'magic vase',
       gallery: [
