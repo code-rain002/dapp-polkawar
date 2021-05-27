@@ -57,6 +57,7 @@ function Airdrop({ authenticated, user }) {
   const [spinned, setSpinned] = useState(false);
   const [loading, setLoading] = useState(true);
   const [airdropJoined, setAirdropJoined] = useState(false);
+  const [startSpinning, setStartSpinning] = useState(false);
   const [itemJson, setItemJson] = useState(null);
   const [metamaskAvailable, setMetamaskAvailable] = React.useState(false);
   const [error, setError] = React.useState({ title: '', msg: '' });
@@ -92,7 +93,7 @@ function Airdrop({ authenticated, user }) {
 
       if (parseInt(joined) > 0) {
         setAirdropJoined(true);
-
+        setSpinned(true);
         let itemString = await tokenURI(joined);
         await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
           setItemJson(res.data);
@@ -158,13 +159,19 @@ function Airdrop({ authenticated, user }) {
 
   const checkAirdrop = async () => {
     //call getAirdrop function
-
     let execution = await getAirdrop(user.address);
-
+    // let execution = await getAirdrop(user.address).then((res)=>{
+    //   return res;
+    // }).catch((err)=>{
+    //   return err;
+    // });
+    console.log(execution);
     if (execution) {
+      setStartSpinning(true);
       setTimeout(async () => {
         let joined = await isJoinAirdrop(user.address);
         if (parseInt(joined) > 0) {
+          setSpinned(true);
           setAirdropJoined(true);
           let itemDetails = await tokenURI(joined);
           if (itemDetails !== null) {
@@ -175,6 +182,8 @@ function Airdrop({ authenticated, user }) {
         if (parseInt(joined) === 0) {
           let reJoined = await isJoinAirdrop(user.address);
           if (reJoined > 0) {
+            setSpinned(true);
+
             setAirdropJoined(true);
             let itemDetails = await tokenURI(joined);
             if (itemDetails !== null) {
@@ -211,12 +220,18 @@ function Airdrop({ authenticated, user }) {
                   </h3>
 
                   <div>
-                    <Wheel items={items} spinned={spinned} checkAirdrop={checkAirdrop} userAddress={user.address} />
+                    <Wheel
+                      startSpinning={startSpinning}
+                      items={items}
+                      spinned={spinned}
+                      checkAirdrop={checkAirdrop}
+                      userAddress={user.address}
+                    />
                   </div>
                 </div>
               )}
 
-              {(spinned || airdropJoined) && (
+              {airdropJoined && (
                 <div className="text-center mt-1">
                   <div className={classes.root}>
                     <div className={classes.container}>

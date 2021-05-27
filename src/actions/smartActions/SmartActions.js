@@ -25,10 +25,16 @@ export const getAirdrop = async (userAddress) => {
   console.log(userAddress);
 
   return await airdropContract.methods.getAirdrop(userProvidedSeed).send({ from: userAddress }, (err, response) => {
-    console.log('getAirdrop');
-    console.log(err);
+    console.log('getAirdrop Called');
+    if (err) {
+      console.log('returning true');
 
-    return true;
+      return true;
+    } else {
+      console.log('returning false');
+
+      return false;
+    }
   });
 };
 

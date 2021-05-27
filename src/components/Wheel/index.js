@@ -30,13 +30,13 @@ export default class Wheel extends Component {
 
   render() {
     const { selectedItem } = this.state;
-    const { items, spinned } = this.props;
+    const { items, spinned, startSpinning } = this.props;
 
     const wheelVars = {
       '--nb-item': items.length,
       '--selected-item': selectedItem,
     };
-    const spinning = selectedItem !== null ? 'spinning' : '';
+    const spinning = this.props.startSpinning;
 
     return (
       <div>
