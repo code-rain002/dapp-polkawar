@@ -207,6 +207,14 @@ const useStyles = makeStyles((theme) => ({
       height: 120,
     },
   },
+  propTitle: {
+    fontSize: 15,
+    color: 'yellow',
+  },
+  propValue: {
+    fontSize: 12,
+    color: 'white',
+  },
 }));
 
 function Profile({ authenticateUser, user, authenticated }) {
@@ -338,8 +346,21 @@ function Profile({ authenticateUser, user, authenticated }) {
                                 alt="character"
                               />
                             </div>
-                            <div className="mt-5">
+                            <div className="mt-1">
                               <h4 className={classes.title}>{user.username}</h4>
+                            </div>
+                            <div className="mt-2 d-flex flex-row justify-content-center align-items-center">
+                              {console.log(character)}
+                              {/* {Object.entries(character.properties).map(([key, value]) => {
+                                <div>
+                                  <div className="text-center">
+                                    <span className={classes.propTitle}>{key}</span>
+                                  </div>
+                                  <div className="text-center">
+                                    <p className={classes.propValue}>{value}</p>
+                                  </div>
+                                </div>;
+                              })}{' '} */}
                             </div>
                           </Card>
                         </div>
