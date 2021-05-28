@@ -54,9 +54,9 @@ export const tokenURI = (tokenId) => {
 //RETURNS Item json string
 export const createItem = async (address, characterClass) => {
   let level0Characters = {
-    Archer: 'QmPcXjjpsVAAKhd7qk6xknaUj3k1S2ypWMXRRBa5GM77wZ',
-    Magician: 'QmVHa4x8irQfGvHPDtSxCKgNZHcQKXV388hmCVZ7LvQ8wZ',
-    Warrior: 'QmV4JekQLh65rBRQVR7A5u3SfaTHyrniVbxzbiihYwDqiR',
+    Archer: 'QmX6PKEGDCtrdwSjxsJB4575dpYcv1sQoZMCADrCyCGJYC',
+    Magician: 'QmeCUJbbR9JPKnX2Tk9jFFHrvkNoYsVh8exwJbZ8M2pf3z',
+    Warrior: 'QmP9yV42APdrWfTPLA4KtQiVjVc2qNxdPsxS5YdFiXdbcU',
   };
   let characterURI = level0Characters[characterClass];
   console.log('Address' + address);

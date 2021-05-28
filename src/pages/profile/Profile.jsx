@@ -284,7 +284,7 @@ function Profile({ authenticateUser, user, authenticated }) {
 
   return authenticated ? (
     <div>
-      <div className="text-center mt-5">
+      <div className="text-center mt-3">
         <img
           src={user.avatar ? user.avatar : 'images/avatar.jpg'}
           height="100px"
@@ -294,7 +294,7 @@ function Profile({ authenticateUser, user, authenticated }) {
       </div>
       <h6 className={classes.title}>( {user.address} )</h6>
       <h6 className={classes.title}>{user.username}</h6>
-      <div className="mt-5"></div>
+      <div className="mt-3"></div>
       <div className={classes.tabWrapper}>
         <Paper square className={classes.tabs}>
           <Tabs
