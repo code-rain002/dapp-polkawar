@@ -3,12 +3,14 @@ import React, { Component } from 'react';
 import { getAirdrop } from './../../actions/smartActions/SmartActions';
 
 import './index.css';
+import './../AnimatedText/AnimatedText.scss';
 
 export default class Wheel extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedItem: null,
+      spin: false,
     };
     this.selectItem = this.selectItem.bind(this);
   }
@@ -16,6 +18,8 @@ export default class Wheel extends Component {
   selectItem = async () => {
     getAirdrop(this.props.userAddress);
     if (true) {
+      this.setState({ spin: true });
+
       if (this.state.selectedItem === null) {
         //Some wheel configuration things.
         const selectedItem = Math.floor(Math.random() * this.props.items.length);
@@ -44,22 +48,50 @@ export default class Wheel extends Component {
     return (
       <div>
         {!spinned ? (
-          <div className="wheel-container">
-            <div className={`wheel ${spinning}`} style={wheelVars}>
-              {items.map((item, index) => (
-                <div className="wheel-item" key={index} style={{ '--item-nb': index }}>
-                  {item}
-                </div>
-              ))}
+          <div>
+            <div className="wheel-container">
+              <div className={`wheel ${spinning}`} style={wheelVars}>
+                {items.map((item, index) => (
+                  <div className="wheel-item" key={index} style={{ '--item-nb': index }}>
+                    {item}
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="text-center mt-3">
-              <Button
-                onClick={this.selectItem}
-                variant="contained"
-                style={{ backgroundColor: 'blue', color: 'white', borderRadius: 20, fontSize: 18, marginRight: 10 }}>
-                Spin now
-              </Button>
-            </div>
+            {this.state.spin ? (
+              <div className="text-center mt-3">
+                <h4 style={{ color: 'yellow' }}>
+                  <div class="wrapper">
+                    <span>P</span>
+                    <span>l</span>
+                    <span>e</span>
+                    <span>a</span>
+                    <span>s</span>
+                    <span>e</span>
+                    <span> </span>
+                    <span>W </span>
+                    <span>a </span>
+                    <span>i</span>
+                    <span>t</span>
+                  </div>
+                </h4>
+              </div>
+            ) : (
+              <div className="text-center mt-3">
+                <Button
+                  onClick={this.selectItem}
+                  variant="contained"
+                  style={{
+                    backgroundColor: 'blue',
+                    color: 'white',
+                    borderRadius: 20,
+                    fontSize: 18,
+                    marginRight: 10,
+                  }}>
+                  Spin now
+                </Button>
+              </div>
+            )}
           </div>
         ) : (
           'Claim'

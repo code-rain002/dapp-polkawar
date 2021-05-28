@@ -66,9 +66,10 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.pbr.textPrimary,
     fontWeight: 800,
     letterSpacing: 0.5,
-    fontSize: 15,
+    fontSize: 16,
     lineHeight: '20.7px',
   },
+
   subheading: {
     verticalAlign: 'baseline',
     textAlign: 'center ',
@@ -177,9 +178,9 @@ const useStyles = makeStyles((theme) => ({
     width: 280,
     height: 420,
     borderRadius: 16,
-    border: '4px solid #e5e5e5',
+
     marginBottom: 30,
-    backgroundColor: theme.palette.pbr.textPrimaryOpp,
+    backgroundColor: 'transparent',
     [theme.breakpoints.down('sm')]: {
       width: 180,
       height: 250,
@@ -201,7 +202,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   mediaWrapper: {
-    height: 240,
+    height: 300,
     textAlign: 'center',
     [theme.breakpoints.down('sm')]: {
       height: 120,
@@ -293,7 +294,27 @@ function Profile({ authenticateUser, user, authenticated }) {
         />
       </div>
       <h6 className={classes.title}>( {user.address} )</h6>
-      <h6 className={classes.title}>{user.username}</h6>
+      {characters && (
+        <div>
+          <div className="d-flex flex-row justify-content-center align-items-start">
+            <div className={classes.title}>{user.username} </div>
+            <div className="d-flex flex-row justify-content-center align-items-start" style={{ paddingLeft: 10 }}>
+              <div className="d-flex justify-content-center align-items-center ">
+                <h6 style={{ color: 'white', fontSize: 14, paddingTop: 10, paddingRight: 5 }}>( </h6>
+
+                <div className={classes.iconWrapper}>
+                  <img src="images/swords.png" height="20px" alt="level" />
+                </div>
+                <h6 className={classes.levelText}>{characters[0].level} )</h6>
+              </div>
+            </div>
+          </div>
+          <div className="text-center">
+            {' '}
+            <h6 style={{ color: 'yellow', fontSize: 14 }}>{characters[0].name}</h6>{' '}
+          </div>
+        </div>
+      )}
       <div className="mt-3"></div>
       <div className={classes.tabWrapper}>
         <Paper square className={classes.tabs}>
@@ -322,23 +343,6 @@ function Profile({ authenticateUser, user, authenticated }) {
                       <div style={{ paddingRight: 15, flexBasis: '25%' }} key={index}>
                         <div>
                           <Card className={classes.card} elevation={0}>
-                            <div
-                              className="d-flex flex-row justify-content-center align-items-end"
-                              style={{ paddingRight: 10 }}>
-                              <div className="d-flex justify-content-center align-items-center mt-2">
-                                <h6 style={{ color: 'white', fontSize: 14, paddingTop: 10, paddingRight: 5 }}>
-                                  Level:{' '}
-                                </h6>
-
-                                <div className={classes.iconWrapper}>
-                                  <img src="images/swords.png" height="24px" alt="level" />
-                                </div>
-                                <h6 className={classes.levelText}>{character.level} </h6>
-                              </div>
-                            </div>
-                            <div className="text-center">
-                              <h6 style={{ color: 'yellow', fontSize: 14 }}>{character.name} </h6>
-                            </div>
                             <div className={classes.mediaWrapper}>
                               <img
                                 src={`${imageBaseUrl}/${character.image}`}
@@ -346,9 +350,7 @@ function Profile({ authenticateUser, user, authenticated }) {
                                 alt="character"
                               />
                             </div>
-                            <div className="mt-1">
-                              <h4 className={classes.title}>{user.username}</h4>
-                            </div>
+
                             <div className="mt-2 d-flex flex-row justify-content-center align-items-center">
                               {console.log(character)}
                               {/* {Object.entries(character.properties).map(([key, value]) => {
