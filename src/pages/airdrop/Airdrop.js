@@ -57,7 +57,7 @@ function Airdrop({ authenticated, user }) {
   const [spinned, setSpinned] = useState(false);
   const [loading, setLoading] = useState(true);
   const [airdropJoined, setAirdropJoined] = useState(false);
-  const [startSpinning, setStartSpinning] = useState(false);
+  const [startSpinning, setStartSpinning] = useState(true);
   const [itemJson, setItemJson] = useState(null);
   const [metamaskAvailable, setMetamaskAvailable] = React.useState(false);
   const [error, setError] = React.useState({ title: '', msg: '' });
@@ -156,44 +156,52 @@ function Airdrop({ authenticated, user }) {
       <img alt="Magic Vase" src={`${imageBaseUrl}/QmNTNGAQjMbTPukVi7LCwa4fvGzzUzkaUFYHqsLGk2KWGA`} height="70px" />
     </div>,
   ];
+  var val = 0;
+  const dummyIsJoined = () => {
+    console.log('val: ' + val);
+    if (val < 10) {
+      val = val + 1;
 
-  const checkAirdrop = async () => {
-    //call getAirdrop function
-    let execution = await getAirdrop(user.address);
-    // let execution = await getAirdrop(user.address).then((res)=>{
-    //   return res;
-    // }).catch((err)=>{
-    //   return err;
-    // });
-    console.log(execution);
-    if (execution) {
-      setStartSpinning(true);
-      setTimeout(async () => {
-        let joined = await isJoinAirdrop(user.address);
-        if (parseInt(joined) > 0) {
-          setSpinned(true);
-          setAirdropJoined(true);
-          let itemDetails = await tokenURI(joined);
-          if (itemDetails !== null) {
-            setItemJson(itemDetails);
-            setLoading(false);
-          }
-        }
-        if (parseInt(joined) === 0) {
-          let reJoined = await isJoinAirdrop(user.address);
-          if (reJoined > 0) {
-            setSpinned(true);
-
-            setAirdropJoined(true);
-            let itemDetails = await tokenURI(joined);
-            if (itemDetails !== null) {
-              setItemJson(itemDetails);
-              setLoading(false);
-            }
-          }
-        }
-      }, 10000);
+      return '0';
+    } else {
+      return '10';
     }
+  };
+  const checkIsJoined = async () => {
+    console.log('2. Calling checkIsJoined');
+
+    var joined = await isJoinAirdrop(user.address);
+    //var joined = await dummyIsJoined();
+    console.log('3. Joined Returned Value: ' + joined);
+
+    if (parseInt(joined) > 0) {
+      console.log('joined now greater than 0');
+      console.log('Joined greater: ' + joined);
+
+      setSpinned(true);
+      setAirdropJoined(true);
+
+      let itemString = await tokenURI(joined);
+      await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
+        setItemJson(res.data);
+        console.log(res.data);
+        setLoading(false);
+      });
+      return true;
+    } else {
+      console.log('4. Else condition');
+
+      //Call function again.
+      setTimeout(() => checkIsJoined(), 2000);
+    }
+    //return joined;
+  };
+  const checkAirdrop = async () => {
+    //call isJoinAirdrop function
+    console.log('1. Calling checkairdrop');
+
+    let joined = await checkIsJoined();
+    console.log('isJoined yet' + joined);
   };
 
   const claimAirdrop = () => {

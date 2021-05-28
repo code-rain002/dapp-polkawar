@@ -4,7 +4,7 @@ const characterConstant = {
   rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
   chainId: 97, // Smart Chain - Testnet chain id
   api: 'V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK',
-  contractAddress: '0xCF89772d5Afb1A58121fb897f3c7b0246d79cE3f',
+  contractAddress: '0x0CE28292123628cb0012fbf498f41E77e6C32139',
   abi: [
     { inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
     {

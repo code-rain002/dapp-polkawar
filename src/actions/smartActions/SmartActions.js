@@ -4,6 +4,7 @@ import characterContract from './../../utils/characterConnection';
 import pwrContract from './../../utils/pwrConnection';
 import axios from 'axios';
 import imageBaseUrl from './../imageBaseUrl';
+import { TramRounded } from '@material-ui/icons';
 
 //Airdrop Functions
 
@@ -27,13 +28,13 @@ export const getAirdrop = async (userAddress) => {
   return await airdropContract.methods.getAirdrop(userProvidedSeed).send({ from: userAddress }, (err, response) => {
     console.log('getAirdrop Called');
     if (err) {
-      console.log('returning true');
-
-      return true;
-    } else {
       console.log('returning false');
 
       return false;
+    } else {
+      console.log('returning true');
+
+      return true;
     }
   });
 };

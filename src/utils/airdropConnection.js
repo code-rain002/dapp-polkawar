@@ -4,7 +4,7 @@ const airdropConstant = {
   rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
   chainId: 97, // Smart Chain - Testnet chain id
   api: 'V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK',
-  contractAddress: '0xDeD7306a9C4Cd9C8b410E613e83820856AD8c791',
+  contractAddress: '0x0B4ca2468afAE5286F556fb760d07f136CE3cDF0',
   abi: [
     {
       inputs: [
@@ -58,6 +58,13 @@ const airdropConstant = {
       inputs: [{ internalType: 'uint256', name: 'index', type: 'uint256' }],
       name: 'getItemURI',
       outputs: [{ internalType: 'string', name: '', type: 'string' }],
+      stateMutability: 'view',
+      type: 'function',
+    },
+    {
+      inputs: [],
+      name: 'getTotalPaticipants',
+      outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
       stateMutability: 'view',
       type: 'function',
     },
@@ -127,6 +134,5 @@ const airdropConstant = {
 //var web3 = new Web3(new Web3.providers.HttpProvider(airdropConstant.rpcUrl));
 var web3 = new Web3(window.ethereum);
 var airdropContract = new web3.eth.Contract(airdropConstant.abi, airdropConstant.contractAddress);
-
 
 export default airdropContract;

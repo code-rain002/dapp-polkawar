@@ -4,7 +4,7 @@ const pwrConstant = {
   rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
   chainId: 97, // Smart Chain - Testnet chain id
   api: 'V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK',
-  contractAddress: '0x12402e3fdA26A8D678a30C4e0769E184B1219189',
+  contractAddress: '0xAF70ab66F56e3BE8603c8acC1Af5c92F716aE9c7',
   abi: [
     {
       inputs: [{ internalType: 'uint256', name: 'initialSupply', type: 'uint256' }],
