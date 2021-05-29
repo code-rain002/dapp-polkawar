@@ -228,11 +228,21 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 12,
     },
   },
+  itemImage: {
+    height: 70,
+  },
+  itemMediaWrapper: {
+    height: 100,
+
+    border: '1px solid #f9f9f9',
+    margin: 5,
+  },
 }));
 
 function Profile({ authenticateUser, user, authenticated }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
+  const [selectedChar, setSelectedChar] = useState(0);
   const [characterPopup, setCharacterPopup] = useState(false);
   const [stopPopupClick, setStopPopupClick] = useState(false);
   const [characters, setCharacters] = useState([]);
@@ -295,6 +305,11 @@ function Profile({ authenticateUser, user, authenticated }) {
     getCharacter();
   }, []);
 
+  const characterData = [
+    { item: 'character/archerlv0.png', character: 'character/archer_lv0.png' },
+    { item: 'character/sceptrelv0.png', character: 'character/magician_lv0.png' },
+    { item: 'character/swordlv0.png', character: 'character/warrior_lv0.png' },
+  ];
   return authenticated ? (
     <div>
       <div className="text-center mt-3">
@@ -350,8 +365,17 @@ function Profile({ authenticateUser, user, authenticated }) {
               {characters.length !== 0 ? (
                 <div>
                   <Card className={classes.card} elevation={0}>
+                    <div classname="d-flex flex-column" style={{ paddingRight: 5 }}>
+                      {characterData.map((singleObj, index) => {
+                        return (
+                          <div className={classes.itemMediaWrapper} onClick={() => setSelectedChar(index)}>
+                            <img src={`${singleObj.item}`} className={classes.itemImage} alt="character" />
+                          </div>
+                        );
+                      })}
+                    </div>
                     <div className={classes.mediaWrapper}>
-                      <img src={`${imageBaseUrl}/${characters[0].image}`} className={classes.media} alt="character" />
+                      <img src={`${characterData[selectedChar].character}`} className={classes.media} alt="character" />
                     </div>
                     <div style={{ paddingLeft: 30 }}>
                       <h6 className={classes.title}>Statistics</h6>
