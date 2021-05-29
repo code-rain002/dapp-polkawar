@@ -301,7 +301,8 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
         setEthBal(ethBalance);
       });
       let pwarBalance = await getPwarBalance(currentAddress);
-      setPwarBal(pwarBalance);
+      let pwarInEth = web3.utils.fromWei(pwarBalance, 'ether');
+      setPwarBal(pwarInEth);
     }
   };
 
