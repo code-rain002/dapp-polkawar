@@ -73,7 +73,7 @@ export default function CharacterCard({ item, index }) {
   return (
     <div>
       <Card className={classes.card} elevation={0}>
-        <div className="d-flex flex-row justify-content-center align-items-end" style={{ paddingRight: 10 }}>
+        <div className="d-flex flex-column justify-content-center align-items-center" style={{ paddingRight: 10 }}>
           <div className="d-flex justify-content-center align-items-center mt-2">
             <h6 style={{ color: 'white', fontSize: 14, paddingTop: 10, paddingRight: 5 }}>Level: </h6>
 
@@ -81,6 +81,10 @@ export default function CharacterCard({ item, index }) {
               <img src="images/swords.png" height="24px" alt="level" />
             </div>
             <h6 className={classes.levelText}>{item.level} </h6>
+          </div>
+          <div className="text-center">
+            {' '}
+            <h6 style={{ color: 'yellow', fontSize: 14 }}>{item.category}</h6>{' '}
           </div>
         </div>
         <div className={classes.mediaWrapper}>

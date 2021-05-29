@@ -33,6 +33,9 @@ var CharacterModel = new mongoose.Schema({
     type: String,
     required: true,
   },
+  category: {
+    type: String,
+  },
   createdDate: {
     type: Date,
     required: true,

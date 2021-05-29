@@ -36,6 +36,8 @@ router.post('/character', async (req, res, next) => {
     {
       id: 1,
       name: 'Magician',
+      category: 'Magician',
+
       properties: {
         hp: 27,
         mp: 22,
@@ -54,6 +56,8 @@ router.post('/character', async (req, res, next) => {
     {
       id: 2,
       name: 'Magician',
+      category: 'Magician',
+
       description:
         'The magician is the character who has mysterious magic, supernatural tricks and inherits the power of the evil darkness',
       level: 1,
@@ -62,6 +66,8 @@ router.post('/character', async (req, res, next) => {
     {
       id: 3,
       name: 'Magician',
+      category: 'Magician',
+
       description:
         'The magician is the character who has mysterious magic, supernatural tricks and inherits the power of the evil darkness',
       level: 2,
@@ -70,6 +76,8 @@ router.post('/character', async (req, res, next) => {
     {
       id: 4,
       name: 'Archer',
+      category: 'Archer',
+
       properties: {
         hp: 29,
         mp: 25,
@@ -86,6 +94,8 @@ router.post('/character', async (req, res, next) => {
     {
       id: 5,
       name: 'Archer',
+      category: 'Archer',
+
       description: 'The archer is the character with fast attack speed and angelic beauty.',
       level: 1,
       image: 'QmchzUzRYoqpe5XrNhsFSaEVrQrJwr5PniPvyWvnx7SaJz',
@@ -93,6 +103,8 @@ router.post('/character', async (req, res, next) => {
     {
       id: 6,
       name: 'Archer',
+      category: 'Archer',
+
       description: 'The archer is the character with fast attack speed and angelic beauty.',
       level: 2,
       image: 'Qmac8LX5WASVJZAmMpuNSEtpW5985yuoGxNR8nkJk5AYxR',
@@ -100,6 +112,8 @@ router.post('/character', async (req, res, next) => {
     {
       id: 7,
       name: 'Warrior',
+      category: 'Warrior',
+
       properties: {
         hp: 30,
         mp: 21,
@@ -116,6 +130,8 @@ router.post('/character', async (req, res, next) => {
     {
       id: 8,
       name: 'Warrior',
+      category: 'Warrior',
+
       description: 'The Warrior is a character with high strength and the most powerful one in PolkaWar.',
       level: 1,
       image: 'QmSh7mFxLGG2rC582MwKNTobWs6YSJ4KEr2uWHWNU8fq9k',
@@ -123,6 +139,8 @@ router.post('/character', async (req, res, next) => {
     {
       id: 9,
       name: 'Warrior',
+      category: 'Warrior',
+
       description: 'The Warrior is a character with high strength and the most powerful one in PolkaWar.',
       level: 2,
       image: 'QmR3yXkCF6NRu5WcmmDgokKJRtwzi819HVJ5g4eRAJmY66',

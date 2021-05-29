@@ -287,7 +287,7 @@ function Airdrop({ authenticated, user }) {
                       {' '}
                       <div className="text-center">
                         <h6 className={classes.airdropHeading}>Airdrop Participants</h6>
-                        <p className={classes.airdropText}>{airdropParticipants}</p>
+                        <p className={classes.airdropText}>{airdropParticipants}/3000</p>
                       </div>
                     </div>
                   </div>
@@ -321,11 +321,28 @@ function Airdrop({ authenticated, user }) {
               )}
               {airdropJoined && (
                 <div className="text-center mt-1">
+                  <div className="row g-0">
+                    <div className="col-md-3"></div>
+                    <div className="col-md-6">
+                      {' '}
+                      <h3 className="text-center " style={{ color: 'yellow' }}>
+                        Claim Airdrop
+                      </h3>
+                    </div>
+                    <div className="col-md-3">
+                      {' '}
+                      <div className="text-center">
+                        <h6 className={classes.airdropHeading}>Airdrop Participants</h6>
+                        <p className={classes.airdropText}>{airdropParticipants}/3000</p>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className={classes.root}>
                     <div className={classes.container}>
                       <Grow in={true} timeout={1000}>
                         <div>
-                          <div className=" container">
+                          <div className="container">
                             <div>
                               <h3 className="text-center " style={{ color: 'white', fontSize: 20 }}>
                                 Congratulations! You have won.

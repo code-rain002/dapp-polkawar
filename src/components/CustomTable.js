@@ -26,10 +26,10 @@ function createData(name, code, population, size) {
 }
 
 const rows = [
-  createData('Elein D', '0.34 BNB', '2 Days 3 Hours before'),
-  createData('DJ Sagi', '0.44 BNB', '3 Days 3 Hours before'),
-  createData('Brandid T', '0.94 BNB', '4 Days 3 Hours before'),
-  createData('Qyuet By', '0.4 BNB', '5 Days 3 Hours before'),
+  // createData('Elein D', '0.34 BNB', '2 Days 3 Hours before'),
+  // createData('DJ Sagi', '0.44 BNB', '3 Days 3 Hours before'),
+  // createData('Brandid T', '0.94 BNB', '4 Days 3 Hours before'),
+  // createData('Qyuet By', '0.4 BNB', '5 Days 3 Hours before'),
 ];
 
 const useStyles = makeStyles({

@@ -294,7 +294,7 @@ function Profile({ authenticateUser, user, authenticated }) {
         />
       </div>
       <h6 className={classes.title}>( {user.address} )</h6>
-      {characters && (
+      {characters.length !== 0 && (
         <div>
           <div className="d-flex flex-row justify-content-center align-items-start">
             <div className={classes.title}>{user.username} </div>
