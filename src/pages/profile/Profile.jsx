@@ -82,11 +82,11 @@ const useStyles = makeStyles((theme) => ({
     padding: 20,
   },
   button: {
-    color: 'black',
+    color: 'white',
     backgroundColor: 'white',
     textTransform: 'none',
     borderRadius: '50px',
-    background: 'linear-gradient(73.28deg,#ffffff 88.45%, #e6e6e6 6.51% )',
+    background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
   },
   buttonCustom: {
     color: 'white',
