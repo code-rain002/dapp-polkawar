@@ -60,15 +60,6 @@ const useStyles = makeStyles((theme) => ({
     // marginTop: -80,
     marginBottom: 10,
   },
-  title: {
-    verticalAlign: 'baseline',
-    textAlign: 'center',
-    color: theme.palette.pbr.textPrimary,
-    fontWeight: 800,
-    letterSpacing: 0.5,
-    fontSize: 16,
-    lineHeight: '20.7px',
-  },
 
   subheading: {
     verticalAlign: 'baseline',
@@ -152,7 +143,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 10,
     borderRadius: 10,
     [theme.breakpoints.down('sm')]: {
-      height: '150px',
+      height: '240px',
     },
   },
 
@@ -175,15 +166,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   card: {
-    width: 280,
-    height: 420,
-    borderRadius: 16,
+    display: 'flex',
+    justifyContent: 'center',
 
     marginBottom: 30,
     backgroundColor: 'transparent',
     [theme.breakpoints.down('sm')]: {
-      width: 180,
-      height: 250,
+      height: '100%',
     },
   },
 
@@ -196,25 +185,48 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     lineHeight: '35.7px',
     fontFamily: 'Carter One',
+    overflowWrap: 'break-word',
     [theme.breakpoints.down('sm')]: {
       fontWeight: 700,
-      fontSize: 16,
+      fontSize: 14,
+    },
+  },
+  titleAddress: {
+    verticalAlign: 'baseline',
+    textAlign: 'center',
+    color: theme.palette.pbr.textPrimary,
+    fontWeight: 900,
+    letterSpacing: 1,
+    fontSize: 16,
+    lineHeight: '35.7px',
+    fontFamily: 'Carter One',
+    overflowWrap: 'break-word',
+    [theme.breakpoints.down('sm')]: {
+      fontWeight: 700,
+      fontSize: 8,
     },
   },
   mediaWrapper: {
     height: 300,
     textAlign: 'center',
     [theme.breakpoints.down('sm')]: {
-      height: 120,
+      height: 180,
     },
   },
   propTitle: {
-    fontSize: 15,
+    fontSize: 16,
     color: 'yellow',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14,
+    },
   },
   propValue: {
-    fontSize: 12,
+    fontSize: 14,
     color: 'white',
+    paddingLeft: 10,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 12,
+    },
   },
 }));
 
@@ -293,7 +305,7 @@ function Profile({ authenticateUser, user, authenticated }) {
           className={classes.avatarWrapper}
         />
       </div>
-      <h6 className={classes.title}>( {user.address} )</h6>
+      <h6 className={classes.titleAddress}>( {user.address} )</h6>
       {characters.length !== 0 && (
         <div>
           <div className="d-flex flex-row justify-content-center align-items-start">
@@ -333,42 +345,93 @@ function Profile({ authenticateUser, user, authenticated }) {
           </Tabs>
         </Paper>
         <div style={{ maxWidth: 1000 }}>
-          {' '}
           <TabPanel value={value} index={0}>
+            <div>
+              {characters.length !== 0 ? (
+                <div>
+                  <Card className={classes.card} elevation={0}>
+                    <div className={classes.mediaWrapper}>
+                      <img src={`${imageBaseUrl}/${characters[0].image}`} className={classes.media} alt="character" />
+                    </div>
+                    <div style={{ paddingLeft: 30 }}>
+                      <h6 className={classes.title}>Statistics</h6>
+                      <div className="d-flex flex-column justify-content-center">
+                        {characters[0].properties !== null && (
+                          <div>
+                            {' '}
+                            {Object.entries(characters[0].properties).map(([key, value]) => {
+                              return (
+                                <div className="mb-2 d-flex flex-row justify-content-start align-items-center">
+                                  <h6 className={classes.propTitle}>{key}: </h6>
+                                  <h6 className={classes.propValue}> {value}</h6>
+                                </div>
+                              );
+                            })}{' '}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+              ) : (
+                <div className="text-center">
+                  <div className="my-3">
+                    <img src="images/character.png" height="100px" alt="character" />
+                  </div>
+                  <div className="text-center">
+                    <h6 className={classes.title}>No character found</h6>
+                    <div className="d-flex justify-content-center">
+                      <p className={classes.subheading}>
+                        Create your character! <br />
+                        and personalise your gaming experience
+                      </p>
+                    </div>
+                  </div>
+                  <div className={classes.buttonWrapper}>
+                    <Button variant="contained" className={classes.button} onClick={toggleCharacterPopup}>
+                      Create Character
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </TabPanel>
+
+          {/* <TabPanel value={value} index={0}>
             <div className={classes.characterScroll}>
               <div className={classes.scrollItemPositions}>
                 {characters.length !== 0 ? (
-                  characters.map((character, index) => {
-                    return (
-                      <div style={{ paddingRight: 15, flexBasis: '25%' }} key={index}>
-                        <div>
-                          <Card className={classes.card} elevation={0}>
-                            <div className={classes.mediaWrapper}>
-                              <img
-                                src={`${imageBaseUrl}/${character.image}`}
-                                className={classes.media}
-                                alt="character"
-                              />
-                            </div>
-
-                            <div className="mt-2 d-flex flex-row justify-content-center align-items-center">
-                              {console.log(character)}
-                              {/* {Object.entries(character.properties).map(([key, value]) => {
-                                <div>
-                                  <div className="text-center">
-                                    <span className={classes.propTitle}>{key}</span>
-                                  </div>
-                                  <div className="text-center">
-                                    <p className={classes.propValue}>{value}</p>
-                                  </div>
-                                </div>;
-                              })}{' '} */}
-                            </div>
-                          </Card>
+                  <div style={{ paddingRight: 15, flexBasis: '25%' }} key={1}>
+                    <div>
+                      <Card className={classes.card} elevation={0}>
+                        <div className={classes.mediaWrapper}>
+                          <img
+                            src={`${imageBaseUrl}/${characters[0].image}`}
+                            className={classes.media}
+                            alt="character"
+                          />
                         </div>
-                      </div>
-                    );
-                  })
+                        <div>
+                          <h6 className={classes.title}>Statistics</h6>
+                          <div className="d-flex flex-column justify-content-center">
+                            {characters[0].properties !== null && (
+                              <div>
+                                {' '}
+                                {Object.entries(characters[0].properties).map(([key, value]) => {
+                                  return (
+                                    <div className="mb-2 d-flex flex-row justify-content-start align-items-center">
+                                      <h6 className={classes.propTitle}>{key}: </h6>
+                                      <h6 className={classes.propValue}> {value}</h6>
+                                    </div>
+                                  );
+                                })}{' '}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </Card>
+                    </div>
+                  </div>
                 ) : (
                   <div className="text-center">
                     <div className="my-3">
@@ -392,7 +455,7 @@ function Profile({ authenticateUser, user, authenticated }) {
                 )}
               </div>
             </div>
-          </TabPanel>
+          </TabPanel> */}
           <TabPanel value={value} index={1}>
             {user.onSale.length !== 0 ? (
               <div>Sale Items List</div>
