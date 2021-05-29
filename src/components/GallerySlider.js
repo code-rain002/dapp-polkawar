@@ -6,8 +6,8 @@ export default function GallerySLider({ gallery }) {
   const [width, setWidth] = useState(60);
 
   return (
-    <div>
-      <Carousel showThumbs={true} width={'75%'} thumbWidth={width} dynamicHeight={false}>
+    <div style={{ padding: 10 }}>
+      <Carousel showThumbs={true} width={'98%'} thumbWidth={width} dynamicHeight={false}>
         {gallery.map((singleSlide) => {
           return (
             <div>
