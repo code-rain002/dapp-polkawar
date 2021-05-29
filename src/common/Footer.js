@@ -4,6 +4,9 @@ const useStyles = makeStyles((theme) => ({
   background: {
     padding: 70,
     height: '200px',
+    [theme.breakpoints.down('md')]: {
+      padding: 10,
+    },
   },
 
   para: {

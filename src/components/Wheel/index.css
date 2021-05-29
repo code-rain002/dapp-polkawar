@@ -1,6 +1,6 @@
 :root {
   --wheel-font: 'Lato', 'Quicksand', sans-serif;
-  --wheel-size: 450px;
+  --wheel-size: 480px;
   --wheel-slice-spacing: 50px;
   --wheel-border-size: 5px;
   --wheel-color: #da3768;
@@ -143,4 +143,48 @@
   border-left: solid transparent 0;
   /* profondeur du triangle = du centre de la roue à la bordure = 300px / 2 */
   border-right: solid var(--neutral-color) calc(var(--wheel-size) / 2);
+}
+
+@media only screen and (max-width: 600px) {
+  :root {
+    --wheel-font: 'Lato', 'Quicksand', sans-serif;
+    --wheel-size: 90vw;
+    --wheel-slice-spacing: 50px;
+    --wheel-border-size: 5px;
+    --wheel-color: #da3768;
+    --neutral-color: white;
+    --PI: 3.14159265358979;
+    --nb-item: 0;
+    --item-nb: 0;
+    --selected-item: 0;
+    --nb-turn: 240;
+    --spinning-duration: 120s;
+    --reset-duration: 100s;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .wheel-item {
+    display: block;
+    position: absolute;
+    box-sizing: border-box;
+
+    /* position de l'item */
+    top: 50%;
+    left: 50%;
+    width: 50%;
+
+    transform-origin: center left;
+    transform: translateY(-50%) rotate(calc(var(--item-nb) * (360deg / var(--nb-item, 1))));
+
+    /* texte */
+    font-size: 12px;
+    color: var(--neutral-color);
+    text-align: right;
+    padding: 0 5px 0 5px;
+    font-family: var(--wheel-font);
+  }
+}
+
+@media only screen and (max-width: 600px) {
 }

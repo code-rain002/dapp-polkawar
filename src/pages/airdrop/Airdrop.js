@@ -3,7 +3,7 @@ import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Grow } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { isJoinAirdrop, getAirdrop, tokenURI } from './../../actions/smartActions/SmartActions';
+import { isJoinAirdrop, getTotalParticipants, tokenURI } from './../../actions/smartActions/SmartActions';
 import Loader from './../../components/Loader';
 import CountdownTimer from './../../components/CountdownTimer';
 import ConnectButton from '../../components/ConnectButton';
@@ -50,6 +50,52 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 18,
     textTransform: 'none',
   },
+  airdropHeading: {
+    color: 'yellow',
+    fontSize: 22,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 16,
+    },
+  },
+  airdropText: {
+    color: 'white',
+    fontSize: 32,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 22,
+    },
+  },
+  itemImage: {
+    height: 200,
+
+    [theme.breakpoints.down('md')]: {
+      height: 150,
+    },
+  },
+  itemImagePwar: {
+    height: 160,
+
+    [theme.breakpoints.down('md')]: {
+      height: 120,
+    },
+  },
+  itemName: {
+    color: 'white',
+    fontSize: 28,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 20,
+    },
+  },
+  plusSign: {
+    color: 'white',
+    fontSize: 60,
+    height: 200,
+    width: 150,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 40,
+      height: 120,
+      width: 100,
+    },
+  },
 }));
 
 function Airdrop({ authenticated, user }) {
@@ -57,6 +103,7 @@ function Airdrop({ authenticated, user }) {
   const [spinned, setSpinned] = useState(false);
   const [loading, setLoading] = useState(true);
   const [airdropJoined, setAirdropJoined] = useState(false);
+  const [airdropParticipants, setAirdropParticipants] = useState(0);
   const [startSpinning, setStartSpinning] = useState(true);
   const [itemJson, setItemJson] = useState(null);
   const [metamaskAvailable, setMetamaskAvailable] = React.useState(false);
@@ -105,8 +152,12 @@ function Airdrop({ authenticated, user }) {
       }
     }
   };
-  useEffect(() => {
+  useEffect(async () => {
     checkMetamask();
+    var airdropParticipantsCount = await getTotalParticipants();
+    setAirdropParticipants(airdropParticipantsCount);
+    console.log(airdropParticipantsCount);
+
     isSpinned();
   }, []);
 
@@ -169,6 +220,7 @@ function Airdrop({ authenticated, user }) {
   };
   const checkIsJoined = async () => {
     console.log('2. Calling checkIsJoined');
+    //Check participants true of false
 
     var joined = await isJoinAirdrop(user.address);
     //var joined = await dummyIsJoined();
@@ -221,11 +273,24 @@ function Airdrop({ authenticated, user }) {
         authenticated ? (
           metamaskNetwork ? (
             <div>
-              {!airdropJoined && (
-                <div class="mb-5">
-                  <h3 className="text-center " style={{ color: 'yellow' }}>
-                    Spin! & Get Airdrop
-                  </h3>
+              {!airdropJoined && airdropParticipants < 3000 && (
+                <div class="mb-3">
+                  <div className="row">
+                    <div className="col-md-3"></div>
+                    <div className="col-md-6">
+                      {' '}
+                      <h3 className="text-center " style={{ color: 'yellow' }}>
+                        Spin! & Get Airdrop
+                      </h3>
+                    </div>
+                    <div className="col-md-3">
+                      {' '}
+                      <div className="text-center">
+                        <h6 className={classes.airdropHeading}>Airdrop Participants</h6>
+                        <p className={classes.airdropText}>{airdropParticipants}</p>
+                      </div>
+                    </div>
+                  </div>
 
                   <div>
                     <Wheel
@@ -238,7 +303,22 @@ function Airdrop({ authenticated, user }) {
                   </div>
                 </div>
               )}
-
+              {!airdropJoined && airdropParticipants >= 3000 && (
+                <div class="my-5">
+                  <h6 className="text-center " style={{ color: 'yellow', fontSize: 28 }}>
+                    Airdrop Finished
+                  </h6>
+                  <div className="d-flex justify-content-center">
+                    <h6
+                      className="text-center"
+                      style={{ color: 'white', fontSize: 18, fontWieght: 400, lineHeight: 2, maxWidth: 500 }}>
+                      Thanks for the overwhelming response from our community. Airdrop participants has reached{' '}
+                      <strong style={{ color: 'yellow' }}>3000 </strong>
+                      participants. See you at PWAR listing day.
+                    </h6>
+                  </div>
+                </div>
+              )}
               {airdropJoined && (
                 <div className="text-center mt-1">
                   <div className={classes.root}>
@@ -254,27 +334,24 @@ function Airdrop({ authenticated, user }) {
                                 {itemJson !== null && (
                                   <div>
                                     <div className="mt-3">
-                                      <img src={`${imageBaseUrl}/${itemJson.hashimage}`} height="200px" />
+                                      <img
+                                        src={`${imageBaseUrl}/${itemJson.hashimage}`}
+                                        className={classes.itemImage}
+                                      />
                                     </div>
                                     <div>
-                                      <h5
-                                        style={{
-                                          color: 'white',
-                                          fontSize: 28,
-                                        }}>
-                                        {itemJson.description}
-                                      </h5>
+                                      <h5 className={classes.itemName}>{itemJson.description}</h5>
                                     </div>
                                   </div>
                                 )}
 
-                                <div style={{ color: 'white', fontSize: 60, height: 200, width: 150 }}>+</div>
+                                <div className={classes.plusSign}>+</div>
                                 <div style={{ paddingLeft: 20 }}>
                                   {' '}
                                   <div className="mt-5">
-                                    <img src={`/token.png`} height="150px" />
+                                    <img src={`/token.png`} className={classes.itemImagePwar} />
                                     <div className="mt-3">
-                                      <h5 style={{ color: 'white', fontSize: 28 }}>25 PWAR</h5>
+                                      <h5 className={classes.itemName}>25 PWAR</h5>
                                     </div>
                                   </div>
                                 </div>

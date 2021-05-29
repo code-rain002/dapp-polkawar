@@ -48,9 +48,15 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       color: theme.palette.pbr.primary,
     },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 24,
+    },
   },
   iconWrapper: {
     marginRight: 5,
+    [theme.breakpoints.down('sm')]: {
+      marginRight: 2,
+    },
   },
 }));
 export default function SocialLinks() {
