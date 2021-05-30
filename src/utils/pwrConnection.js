@@ -1,10 +1,11 @@
 import Web3 from 'web3';
+import constants from './constants';
 
 const pwrConstant = {
-  rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+  rpcUrl: constants.network_address,
   chainId: 97, // Smart Chain - Testnet chain id
   api: 'V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK',
-  contractAddress: '0xAF70ab66F56e3BE8603c8acC1Af5c92F716aE9c7',
+  contractAddress: '0x16153214E683018D5aA318864c8e692b66E16778',
   abi: [
     {
       inputs: [{ internalType: 'uint256', name: 'initialSupply', type: 'uint256' }],

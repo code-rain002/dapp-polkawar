@@ -1,10 +1,12 @@
 import Web3 from 'web3';
+import constants from './constants';
 
 const characterConstant = {
-  rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+  rpcUrl: constants.network_address,
+
   chainId: 97, // Smart Chain - Testnet chain id
   api: 'V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK',
-  contractAddress: '0x0CE28292123628cb0012fbf498f41E77e6C32139',
+  contractAddress: '0x54Af9518856fb485977294d066FB0D4d0E2D3062',
   abi: [
     { inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
     {
