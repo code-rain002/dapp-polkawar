@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Dialog, Backdrop, Slide, Card } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
+import { Button, Dialog, Backdrop, Slide, Card, Paper } from '@material-ui/core';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TabPanel from '../../components/TabPanel';
@@ -208,9 +207,11 @@ const useStyles = makeStyles((theme) => ({
   },
   mediaWrapper: {
     height: 300,
+    width: 300,
     textAlign: 'center',
     [theme.breakpoints.down('sm')]: {
       height: 180,
+      width: '100%',
     },
   },
   propTitle: {
@@ -229,12 +230,26 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   itemImage: {
-    height: 70,
+    height: 90,
+    [theme.breakpoints.down('sm')]: {
+      height: 65,
+    },
   },
   itemMediaWrapper: {
-    height: 100,
-
-    border: '1px solid #f9f9f9',
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    backgroundColor: '#212121',
+    margin: 5,
+  },
+  itemMediaWrapperSelected: {
+    height: '100%',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    border: '3px solid #ffffff',
+    backgroundColor: '#212121',
     margin: 5,
   },
 }));
@@ -368,8 +383,14 @@ function Profile({ authenticateUser, user, authenticated }) {
                     <div classname="d-flex flex-column" style={{ paddingRight: 5 }}>
                       {characterData.map((singleObj, index) => {
                         return (
-                          <div className={classes.itemMediaWrapper} onClick={() => setSelectedChar(index)}>
-                            <img src={`${singleObj.item}`} className={classes.itemImage} alt="character" />
+                          <div onClick={() => setSelectedChar(index)}>
+                            <Paper
+                              className={
+                                index === selectedChar ? classes.itemMediaWrapperSelected : classes.itemMediaWrapper
+                              }>
+                              {' '}
+                              <img src={`${singleObj.item}`} className={classes.itemImage} alt="character" />
+                            </Paper>{' '}
                           </div>
                         );
                       })}
