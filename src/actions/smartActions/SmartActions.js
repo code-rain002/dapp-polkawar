@@ -62,7 +62,7 @@ export const tokenURI = (tokenId) => {
 
 //WRITE create new character for user
 //RETURNS Item json string
-export const createItem = async (address, characterClass) => {
+export const createCharacter = async (address, characterClass) => {
   let level0Characters = {
     Archer: 'QmX6PKEGDCtrdwSjxsJB4575dpYcv1sQoZMCADrCyCGJYC',
     Magician: 'QmeCUJbbR9JPKnX2Tk9jFFHrvkNoYsVh8exwJbZ8M2pf3z',
@@ -72,15 +72,17 @@ export const createItem = async (address, characterClass) => {
   console.log('Address' + address);
   console.log('URI' + characterURI);
 
-  return await characterContract.methods.createItem(address, characterURI).send({ from: address }, (err, response) => {
-    console.log('createItem');
-    console.log(err);
-    console.log(response);
-    if (err) {
-      return false;
-    } else {
-      return true;
-    }
+  const transaction = await new Promise((resolve, reject) => {
+    characterContract.methods
+      .createItem(address, characterURI)
+      .send({ from: address }, function (error, transactionHash) {
+        if (transactionHash) {
+          resolve(transactionHash);
+        } else {
+          console.log('Failed by user!');
+          reject();
+        }
+      });
   });
 };
 

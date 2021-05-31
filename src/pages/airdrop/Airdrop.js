@@ -159,7 +159,7 @@ function Airdrop({ authenticated, user }) {
     console.log(airdropParticipantsCount);
 
     isSpinned();
-  }, []);
+  }, [airdropJoined]);
 
   useEffect(() => {
     checkMetamask();

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Button, Divider, Input, MenuItem, Select, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { createItem } from './../actions/smartActions/SmartActions';
+import { createCharacter } from './../actions/smartActions/SmartActions';
+import characterContract from './../utils/characterConnection';
 import { updateUsername } from './../actions/userActions';
 import Loader from './Loader';
 import propTypes from 'prop-types';
@@ -80,6 +81,8 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
 
   const [loading, setLoading] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [nameError, setNameError] = useState('');
+
   const [failed, setFailed] = useState(false);
   const [error, setError] = useState('');
   const [characterName, setCharacterName] = useState('');
@@ -90,26 +93,55 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
   };
 
   const submitForm = async () => {
-    stopPopupClicking(true);
-    setLoading(true);
-    setError('Character is creating... please wait');
+    //Calling smart contract function.
+    let level0Characters = {
+      Archer: 'QmX6PKEGDCtrdwSjxsJB4575dpYcv1sQoZMCADrCyCGJYC',
+      Magician: 'QmeCUJbbR9JPKnX2Tk9jFFHrvkNoYsVh8exwJbZ8M2pf3z',
+      Warrior: 'QmP9yV42APdrWfTPLA4KtQiVjVc2qNxdPsxS5YdFiXdbcU',
+    };
+    let characterURI = level0Characters[characterClass];
 
-    let response = await createItem(user.address, characterClass);
-    if (response) {
-      setError('Transaction Completed');
-      getCharacter();
-      setCompleted(true);
-      stopPopupClicking(false);
+    if (characterName.length > 0) {
+      stopPopupClicking(true);
+      setLoading(true);
+      setError('Character is creating... please wait');
+      const transaction = await new Promise((resolve, reject) => {
+        characterContract.methods
+          .createItem(user.address, characterURI)
+          .send({ from: user.address }, function (error, transactionHash) {
+            if (transactionHash) {
+              resolve(transactionHash);
+            } else {
+              console.log('Rejected by user!');
+              setError('Transaction Rejected!');
+              setFailed(true);
+              setCompleted(true);
+              stopPopupClicking(false);
+              reject();
+            }
+          });
+      });
 
-      //Integration of username update
-      updateUsername(characterName, user.address);
+      console.log('Response' + transaction);
 
-      //Integration of ownTokenID
+      if (transaction) {
+        setError('Transaction Completed');
+        getCharacter();
+        setCompleted(true);
+        stopPopupClicking(false);
+
+        //Integration of username update
+        updateUsername(characterName, user.address);
+
+        //Integration of ownTokenID
+      } else {
+        setError('Transaction Failed');
+        setFailed(true);
+        setCompleted(true);
+        stopPopupClicking(false);
+      }
     } else {
-      setError('Transaction Failed');
-      setFailed(true);
-      setCompleted(true);
-      stopPopupClicking(false);
+      setNameError('Character name should be long enough!');
     }
   };
   return (
@@ -129,6 +161,9 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
               onChange={(e) => setCharacterName(e.target.value)}
               fullWidth
             />
+            <div className="float-left">
+              <p style={{ color: 'grey', textAlign: 'left', fontSize: 12, fontWeight: 300 }}>{nameError}</p>
+            </div>
           </div>
           <div className="p-2 mt-3 float-left">
             <TextField

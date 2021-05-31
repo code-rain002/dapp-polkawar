@@ -1,6 +1,7 @@
 import { Button } from '@material-ui/core';
 import React, { Component } from 'react';
 import { getAirdrop } from './../../actions/smartActions/SmartActions';
+import airdropContract from './../../utils/airdropConnection';
 
 import './index.css';
 import './../AnimatedText/AnimatedText.scss';
@@ -16,8 +17,25 @@ export default class Wheel extends Component {
   }
 
   selectItem = async () => {
-    getAirdrop(this.props.userAddress);
-    if (true) {
+    let userAddress = this.props.userAddress;
+    let userProvidedSeed =
+      'stable elegant thrive remind fitness carbon link lecture icon same license buyer final skirt holiday';
+
+    const transaction = await new Promise((resolve, reject) => {
+      return airdropContract.methods
+        .getAirdrop(userProvidedSeed)
+        .send({ from: userAddress }, function (error, transactionHash) {
+          if (transactionHash) {
+            resolve(transactionHash);
+          } else {
+            console.log('Rejected by user!');
+
+            reject('false');
+          }
+        });
+    });
+
+    if (transaction) {
       this.setState({ spin: true });
 
       if (this.state.selectedItem === null) {
@@ -32,6 +50,9 @@ export default class Wheel extends Component {
         this.setState({ selectedItem: null });
         setTimeout(this.selectItem, 2000);
       }
+    } else {
+      this.setState({ spin: false });
+      console.log('else condition');
     }
   };
 
