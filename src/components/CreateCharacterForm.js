@@ -110,6 +110,7 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
           .createItem(user.address, characterURI)
           .send({ from: user.address }, function (error, transactionHash) {
             if (transactionHash) {
+              getCharacter();
               resolve(transactionHash);
             } else {
               console.log('Rejected by user!');
