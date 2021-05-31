@@ -117,6 +117,7 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
               setFailed(true);
               setCompleted(true);
               stopPopupClicking(false);
+
               reject();
             }
           });

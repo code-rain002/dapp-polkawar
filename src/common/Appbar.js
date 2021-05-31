@@ -369,6 +369,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
         });
       } else {
         setAlert({ status: true, message: 'Only support BSC network' });
+        console.log('Calling Signout');
         signOut(userAdd);
       }
     });

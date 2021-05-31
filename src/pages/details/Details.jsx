@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 10,
   },
   imageWrapper: {
-    padding: 30,
+    padding: 20,
     [theme.breakpoints.down('sm')]: {
       padding: 0,
     },

@@ -261,6 +261,7 @@ function Profile({ authenticateUser, user, authenticated }) {
   const [characterPopup, setCharacterPopup] = useState(false);
   const [stopPopupClick, setStopPopupClick] = useState(false);
   const [characters, setCharacters] = useState([]);
+  const [characterIndex, setCharacterIndex] = useState(0);
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState('');
 
@@ -300,6 +301,17 @@ function Profile({ authenticateUser, user, authenticated }) {
         let characterHash = await tokenURICharacter(ownerTokenId);
         await axios.get(`${imageBaseUrl}${characterHash}`).then((res) => {
           let tempObject = [res.data];
+
+          if (tempObject[0].name === 'Archer') {
+            setCharacterIndex(0);
+          } else {
+            if (tempObject[0].name === 'Magician') {
+              setCharacterIndex(1);
+            } else {
+              setCharacterIndex(2);
+            }
+          }
+
           setCharacters(tempObject);
         });
       });
@@ -379,22 +391,23 @@ function Profile({ authenticateUser, user, authenticated }) {
                 <div>
                   <Card className={classes.card} elevation={0}>
                     <div classname="d-flex flex-column" style={{ paddingRight: 5 }}>
-                      {characterData.map((singleObj, index) => {
-                        return (
-                          <div onClick={() => setSelectedChar(index)}>
-                            <Paper
-                              className={
-                                index === selectedChar ? classes.itemMediaWrapperSelected : classes.itemMediaWrapper
-                              }>
-                              {' '}
-                              <img src={`${singleObj.item}`} className={classes.itemImage} alt="character" />
-                            </Paper>{' '}
-                          </div>
-                        );
-                      })}
+                      <div>
+                        <h6 className={classes.title}>Items</h6>
+                        <Paper className={classes.itemMediaWrapperSelected}>
+                          <img
+                            src={`${characterData[characterIndex].item}`}
+                            className={classes.itemImage}
+                            alt="character"
+                          />
+                        </Paper>
+                      </div>
                     </div>
                     <div className={classes.mediaWrapper}>
-                      <img src={`${characterData[selectedChar].character}`} className={classes.media} alt="character" />
+                      <img
+                        src={`${characterData[characterIndex].character}`}
+                        className={classes.media}
+                        alt="character"
+                      />
                     </div>
                     <div style={{ paddingLeft: 30 }}>
                       <h6 className={classes.title}>Statistics</h6>
