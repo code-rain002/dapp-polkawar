@@ -325,16 +325,20 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
 
   useEffect(() => {
     if (web3 !== undefined) {
-      web3.eth.requestAccounts().then((accounts) => {
-        const currentAddress = accounts[0];
-        const localAddress = localStorage.getItem('userAddress');
-        if (currentAddress !== localAddress) {
+      if (checkNetwork()) {
+        web3.eth.requestAccounts().then((accounts) => {
+          const currentAddress = accounts[0];
+          const localAddress = localStorage.getItem('userAddress');
+          if (currentAddress !== localAddress) {
+            authenticateUser(currentAddress);
+          }
+          setUserAdd(currentAddress);
           authenticateUser(currentAddress);
-        }
-        setUserAdd(currentAddress);
-        authenticateUser(currentAddress);
-        getBalance(currentAddress);
-      });
+          getBalance(currentAddress);
+        });
+      } else {
+        setAlert({ status: true, message: 'Wrong Network!' });
+      }
     } else {
       setAlert({ status: true, message: 'Install metamask first!' });
     }
@@ -349,14 +353,20 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
   useEffect(() => {
     //Events to detect changes in account or network.
     window.ethereum.on('accountsChanged', function (accounts) {
-      web3.eth.requestAccounts().then((accounts) => {
-        const accountAddress = accounts[0];
-        setUserAdd(accountAddress);
+      if (checkNetwork()) {
+        web3.eth.requestAccounts().then((accounts) => {
+          const accountAddress = accounts[0];
+          setUserAdd(accountAddress);
 
-        authenticateUser(accountAddress);
+          authenticateUser(accountAddress);
 
-        window.location.reload(true);
-      });
+          window.location.reload(true);
+        });
+      } else {
+        setAlert({ status: true, message: 'Only support BSC network' });
+        console.log('Calling Signout');
+        signOut(userAdd);
+      }
     });
     window.ethereum.on('networkChanged', function (accounts) {
       if (checkNetwork()) {
