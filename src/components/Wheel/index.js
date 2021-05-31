@@ -29,7 +29,6 @@ export default class Wheel extends Component {
             resolve(transactionHash);
           } else {
             console.log('Rejected by user!');
-
             reject('false');
           }
         });
@@ -44,7 +43,7 @@ export default class Wheel extends Component {
         this.setState({ selectedItem });
 
         //Calling checkAirdrop
-        console.log('Calling: checkAirdrop ');
+
         this.props.checkAirdrop();
       } else {
         this.setState({ selectedItem: null });
@@ -52,7 +51,6 @@ export default class Wheel extends Component {
       }
     } else {
       this.setState({ spin: false });
-      console.log('else condition');
     }
   };
 

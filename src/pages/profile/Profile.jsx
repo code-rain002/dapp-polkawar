@@ -301,8 +301,6 @@ function Profile({ authenticateUser, user, authenticated }) {
         await axios.get(`${imageBaseUrl}${characterHash}`).then((res) => {
           let tempObject = [res.data];
           setCharacters(tempObject);
-
-          console.log(tempObject);
         });
       });
     } else {

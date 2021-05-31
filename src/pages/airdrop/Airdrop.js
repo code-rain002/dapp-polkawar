@@ -156,7 +156,6 @@ function Airdrop({ authenticated, user }) {
     checkMetamask();
     var airdropParticipantsCount = await getTotalParticipants();
     setAirdropParticipants(airdropParticipantsCount);
-    console.log(airdropParticipantsCount);
 
     isSpinned();
   }, [airdropJoined]);
@@ -208,41 +207,25 @@ function Airdrop({ authenticated, user }) {
     </div>,
   ];
   var val = 0;
-  const dummyIsJoined = () => {
-    console.log('val: ' + val);
-    if (val < 10) {
-      val = val + 1;
 
-      return '0';
-    } else {
-      return '10';
-    }
-  };
   const checkIsJoined = async () => {
-    console.log('2. Calling checkIsJoined');
     //Check participants true of false
 
     var joined = await isJoinAirdrop(user.address);
     //var joined = await dummyIsJoined();
-    console.log('3. Joined Returned Value: ' + joined);
 
     if (parseInt(joined) > 0) {
-      console.log('joined now greater than 0');
-      console.log('Joined greater: ' + joined);
-
       setSpinned(true);
       setAirdropJoined(true);
 
       let itemString = await tokenURI(joined);
       await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
         setItemJson(res.data);
-        console.log(res.data);
+
         setLoading(false);
       });
       return true;
     } else {
-      console.log('4. Else condition');
-
       //Call function again.
       setTimeout(() => checkIsJoined(), 2000);
     }
@@ -250,10 +233,8 @@ function Airdrop({ authenticated, user }) {
   };
   const checkAirdrop = async () => {
     //call isJoinAirdrop function
-    console.log('1. Calling checkairdrop');
 
     let joined = await checkIsJoined();
-    console.log('isJoined yet' + joined);
   };
 
   const claimAirdrop = () => {

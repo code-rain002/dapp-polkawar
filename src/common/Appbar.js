@@ -352,9 +352,9 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
       web3.eth.requestAccounts().then((accounts) => {
         const accountAddress = accounts[0];
         setUserAdd(accountAddress);
-        console.log(accountAddress);
+
         authenticateUser(accountAddress);
-        console.log('Account changed');
+
         window.location.reload(true);
       });
     });

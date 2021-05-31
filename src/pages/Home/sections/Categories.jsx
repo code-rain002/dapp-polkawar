@@ -148,7 +148,7 @@ function Categories({ getItems, getCategories, items, categories }) {
     if (type === 'l2') {
       data = items.sort((a, b) => parseInt(b.level) - parseInt(a.level));
     }
-    console.log(vvv);
+
     setNumbers(vvv);
     setCollection(data);
   };
