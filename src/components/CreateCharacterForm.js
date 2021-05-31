@@ -128,6 +128,7 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
 
       if (transaction) {
         setError('Transaction Completed');
+        window.location.reload(true);
         getCharacter();
         setCompleted(true);
         stopPopupClicking(false);
