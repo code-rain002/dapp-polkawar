@@ -110,7 +110,6 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
           .createItem(user.address, characterURI)
           .send({ from: user.address }, function (error, transactionHash) {
             if (transactionHash) {
-              getCharacter();
               resolve(transactionHash);
             } else {
               console.log('Rejected by user!');
@@ -118,7 +117,6 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
               setFailed(true);
               setCompleted(true);
               stopPopupClicking(false);
-
               reject();
             }
           });
