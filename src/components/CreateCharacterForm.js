@@ -119,17 +119,22 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
               stopPopupClicking(false);
               reject();
             }
+          })
+          .on('receipt', function (receipt) {
+            setError('Transaction Completed');
+            getCharacter();
+            window.location.reload(true);
           });
       });
 
       console.log('Response' + transaction);
 
       if (transaction) {
-        setError('Transaction Completed');
-        window.location.reload(true);
+        setError('Transaction Submitted!');
         getCharacter();
+        console.log('Submitted');
         setCompleted(true);
-        stopPopupClicking(false);
+        stopPopupClicking(true);
 
         //Integration of username update
         updateUsername(characterName, user.address);
