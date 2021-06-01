@@ -342,7 +342,8 @@ function Profile({ authenticateUser, user, authenticated }) {
     }
   };
   useEffect(() => {
-    if (checkMetamask()) {
+    checkMetamask();
+    if (metamaskAvailable) {
       if (user !== null) {
         setUserData(user);
         getCharacter();
@@ -351,7 +352,9 @@ function Profile({ authenticateUser, user, authenticated }) {
   }, [authenticated, user]);
 
   useEffect(() => {
-    if (checkMetamask()) {
+    checkMetamask();
+
+    if (metamaskAvailable) {
       getCharacter();
     }
   }, []);
