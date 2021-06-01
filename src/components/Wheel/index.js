@@ -62,7 +62,7 @@ export default class Wheel extends Component {
       '--nb-item': items.length,
       '--selected-item': selectedItem,
     };
-    const spinning = selectedItem !== null ? 'spinning' : '';
+    const spinning = selectedItem !== null ? 'spinning' : 'd';
 
     return (
       <div>
