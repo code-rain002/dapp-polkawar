@@ -352,31 +352,33 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
 
   useEffect(() => {
     //Events to detect changes in account or network.
-    window.ethereum.on('accountsChanged', function (accounts) {
-      web3.eth.requestAccounts().then((accounts) => {
-        const accountAddress = accounts[0];
-        setUserAdd(accountAddress);
-
-        authenticateUser(accountAddress);
-
-        window.location.reload(true);
-      });
-    });
-    window.ethereum.on('networkChanged', function (accounts) {
-      if (checkNetwork()) {
+    if (web3 !== undefined) {
+      window.ethereum.on('accountsChanged', function (accounts) {
         web3.eth.requestAccounts().then((accounts) => {
           const accountAddress = accounts[0];
           setUserAdd(accountAddress);
 
-          getBalance(accountAddress);
           authenticateUser(accountAddress);
+
+          window.location.reload(true);
         });
-      } else {
-        setAlert({ status: true, message: 'Only support BSC network' });
-        console.log('Calling Signout');
-        signOut(userAdd);
-      }
-    });
+      });
+      window.ethereum.on('networkChanged', function (accounts) {
+        if (checkNetwork()) {
+          web3.eth.requestAccounts().then((accounts) => {
+            const accountAddress = accounts[0];
+            setUserAdd(accountAddress);
+
+            getBalance(accountAddress);
+            authenticateUser(accountAddress);
+          });
+        } else {
+          setAlert({ status: true, message: 'Only support BSC network' });
+          console.log('Calling Signout');
+          signOut(userAdd);
+        }
+      });
+    }
   }, [user]);
 
   return (
