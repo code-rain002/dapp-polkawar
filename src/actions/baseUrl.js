@@ -1,2 +1,2 @@
-const baseUrl = 'http://45.32.178.177:3001';
+const baseUrl = 'https://api.polkawar.com';
 export default baseUrl;
