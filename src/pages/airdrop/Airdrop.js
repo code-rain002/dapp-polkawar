@@ -251,10 +251,6 @@ function Airdrop({ authenticated, user }) {
   };
   return (
     <div className={classes.spacing}>
-      {console.log('Loading: ' + loading)}
-      {console.log('authenticated: ' + authenticated)}
-      {console.log('metamaskNetwork: ' + metamaskNetwork())}
-
       {!loading ? (
         authenticated ? (
           metamaskNetwork() ? (
