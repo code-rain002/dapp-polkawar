@@ -318,6 +318,7 @@ function Profile({ authenticateUser, user, authenticated }) {
   const getCharacter = async () => {
     if (checkNetwork()) {
       web3.eth.requestAccounts().then(async (accounts) => {
+        console.log('Hitting');
         const accountAddress = accounts[0];
         let ownerTokenId = await tokenOfOwnerByIndex(accountAddress, 0);
         let characterHash = await tokenURICharacter(ownerTokenId);
@@ -341,22 +342,27 @@ function Profile({ authenticateUser, user, authenticated }) {
       setError('Only support BSC network');
     }
   };
+  var char = [];
   useEffect(() => {
     checkMetamask();
+    getCharacter();
+    console.log(characters);
     if (metamaskAvailable) {
       if (user !== null) {
         setUserData(user);
-        getCharacter();
       }
     }
   }, [authenticated, user]);
 
   useEffect(() => {
-    checkMetamask();
-
-    if (metamaskAvailable) {
+    return () => {
       getCharacter();
-    }
+    };
+  }, []);
+
+  useEffect(() => {
+    checkMetamask();
+    getCharacter();
   }, []);
 
   const characterData = [

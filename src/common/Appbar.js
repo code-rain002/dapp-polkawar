@@ -410,7 +410,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
                 Shop
               </Typography>
             </Link>
-            <Link to="/profile">
+            <a href="/profile">
               <Typography
                 variant="subtitle1"
                 noWrap
@@ -418,7 +418,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
                 onClick={() => setNavIndex(1)}>
                 My Home
               </Typography>
-            </Link>
+            </a>
             <Typography className={classes.tabs} variant="subtitle1" noWrap>
               Battle Room
             </Typography>
