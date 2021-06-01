@@ -6,9 +6,9 @@
   --wheel-color: #da3768;
   --neutral-color: white;
   --PI: 3.14159265358979;
-  --nb-item: 0;
-  --item-nb: 0;
-  --selected-item: 0;
+  --nb-item: 12;
+  --item-nb: 1;
+  --selected-item: 1;
   --nb-turn: 240;
   --spinning-duration: 120s;
   --reset-duration: 100s;
