@@ -262,6 +262,9 @@ function Profile({ authenticateUser, user, authenticated }) {
   const [stopPopupClick, setStopPopupClick] = useState(false);
   const [characters, setCharacters] = useState([]);
   const [characterIndex, setCharacterIndex] = useState(0);
+  const [metamaskAvailable, setMetamaskAvailable] = React.useState(false);
+  const [errors, setErrors] = React.useState({ title: '', msg: '' });
+
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState('');
 
@@ -273,16 +276,35 @@ function Profile({ authenticateUser, user, authenticated }) {
     setCharacterPopup(value);
   };
 
-  const checkNetwork = () => {
-    if (web3.currentProvider.networkVersion === constants.network_id) {
-      return true;
+  const checkMetamask = () => {
+    if (web3 !== undefined) {
+      setMetamaskAvailable(true);
+      if (!checkNetwork()) {
+        setErrors({
+          title: 'Only support BSC network',
+          msg: 'Change network to Binance Smart Chain first then only you will be able to spin.',
+        });
+        return true;
+      }
     } else {
+      setMetamaskAvailable(false);
+      setErrors({ title: 'Metamask missing!', msg: 'Install metamask first and then only you will be able to spin.' });
       return false;
     }
   };
 
+  const checkNetwork = () => {
+    if (metamaskAvailable) {
+      if (web3.currentProvider.networkVersion === constants.network_id) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+
   const connectWallet = () => {
-    if (checkNetwork()) {
+    if (checkNetwork() && metamaskAvailable) {
       web3.eth.requestAccounts().then((accounts) => {
         const accountAddress = accounts[0];
         authenticateUser(accountAddress);
@@ -320,14 +342,18 @@ function Profile({ authenticateUser, user, authenticated }) {
     }
   };
   useEffect(() => {
-    if (user !== null) {
-      setUserData(user);
-      getCharacter();
+    if (checkMetamask()) {
+      if (user !== null) {
+        setUserData(user);
+        getCharacter();
+      }
     }
   }, [authenticated, user]);
 
   useEffect(() => {
-    getCharacter();
+    if (checkMetamask()) {
+      getCharacter();
+    }
   }, []);
 
   const characterData = [

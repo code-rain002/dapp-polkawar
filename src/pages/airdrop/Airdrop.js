@@ -127,10 +127,12 @@ function Airdrop({ authenticated, user }) {
           title: 'Only support BSC network',
           msg: 'Change network to Binance Smart Chain first then only you will be able to spin.',
         });
+        return true;
       }
     } else {
       setMetamaskAvailable(false);
       setError({ title: 'Metamask missing!', msg: 'Install metamask first and then only you will be able to spin.' });
+      return false;
     }
   };
 
@@ -154,15 +156,18 @@ function Airdrop({ authenticated, user }) {
   };
   useEffect(async () => {
     checkMetamask();
-    var airdropParticipantsCount = await getTotalParticipants();
-    setAirdropParticipants(airdropParticipantsCount);
-
-    isSpinned();
+    if (checkMetamask()) {
+      var airdropParticipantsCount = await getTotalParticipants();
+      setAirdropParticipants(airdropParticipantsCount);
+      isSpinned();
+    }
   }, [airdropJoined]);
 
   useEffect(() => {
     checkMetamask();
-    isSpinned();
+    if (checkMetamask()) {
+      isSpinned();
+    }
   }, [user]);
   const items = [
     <div>
@@ -414,9 +419,17 @@ function Airdrop({ authenticated, user }) {
             <ConnectButton />
           </div>
         )
-      ) : (
+      ) : metamaskAvailable ? (
         <div className="text-center mt-5">
           <Loader />
+        </div>
+      ) : (
+        <div>
+          {' '}
+          <div className="mt-5 text-center">
+            <h4 style={{ color: 'yellow' }}>Metamask Missing</h4>
+            <p style={{ color: 'white' }}>Install metamask first</p>
+          </div>
         </div>
       )}
     </div>
