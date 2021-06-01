@@ -156,18 +156,14 @@ function Airdrop({ authenticated, user }) {
   };
   useEffect(async () => {
     checkMetamask();
-    if (checkMetamask()) {
-      var airdropParticipantsCount = await getTotalParticipants();
-      setAirdropParticipants(airdropParticipantsCount);
-      isSpinned();
-    }
+    var airdropParticipantsCount = await getTotalParticipants();
+    setAirdropParticipants(airdropParticipantsCount);
+    isSpinned();
   }, [airdropJoined]);
 
   useEffect(() => {
     checkMetamask();
-    if (checkMetamask()) {
-      isSpinned();
-    }
+    isSpinned();
   }, [user]);
   const items = [
     <div>
@@ -255,9 +251,13 @@ function Airdrop({ authenticated, user }) {
   };
   return (
     <div className={classes.spacing}>
+      {console.log('Loading: ' + loading)}
+      {console.log('authenticated: ' + authenticated)}
+      {console.log('metamaskNetwork: ' + metamaskNetwork())}
+
       {!loading ? (
         authenticated ? (
-          metamaskNetwork ? (
+          metamaskNetwork() ? (
             <div>
               {!airdropJoined && airdropParticipants < 3000 && (
                 <div class="mb-3">

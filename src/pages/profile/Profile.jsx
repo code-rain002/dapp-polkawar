@@ -672,7 +672,7 @@ function Profile({ authenticateUser, user, authenticated }) {
         </div>
       </Dialog>{' '}
     </div>
-  ) : (
+  ) : metamaskAvailable ? (
     <div className="mt-5 text-center">
       <Button className={classes.airdropButton} onClick={connectWallet}>
         Connect your wallet
@@ -680,6 +680,14 @@ function Profile({ authenticateUser, user, authenticated }) {
       <p className="mt-2 text-center" style={{ color: 'yellow' }}>
         {error}
       </p>
+    </div>
+  ) : (
+    <div>
+      {' '}
+      <div className="mt-5 text-center">
+        <h4 style={{ color: 'yellow' }}>Metamask Missing</h4>
+        <p style={{ color: 'white' }}>Install metamask first</p>
+      </div>
     </div>
   );
 }
