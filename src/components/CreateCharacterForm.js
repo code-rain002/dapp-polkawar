@@ -130,10 +130,10 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
       console.log('Response' + transaction);
 
       if (transaction) {
-        setError('Transaction Submitted!');
+        setError('Please Wait!');
         getCharacter();
         console.log('Submitted');
-        setCompleted(true);
+        setCompleted(false);
         stopPopupClicking(true);
 
         //Integration of username update

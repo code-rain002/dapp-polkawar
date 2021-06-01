@@ -257,7 +257,7 @@ const useStyles = makeStyles((theme) => ({
 function Profile({ authenticateUser, user, authenticated }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
-  const [selectedChar, setSelectedChar] = useState(0);
+  const [selectedChar, setSelectedChar] = useState(false);
   const [characterPopup, setCharacterPopup] = useState(false);
   const [stopPopupClick, setStopPopupClick] = useState(false);
   const [characters, setCharacters] = useState([]);
@@ -301,7 +301,7 @@ function Profile({ authenticateUser, user, authenticated }) {
         let characterHash = await tokenURICharacter(ownerTokenId);
         await axios.get(`${imageBaseUrl}${characterHash}`).then((res) => {
           let tempObject = [res.data];
-
+          console.log(tempObject);
           if (tempObject[0].name === 'Archer') {
             setCharacterIndex(0);
           } else {
@@ -331,9 +331,18 @@ function Profile({ authenticateUser, user, authenticated }) {
   }, []);
 
   const characterData = [
-    { item: 'character/archerlv0.png', character: 'character/archer_lv0.png' },
-    { item: 'character/sceptrelv0.png', character: 'character/magician_lv0.png' },
-    { item: 'character/swordlv0.png', character: 'character/warrior_lv0.png' },
+    {
+      item: 'QmZFgypsvzHuWWPu6uT3x4SQmBRoqkhPNprp2j48Y3ydqZ',
+      character: 'QmXmM8dqXctFKiXnhZiJJ7h2gHAo98qdcHzgdLVh4e9YZc',
+    },
+    {
+      item: 'QmNjkDtdNCVwxi2qtFDyGMqbrytkYFRCC1dxHmRwyUEdCN',
+      character: 'QmctJ1UuDfFtyyrFY4j31GK8qGgz9Qbk8996EiXGW6kqQR',
+    },
+    {
+      item: 'QmWrWU25NMXKvXAjqW1aenzJUdtoD88GkLjP46GTYtFNtM',
+      character: 'QmVF9Csz2JcGd2waLjHpjDdd2LE4WjCvWGcSXzfHuQ2FLc',
+    },
   ];
   return authenticated ? (
     <div>
@@ -393,21 +402,33 @@ function Profile({ authenticateUser, user, authenticated }) {
                     <div classname="d-flex flex-column" style={{ paddingRight: 5 }}>
                       <div>
                         <h6 className={classes.title}>Items</h6>
-                        <Paper className={classes.itemMediaWrapperSelected}>
+                        <Paper
+                          className={selectedChar ? classes.itemMediaWrapperSelected : classes.itemMediaWrapper}
+                          onClick={() => setSelectedChar(!selectedChar)}>
                           <img
-                            src={`${characterData[characterIndex].item}`}
+                            src={`${imageBaseUrl}/${characterData[characterIndex].item}`}
                             className={classes.itemImage}
                             alt="character"
                           />
                         </Paper>
                       </div>
                     </div>
-                    <div className={classes.mediaWrapper}>
-                      <img
-                        src={`${characterData[characterIndex].character}`}
-                        className={classes.media}
-                        alt="character"
-                      />
+                    <div className="text-center">
+                      <div className={classes.mediaWrapper}>
+                        {selectedChar ? (
+                          <img
+                            src={`${imageBaseUrl}/${characterData[characterIndex].character}`}
+                            className={classes.media}
+                            alt="character"
+                          />
+                        ) : (
+                          <img
+                            src={`${imageBaseUrl}/${characters[0].image}`}
+                            className={classes.media}
+                            alt="character"
+                          />
+                        )}
+                      </div>
                     </div>
                     <div style={{ paddingLeft: 30 }}>
                       <h6 className={classes.title}>Statistics</h6>
