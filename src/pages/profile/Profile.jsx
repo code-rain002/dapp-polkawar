@@ -330,31 +330,27 @@ function Profile({ authenticateUser, user, authenticated }) {
 
   const getCharacter = async () => {
     const networkStatus = await checkNetwork();
-    if (networkStatus) {
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-      const accountAddress = accounts[0];
-      let ownerTokenId = await tokenOfOwnerByIndex(accountAddress, 0);
-      let characterHash = await tokenURICharacter(ownerTokenId);
-      await axios.get(`${imageBaseUrl}${characterHash}`).then((res) => {
-        let tempObject = [res.data];
-        console.log(tempObject);
-        if (tempObject[0].name === 'Archer') {
-          setCharacterIndex(0);
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const accountAddress = accounts[0];
+    let ownerTokenId = await tokenOfOwnerByIndex(accountAddress, 0);
+    let characterHash = await tokenURICharacter(ownerTokenId);
+    await axios.get(`${imageBaseUrl}${characterHash}`).then((res) => {
+      let tempObject = [res.data];
+      console.log(tempObject);
+      if (tempObject[0].name === 'Archer') {
+        setCharacterIndex(0);
+      } else {
+        if (tempObject[0].name === 'Magician') {
+          setCharacterIndex(1);
         } else {
-          if (tempObject[0].name === 'Magician') {
-            setCharacterIndex(1);
-          } else {
-            setCharacterIndex(2);
-          }
+          setCharacterIndex(2);
         }
+      }
 
-        setCharacters(tempObject);
-        setError('');
-      });
-    } else {
-      //setError('Only support BSC network');
-    }
+      setCharacters(tempObject);
+      setError('');
+    });
   };
   var char = [];
   useEffect(() => {
@@ -369,14 +365,10 @@ function Profile({ authenticateUser, user, authenticated }) {
   }, [authenticated, user]);
 
   useEffect(() => {
-    return () => {
-      getCharacter();
-    };
-  }, []);
-
-  useEffect(() => {
     checkMetamask();
-    getCharacter();
+    setTimeout(() => {
+      getCharacter();
+    }, 2000);
   }, []);
 
   const characterData = [
