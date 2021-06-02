@@ -276,26 +276,38 @@ function Profile({ authenticateUser, user, authenticated }) {
     setCharacterPopup(value);
   };
 
-  const checkMetamask = () => {
-    if (web3 !== undefined) {
-      setMetamaskAvailable(true);
-      if (!checkNetwork()) {
+  const checkMetamask = async () => {
+    if (window.ethereum) {
+      console.log('Yes available');
+
+      if (window.ethereum && window.ethereum.isMetaMask) {
+        console.log('Yes metamask available');
+        setMetamaskAvailable(true);
+        if (web3 !== undefined) {
+          let networkResult = checkNetwork();
+          {
+            console.log('networkResult: ' + networkResult);
+          }
+          if (!networkResult) {
+            setErrors({
+              title: 'Only support BSC network',
+              msg: 'Change network to Binance Smart Chain first then only you will be able to spin.',
+            });
+          }
+        }
+      } else {
+        setMetamaskAvailable(false);
         setErrors({
-          title: 'Only support BSC network',
-          msg: 'Change network to Binance Smart Chain first then only you will be able to spin.',
+          title: 'Metamask missing!',
+          msg: 'Install metamask first and then only you will be able to spin.',
         });
-        return true;
       }
-    } else {
-      setMetamaskAvailable(false);
-      setErrors({ title: 'Metamask missing!', msg: 'Install metamask first and then only you will be able to spin.' });
-      return false;
     }
   };
 
   const checkNetwork = () => {
     if (metamaskAvailable) {
-      if (web3.currentProvider.networkVersion === constants.network_id) {
+      if (window.ethereum.networkVersion === constants.network_id) {
         return true;
       } else {
         return false;
@@ -303,43 +315,45 @@ function Profile({ authenticateUser, user, authenticated }) {
     }
   };
 
-  const connectWallet = () => {
-    if (checkNetwork() && metamaskAvailable) {
-      web3.eth.requestAccounts().then((accounts) => {
-        const accountAddress = accounts[0];
-        authenticateUser(accountAddress);
-        setError('');
-      });
+  const connectWallet = async () => {
+    let networkStatus = await checkNetwork();
+    if (networkStatus && metamaskAvailable) {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+      const accountAddress = accounts[0];
+      authenticateUser(accountAddress);
+      setError('');
     } else {
-      setError('Only support BSC network');
+      //setError('Only support BSC network');
     }
   };
 
   const getCharacter = async () => {
-    if (checkNetwork()) {
-      web3.eth.requestAccounts().then(async (accounts) => {
-        console.log('Hitting');
-        const accountAddress = accounts[0];
-        let ownerTokenId = await tokenOfOwnerByIndex(accountAddress, 0);
-        let characterHash = await tokenURICharacter(ownerTokenId);
-        await axios.get(`${imageBaseUrl}${characterHash}`).then((res) => {
-          let tempObject = [res.data];
-          console.log(tempObject);
-          if (tempObject[0].name === 'Archer') {
-            setCharacterIndex(0);
-          } else {
-            if (tempObject[0].name === 'Magician') {
-              setCharacterIndex(1);
-            } else {
-              setCharacterIndex(2);
-            }
-          }
+    const networkStatus = await checkNetwork();
+    if (networkStatus) {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-          setCharacters(tempObject);
-        });
+      const accountAddress = accounts[0];
+      let ownerTokenId = await tokenOfOwnerByIndex(accountAddress, 0);
+      let characterHash = await tokenURICharacter(ownerTokenId);
+      await axios.get(`${imageBaseUrl}${characterHash}`).then((res) => {
+        let tempObject = [res.data];
+        console.log(tempObject);
+        if (tempObject[0].name === 'Archer') {
+          setCharacterIndex(0);
+        } else {
+          if (tempObject[0].name === 'Magician') {
+            setCharacterIndex(1);
+          } else {
+            setCharacterIndex(2);
+          }
+        }
+
+        setCharacters(tempObject);
+        setError('');
       });
     } else {
-      setError('Only support BSC network');
+      //setError('Only support BSC network');
     }
   };
   var char = [];
@@ -393,7 +407,7 @@ function Profile({ authenticateUser, user, authenticated }) {
       {characters.length !== 0 && (
         <div>
           <div className="d-flex flex-row justify-content-center align-items-start">
-            <div className={classes.title}>{user.username} </div>
+            <div className={classes.title}>{user.username}</div>
             <div className="d-flex flex-row justify-content-center align-items-start" style={{ paddingLeft: 10 }}>
               <div className="d-flex justify-content-center align-items-center ">
                 <h6 style={{ color: 'white', fontSize: 14, paddingTop: 10, paddingRight: 5 }}>( </h6>

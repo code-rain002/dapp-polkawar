@@ -4,7 +4,7 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { authenticateUser } from './../actions/authActions';
-
+import constants from './../utils/constants';
 import web3 from './../web';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,19 +25,19 @@ function ConnectButton({ authenticateUser }) {
   const [error, setError] = useState('');
 
   const checkNetwork = () => {
-    if (web3.currentProvider.networkVersion === '56') {
+    if (window.ethereum.networkVersion === constants.network_id) {
       return true;
     } else {
       return false;
     }
   };
-  const connectWallet = () => {
+  const connectWallet = async () => {
     if (checkNetwork()) {
-      web3.eth.requestAccounts().then((accounts) => {
-        const accountAddress = accounts[0];
-        authenticateUser(accountAddress);
-        setError('');
-      });
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+      const accountAddress = accounts[0];
+      authenticateUser(accountAddress);
+      setError('');
     } else {
       setError('Only support BSC network');
     }
@@ -51,7 +51,7 @@ function ConnectButton({ authenticateUser }) {
       </div>
       <div className="mt-5">
         <Button className={classes.button} onClick={connectWallet}>
-          {web3 !== undefined ? 'Connect your wallet' : 'Missing Metamask!'}
+          Connect your wallet
         </Button>
         <div className="mt-2" style={{ color: 'yellow' }}>
           {error}

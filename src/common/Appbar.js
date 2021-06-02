@@ -287,7 +287,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
   );
 
   const checkNetwork = () => {
-    if (web3.currentProvider.networkVersion === constants.network_id) {
+    if (window.ethereum.networkVersion === constants.network_id) {
       return true;
     } else {
       return false;
@@ -306,15 +306,17 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
     }
   };
 
-  const connectWallet = () => {
+  const connectWallet = async () => {
     if (web3 !== undefined) {
-      if (checkNetwork()) {
-        web3.eth.requestAccounts().then((accounts) => {
-          const accountAddress = accounts[0];
-          setUserAdd(accountAddress);
-          authenticateUser(accountAddress);
-          getBalance(accountAddress);
-        });
+      const networkStatus = checkNetwork();
+      if (networkStatus) {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+        const accountAddress = accounts[0];
+
+        setUserAdd(accountAddress);
+        authenticateUser(accountAddress);
+        getBalance(accountAddress);
       } else {
         setAlert({ status: true, message: 'Only support BSC network' });
       }
@@ -323,21 +325,20 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
     }
   };
 
-  useEffect(() => {
+  useEffect(async () => {
     if (web3 !== undefined) {
-      if (checkNetwork()) {
-        web3.eth.requestAccounts().then((accounts) => {
-          const currentAddress = accounts[0];
-          const localAddress = localStorage.getItem('userAddress');
-          if (currentAddress !== localAddress) {
-            authenticateUser(currentAddress);
-          }
-          setUserAdd(currentAddress);
+      const networkStatus = await checkNetwork();
+      if (networkStatus) {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+        const currentAddress = accounts[0];
+        const localAddress = localStorage.getItem('userAddress');
+        if (currentAddress !== localAddress) {
           authenticateUser(currentAddress);
-          getBalance(currentAddress);
-        });
-      } else {
-        setAlert({ status: true, message: 'Wrong Network!' });
+        }
+        setUserAdd(currentAddress);
+        authenticateUser(currentAddress);
+        getBalance(currentAddress);
       }
     } else {
       setAlert({ status: true, message: 'Install metamask first!' });
