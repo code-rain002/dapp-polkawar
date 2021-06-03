@@ -7,10 +7,8 @@ import { isJoinAirdrop, getTotalParticipants, tokenURI } from './../../actions/s
 import Loader from './../../components/Loader';
 import CountdownTimer from './../../components/CountdownTimer';
 import ConnectButton from '../../components/ConnectButton';
-import Wheel from '../../components/Wheel';
-import web3 from './../../web';
-import constants from './../../utils/constants';
 import imageBaseUrl from './../../actions/imageBaseUrl';
+import { checkCorrectNetwork, checkWalletAvailable } from './../../actions/web3Actions';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -100,113 +98,50 @@ const useStyles = makeStyles((theme) => ({
 
 function Airdrop({ authenticated, user }) {
   const classes = useStyles();
-  const [spinned, setSpinned] = useState(false);
+
+  const [actualCase, setActualCase] = useState(0);
   const [loading, setLoading] = useState(true);
   const [airdropJoined, setAirdropJoined] = useState(false);
   const [airdropParticipants, setAirdropParticipants] = useState(0);
-  const [startSpinning, setStartSpinning] = useState(true);
   const [itemJson, setItemJson] = useState(null);
-  const [metamaskAvailable, setMetamaskAvailable] = React.useState(false);
-  const [error, setError] = React.useState({ title: '', msg: '' });
 
   const [activate, setActivate] = React.useState(false);
 
-  const checkNetwork = () => {
-    if (window.ethereum.networkVersion === constants.network_id) {
-      return true;
-    } else {
-      return false;
-    }
-  };
+  useEffect(() => {
+    //Get all participants
+    getParticipants();
 
-  const checkMetamask = () => {
-    if (window.ethereum) {
-      console.log('Yes available');
-      setLoading(false);
-      if (window.ethereum && window.ethereum.isMetaMask) {
-        console.log('Yes metamask available');
-        setMetamaskAvailable(true);
-        if (web3 !== undefined) {
-          setMetamaskAvailable(true);
-
-          let networkResult = checkNetwork();
-          if (!networkResult) {
-            setError({
-              title: 'Only support BSC network',
-              msg: 'Change network to Binance Smart Chain first then only you will be able to spin.',
-            });
-          }
+    const walletAvailable = checkWalletAvailable();
+    if (walletAvailable) {
+      console.log('1. Wallet Available');
+      const correctNetwork = checkCorrectNetwork();
+      if (correctNetwork) {
+        console.log('2. Correct Network');
+        if (authenticated) {
+          console.log('3. Authenticated True');
+          checkIsJoined();
         } else {
-          setMetamaskAvailable(false);
-          setError({
-            title: 'Metamask missing!',
-            msg: 'Install metamask first and then only you will be able to spin.',
-          });
+          console.log('3. Authenticated False');
+          setActualCase(3);
         }
-      }
-    }
-  };
+      } else {
+        console.log('2. Wrong Network');
 
-  useEffect(async () => {
-    checkMetamask();
+        setActualCase(2);
+        setLoading(false);
+      }
+    } else {
+      console.log('1. Wallet not Available');
+
+      setActualCase(1);
+      setLoading(false);
+    }
+  }, [authenticated, user]);
+
+  const getParticipants = async () => {
     var airdropParticipantsCount = await getTotalParticipants();
     setAirdropParticipants(airdropParticipantsCount);
-    setLoading(false);
-  }, [airdropJoined]);
-
-  useEffect(() => {
-    checkMetamask();
-    if (user) {
-      checkAirdrop();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    checkMetamask();
-  }, []);
-  const items = [
-    <div>
-      Armor
-      <img alt="Armor" src={`${imageBaseUrl}/QmYPaKCKa6N6Y1f7NfHcX2cSpJRSatf41brUPffa84YNQm`} height="70px" />
-    </div>,
-    <div>
-      Helmet
-      <img alt="Helmet" src={`${imageBaseUrl}/Qmath2HgLVjGy3CmmzmLshoDThqFrQNj4ueRrd8YEAQgDA`} height="70px" />
-    </div>,
-    <div>
-      Sword
-      <img alt="Sword" src={`${imageBaseUrl}/QmYqV2jhYyZJBmvx5kU6KycFkTTG2F2MGCGtiMJrS8g4dE`} height="70px" />
-    </div>,
-    <div>
-      Knife
-      <img alt="Knife" src={`${imageBaseUrl}/QmYBRqwjCu95NpTbkwRmseUEKd1wNS4ZvyuQZWPDZaZjNs`} height="70px" />
-    </div>,
-    <div>
-      Tessen
-      <img alt="Tessen" src={`${imageBaseUrl}/QmTyG1N1d5XaS28EvuH4nvaFC6S38NgYt87BeySvsoS98n`} height="70px" />
-    </div>,
-    <div>
-      Bow
-      <img alt="Bow" src={`${imageBaseUrl}/QmbVbMQiDjhvtLGFNnJ3VoXACHbPJusQBzMQ43mpYvxFsd`} height="70px" />
-    </div>,
-    <div>
-      Gun
-      <img alt="Gun" src={`${imageBaseUrl}/QmfZSKVadAmSonNyvDvkLNTb2nL35GJ82CRqDUFhGQ8CgQ`} height="70px" />
-    </div>,
-    <div>
-      Wing
-      <img alt="Wing" src={`${imageBaseUrl}/QmbqwfPekXBqC3CCwt5nAiAcEV5ku6ASk7wnRuQfV8kWua`} height="70px" />
-    </div>,
-    <div>
-      Sceptre
-      <img alt="Sceptre" src={`${imageBaseUrl}/QmQfKtYBdDB8fDxUo6c53RbZUd7oe3agHjEWqt9kA3P2PD`} height="70px" />
-    </div>,
-    <div>
-      Magic Vase
-      <img alt="Magic Vase" src={`${imageBaseUrl}/QmNTNGAQjMbTPukVi7LCwa4fvGzzUzkaUFYHqsLGk2KWGA`} height="70px" />
-    </div>,
-  ];
-  var val = 0;
+  };
 
   const checkIsJoined = async () => {
     //Check participants true of false
@@ -214,169 +149,159 @@ function Airdrop({ authenticated, user }) {
     var joined = await isJoinAirdrop(user.address);
 
     if (parseInt(joined) > 0) {
-      setSpinned(true);
       setAirdropJoined(true);
-
       let itemString = await tokenURI(joined);
       await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
         setItemJson(res.data);
-
         setLoading(false);
+        setActualCase(4);
       });
       return true;
     } else {
-      //Call function again.
-      setTimeout(() => checkIsJoined(), 2000);
+      setActualCase(5);
+      return false;
     }
-    //return joined;
-  };
-  const checkAirdrop = async () => {
-    //call isJoinAirdrop function
-
-    let joined = await checkIsJoined();
   };
 
   const claimAirdrop = () => {
     console.log('Claimed');
   };
 
-  const metamaskNetwork = () => {
-    let networkStatus = checkNetwork();
-    if (metamaskAvailable && networkStatus) {
-      return true;
-    } else {
-      return false;
-    }
-  };
   return (
     <div className={classes.spacing}>
-      {!loading ? (
-        authenticated ? (
-          <div>
-            {!airdropJoined && airdropParticipants >= 3000 && (
-              <div class="my-5">
-                <h6 className="text-center " style={{ color: 'yellow', fontSize: 28 }}>
-                  Airdrop Finished
-                </h6>
-                <div className="d-flex justify-content-center">
-                  <h6
-                    className="text-center"
-                    style={{ color: 'white', fontSize: 18, fontWieght: 400, lineHeight: 2, maxWidth: 500 }}>
-                    Thanks for the overwhelming response from our community. Airdrop participants has reached{' '}
-                    <strong style={{ color: 'yellow' }}>3000 </strong>
-                    participants. See you at PWAR listing day.
-                  </h6>
-                </div>
-              </div>
-            )}
-            {airdropJoined && (
-              <div className="text-center mt-1">
-                <div className="row g-0">
-                  <div className="col-md-3"></div>
-                  <div className="col-md-6">
-                    {' '}
-                    <h3 className="text-center " style={{ color: 'yellow' }}>
-                      Claim Airdrop
-                    </h3>
-                  </div>
-                  <div className="col-md-3">
-                    {' '}
-                    <div className="text-center">
-                      <h6 className={classes.airdropHeading}>Airdrop Participants</h6>
-                      <p className={classes.airdropText}>{airdropParticipants - 4}/3000</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={classes.root}>
-                  <div className={classes.container}>
-                    <Grow in={true} timeout={1000}>
-                      <div>
-                        <div className="container">
-                          <div>
-                            <h3 className="text-center " style={{ color: 'white', fontSize: 20 }}>
-                              Congratulations! You have won.
-                            </h3>
-                            <div className="d-flex justify-content-center align-items-end">
-                              {itemJson !== null && (
-                                <div>
-                                  <div className="mt-3">
-                                    <img src={`${imageBaseUrl}/${itemJson.hashimage}`} className={classes.itemImage} />
-                                  </div>
-                                  <div>
-                                    <h5 className={classes.itemName}>{itemJson.description}</h5>
-                                  </div>
-                                </div>
-                              )}
-
-                              <div className={classes.plusSign}>+</div>
-                              <div style={{ paddingLeft: 20 }}>
-                                {' '}
-                                <div className="mt-5">
-                                  <img src={`/token.png`} className={classes.itemImagePwar} />
-                                  <div className="mt-3">
-                                    <h5 className={classes.itemName}>25 PWAR</h5>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="mt-5 d-flex flex-column justify-content-center align-items-center">
-                              <h3 style={{ fontSize: 21, color: 'white' }}>Claim your airdrop</h3>
-                              <Button
-                                variant="outlined"
-                                onClick={activate ? claimAirdrop : null}
-                                className={activate ? classes.buttonMain : classes.timerButton}>
-                                {activate ? (
-                                  'Claim Now'
-                                ) : (
-                                  <div>
-                                    <CountdownTimer enableClaim={setActivate} />
-                                  </div>
-                                )}
-                              </Button>
-                              <div className="mt-5">
-                                <p style={{ color: 'yellow', fontSize: 16, textAlign: 'center' }}>
-                                  Airdrop requirements:
-                                </p>
-                                <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
-                                  1. You will receive 1 NFT item and 25 PWAR tokens.
-                                </p>
-                                <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
-                                  2. Do following tasks
-                                  <ul>
-                                    <li>
-                                      <a href="https://t.me/polkawarchat">Join Telegram</a>
-                                    </li>
-                                    <li>
-                                      <a href="https://twitter.com/polkawarnft">Follow Twitter</a>
-                                    </li>
-                                    <li>
-                                      <a href="https://medium.com/@polkawar">Follow Medium</a>
-                                    </li>
-                                  </ul>
-                                </p>{' '}
-                                <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
-                                  3. You can claim your rewards after 1st July, 2021.
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>{' '}
-                      </div>
-                    </Grow>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div>
-            <ConnectButton />
-          </div>
-        )
-      ) : (
+      {actualCase === 0 && (
         <div className="text-center mt-5">
           <Loader />
+        </div>
+      )}
+      {actualCase === 1 && (
+        <div className="mt-5 text-center">
+          <h4 style={{ color: 'yellow' }}>Metamask Missing</h4>
+          <p style={{ color: 'white' }}>Install metamask first</p>
+        </div>
+      )}
+      {actualCase === 2 && (
+        <div className="mt-5 text-center">
+          <h4 style={{ color: 'yellow' }}>Wrong Network</h4>
+          <p style={{ color: 'white' }}>We only support Binance Smart Chain</p>
+        </div>
+      )}
+      {actualCase === 3 && (
+        <div className="mt-5 text-center">
+          <ConnectButton />
+        </div>
+      )}
+      {actualCase === 4 && (
+        <div className="text-center mt-1">
+          <div className="row g-0">
+            <div className="col-md-3"></div>
+            <div className="col-md-6">
+              {' '}
+              <h3 className="text-center " style={{ color: 'yellow' }}>
+                Claim Airdrop
+              </h3>
+            </div>
+            <div className="col-md-3">
+              {' '}
+              <div className="text-center">
+                <h6 className={classes.airdropHeading}>Airdrop Participants</h6>
+                <p className={classes.airdropText}>{airdropParticipants - 4}/3000</p>
+              </div>
+            </div>
+          </div>
+
+          <div className={classes.root}>
+            <div className={classes.container}>
+              <Grow in={true} timeout={1000}>
+                <div>
+                  <div className="container">
+                    <div>
+                      <h3 className="text-center " style={{ color: 'white', fontSize: 20 }}>
+                        Congratulations! You have won.
+                      </h3>
+                      <div className="d-flex justify-content-center align-items-end">
+                        {itemJson !== null && (
+                          <div>
+                            <div className="mt-3">
+                              <img src={`${imageBaseUrl}/${itemJson.hashimage}`} className={classes.itemImage} />
+                            </div>
+                            <div>
+                              <h5 className={classes.itemName}>{itemJson.description}</h5>
+                            </div>
+                          </div>
+                        )}
+
+                        <div className={classes.plusSign}>+</div>
+                        <div style={{ paddingLeft: 20 }}>
+                          {' '}
+                          <div className="mt-5">
+                            <img src={`/token.png`} className={classes.itemImagePwar} />
+                            <div className="mt-3">
+                              <h5 className={classes.itemName}>25 PWAR</h5>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mt-5 d-flex flex-column justify-content-center align-items-center">
+                        <h3 style={{ fontSize: 21, color: 'white' }}>Claim your airdrop</h3>
+                        <Button
+                          variant="outlined"
+                          onClick={activate ? claimAirdrop : null}
+                          className={activate ? classes.buttonMain : classes.timerButton}>
+                          {activate ? (
+                            'Claim Now'
+                          ) : (
+                            <div>
+                              <CountdownTimer enableClaim={setActivate} />
+                            </div>
+                          )}
+                        </Button>
+                        <div className="mt-5">
+                          <p style={{ color: 'yellow', fontSize: 16, textAlign: 'center' }}>Airdrop requirements:</p>
+                          <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
+                            1. You will receive 1 NFT item and 25 PWAR tokens.
+                          </p>
+                          <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
+                            2. Do following tasks
+                            <ul>
+                              <li>
+                                <a href="https://t.me/polkawarchat">Join Telegram</a>
+                              </li>
+                              <li>
+                                <a href="https://twitter.com/polkawarnft">Follow Twitter</a>
+                              </li>
+                              <li>
+                                <a href="https://medium.com/@polkawar">Follow Medium</a>
+                              </li>
+                            </ul>
+                          </p>{' '}
+                          <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
+                            3. You can claim your rewards after 1st July, 2021.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>{' '}
+                </div>
+              </Grow>
+            </div>
+          </div>
+        </div>
+      )}
+      {actualCase === 5 && (
+        <div class="my-5">
+          <h6 className="text-center " style={{ color: 'yellow', fontSize: 28 }}>
+            Airdrop Finished
+          </h6>
+          <div className="d-flex justify-content-center">
+            <h6
+              className="text-center"
+              style={{ color: 'white', fontSize: 18, fontWieght: 400, lineHeight: 2, maxWidth: 500 }}>
+              Thanks for the overwhelming response from our community. Airdrop participants has reached{' '}
+              <strong style={{ color: 'yellow' }}>3000 </strong>
+              participants. See you at PWAR listing day.
+            </h6>
+          </div>
         </div>
       )}
     </div>
