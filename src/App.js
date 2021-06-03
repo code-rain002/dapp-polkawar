@@ -12,7 +12,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import Airdrop from './pages/airdrop/Airdrop';
 import SocialLinks from './common/SocialLinks';
-
+import './web';
 export default function App() {
   return (
     <Provider store={store}>

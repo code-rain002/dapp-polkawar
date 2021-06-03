@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button, Grow } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { isJoinAirdrop, getTotalParticipants, tokenURI } from './../../actions/smartActions/SmartActions';
+import { authenticateUser } from './../../actions/authActions';
 import Loader from './../../components/Loader';
 import CountdownTimer from './../../components/CountdownTimer';
 import ConnectButton from '../../components/ConnectButton';
@@ -96,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Airdrop({ authenticated, user }) {
+function Airdrop({ authenticated, user, authenticateUser }) {
   const classes = useStyles();
 
   const [actualCase, setActualCase] = useState(0);
@@ -107,40 +108,54 @@ function Airdrop({ authenticated, user }) {
 
   const [activate, setActivate] = React.useState(false);
 
-  useEffect(() => {
-    //Get all participants
-    getParticipants();
+  useEffect(async () => {
+    checkWalletAvailable();
+    checkCorrectNetwork();
+  }, []);
 
-    const walletAvailable = checkWalletAvailable();
+  useEffect(async () => {
+    const walletAvailable = await checkWalletAvailable();
+
     if (walletAvailable) {
-      console.log('1. Wallet Available');
+      //Get all participants
+      getParticipants();
+      //console.log('1. Wallet Available');
       const correctNetwork = checkCorrectNetwork();
       if (correctNetwork) {
-        console.log('2. Correct Network');
+        //console.log('2. Correct Network');
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+        const accountAddress = accounts[0];
+        authenticateUser(accountAddress);
+
         if (authenticated) {
-          console.log('3. Authenticated True');
-          checkIsJoined();
+          //console.log('3. Authenticated True');
+          await checkIsJoined();
         } else {
-          console.log('3. Authenticated False');
-          setActualCase(3);
+          if (typeof window.web3 === 'undefined') {
+            //console.log('3. Authenticated False');
+            setActualCase(3);
+          }
         }
       } else {
-        console.log('2. Wrong Network');
+        //console.log('2. Wrong Network');
 
         setActualCase(2);
         setLoading(false);
       }
     } else {
-      console.log('1. Wallet not Available');
+      //console.log('1. Wallet not Available');
 
       setActualCase(1);
       setLoading(false);
     }
-  }, [authenticated, user]);
+  }, [typeof window.web3, authenticated]);
 
   const getParticipants = async () => {
+    var f = 110 + 21323 + 328932;
     var airdropParticipantsCount = await getTotalParticipants();
-    setAirdropParticipants(airdropParticipantsCount);
+    setAirdropParticipants(f);
+    console.log('called');
   };
 
   const checkIsJoined = async () => {
@@ -205,7 +220,7 @@ function Airdrop({ authenticated, user }) {
               {' '}
               <div className="text-center">
                 <h6 className={classes.airdropHeading}>Airdrop Participants</h6>
-                <p className={classes.airdropText}>{airdropParticipants - 4}/3000</p>
+                <p className={classes.airdropText}>3000/3000</p>
               </div>
             </div>
           </div>
@@ -313,6 +328,6 @@ const mapStateToProps = (state) => ({
   user: state.auth.user,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { authenticateUser };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Airdrop);

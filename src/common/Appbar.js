@@ -27,6 +27,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import BalancePopup from './BalancePopup';
 import { getPwarBalance } from './../actions/smartActions/SmartActions';
 import constants from './../utils/constants';
+import { checkCorrectNetwork, checkWalletAvailable } from './../actions/web3Actions';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -286,16 +287,8 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
     </div>
   );
 
-  const checkNetwork = () => {
-    if (window.ethereum.networkVersion === constants.network_id) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   const getBalance = async (currentAddress) => {
-    if (web3 !== undefined) {
+    if (window.web3 !== undefined) {
       web3.eth.getBalance(currentAddress, (err, balance) => {
         let ethBalance = web3.utils.fromWei(balance);
         setEthBal(ethBalance);
@@ -308,7 +301,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
 
   const connectWallet = async () => {
     if (web3 !== undefined) {
-      const networkStatus = checkNetwork();
+      const networkStatus = checkCorrectNetwork();
       if (networkStatus) {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
@@ -326,8 +319,8 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
   };
 
   useEffect(async () => {
-    if (web3 !== undefined) {
-      const networkStatus = await checkNetwork();
+    if (typeof window.web3 !== 'undefined') {
+      const networkStatus = await checkCorrectNetwork();
       if (networkStatus) {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
@@ -340,10 +333,8 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
         authenticateUser(currentAddress);
         getBalance(currentAddress);
       }
-    } else {
-      setAlert({ status: true, message: 'Install metamask first!' });
     }
-  }, []);
+  }, [typeof window.web3]);
 
   useEffect(() => {
     if (user !== null) {
@@ -353,7 +344,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
 
   useEffect(() => {
     //Events to detect changes in account or network.
-    if (web3 !== undefined) {
+    if (window.ethereum !== undefined) {
       window.ethereum.on('accountsChanged', function (accounts) {
         web3.eth.requestAccounts().then((accounts) => {
           const accountAddress = accounts[0];
@@ -365,7 +356,8 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
         });
       });
       window.ethereum.on('networkChanged', function (accounts) {
-        if (checkNetwork()) {
+        let networkStatus = checkCorrectNetwork();
+        if (networkStatus) {
           web3.eth.requestAccounts().then((accounts) => {
             const accountAddress = accounts[0];
             setUserAdd(accountAddress);
@@ -380,7 +372,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
         }
       });
     }
-  }, [user]);
+  }, [typeof window.web3, user]);
 
   return (
     <div className={classes.grow}>
