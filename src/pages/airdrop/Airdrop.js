@@ -110,7 +110,8 @@ function Airdrop({ authenticated, user, authenticateUser }) {
 
   useEffect(async () => {
     checkWalletAvailable();
-    checkCorrectNetwork();
+    let res = await checkCorrectNetwork();
+    console.log('airdrop:' + res);
   }, []);
 
   useEffect(async () => {
