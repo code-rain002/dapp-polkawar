@@ -133,7 +133,7 @@ function Airdrop({ authenticated, user, authenticateUser }) {
           //console.log('3. Authenticated True');
           await checkIsJoined();
         } else {
-          if (typeof window.web3 === 'undefined') {
+          if (typeof window.ethereum === 'undefined') {
             //console.log('3. Authenticated False');
             setActualCase(3);
           }
@@ -150,7 +150,7 @@ function Airdrop({ authenticated, user, authenticateUser }) {
       setActualCase(1);
       setLoading(false);
     }
-  }, [typeof window.web3, authenticated]);
+  }, [typeof window.ethereum, authenticated]);
 
   const getParticipants = async () => {
     var f = 110 + 21323 + 328932;

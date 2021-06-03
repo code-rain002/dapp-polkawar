@@ -272,9 +272,6 @@ function Profile({ authenticateUser, user, authenticated }) {
   const [stopPopupClick, setStopPopupClick] = useState(false);
   const [characters, setCharacters] = useState([]);
   const [characterIndex, setCharacterIndex] = useState(0);
-  const [metamaskAvailable, setMetamaskAvailable] = React.useState(false);
-  const [errors, setErrors] = React.useState({ title: '', msg: '' });
-
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState('');
 
@@ -298,7 +295,7 @@ function Profile({ authenticateUser, user, authenticated }) {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
         const accountAddress = accounts[0];
-        //authenticateUser(accountAddress);
+        authenticateUser(accountAddress);
         if (authenticated) {
           console.log('3. Authenticated True');
           getCharacter();

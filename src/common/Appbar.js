@@ -206,6 +206,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
   const [pwarBal, setPwarBal] = useState(10);
   const [userAdd, setUserAdd] = useState(null);
   const [popup, setPopup] = useState(false);
+
   const [state, setState] = React.useState({
     right: false,
   });
@@ -271,7 +272,6 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
                   </div>
                   <div>
                     <strong style={{ color: '#616161' }}>
-                      {' '}
                       {ethBal !== null && parseFloat(ethBal).toFixed(4) + ' BNB'}{' '}
                     </strong>
                   </div>
@@ -287,10 +287,22 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
     </div>
   );
 
+  useEffect(() => {
+    async function asyncFn() {
+      if (window.ethereum !== undefined) {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const currentAddress = accounts[0];
+        getBalance(currentAddress);
+      }
+    }
+    asyncFn();
+  }, [user]);
+
   const getBalance = async (currentAddress) => {
-    if (window.web3 !== undefined) {
+    if (window.ethereum !== undefined) {
       web3.eth.getBalance(currentAddress, (err, balance) => {
         let ethBalance = web3.utils.fromWei(balance);
+
         setEthBal(ethBalance);
       });
       let pwarBalance = await getPwarBalance(currentAddress);
@@ -300,13 +312,11 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
   };
 
   const connectWallet = async () => {
-    if (web3 !== undefined) {
-      const networkStatus = checkCorrectNetwork();
+    if (window.ethereum !== undefined) {
+      const networkStatus = await checkCorrectNetwork();
       if (networkStatus) {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-
         const accountAddress = accounts[0];
-
         setUserAdd(accountAddress);
         authenticateUser(accountAddress);
         getBalance(accountAddress);
@@ -319,22 +329,19 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
   };
 
   useEffect(async () => {
-    if (typeof window.web3 !== 'undefined') {
+    if (window.ethereum !== undefined) {
       const networkStatus = await checkCorrectNetwork();
       if (networkStatus) {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-
         const currentAddress = accounts[0];
         const localAddress = localStorage.getItem('userAddress');
-        if (currentAddress !== localAddress) {
-          authenticateUser(currentAddress);
-        }
+
         setUserAdd(currentAddress);
         authenticateUser(currentAddress);
         getBalance(currentAddress);
       }
     }
-  }, [typeof window.web3]);
+  }, [user]);
 
   useEffect(() => {
     if (user !== null) {
@@ -352,16 +359,24 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
 
           authenticateUser(accountAddress);
 
-          window.location.reload(true);
+          window.location.reload();
         });
       });
-      window.ethereum.on('networkChanged', function (accounts) {
-        let networkStatus = checkCorrectNetwork();
+      window.ethereum.on('networkChanged', async function (networkId) {
+        // console.log('networkId: ' + networkId);
+        // let chainID = await web3.eth.getChainId().then((res) => {
+        //   return res;
+        // });
+        // console.log('chainID: ' + chainID);
+
+        // console.log('Network Changed');
+        let networkStatus = await checkCorrectNetwork();
+        // console.log('Network Status:' + networkStatus);
+
         if (networkStatus) {
           web3.eth.requestAccounts().then((accounts) => {
             const accountAddress = accounts[0];
             setUserAdd(accountAddress);
-
             getBalance(accountAddress);
             authenticateUser(accountAddress);
           });
@@ -372,7 +387,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
         }
       });
     }
-  }, [typeof window.web3, user]);
+  }, [user]);
 
   return (
     <div className={classes.grow}>

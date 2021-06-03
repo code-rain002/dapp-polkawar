@@ -24,7 +24,7 @@ export const checkCorrectNetwork = async () => {
   let chainID = await web3.eth.getChainId().then((res) => {
     return res;
   });
-  console.log(chainID);
+  //console.log(chainID);
   if (chainID === 56) {
     //console.log('BSC');
     return true;
