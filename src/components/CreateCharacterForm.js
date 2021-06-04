@@ -15,6 +15,10 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 14,
     padding: '25px 10px 25px 10px',
     backgroundColor: 'white',
+    [theme.breakpoints.down('md')]: {
+      width: 350,
+      padding: '5px 2px 5px 2px',
+    },
   },
   title: {
     verticalAlign: 'baseline',
@@ -123,7 +127,7 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
           .on('receipt', function (receipt) {
             setError('Transaction Completed');
             getCharacter();
-            window.location.reload(true);
+            window.location.reload();
           });
       });
 

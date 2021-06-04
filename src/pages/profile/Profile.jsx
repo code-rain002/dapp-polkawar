@@ -317,7 +317,7 @@ function Profile({ authenticateUser, user, authenticated }) {
 
       setActualCase(1);
     }
-  }, [typeof window.web3, authenticated]);
+  }, [authenticated]);
 
   const getCharacter = async () => {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -345,7 +345,7 @@ function Profile({ authenticateUser, user, authenticated }) {
       setUserData(user);
       getCharacter();
     }
-  }, [authenticated, user]);
+  }, [authenticated]);
 
   const characterData = [
     {
