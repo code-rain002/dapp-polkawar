@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 function CountdownTimer({ enableClaim }) {
   const calculateTimeLeft = () => {
     let year = new Date().getFullYear();
-    const difference = +new Date(`July 1, 2021 00:00:00 UTC`) - +new Date();
+    const difference = +new Date(`August 1, 2021 00:00:00 UTC`) - +new Date();
     let timeLeft = {};
 
     if (difference > 0) {
