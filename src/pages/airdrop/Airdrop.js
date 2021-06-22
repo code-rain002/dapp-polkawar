@@ -292,7 +292,7 @@ function Airdrop({ authenticated, user, authenticateUser }) {
                             </ul>
                           </p>{' '}
                           <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
-                            3. You can claim your rewards after 1st July, 2021.
+                            3. You can claim your rewards after 1st August, 2021.
                           </p>
                         </div>
                       </div>
