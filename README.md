@@ -1,6 +1,20 @@
-# PolkaWar DApp
+# PolkaWar - NFT MarketPlace & Battle Gaming Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+With PolkaWar, Experience a new era of blockchain based gaming platform build on Binance Smart Chain and Unity.
+
+PolkaWar is a blockchain based NFT gaming platform and marketplace. Inspired by the recent crypto NFT and gaming narratives, PolkaWar will combine and synergize them both to build an attractive platform.
+
+
+![Website Screenshot](polkawar.png)
+
+
+Following features are developed:
+
+1. Metamask and Trust Wallet Connection.
+2. Airdrop claiming using Interactive Spinning.
+3. Profile section.
+4. NFT Items and their details.
+5. Buy and Sell Feature for NFTs.
 
 ## Available Scripts
 
