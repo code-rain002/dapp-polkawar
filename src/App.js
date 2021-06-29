@@ -13,6 +13,7 @@ import store from './store';
 import Airdrop from './pages/airdrop/Airdrop';
 import SocialLinks from './common/SocialLinks';
 import './web';
+import Sale from './pages/sale/Sale';
 export default function App() {
   return (
     <Provider store={store}>
@@ -26,6 +27,9 @@ export default function App() {
               </Route>
               <Route exact path="/profile">
                 <Profile />
+              </Route>
+              <Route exact path="/sale">
+                <Sale />
               </Route>
               <Route exact path="/item/:id">
                 <Details />
