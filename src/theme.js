@@ -30,6 +30,7 @@ export const theme = createMuiTheme({
     fontFamily: [
       'Carter One',
       'Poppins',
+      'Balsamiq Sans',
       'Work Sans',
       '-apple-system',
       'BlinkMacSystemFont',

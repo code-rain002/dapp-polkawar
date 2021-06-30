@@ -7,50 +7,83 @@ import imageBaseUrl from './../actions/imageBaseUrl';
 
 const useStyles = makeStyles((theme) => ({
   card1: {
-    width: 300,
-    height: 450,
-    borderRadius: 20,
-    border: '4px solid #e5e5e5',
-    marginBottom: 30,
+    width: 900,
+    height: 250,
+    borderRadius: 14,
+    border: '1px solid #e5e5e5',
+    marginBottom: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 10,
+    paddingRight: 10,
     backgroundColor: theme.palette.pbr.textPrimaryOpp,
     [theme.breakpoints.down('sm')]: {
-      width: 200,
-      height: 290,
+      width: '100%',
+      height: 250,
     },
   },
-  cardHeader: {
-    height: 60,
-    backgroundColor: theme.palette.pbr.primary,
-  },
-  title1: {
-    verticalAlign: 'baseline',
-    textAlign: 'center',
-    color: theme.palette.pbr.textPrimary,
-    fontWeight: 900,
-    letterSpacing: 1,
-    fontSize: 22,
-    lineHeight: '35.7px',
-    fontFamily: 'Carter One',
-    [theme.breakpoints.down('sm')]: {
-      fontWeight: 700,
-      fontSize: 12,
-    },
-  },
-  mediaWrapper1: {
-    height: 200,
-    textAlign: 'center',
-    [theme.breakpoints.down('sm')]: {
-      height: 100,
-    },
-  },
+
   media: {
-    height: '100%',
+    height: 200,
     marginLeft: 5,
     marginRight: 5,
     borderRadius: 10,
     [theme.breakpoints.down('sm')]: {
-      height: 100,
+      height: 150,
     },
+  },
+  title: {
+    verticalAlign: 'baseline',
+    textAlign: 'left',
+    color: theme.palette.pbr.textPrimary,
+    fontWeight: 700,
+    letterSpacing: 1,
+    fontSize: 22,
+    lineHeight: '35.7px',
+    fontFamily: 'Balsamiq Sans',
+    [theme.breakpoints.down('md')]: {
+      fontWeight: 700,
+      fontSize: 12,
+    },
+  },
+  section2: {
+    paddingLeft: 15,
+  },
+  priceStrike: {
+    verticalAlign: 'baseline',
+    textAlign: 'left',
+    color: theme.palette.pbr.textPrimary,
+    fontWeight: 400,
+    letterSpacing: '0.1px',
+    fontSize: 20,
+    lineHeight: '30px',
+    fontFamily: 'Balsamiq Sans',
+    [theme.breakpoints.down('md')]: {
+      fontWeight: 300,
+      fontSize: 15,
+    },
+  },
+  price: {
+    verticalAlign: 'baseline',
+    textAlign: 'left',
+    color: 'yellow',
+    fontWeight: 700,
+    letterSpacing: '0.1px',
+    fontSize: 20,
+    lineHeight: '30px',
+    fontFamily: 'Balsamiq Sans',
+    paddingLeft: 10,
+    [theme.breakpoints.down('md')]: {
+      fontWeight: 300,
+      fontSize: 15,
+    },
+  },
+  ownerCount: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 10,
+    padding: 0,
+    margin: 0,
   },
   icon: {
     color: 'orange',
@@ -76,29 +109,37 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: 5,
     },
   },
-  iconWrapper: {
-    paddingRight: 7,
-  },
+
   priceBadgeWrapper: {
-    display: 'inline-block',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+
     paddingTop: 20,
     [theme.breakpoints.down('sm')]: {
       paddingTop: 5,
     },
   },
   pricingBadge: {
-    textAlign: 'left',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
     background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
     padding: '2px 10px 2px 10px',
-    borderTopRightRadius: 50,
-    borderBottomRightRadius: 50,
+    borderRadius: 50,
+    width: 400,
+    fontFamily: 'Balsamiq Sans',
+    fontWeight: 700,
+    fontSize: 18,
     height: 36,
-    [theme.breakpoints.down('sm')]: {
-      textAlign: 'left',
+    color: 'white',
+    [theme.breakpoints.down('md')]: {
+      width: 400,
+      textAlign: 'center',
       background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
       padding: '2px 7px 2px 7px',
-      borderTopRightRadius: 50,
-      borderBottomRightRadius: 50,
+
       height: 26,
       lineHeight: '16px',
     },
@@ -107,19 +148,20 @@ const useStyles = makeStyles((theme) => ({
   pricingText: {
     color: 'white',
     fontSize: 15,
-    fontWeight: 700,
+    fontWeight: 600,
     [theme.breakpoints.down('sm')]: {
       fontSize: 10,
       fontWeight: 600,
     },
   },
+
   buyNowButton: {
     textAlign: 'center',
-    background: `linear-gradient(to bottom,#ffffff, #e5e5e5)`,
+    background: `linear-gradient(to bottom,#ffffff, yellow)`,
     padding: '8px 16px 8px 16px',
     borderRadius: 50,
     color: 'black',
-    fontSize: 11,
+    fontSize: 14,
     fontWeight: 500,
     textTransform: 'none',
     [theme.breakpoints.down('sm')]: {
@@ -127,62 +169,61 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 10,
     },
   },
-  ownedText: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 10,
-    padding: 0,
-    margin: 0,
-  },
-  ownerCount: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 10,
-    padding: 0,
-    margin: 0,
-  },
 }));
-export default function ItemSaleCard() {
+
+export default function ItemSaleCard({ item }) {
   const classes = useStyles();
 
   return (
     <div>
       <Link>
         <Card className={classes.card1} elevation={0}>
-          <div className="d-flex justify-content-between mt-2">
-            <div className={classes.priceBadgeWrapper}>
-              <h4 className={classes.pricingBadge}>
-                <span className={classes.pricingText}>0.5 BNB</span>
-              </h4>
-            </div>
-            <div className="d-flex justify-content-center align-items-center">
-              <h6 className={classes.levelText}>Level : </h6>
-              <div className={classes.iconWrapper}>
-                {Array.from(Array(3)).map((character) => {
-                  return (
-                    <img
-                      alt="level"
-                      src="https://pngimg.com/uploads/star/star_PNG1597.png"
-                      className={classes.levelImage}
-                    />
-                  );
-                })}
+          <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-start">
+              <div className="text-center">
+                <img
+                  alt="item"
+                  src={`${imageBaseUrl}/QmZ8K4DxcKJjYUsSqQDBXzXBeaWcpt96Yuy9Cg3nu2hXx5`}
+                  className={classes.media}
+                />
+              </div>
+              <div className={classes.section2}>
+                <h6 className={classes.title}>{item.name}</h6>
+                <div className="d-flex justify-content-start">
+                  <h6 className={classes.priceStrike}>
+                    <strike>
+                      {item.price} {item.currency}
+                    </strike>
+                  </h6>
+                  <h6 className={classes.price}>0.5 {item.currency}</h6>
+                </div>
+                <div className="d-flex justify-content-start align-items-center">
+                  <h6 className={classes.levelText}>Level : </h6>
+                  <div className={classes.iconWrapper}>
+                    {Array.from(Array(item.level)).map((character) => {
+                      return (
+                        <img
+                          alt="level"
+                          src="https://pngimg.com/uploads/star/star_PNG1597.png"
+                          className={classes.levelImage}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>{' '}
+                <div className="d-flex justify-content-between mt-2">
+                  <div className={classes.priceBadgeWrapper}>
+                    <h4 className={classes.pricingBadge}>19 Available</h4>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div className={classes.mediaWrapper1}>
-            {/* <img alt="item" src={`${imageBaseUrl}/${item.image}`} className={classes.media} /> */}
-          </div>
-          <div>
-            <h4 className={classes.title1}>Sword</h4>
-            {/* <h6 className={classes.ownedText}>
-              Owned by <span className="raindboxText">{item.owner.length} players</span>
-            </h6> */}
-          </div>
-          <div className="text-center mt-4">
-            <Button variant="contained" className={classes.buyNowButton}>
-              <span>Purchase</span>
-            </Button>
+
+            <div className="d-flex align-items-center">
+              <Button variant="contained" className={classes.buyNowButton}>
+                <span>Buy Now</span>
+              </Button>
+            </div>
           </div>
         </Card>
       </Link>

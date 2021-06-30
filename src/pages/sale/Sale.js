@@ -6,11 +6,46 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ItemSaleCard from '../../components/ItemSaleCard';
 
+import Timer from '../../components/Timer';
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const useStyles = makeStyles((theme) => ({
+  mainCard: {
+    height: '100%',
+    paddingLeft: 30,
+    paddingRight: 30,
+    borderRadius: 10,
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    [theme.breakpoints.down('md')]: {
+      flexDirection: 'column',
+      justifyContent: 'start',
+      height: '100%',
+    },
+  },
+  sectionCard1: {
+    backgroundColor: 'transparent',
+    marginTop: 20,
+    height: 550,
+    width: 900,
+    marginRight: 10,
+    marginLeft: 10,
+    marginBottom: 20,
+    borderRadius: 20,
+    filter: `drop-shadow(0 0 0.9rem #1a237e)`,
+  },
+  banner: {
+    height: 250,
+    background: `linear-gradient(0deg, rgba(0, 0, 0, 0.01), rgba(3, 3, 3, 0.02) ),url("https://static.vecteezy.com/system/resources/thumbnails/002/006/775/small/paper-art-shopping-online-on-smartphone-and-new-buy-sale-promotion-backgroud-for-banner-market-ecommerce-free-vector.jpg")`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
   title: {
     verticalAlign: 'baseline',
     color: 'yellow',
@@ -25,12 +60,30 @@ const useStyles = makeStyles((theme) => ({
       lineHeight: '30.7px',
     },
   },
+
   para: {
     verticalAlign: 'baseline',
     color: theme.palette.pbr.textPrimary,
     fontWeight: 300,
     letterSpacing: 0.5,
     fontSize: 12,
+    textAlign: 'center',
+    [theme.breakpoints.down('md')]: {
+      fontSize: 22,
+      lineHeight: '30.7px',
+    },
+  },
+  timerBox: {
+    paddingTop: 20,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  ends: {
+    verticalAlign: 'baseline',
+    color: theme.palette.pbr.textPrimary,
+    fontWeight: 400,
+    letterSpacing: 0.5,
+    fontSize: 15,
     textAlign: 'center',
     [theme.breakpoints.down('md')]: {
       fontSize: 22,
@@ -101,46 +154,95 @@ const useStyles = makeStyles((theme) => ({
       padding: 0,
     },
   },
-  button: {
-    color: '#D9047C',
-    backgroundColor: 'white',
-    textTransform: 'none',
-    borderRadius: '50px',
-    padding: '8px 16px 8px 16px',
-    fontWeight: 400,
-    background: `linear-gradient(to bottom,#fce3ee, #fce3ee)`,
-    fontSize: 14,
-  },
-  buttonMain: {
-    borderRadius: '50px',
-    background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
-    lineHeight: '24px',
-    verticalAlign: 'baseline',
-    letterSpacing: '-1px',
-    margin: 0,
-    color: '#ffffff',
-    padding: '8px 16px 8px 16px',
-    fontWeight: 400,
-    fontSize: 14,
-    textTransform: 'none',
-  },
 }));
 
 function Details() {
   const classes = useStyles();
 
+  let saleItems = [
+    {
+      name: 'Lightening Sword',
+      price: '2.0',
+      currency: 'BNB',
+      description: 'Base Damage: 30, Bonus: +7%, Accuracy: +5',
+      level: 3,
+      image: 'QmZ8K4DxcKJjYUsSqQDBXzXBeaWcpt96Yuy9Cg3nu2hXx5',
+      category: 'sword',
+      gallery: [
+        'QmV5ePoHh2XGzPmhxy5b3NGriauCfHqxoT7M2pLSWzujVu',
+        'QmWo1CTuCVie2N8EKhFaBXA5FUP9Luj1sjJBZLUyy8ssb4',
+        'QmeeG3xVTnGt19hVcZcfruw15aWSGohPudebX8U7nNez9X',
+      ],
+    },
+    {
+      name: 'Knife',
+      price: '2.0',
+      currency: 'BNB',
+      description: 'Base Damage: 32, Bonus: +5%, Accuracy: +4',
+      level: 3,
+      image: 'Qmb69r56kXY4Z6w3ZJUuu7qSyNZYhdfLVPjckzhmKgQihB',
+      category: 'big knife',
+    },
+    {
+      name: 'Bow',
+      price: '2.0',
+      currency: 'BNB',
+      description: 'Base Damage: 29, Bonus: +9%, Accuracy: +4',
+      level: 3,
+      image: 'QmXhj7e9X3SYRegodCWPDqWo5wvHeCFCELr7bWgvKQxcBR',
+      category: 'bow & arrow',
+      gallery: [
+        'QmVYVp3RhTL2BgdLg4CPejuxPDcMRjiWv6f218vPZa4xYg',
+        'QmYu9frvTRuySJYupkYthz77fMH9dg1ugiri4fHUuuGRTX',
+        'QmPQwFLd5YukQUqF7RGxTvaJQUGemqKqH9mYVea5uETmNR',
+      ],
+    },
+    {
+      name: 'Light Gun',
+      price: '2.0',
+      currency: 'BNB',
+      description: 'Base Damage: 36, Bonus: +5%, Accuracy: +3',
+      level: 3,
+      image: 'QmPgyQnuzXdLzWHJ9J21HSPF3oBjtAZXtS7jLvVRu7NBGv',
+      category: 'gun',
+    },
+    {
+      name: 'Tessen',
+      price: '2.0',
+      currency: 'BNB',
+      description: 'Base Damage: 26, Bonus: +8%, Accuracy: +4',
+      level: 3,
+      image: 'Qmd8HcuLGaJ8t2v77hhYNFpVgPHniDKiwTE6FwZzyjEURm',
+      category: 'tessen',
+    },
+  ];
   return (
     <div>
-      <div className="text-center">
+      {/* <div className="text-center">
         <h1 className={classes.title}>
           Flash Sale <img src="images/thunder.png" height="20px" alt="thunder" />
         </h1>
         <h6 className={classes.para}>100 limited edition NFTs are on sale 72 Hrs only at discounted price.</h6>
-      </div>
-      <div className="row">
-        <div className="col-12 col-md-3">
-          <div className="d-flex justify-content-center">
-            <ItemSaleCard />
+      </div> */}
+      <div className={classes.mainCard}>
+        <div className={classes.sectionCard1}>
+          <div className={classes.banner}></div>
+          <div className={classes.timerBox}>
+            <h1 className={classes.ends}>Ends in</h1>
+            <h6 style={{ color: 'white' }}>
+              <Timer endTime={'July 1, 2021 00:00:00 UTC'} />
+            </h6>
+          </div>
+          <div className="row mt-5">
+            {saleItems.map((singleItem) => {
+              return (
+                <div className="col-12">
+                  <div className="d-flex flex-column justify-content-center">
+                    <ItemSaleCard item={singleItem} />
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

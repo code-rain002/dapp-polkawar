@@ -177,9 +177,6 @@ export default function ItemCard({ item }) {
           </div>
           <div>
             <h4 className={classes.title1}>{item.name}</h4>
-            {/* <h6 className={classes.ownedText}>
-              Owned by <span className="raindboxText">{item.owner.length} players</span>
-            </h6> */}
           </div>
           <div className="text-center mt-4">
             <Button variant="contained" className={classes.buyNowButton}>
