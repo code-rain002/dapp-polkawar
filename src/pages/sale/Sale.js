@@ -162,7 +162,7 @@ function Details() {
 
   let saleItems = [
     {
-      name: 'Lightening Sword',
+      name: 'Sword',
       price: '2.0',
       currency: 'BNB',
       description: 'Base Damage: 30, Bonus: +7%, Accuracy: +5',
@@ -176,7 +176,7 @@ function Details() {
       ],
     },
     {
-      name: 'Knife',
+      name: 'Big Knife',
       price: '2.0',
       currency: 'BNB',
       description: 'Base Damage: 32, Bonus: +5%, Accuracy: +4',
@@ -185,7 +185,7 @@ function Details() {
       category: 'big knife',
     },
     {
-      name: 'Bow',
+      name: 'Bow & Arrow',
       price: '2.0',
       currency: 'BNB',
       description: 'Base Damage: 29, Bonus: +9%, Accuracy: +4',
@@ -199,7 +199,7 @@ function Details() {
       ],
     },
     {
-      name: 'Light Gun',
+      name: 'Gun',
       price: '2.0',
       currency: 'BNB',
       description: 'Base Damage: 36, Bonus: +5%, Accuracy: +3',
