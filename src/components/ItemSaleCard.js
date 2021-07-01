@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 20,
     paddingLeft: 10,
     paddingRight: 10,
+    background: `linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(3, 3, 3, 0.8) ),url("/images/wave.png")`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
     backgroundColor: theme.palette.pbr.textPrimaryOpp,
     [theme.breakpoints.down('sm')]: {
       width: '100%',
@@ -55,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.pbr.textPrimary,
     fontWeight: 400,
     letterSpacing: '0.1px',
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: '30px',
     fontFamily: 'Balsamiq Sans',
     [theme.breakpoints.down('md')]: {
@@ -110,30 +113,36 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
-  priceBadgeWrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+  quantityWrapper: {
+    position: 'relative',
+    width: 400,
+    height: 20,
 
-    paddingTop: 20,
+    backgroundColor: `#f8bbd0`,
+    padding: '2px 10px 2px 10px',
+    borderRadius: 50,
+
     [theme.breakpoints.down('sm')]: {
       paddingTop: 5,
     },
   },
-  pricingBadge: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
+  quantityStatsWrapper: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: 100,
+    height: 20,
     padding: '2px 10px 2px 10px',
     borderRadius: 50,
-    width: 400,
+    backgroundColor: '#BF1088',
+  },
+  quantityText: {
+    paddingTop: 10,
+    paddingLeft: 5,
+    color: 'white',
     fontFamily: 'Balsamiq Sans',
     fontWeight: 700,
     fontSize: 18,
-    height: 36,
-    color: 'white',
     [theme.breakpoints.down('md')]: {
       width: 400,
       textAlign: 'center',
@@ -181,11 +190,7 @@ export default function ItemSaleCard({ item }) {
           <div className="d-flex justify-content-between">
             <div className="d-flex justify-content-start">
               <div className="text-center">
-                <img
-                  alt="item"
-                  src={`${imageBaseUrl}/QmZ8K4DxcKJjYUsSqQDBXzXBeaWcpt96Yuy9Cg3nu2hXx5`}
-                  className={classes.media}
-                />
+                <img alt="item" src={`${imageBaseUrl}/${item.image}`} className={classes.media} />
               </div>
               <div className={classes.section2}>
                 <h6 className={classes.title}>{item.name}</h6>
@@ -212,14 +217,15 @@ export default function ItemSaleCard({ item }) {
                   </div>
                 </div>{' '}
                 <div className="d-flex justify-content-between mt-2">
-                  <div className={classes.priceBadgeWrapper}>
-                    <h4 className={classes.pricingBadge}>19 Available</h4>
+                  <div className={classes.quantityWrapper}>
+                    <div className={classes.quantityStatsWrapper}></div>
                   </div>
                 </div>
+                <h4 className={classes.quantityText}>20 Left</h4>
               </div>
             </div>
 
-            <div className="d-flex align-items-center">
+            <div className="d-flex align-items-center" style={{ paddingRight: 20 }}>
               <Button variant="contained" className={classes.buyNowButton}>
                 <span>Buy Now</span>
               </Button>

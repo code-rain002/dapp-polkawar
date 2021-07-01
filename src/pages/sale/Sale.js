@@ -39,8 +39,9 @@ const useStyles = makeStyles((theme) => ({
     filter: `drop-shadow(0 0 0.9rem #1a237e)`,
   },
   banner: {
-    height: 250,
-    background: `linear-gradient(0deg, rgba(0, 0, 0, 0.01), rgba(3, 3, 3, 0.02) ),url("https://static.vecteezy.com/system/resources/thumbnails/002/006/775/small/paper-art-shopping-online-on-smartphone-and-new-buy-sale-promotion-backgroud-for-banner-market-ecommerce-free-vector.jpg")`,
+    height: 280,
+    width: 900,
+    background: `linear-gradient(0deg, rgba(0, 0, 0, 0.01), rgba(3, 3, 3, 0.02) ),url("/images/banner.jpg")`,
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     borderTopLeftRadius: 20,
@@ -218,22 +219,22 @@ function Details() {
   ];
   return (
     <div>
-      {/* <div className="text-center">
+      <div className="text-center">
         <h1 className={classes.title}>
           Flash Sale <img src="images/thunder.png" height="20px" alt="thunder" />
         </h1>
-        <h6 className={classes.para}>100 limited edition NFTs are on sale 72 Hrs only at discounted price.</h6>
-      </div> */}
+        {/* <h6 className={classes.para}>100 limited edition NFTs are on sale 72 Hrs only at discounted price.</h6> */}
+      </div>
       <div className={classes.mainCard}>
         <div className={classes.sectionCard1}>
           <div className={classes.banner}></div>
           <div className={classes.timerBox}>
-            <h1 className={classes.ends}>Ends in</h1>
+            <h1 className={classes.ends}>Sale Ends in: </h1>
             <h6 style={{ color: 'white' }}>
-              <Timer endTime={'July 1, 2021 00:00:00 UTC'} />
+              <Timer endTime={'July 2, 2021 00:00:00 UTC'} />
             </h6>
           </div>
-          <div className="row mt-5">
+          <div className="row mt-3">
             {saleItems.map((singleItem) => {
               return (
                 <div className="col-12">

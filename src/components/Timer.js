@@ -30,13 +30,24 @@ function Timer({ endTime }) {
   Object.keys(timeLeft).forEach((interval) => {
     timerComponents.push(
       <span style={{ paddingLeft: 10 }}>
-        {timeLeft[interval]}
-        {interval}
-        {'     '}
+        <span style={{ padding: 5, borderRadius: 7, backgroundColor: 'orange', color: 'black' }}>
+          {timeLeft[interval]}
+          {interval}
+
+          {'     '}
+        </span>
       </span>,
     );
   });
-  return <div>{timerComponents.length ? timerComponents : <span>Sale Ends</span>}</div>;
+  return (
+    <div>
+      {timerComponents.length ? (
+        timerComponents
+      ) : (
+        <span style={{ padding: 5, borderRadius: 7, backgroundColor: 'red' }}>Ended</span>
+      )}
+    </div>
+  );
 }
 
 export default Timer;

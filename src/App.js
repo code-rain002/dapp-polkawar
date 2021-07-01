@@ -38,7 +38,7 @@ export default function App() {
                 <Airdrop />
               </Route>
             </Switch>
-            <SocialLinks />
+            {/* <SocialLinks /> */}
           </Fragment>
         </ThemeProvider>
       </Router>
