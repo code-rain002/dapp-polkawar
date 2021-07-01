@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: 20,
     paddingLeft: 10,
     paddingRight: 10,
-    background: `linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(3, 3, 3, 0.8) ),url("/images/wave.png")`,
+    background: `linear-gradient(0deg, rgba(0, 0, 0, 0.9), rgba(3, 3, 3, 0.8) ),url("/images/wave.png")`,
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundColor: theme.palette.pbr.textPrimaryOpp,
