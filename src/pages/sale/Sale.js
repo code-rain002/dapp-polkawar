@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Slide } from '@material-ui/core';
-import { getItem } from './../../actions/itemActions';
+import { getFlashItems } from './../../actions/itemActions';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ItemSaleCard from '../../components/ItemSaleCard';
@@ -153,9 +153,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Details() {
+function FlashSale() {
   const classes = useStyles();
 
+  useEffect(() => {
+    getFlashItems();
+  }, []);
   let saleItems = [
     {
       name: 'Sword',
@@ -247,14 +250,14 @@ function Details() {
   );
 }
 
-Details.propTypes = {
-  getItem: propTypes.func.isRequired,
+FlashSale.propTypes = {
+  getFlashItems: propTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  singleItem: state.items.item,
+  flash: state.items.flash,
 });
 
-const mapDispatchToProps = { getItem };
+const mapDispatchToProps = { getFlashItems };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Details);
+export default connect(mapStateToProps, mapDispatchToProps)(FlashSale);
