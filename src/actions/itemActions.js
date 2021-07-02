@@ -1,6 +1,14 @@
 import axios from 'axios';
 import baseUrl from '../actions/baseUrl';
-import { GET_ITEMS_CATEGORY, GET_ITEMS, GET_ITEM, GET_FLASH_ITEMS, ADD_USER_ITEM, GET_ERRORS } from './types';
+import {
+  GET_ITEMS_CATEGORY,
+  GET_ITEMS,
+  GET_ITEM,
+  GET_FLASH_ITEMS,
+  ADD_USER_ITEM,
+  GET_USER_ITEMS,
+  GET_ERRORS,
+} from './types';
 
 //get item details based on ID
 export const getItem =
@@ -82,6 +90,29 @@ export const getFlashItems = () => (dispatch) => {
     .then((res) => {
       dispatch({
         type: GET_FLASH_ITEMS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response,
+      });
+    });
+};
+
+//GET User Item
+//Getting NFTs from userItem Collection
+export const getUserItems = (userAddress) => (dispatch) => {
+  let url = `${baseUrl}/useritem/${userAddress}`;
+
+  console.log(url);
+  console.log('getUserItems');
+  axios
+    .get(url)
+    .then((res) => {
+      dispatch({
+        type: GET_USER_ITEMS,
         payload: res.data,
       });
     })

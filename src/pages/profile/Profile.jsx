@@ -8,12 +8,11 @@ import Tab from '@material-ui/core/Tab';
 import TabPanel from '../../components/TabPanel';
 import CustomButton from '../../components/CustomButton';
 import { authenticateUser } from './../../actions/authActions';
-import web3 from './../../web';
+import { getUserItems } from './../../actions/itemActions';
 import CreateCharacterForm from '../../components/CreateCharacterForm';
 import { tokenOfOwnerByIndex, tokenURICharacter } from './../../actions/smartActions/SmartActions';
 import axios from 'axios';
 import imageBaseUrl from './../../actions/imageBaseUrl';
-import constants from './../../utils/constants';
 import { checkWalletAvailable, checkCorrectNetwork } from './../../actions/web3Actions';
 import Loader from '../../components/Loader';
 import ConnectButton from '../../components/ConnectButton';
@@ -261,7 +260,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Profile({ authenticateUser, user, authenticated }) {
+function Profile({ authenticateUser, getUserItems, user, authenticated }) {
   const classes = useStyles();
 
   const [actualCase, setActualCase] = useState(0);
@@ -283,40 +282,44 @@ function Profile({ authenticateUser, user, authenticated }) {
     setCharacterPopup(value);
   };
 
-  useEffect(async () => {
-    const walletAvailable = await checkWalletAvailable();
-    if (walletAvailable) {
-      console.log('1. Wallet Available');
+  useEffect(() => {
+    async function asyncFn() {
+      const walletAvailable = await checkWalletAvailable();
+      if (walletAvailable) {
+        console.log('1. Wallet Available');
 
-      const correctNetwork = checkCorrectNetwork();
-      if (correctNetwork) {
-        console.log('2. Correct Network');
+        const correctNetwork = checkCorrectNetwork();
+        if (correctNetwork) {
+          console.log('2. Correct Network');
 
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-        const accountAddress = accounts[0];
-        authenticateUser(accountAddress);
-        if (authenticated) {
-          console.log('3. Authenticated True');
-          getCharacter();
-          setActualCase(4);
-          //await checkIsJoined();
-        } else {
-          if (typeof window.ethereum === 'undefined') {
-            console.log('3. Authenticated False');
-            setActualCase(3);
+          const accountAddress = accounts[0];
+          authenticateUser(accountAddress);
+          if (authenticated) {
+            console.log('3. Authenticated True');
+            getCharacter();
+            getUserItems(accountAddress);
+            setActualCase(4);
+            //await checkIsJoined();
+          } else {
+            if (typeof window.ethereum === 'undefined') {
+              console.log('3. Authenticated False');
+              setActualCase(3);
+            }
           }
+        } else {
+          console.log('2. Wrong Network');
+
+          setActualCase(2);
         }
       } else {
-        console.log('2. Wrong Network');
+        console.log('1. Wallet not Available');
 
-        setActualCase(2);
+        setActualCase(1);
       }
-    } else {
-      console.log('1. Wallet not Available');
-
-      setActualCase(1);
     }
+    asyncFn();
   }, [authenticated]);
 
   const getCharacter = async () => {
@@ -642,6 +645,7 @@ function Profile({ authenticateUser, user, authenticated }) {
 
 Profile.propTypes = {
   authenticateUser: propTypes.func.isRequired,
+  getUserItems: propTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -649,6 +653,6 @@ const mapStateToProps = (state) => ({
   user: state.auth.user,
 });
 
-const mapDispatchToProps = { authenticateUser };
+const mapDispatchToProps = { authenticateUser, getUserItems };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

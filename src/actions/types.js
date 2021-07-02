@@ -5,7 +5,9 @@ export const GET_ITEMS_CATEGORY = 'GET_ITEMS_CATEGORY';
 export const GET_ITEMS = 'GET_ITEMS';
 export const GET_FLASH_ITEMS = 'GET_FLASH_ITEMS';
 export const ADD_USER_ITEM = 'ADD_USER_ITEM';
+export const GET_USER_ITEMS = 'GET_USER_ITEMS';
 export const GET_ITEM = 'GET_ITEM';
+
 //Character reducers
 export const GET_CHARACTERS = 'GET_CHARACTERS';
 

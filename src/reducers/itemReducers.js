@@ -1,10 +1,18 @@
-import { GET_ITEMS_CATEGORY, GET_ITEMS, GET_ITEM, GET_FLASH_ITEMS, ADD_USER_ITEM } from '../actions/types';
+import {
+  GET_ITEMS_CATEGORY,
+  GET_ITEMS,
+  GET_ITEM,
+  GET_FLASH_ITEMS,
+  ADD_USER_ITEM,
+  GET_USER_ITEMS,
+} from '../actions/types';
 
 const initalState = {
   categories: [],
   item: null,
   items: [],
   flash: [],
+  userItems: [],
 };
 
 export default function (state = initalState, action) {
@@ -33,6 +41,11 @@ export default function (state = initalState, action) {
     case ADD_USER_ITEM:
       return {
         ...state,
+      };
+    case GET_USER_ITEMS:
+      return {
+        ...state,
+        userItems: action.payload,
       };
     default:
       return state;

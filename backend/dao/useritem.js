@@ -7,8 +7,8 @@ const userItemDao = {
     return await UserItemModel.findOne({ _id: id });
   },
 
-  async getItems(category) {
-    return await UserItemModel.find({});
+  async getItems(owner) {
+    return await UserItemModel.find({ owner: owner });
   },
 
   async createItem(itemData) {
