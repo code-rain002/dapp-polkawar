@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { Link } from 'react-router-dom';
 import imageBaseUrl from './../actions/imageBaseUrl';
 import ProgressBar from './ProgressBar';
+import { addUserItem } from './../actions/itemActions';
+import propTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   card1: {
@@ -179,11 +182,35 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 10,
     },
   },
+  soldOutButton: {
+    textAlign: 'center',
+    background: `linear-gradient(to bottom,pink, red)`,
+    padding: '8px 16px 8px 16px',
+    borderRadius: 50,
+    color: 'black',
+    fontSize: 14,
+    fontWeight: 500,
+    textTransform: 'none',
+    [theme.breakpoints.down('sm')]: {
+      padding: '4px 8px 4px 8px',
+      fontSize: 10,
+    },
+  },
 }));
 
-export default function ItemSaleCard({ item }) {
+function ItemSaleCard({ item, addUserItem }) {
   const classes = useStyles();
+  const [actualCase, setActualCase] = useState(0);
 
+  const buyItem = async () => {
+    //Buy Item API Call and Contract Call
+    let response = await addUserItem();
+    if (response) {
+      setActualCase(1);
+    } else {
+      setActualCase(2);
+    }
+  };
   return (
     <div>
       <Link>
@@ -225,10 +252,22 @@ export default function ItemSaleCard({ item }) {
               </div>
             </div>
 
-            <div className="d-flex align-items-center" style={{ paddingRight: 20 }}>
-              <Button variant="contained" className={classes.buyNowButton}>
-                <span>Buy Now</span>
-              </Button>
+            <div className="d-flex flex-column justify-content-center align-items-center" style={{ paddingRight: 20 }}>
+              {parseInt(item.remaining_quantity) === 0 ? (
+                <Button variant="contained" className={classes.soldOutButton} onClick={buyItem}>
+                  <span>Sold Out</span>
+                </Button>
+              ) : (
+                <Button variant="contained" className={classes.buyNowButton}>
+                  <span>Buy Now</span>
+                </Button>
+              )}
+
+              {actualCase === 1 && (
+                <div className="mt-3">
+                  <h6 style={{ color: '#4caf50' }}>Purchase Success! </h6>
+                </div>
+              )}
             </div>
           </div>
         </Card>
@@ -236,3 +275,15 @@ export default function ItemSaleCard({ item }) {
     </div>
   );
 }
+
+ItemSaleCard.propTypes = {
+  addUserItem: propTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  items: state.items.items,
+});
+
+const mapDispatchToProps = { addUserItem };
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItemSaleCard);

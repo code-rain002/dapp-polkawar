@@ -1,6 +1,6 @@
 import axios from 'axios';
 import baseUrl from '../actions/baseUrl';
-import { GET_ITEMS_CATEGORY, GET_ITEMS, GET_ITEM, GET_FLASH_ITEMS, GET_ERRORS } from './types';
+import { GET_ITEMS_CATEGORY, GET_ITEMS, GET_ITEM, GET_FLASH_ITEMS, ADD_USER_ITEM, GET_ERRORS } from './types';
 
 //get item details based on ID
 export const getItem =
@@ -90,5 +90,29 @@ export const getFlashItems = () => (dispatch) => {
         type: GET_ERRORS,
         payload: err.response,
       });
+    });
+};
+
+//POST User Item
+// Adding entry into userItem Collection
+export const addUserItem = (useritemData) => (dispatch) => {
+  let url = `${baseUrl}/useritem`;
+
+  console.log('addUserItem');
+  axios
+    .post(url, useritemData)
+    .then((res) => {
+      dispatch({
+        type: ADD_USER_ITEM,
+        payload: res.data,
+      });
+      return true;
+    })
+    .catch((err) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response,
+      });
+      return false;
     });
 };
