@@ -4,6 +4,7 @@ import { Button } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { Link } from 'react-router-dom';
 import imageBaseUrl from './../actions/imageBaseUrl';
+import ProgressBar from './ProgressBar';
 
 const useStyles = makeStyles((theme) => ({
   card1: {
@@ -197,10 +198,12 @@ export default function ItemSaleCard({ item }) {
                 <div className="d-flex justify-content-start">
                   <h6 className={classes.priceStrike}>
                     <strike>
-                      {item.price} {item.currency}
+                      {item.original_price} {item.currency}
                     </strike>
                   </h6>
-                  <h6 className={classes.price}>0.5 {item.currency}</h6>
+                  <h6 className={classes.price}>
+                    {item.sell_price} {item.currency}
+                  </h6>
                 </div>
                 <div className="d-flex justify-content-start align-items-center">
                   <h6 className={classes.levelText}>Level : </h6>
@@ -216,12 +219,9 @@ export default function ItemSaleCard({ item }) {
                     })}
                   </div>
                 </div>{' '}
-                <div className="d-flex justify-content-between mt-2">
-                  <div className={classes.quantityWrapper}>
-                    <div className={classes.quantityStatsWrapper}></div>
-                  </div>
+                <div className="mt-3">
+                  <ProgressBar bgcolor={'#BF1088'} completed={item.remaining_quantity} />
                 </div>
-                <h4 className={classes.quantityText}>20 Left</h4>
               </div>
             </div>
 

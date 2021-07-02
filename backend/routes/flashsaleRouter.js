@@ -17,8 +17,9 @@ router.get('/flashsale/:id', async (req, res, next) => {
 
 // Public
 // GET All Items based on category
-router.get('/flashsale/', async (req, res, next) => {
+router.get('/flashsale', async (req, res, next) => {
   try {
+    console.log('hittin ');
     const data = await FlashSaleDao.getItems();
     return res.status(200).send(data);
   } catch (error) {

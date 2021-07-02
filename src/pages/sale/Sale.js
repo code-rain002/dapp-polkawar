@@ -153,12 +153,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function FlashSale() {
+function FlashSale({ getFlashItems, flash }) {
   const classes = useStyles();
 
   useEffect(() => {
     getFlashItems();
   }, []);
+
   let saleItems = [
     {
       name: 'Sword',
@@ -230,19 +231,20 @@ function FlashSale() {
           <div className={classes.timerBox}>
             <h1 className={classes.ends}>Sale Ends in: </h1>
             <h6 style={{ color: 'white' }}>
-              <Timer endTime={'July 2, 2021 00:00:00 UTC'} />
+              <Timer endTime={'July 3, 2021 00:00:00 UTC'} />
             </h6>
           </div>
           <div className="row mt-3">
-            {saleItems.map((singleItem) => {
-              return (
-                <div className="col-12">
-                  <div className="d-flex flex-column justify-content-center">
-                    <ItemSaleCard item={singleItem} />
+            {flash.length !== 0 &&
+              flash.map((singleItem) => {
+                return (
+                  <div className="col-12">
+                    <div className="d-flex flex-column justify-content-center">
+                      <ItemSaleCard item={singleItem} />
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import baseUrl from '../actions/baseUrl';
-import { GET_ITEMS_CATEGORY, GET_ITEMS, GET_ITEM, GET__FLASH_ITEMS, GET_ERRORS } from './types';
+import { GET_ITEMS_CATEGORY, GET_ITEMS, GET_ITEM, GET_FLASH_ITEMS, GET_ERRORS } from './types';
 
 //get item details based on ID
 export const getItem =
@@ -74,23 +74,21 @@ export const getCategories = () => (dispatch) => {
 };
 
 //Get Flash Items
-export const getFlashItems =
-  (category, pageNo, pageSize = 8) =>
-  (dispatch) => {
-    let url = `${baseUrl}/flashsale`;
-
-    axios
-      .get(url)
-      .then((res) => {
-        dispatch({
-          type: GET__FLASH_ITEMS,
-          payload: res.data,
-        });
-      })
-      .catch((err) => {
-        dispatch({
-          type: GET_ERRORS,
-          payload: err.response,
-        });
+export const getFlashItems = () => (dispatch) => {
+  let url = `${baseUrl}/flashsale`;
+  console.log('Hitting');
+  axios
+    .get(url)
+    .then((res) => {
+      dispatch({
+        type: GET_FLASH_ITEMS,
+        payload: res.data,
       });
-  };
+    })
+    .catch((err) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response,
+      });
+    });
+};
