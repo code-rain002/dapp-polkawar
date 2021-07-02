@@ -160,63 +160,6 @@ function FlashSale({ getFlashItems, flash }) {
     getFlashItems();
   }, []);
 
-  let saleItems = [
-    {
-      name: 'Sword',
-      price: '2.0',
-      currency: 'BNB',
-      description: 'Base Damage: 30, Bonus: +7%, Accuracy: +5',
-      level: 3,
-      image: 'QmZ8K4DxcKJjYUsSqQDBXzXBeaWcpt96Yuy9Cg3nu2hXx5',
-      category: 'sword',
-      gallery: [
-        'QmV5ePoHh2XGzPmhxy5b3NGriauCfHqxoT7M2pLSWzujVu',
-        'QmWo1CTuCVie2N8EKhFaBXA5FUP9Luj1sjJBZLUyy8ssb4',
-        'QmeeG3xVTnGt19hVcZcfruw15aWSGohPudebX8U7nNez9X',
-      ],
-    },
-    {
-      name: 'Big Knife',
-      price: '2.0',
-      currency: 'BNB',
-      description: 'Base Damage: 32, Bonus: +5%, Accuracy: +4',
-      level: 3,
-      image: 'Qmb69r56kXY4Z6w3ZJUuu7qSyNZYhdfLVPjckzhmKgQihB',
-      category: 'big knife',
-    },
-    {
-      name: 'Bow & Arrow',
-      price: '2.0',
-      currency: 'BNB',
-      description: 'Base Damage: 29, Bonus: +9%, Accuracy: +4',
-      level: 3,
-      image: 'QmXhj7e9X3SYRegodCWPDqWo5wvHeCFCELr7bWgvKQxcBR',
-      category: 'bow & arrow',
-      gallery: [
-        'QmVYVp3RhTL2BgdLg4CPejuxPDcMRjiWv6f218vPZa4xYg',
-        'QmYu9frvTRuySJYupkYthz77fMH9dg1ugiri4fHUuuGRTX',
-        'QmPQwFLd5YukQUqF7RGxTvaJQUGemqKqH9mYVea5uETmNR',
-      ],
-    },
-    {
-      name: 'Gun',
-      price: '2.0',
-      currency: 'BNB',
-      description: 'Base Damage: 36, Bonus: +5%, Accuracy: +3',
-      level: 3,
-      image: 'QmPgyQnuzXdLzWHJ9J21HSPF3oBjtAZXtS7jLvVRu7NBGv',
-      category: 'gun',
-    },
-    {
-      name: 'Tessen',
-      price: '2.0',
-      currency: 'BNB',
-      description: 'Base Damage: 26, Bonus: +8%, Accuracy: +4',
-      level: 3,
-      image: 'Qmd8HcuLGaJ8t2v77hhYNFpVgPHniDKiwTE6FwZzyjEURm',
-      category: 'tessen',
-    },
-  ];
   return (
     <div>
       <div className="text-center">
