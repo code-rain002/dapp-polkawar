@@ -8,7 +8,9 @@ const userItemDao = {
   },
 
   async getItems(owner) {
-    return await UserItemModel.find({ owner: owner });
+    let data = await UserItemModel.find({ owner: owner });
+    console.log(data);
+    return data;
   },
 
   async createItem(itemData) {

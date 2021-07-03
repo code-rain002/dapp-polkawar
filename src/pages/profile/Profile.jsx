@@ -16,6 +16,7 @@ import imageBaseUrl from './../../actions/imageBaseUrl';
 import { checkWalletAvailable, checkCorrectNetwork } from './../../actions/web3Actions';
 import Loader from '../../components/Loader';
 import ConnectButton from '../../components/ConnectButton';
+import ItemProfileCard from '../../common/ItemProfileCard';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -260,7 +261,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Profile({ authenticateUser, getUserItems, user, authenticated }) {
+function Profile({ authenticateUser, getUserItems, user, authenticated, useritems }) {
   const classes = useStyles();
 
   const [actualCase, setActualCase] = useState(0);
@@ -433,7 +434,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated }) {
                   scrollButtons="auto">
                   <Tab label="Characters" className={classes.tab} />
                   <Tab label="On Sale" className={classes.tab} />
-                  <Tab label="Equipment Bag" className={classes.tab} />
+                  <Tab label="Items Bag" className={classes.tab} />
                   <Tab label="History battles" className={classes.tab} />
                   <Tab label="Activities" className={classes.tab} />
                 </Tabs>
@@ -542,8 +543,16 @@ function Profile({ authenticateUser, getUserItems, user, authenticated }) {
                   )}
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                  {user.ownTokenIds.length !== 0 ? (
-                    <div>Equipments List</div>
+                  {useritems.length !== 0 ? (
+                    <div>
+                      {useritems.map((item) => {
+                        return (
+                          <div>
+                            <ItemProfileCard item={item} />
+                          </div>
+                        );
+                      })}
+                    </div>
                   ) : (
                     <div className="text-center">
                       <div className="my-3">
@@ -651,6 +660,7 @@ Profile.propTypes = {
 const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated,
   user: state.auth.user,
+  useritems: state.items.useritems,
 });
 
 const mapDispatchToProps = { authenticateUser, getUserItems };

@@ -198,13 +198,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ItemSaleCard({ item, addUserItem }) {
+function ItemSaleCard({ item, addUserItem, user }) {
   const classes = useStyles();
   const [actualCase, setActualCase] = useState(0);
 
   const buyItem = async () => {
     //Buy Item API Call and Contract Call
-    let response = await addUserItem();
+    // Smart contract function - Pass HasInfoUrl JSON File
+    // let tokenId=await buyUserItem(jsonString);
+
+    // It will return the tokenId
+    //Add this tokenId to collection
+
+    let tokenId = 12;
+    let userItemData = {
+      token_id: tokenId,
+      token_type: 2,
+      event: 'flashsale',
+      owner: user.address,
+      buydate: '2021-01-01',
+    };
+    let response = await addUserItem(userItemData);
     if (response) {
       setActualCase(1);
     } else {
@@ -281,6 +295,7 @@ ItemSaleCard.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  user: state.auth.user,
   items: state.items.items,
 });
 

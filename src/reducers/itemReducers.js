@@ -12,7 +12,7 @@ const initalState = {
   item: null,
   items: [],
   flash: [],
-  userItems: [],
+  useritems: [],
 };
 
 export default function (state = initalState, action) {
@@ -45,7 +45,7 @@ export default function (state = initalState, action) {
     case GET_USER_ITEMS:
       return {
         ...state,
-        userItems: action.payload,
+        useritems: action.payload,
       };
     default:
       return state;

@@ -335,13 +335,12 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         const currentAddress = accounts[0];
         const localAddress = localStorage.getItem('userAddress');
-
         setUserAdd(currentAddress);
         authenticateUser(currentAddress);
         getBalance(currentAddress);
       }
     }
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (user !== null) {

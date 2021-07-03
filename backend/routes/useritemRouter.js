@@ -17,15 +17,13 @@ router.get('/useritem/:id', async (req, res, next) => {
 
 // Public
 // GET All User Items based on owner address
-router.get('/useritem/:owner', async (req, res, next) => {
-  // let ownerAddress = req.params.owner;
-  // console.log('hello' + ownerAddress);
-
+router.get('/useritems/:owner', async (req, res, next) => {
+  let ownerAddress = req.params.owner;
+  console.log(ownerAddress);
   try {
-    const data = await UserItemDao.getItems('0x9D7117a07fca9F22911d379A9fd5118A5FA4F448');
+    const data = await UserItemDao.getItems(ownerAddress);
     return res.status(200).send(data);
   } catch (error) {
-    console.log(error);
     return res.status(400).send('error');
   }
 });

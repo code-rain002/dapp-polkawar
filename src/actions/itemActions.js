@@ -104,7 +104,7 @@ export const getFlashItems = () => (dispatch) => {
 //GET User Item
 //Getting NFTs from userItem Collection
 export const getUserItems = (userAddress) => (dispatch) => {
-  let url = `${baseUrl}/useritem/${userAddress}`;
+  let url = `${baseUrl}/useritems/${userAddress}`;
 
   console.log(url);
   console.log('getUserItems');
