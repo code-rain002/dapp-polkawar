@@ -7,6 +7,7 @@ import {
   GET_FLASH_ITEMS,
   ADD_USER_ITEM,
   GET_USER_ITEMS,
+  UPDATE_USER_ITEM_OWNER,
   GET_ERRORS,
 } from './types';
 
@@ -145,5 +146,29 @@ export const addUserItem = (useritemData) => (dispatch) => {
         payload: err.response,
       });
       return false;
+    });
+};
+
+//Update User Item
+// Adding entry into userItem Collection
+export const updateUserItemOwner = (itemIdFromCollection) => (dispatch) => {
+  let url = `${baseUrl}/useritem/${itemIdFromCollection}`;
+
+  console.log(url);
+  console.log(itemIdFromCollection);
+  const article = { title: 'React PUT Request Example' };
+  axios
+    .put(url, article)
+    .then((res) => {
+      dispatch({
+        type: UPDATE_USER_ITEM_OWNER,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response,
+      });
     });
 };

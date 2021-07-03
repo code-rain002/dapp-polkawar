@@ -40,7 +40,20 @@ router.post('/useritem', async (req, res, next) => {
   };
   console.log(soldItem);
   try {
-    const data = await UserItemDao.createItem(soldItem);
+    const data = await UserItemDao.createItem(soldItem, req.body.owner);
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(400).send('error');
+  }
+});
+
+// Public
+// PUT items based on category
+router.put('/useritem/:item_id', async (req, res, next) => {
+  var itemId = req.params.item_id;
+  console.log(itemId);
+  try {
+    const data = await UserItemDao.updateItemOwner(itemId);
     return res.status(200).send(data);
   } catch (error) {
     return res.status(400).send('error');

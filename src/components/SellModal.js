@@ -1,6 +1,8 @@
 import { Button, Divider, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Close, Fireplace, HomeWork, Store } from '@material-ui/icons';
+import { Close, HomeWork, Store } from '@material-ui/icons';
+import { updateUserItemOwner } from './../actions/itemActions';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -60,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     paddingBottom: 10,
     textAlign: 'left',
-    color: theme.palette.pbr.primary,
+    color: 'black',
     fontSize: 22,
   },
   subtitle: {
@@ -87,15 +89,24 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 18,
   },
 }));
-export default function BalancePopup({ closePopup }) {
+function SellModal({ closePopup, item, updateUserItemOwner }) {
   const classes = useStyles();
 
+  const resellToSystem = async () => {
+    //Calling Smart Contract
+    //smartcontract (new owner user, tokenid )
+    //Update collection of UserItem
+    console.log('hittin');
+    console.log(item._id);
+
+    updateUserItemOwner(item._id);
+  };
   return (
     <div className={classes.background}>
       <div className="container text-center">
         <div className="d-flex justify-content-between">
           <div className={classes.padding}>
-            <h5 className={classes.title}>Sell Item</h5>
+            <h5 className={classes.title}>Sell Your NFT</h5>
           </div>{' '}
           <div style={{ paddingRight: 10, paddingTop: 10 }}>
             <IconButton>
@@ -114,7 +125,7 @@ export default function BalancePopup({ closePopup }) {
               </Button>
             </div>
             <div>
-              <Button variant="contained" className={classes.buttonSystem}>
+              <Button variant="contained" className={classes.buttonSystem} onClick={resellToSystem}>
                 <HomeWork style={{ marginRight: 10 }} />
                 Resell to the system
               </Button>
@@ -125,3 +136,12 @@ export default function BalancePopup({ closePopup }) {
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  authenticated: state.auth.authenticated,
+  user: state.auth.user,
+});
+
+const mapDispatchToProps = { updateUserItemOwner };
+
+export default connect(mapStateToProps, mapDispatchToProps)(SellModal);

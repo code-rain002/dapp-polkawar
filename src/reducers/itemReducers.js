@@ -5,6 +5,7 @@ import {
   GET_FLASH_ITEMS,
   ADD_USER_ITEM,
   GET_USER_ITEMS,
+  UPDATE_USER_ITEM_OWNER,
 } from '../actions/types';
 
 const initalState = {
@@ -46,6 +47,11 @@ export default function (state = initalState, action) {
       return {
         ...state,
         useritems: action.payload,
+      };
+    case UPDATE_USER_ITEM_OWNER:
+      //Delete that from userItems
+      return {
+        ...state,
       };
     default:
       return state;

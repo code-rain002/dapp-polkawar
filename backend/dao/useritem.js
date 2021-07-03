@@ -13,9 +13,16 @@ const userItemDao = {
     return data;
   },
 
-  async createItem(itemData) {
+  async createItem(itemData, ownerAddress) {
     await UserItemModel.insertMany(itemData);
-    return await UserItemModel.find({});
+    return await UserItemModel.find({ owner: ownerAddress });
+  },
+
+  async updateItemOwner(itemId) {
+    return await UserItemModel.findOneAndUpdate(
+      { _id: itemId },
+      { owner: '0xFa2D318565C9cFC4CB666E271cE2598a4e85c08F' },
+    );
   },
 
   async deleteItem() {

@@ -176,7 +176,7 @@ function ItemProfileCard({ item }) {
 
   useEffect(() => {
     async function asyncFn() {
-      let itemString = await tokenURI(3);
+      let itemString = await tokenURI(9);
       console.log(itemString);
       await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
         setItemJson(res.data);
@@ -237,7 +237,7 @@ function ItemProfileCard({ item }) {
             }}>
             <div style={{ backgroundColor: 'black' }}>
               <div>
-                <SellModal closePopup={() => toggleSellPopup(false)} />
+                <SellModal closePopup={() => toggleSellPopup(false)} item={item} />
               </div>
             </div>
           </Dialog>{' '}
