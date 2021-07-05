@@ -2,7 +2,7 @@ import Web3 from 'web3';
 import constants from './constants';
 
 const pwrConstant = {
-  rpcUrl: constants.network_address,
+  rpcUrl: 'https://bsc-dataseed.binance.org/',
   chainId: 97, // Smart Chain - Testnet chain id
   api: 'V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK',
   contractAddress: '0x16153214E683018D5aA318864c8e692b66E16778',

@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Close, HomeWork, Store } from '@material-ui/icons';
 import { updateUserItemOwner } from './../actions/itemActions';
 import { connect } from 'react-redux';
+import saleContract from './../utils/saleConnection';
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -89,17 +90,30 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 18,
   },
 }));
-function SellModal({ closePopup, item, updateUserItemOwner }) {
+function SellModal({ closePopup, item, updateUserItemOwner, user }) {
   const classes = useStyles();
 
   const resellToSystem = async () => {
     //Calling Smart Contract
-    //smartcontract (new owner user, tokenid )
-    //Update collection of UserItem
-    console.log('hittin');
-    console.log(item._id);
 
-    updateUserItemOwner(item._id);
+    let userAddress = user.address;
+    let contractResponse = await saleContract.methods
+      .resellItemForSystem()
+      .send({ from: userAddress }, (err, response) => {
+        console.log('resellItemForSystem Called');
+        console.log('Transaction Response:' + response);
+        console.log('Transaction Error:' + err);
+      })
+      .on('receipt', async function (receipt) {
+        //Now time to update owner details
+        console.log('receipt:' + receipt);
+        let response = await updateUserItemOwner(item._id);
+        console.log(response);
+      })
+      .on('error', async function (error) {
+        console.log('Error:' + error);
+      });
+    console.log(contractResponse);
   };
   return (
     <div className={classes.background}>
