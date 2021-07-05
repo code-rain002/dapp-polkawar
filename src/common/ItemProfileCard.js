@@ -7,6 +7,10 @@ import imageBaseUrl from './../actions/imageBaseUrl';
 import { tokenURI } from './../actions/smartActions/SmartActions';
 import axios from 'axios';
 import SellModal from '../components/SellModal';
+import Loader from '../components/Loader';
+import { checkApproved } from './../actions/smartActions/SmartActions';
+import constants from './../utils/constants';
+import itemConnection from './../utils/itemConnection';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -165,10 +169,11 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
   },
 }));
-function ItemProfileCard({ item }) {
+function ItemProfileCard({ item, approved }) {
   const classes = useStyles();
   const [itemJson, setItemJson] = useState(null);
   const [sellPopup, setSellPoup] = useState(false);
+  const [actualCase, setActualCase] = useState(0);
 
   const toggleSellPopup = (value) => {
     setSellPoup(value);
@@ -176,71 +181,130 @@ function ItemProfileCard({ item }) {
 
   useEffect(() => {
     async function asyncFn() {
+      //To load Item JSON Information
       let itemString = await tokenURI(9);
       console.log(itemString);
       await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
         setItemJson(res.data);
         console.log(res.data);
       });
+      setActualCase(1);
     }
     asyncFn();
   }, []);
+
+  const approveFn = async () => {
+    actualCase(0);
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    let userAddress = accounts[0];
+    const response = await new Promise((resolve, reject) => {
+      itemConnection.methods
+        .approve(constants.itemContractAddress, '999999999999999999999999999999999999')
+        .send({ from: userAddress }, function (error, transactionHash) {
+          if (transactionHash) {
+            resolve(transactionHash);
+          } else {
+            //console.log('Rejected by user!');
+            actualCase(1);
+            reject();
+          }
+        })
+        .on('receipt', async function (receipt) {
+          console.log('1.reloading');
+          window.location.reload();
+          let approved = await checkApproved(userAddress);
+          if (approved) {
+            //console.log('Approved');
+            setActualCase(1);
+            console.log('2.reloading');
+            window.location.reload();
+          } else {
+            //console.log('Not Approved');
+            setActualCase(1);
+          }
+          actualCase(1);
+        });
+    });
+    //console.log(response);
+    return response;
+  };
   return (
     <div>
       {itemJson !== null && (
         <Card className={classes.card1} elevation={0}>
-          <div className="d-flex justify-content-between mt-2">
-            <div className={classes.priceBadgeWrapper}>
-              <h4 className={classes.pricingBadge}>
-                <span className={classes.pricingText}>{itemJson.price} BNB</span>
-              </h4>
+          {actualCase === 0 && (
+            <div>
+              <Loader />
             </div>
-            <div className="d-flex justify-content-center align-items-center">
-              <h6 className={classes.levelText}>Level : </h6>
-              <div className={classes.iconWrapper}>
-                {Array.from(Array(item.level)).map((character) => {
-                  return (
-                    <img
-                      alt="level"
-                      src="https://pngimg.com/uploads/star/star_PNG1597.png"
-                      className={classes.levelImage}
-                    />
-                  );
-                })}
+          )}
+          {actualCase === 1 && (
+            <div>
+              {' '}
+              <div className="d-flex justify-content-between mt-2">
+                <div className={classes.priceBadgeWrapper}>
+                  <h4 className={classes.pricingBadge}>
+                    <span className={classes.pricingText}>{itemJson.price} BNB</span>
+                  </h4>
+                </div>
+                <div className="d-flex justify-content-center align-items-center">
+                  <h6 className={classes.levelText}>Level : </h6>
+                  <div className={classes.iconWrapper}>
+                    {Array.from(Array(item.level)).map((character) => {
+                      return (
+                        <img
+                          alt="level"
+                          src="https://pngimg.com/uploads/star/star_PNG1597.png"
+                          className={classes.levelImage}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div className={classes.mediaWrapper1}>
-            <img alt="item" src={`${imageBaseUrl}/${itemJson.hashimage}`} className={classes.media} />
-          </div>
-          <div>
-            <h4 className={classes.title1}>{itemJson.description}</h4>
-          </div>
-          <div className="text-center mt-4">
-            <Button variant="contained" className={classes.sellButton} onClick={() => toggleSellPopup(true)}>
-              <span>Sell</span>
-            </Button>
-            <Button variant="contained" className={classes.bidButton}>
-              <span>Bid</span>
-            </Button>
-          </div>
-          <Dialog
-            className={classes.modal}
-            open={sellPopup}
-            TransitionComponent={Transition}
-            keepMounted
-            onClose={() => toggleSellPopup(false)}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-              timeout: 500,
-            }}>
-            <div style={{ backgroundColor: 'black' }}>
+              <div className={classes.mediaWrapper1}>
+                <img alt="item" src={`${imageBaseUrl}/${itemJson.hashimage}`} className={classes.media} />
+              </div>
               <div>
-                <SellModal closePopup={() => toggleSellPopup(false)} item={item} />
+                <h4 className={classes.title1}>{itemJson.description}</h4>
               </div>
+              <div className="text-center mt-4">
+                {approved ? (
+                  <div>
+                    <Button variant="contained" className={classes.sellButton} onClick={() => toggleSellPopup(true)}>
+                      <span>Sell</span>
+                    </Button>
+                    <Button variant="contained" className={classes.bidButton}>
+                      <span>Bid</span>
+                    </Button>
+                  </div>
+                ) : (
+                  <div>
+                    <Button variant="contained" className={classes.bidButton} onClick={approveFn}>
+                      <span>Approve</span>
+                    </Button>
+                  </div>
+                )}
+              </div>
+              <Dialog
+                className={classes.modal}
+                open={sellPopup}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={() => toggleSellPopup(false)}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
+                }}>
+                <div style={{ backgroundColor: 'black' }}>
+                  <div>
+                    <SellModal closePopup={() => toggleSellPopup(false)} item={item} />
+                  </div>
+                </div>
+              </Dialog>{' '}
             </div>
-          </Dialog>{' '}
+          )}
+          <div></div>
         </Card>
       )}
     </div>

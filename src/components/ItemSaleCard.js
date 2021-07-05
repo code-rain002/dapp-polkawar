@@ -232,7 +232,7 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
 
     let contractResponse = await saleContract.methods
       .purchaseItem(nftHashJson, signResponse.v, signResponse.r, signResponse.s, signResponse.messageHash)
-      .send({ from: userAddress }, (err, response) => {
+      .send({ from: userAddress, value: 500000000 }, (err, response) => {
         console.log('purchaseItem Called');
         console.log('Response:' + response);
         //Response will be tokenID and store it to collection.

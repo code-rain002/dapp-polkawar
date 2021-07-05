@@ -10,7 +10,7 @@ import CustomButton from '../../components/CustomButton';
 import { authenticateUser } from './../../actions/authActions';
 import { getUserItems } from './../../actions/itemActions';
 import CreateCharacterForm from '../../components/CreateCharacterForm';
-import { tokenOfOwnerByIndex, tokenURICharacter } from './../../actions/smartActions/SmartActions';
+import { tokenOfOwnerByIndex, tokenURICharacter, checkApproved } from './../../actions/smartActions/SmartActions';
 import axios from 'axios';
 import imageBaseUrl from './../../actions/imageBaseUrl';
 import { checkWalletAvailable, checkCorrectNetwork } from './../../actions/web3Actions';
@@ -265,13 +265,13 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
   const classes = useStyles();
 
   const [actualCase, setActualCase] = useState(0);
-
   const [value, setValue] = useState(0);
   const [selectedChar, setSelectedChar] = useState(false);
   const [characterPopup, setCharacterPopup] = useState(false);
   const [stopPopupClick, setStopPopupClick] = useState(false);
   const [characters, setCharacters] = useState([]);
   const [characterIndex, setCharacterIndex] = useState(0);
+  const [approved, setApproved] = useState(false);
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState('');
 
@@ -344,10 +344,20 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
     });
   };
 
+  const isApproved = async () => {
+    // let approved = await checkApproved();
+    // console.log('approved: ' + approved);
+    if (false) {
+      setApproved(true);
+    } else {
+      setApproved(false);
+    }
+  };
   useEffect(() => {
     if (user !== null) {
       setUserData(user);
       getCharacter();
+      isApproved();
     }
   }, [authenticated]);
 
@@ -548,7 +558,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                       {useritems.map((item, index) => {
                         return (
                           <div key={index} className="col-12 col-md-4">
-                            <ItemProfileCard item={item} />
+                            <ItemProfileCard item={item} approved={approved} />
                           </div>
                         );
                       })}
