@@ -1,6 +1,9 @@
-const contractConstant = {
+import Web3 from 'web3';
+import constants from './constants';
+const saleConstant = {
+  rpcUrl: constants.network_address,
+  chainId: 97, // Smart Chain - Testnet chain id
   api: 'V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK',
-  privateKey: '3f0bb4b0ae4341704d805930eceef5e7141a79eb1bb434b60b26eb3beb2616c5',
   contractAddress: '0x384efcC1c165FC9fB3367266775e7e0Ec9F248C3',
   abi: [
     {
@@ -137,4 +140,8 @@ const contractConstant = {
   ],
 };
 
-module.exports = contractConstant;
+//var web3 = new Web3(new Web3.providers.HttpProvider(airdropConstant.rpcUrl));
+var web3 = new Web3(window.ethereum);
+var saleContract = new web3.eth.Contract(saleConstant.abi, saleConstant.contractAddress);
+
+export default saleContract;

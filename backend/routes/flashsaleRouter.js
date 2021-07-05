@@ -3,12 +3,8 @@ var router = express.Router();
 var Web3 = require('web3');
 var web3 = new Web3();
 
-const Tx = require('ethereumjs-tx');
 var contractData = require('./../contractData');
 var FlashSaleDao = require('../dao/flashsale');
-
-// //Infura HttpProvider Endpoint
-// let web3js = new web3(new web3.providers.HttpProvider('https://rinkeby.infura.io/YOUR_API_KEY'));
 
 // Public
 // GET Single item based on ID
@@ -50,7 +46,6 @@ router.get('/flashsale/:pageIndex/:pageSize', async (req, res, next) => {
 // Signing a transaction before purchase
 
 router.post('/flashsale-sign', async function (req, res) {
-  console.log(contractData.contractAddress);
   let userAddress = req.body.address;
   let nftHash = req.body.nft;
   var firstParameter = nftHash + userAddress;

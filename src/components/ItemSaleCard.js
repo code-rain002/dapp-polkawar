@@ -8,6 +8,9 @@ import ProgressBar from './ProgressBar';
 import { addUserItem } from './../actions/itemActions';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import saleContract from './../utils/saleConnection';
+import axios from 'axios';
+import baseUrl from './../actions/baseUrl';
 
 const useStyles = makeStyles((theme) => ({
   card1: {
@@ -198,17 +201,44 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ItemSaleCard({ item, addUserItem, user }) {
+function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
   const classes = useStyles();
   const [actualCase, setActualCase] = useState(0);
 
-  const buyItem = async () => {
-    //Buy Item API Call and Contract Call
-    // Smart contract function - Pass HasInfoUrl JSON File
-    // let tokenId=await buyUserItem(jsonString);
+  const signTransaction = (nfthash, userAddress) => {
+    let url = `${baseUrl}/flashsale-sign`;
+    console.log(url);
+    let body = {
+      nft: nfthash,
+      address: userAddress,
+    };
+    let data = axios
+      .post(url, body)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        return err;
+      });
+    return data;
+  };
 
-    // It will return the tokenId
-    //Add this tokenId to collection
+  const buyItem = async () => {
+    let userAddress = user.address;
+    let nftHashJson = nftHashList[item.name];
+
+    let signResponse = await signTransaction(nftHashJson, userAddress);
+    console.log(signResponse);
+
+    let contractResponse = await saleContract.methods
+      .purchaseItem(nftHashJson, signResponse.v, signResponse.r, signResponse.s, signResponse.messageHash)
+      .send({ from: userAddress }, (err, response) => {
+        console.log('purchaseItem Called');
+        console.log('Response:' + response);
+        //Response will be tokenID and store it to collection.
+        console.log('Error:' + err);
+      });
+    console.log(contractResponse);
 
     let tokenId = 12;
     let userItemData = {
@@ -268,11 +298,11 @@ function ItemSaleCard({ item, addUserItem, user }) {
 
             <div className="d-flex flex-column justify-content-center align-items-center" style={{ paddingRight: 20 }}>
               {parseInt(item.remaining_quantity) === 0 ? (
-                <Button variant="contained" className={classes.soldOutButton} onClick={buyItem}>
+                <Button variant="contained" className={classes.soldOutButton}>
                   <span>Sold Out</span>
                 </Button>
               ) : (
-                <Button variant="contained" className={classes.buyNowButton}>
+                <Button variant="contained" className={classes.buyNowButton} onClick={buyItem}>
                   <span>Buy Now</span>
                 </Button>
               )}

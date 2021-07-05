@@ -160,6 +160,13 @@ function FlashSale({ getFlashItems, flash }) {
     getFlashItems();
   }, []);
 
+  let nftHashList = {
+    Sword: 'Qma1PHjHqtf8BgMUKwLw2jpWpPdxJwMbPzmPXttApTWGes',
+    Gun: 'QmctTBBWEpCSvcW5UqESPKxpnRq2YFSNujsxin6jcw6Vp3',
+    'Big Knife': 'QmSeaVVXmWdpgK8UbNNKRxyCLjRQHQL54V4d1ejMHP1jSr',
+    Tessen: 'QmQKCSr4r2oR9HwfDt9KZ3uGDRdMJFTZHEXEyiTWhPLN7a',
+    Bow: 'QmZ1sRwD8H56Y5Szaor78vemhfrihNAmCtPuEipK4wRqJK',
+  };
   return (
     <div>
       <div className="text-center">
@@ -183,7 +190,7 @@ function FlashSale({ getFlashItems, flash }) {
                 return (
                   <div className="col-12">
                     <div className="d-flex flex-column justify-content-center">
-                      <ItemSaleCard item={singleItem} />
+                      <ItemSaleCard item={singleItem} nftHashList={nftHashList} />
                     </div>
                   </div>
                 );
