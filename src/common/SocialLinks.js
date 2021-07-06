@@ -66,8 +66,6 @@ export default function SocialLinks() {
     <div className={classes.background}>
       <div className="text-center">
         <div>
-          {/* <h6 className={classes.heading}>Connect with us</h6> */}
-          {/* <p className={classes.para}>To Get latest updates of PolkaWar!</p> */}
           <div className="d-flex justify-content-center mt-4">
             <div className={classes.iconWrapper}>
               <Tooltip title="Twitter" aria-label="add1">

@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import saleContract from './../utils/saleConnection';
 import axios from 'axios';
 import baseUrl from './../actions/baseUrl';
+import Loader from './Loader';
 
 const useStyles = makeStyles((theme) => ({
   card1: {
@@ -230,30 +231,52 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
     let signResponse = await signTransaction(nftHashJson, userAddress);
     console.log(signResponse);
 
-    let contractResponse = await saleContract.methods
-      .purchaseItem(nftHashJson, signResponse.v, signResponse.r, signResponse.s, signResponse.messageHash)
-      .send({ from: userAddress, value: 500000000 }, (err, response) => {
-        console.log('purchaseItem Called');
-        console.log('Response:' + response);
-        //Response will be tokenID and store it to collection.
-        console.log('Error:' + err);
-      });
-    console.log(contractResponse);
 
-    let tokenId = 12;
-    let userItemData = {
-      token_id: tokenId,
-      token_type: 2,
-      event: 'flashsale',
-      owner: user.address,
-      buydate: '2021-01-01',
-    };
-    let response = await addUserItem(userItemData);
-    if (response) {
-      setActualCase(1);
-    } else {
-      setActualCase(2);
-    }
+    const response = await new Promise((resolve, reject) => {
+      saleContract.methods
+        .purchaseItem(nftHashJson, signResponse.v, signResponse.r, signResponse.s, signResponse.messageHash)
+        .send({ from: userAddress, value: 500000000000000000 }, function (error, transactionHash) {
+          console.log('purchaseItem Called');
+          if (transactionHash) {
+            setActualCase(2);
+            resolve(transactionHash);
+          } else {
+            console.log('Rejected by user!');
+            setActualCase(1);
+            reject();
+          }
+        })
+        .on('receipt', async function (receipt) {
+          console.log('4. Purchase Success');
+          setActualCase(4);
+          let events = receipt.events;
+          let returnValues = events.purchaseEvent.returnValues;
+          let tokenId = parseInt(returnValues[1]);
+          const utcDateTimestamp = new Date(Date());
+          let utcDate = utcDateTimestamp.toUTCString();
+          let userItemData = {
+            _id: item._id,
+            token_id: tokenId,
+            token_type: 2,
+            event: 'flashsale',
+            owner: user.address,
+            buydate: utcDate,
+          };
+          let response = await addUserItem(userItemData);
+          if (response) {
+            setActualCase(4);
+          } else {
+            setActualCase(3);
+          }
+
+        })
+        .on('error', async function (error) {
+          setActualCase(3);
+          console.log(error);
+        });
+    });
+    console.log(response);
+
   };
   return (
     <div>
@@ -302,9 +325,25 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
                   <span>Sold Out</span>
                 </Button>
               ) : (
-                <Button variant="contained" className={classes.buyNowButton} onClick={buyItem}>
-                  <span>Buy Now</span>
-                </Button>
+                <div>
+                  {actualCase === 0 && <Button variant="contained" className={classes.buyNowButton} onClick={buyItem}>
+                    <span>Buy Now</span>
+                  </Button>}
+                  {actualCase === 1 && <div className="mt-3">
+                    <Button variant="contained" className={classes.buyNowButton} onClick={buyItem}>
+                      <span>Buy Now</span>
+                    </Button>
+                  </div>}
+                  {actualCase === 2 && <div className="text-center mt-3">
+                    <Loader />
+                  </div>}
+                  {actualCase === 3 && <div className="text-center mt-3">
+                    <h6 style={{ color: 'red' }}>Transaction Failed, Please reload!</h6>
+                  </div>}
+                  {actualCase === 4 && <div className="text-center mt-3">
+                    <h6 style={{ color: '#4caf50' }}>Purchase Success! </h6>
+                  </div>}
+                </div>
               )}
 
               {actualCase === 1 && (

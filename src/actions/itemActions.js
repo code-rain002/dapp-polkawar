@@ -14,55 +14,55 @@ import {
 //get item details based on ID
 export const getItem =
   (id = 1000) =>
-  (dispatch) => {
-    axios
-      .get(`${baseUrl}/item/${id}`)
-      .then((res) => {
-        dispatch({
-          type: GET_ITEM,
-          payload: res.data,
+    (dispatch) => {
+      axios
+        .get(`${baseUrl}/item/${id}`)
+        .then((res) => {
+          dispatch({
+            type: GET_ITEM,
+            payload: res.data,
+          });
+        })
+        .catch((err) => {
+          dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data,
+          });
         });
-      })
-      .catch((err) => {
-        dispatch({
-          type: GET_ERRORS,
-          payload: err.response.data,
-        });
-      });
-  };
+    };
 
 //get items based on category and pagination
 export const getItems =
   (category, pageNo, pageSize = 8) =>
-  (dispatch) => {
-    let smallCategory = category.toLowerCase();
+    (dispatch) => {
+      let smallCategory = category.toLowerCase();
 
-    let url = '';
-    if (smallCategory === 'all') {
-      url = `${baseUrl}/items/${pageNo}/${pageSize}`;
-    } else {
-      url = `${baseUrl}/items/${smallCategory}`;
-    }
+      let url = '';
+      if (smallCategory === 'all') {
+        url = `${baseUrl}/items/${pageNo}/${pageSize}`;
+      } else {
+        url = `${baseUrl}/items/${smallCategory}`;
+      }
 
-    axios
-      .get(url)
-      .then((res) => {
-        let response = {
-          category: smallCategory,
-          data: res.data,
-        };
-        dispatch({
-          type: GET_ITEMS,
-          payload: response,
+      axios
+        .get(url)
+        .then((res) => {
+          let response = {
+            category: smallCategory,
+            data: res.data,
+          };
+          dispatch({
+            type: GET_ITEMS,
+            payload: response,
+          });
+        })
+        .catch((err) => {
+          dispatch({
+            type: GET_ERRORS,
+            payload: err.response,
+          });
         });
-      })
-      .catch((err) => {
-        dispatch({
-          type: GET_ERRORS,
-          payload: err.response,
-        });
-      });
-  };
+    };
 
 //GET all item categories
 export const getCategories = () => (dispatch) => {
@@ -107,8 +107,6 @@ export const getFlashItems = () => (dispatch) => {
 export const getUserItems = (userAddress) => (dispatch) => {
   let url = `${baseUrl}/useritems/${userAddress}`;
 
-  console.log(url);
-  console.log('getUserItems');
   axios
     .get(url)
     .then((res) => {
@@ -147,6 +145,7 @@ export const addUserItem = (useritemData) => (dispatch) => {
       });
       return false;
     });
+
 };
 
 //Update User Item

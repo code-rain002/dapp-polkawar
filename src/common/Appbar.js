@@ -193,6 +193,23 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'none',
     textDecoration: 'none',
   },
+
+  saleButton: {
+    borderRadius: '50px',
+    background: `linear-gradient(to bottom,yellow, orange)`,
+    lineHeight: '24px',
+    verticalAlign: 'baseline',
+    letterSpacing: '-1px',
+    margin: 0,
+    marginTop: 5,
+    marginLeft: 10,
+    color: 'black',
+    padding: '8px 16px 8px 16px',
+    fontWeight: 400,
+    fontSize: 16,
+    textTransform: 'none',
+    textDecoration: 'none',
+  },
 }));
 
 function Alert(props) {
@@ -429,6 +446,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
             <Typography className={classes.tabs} variant="subtitle1" noWrap>
               Battle Room
             </Typography>
+
             <a href="https://polkawar.com">
               {' '}
               <Typography
@@ -437,7 +455,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
                 className={navIndex === 3 ? classes.tabsActive : classes.tabs}
                 onClick={() => setNavIndex(3)}>
                 Landing Page
-              </Typography>{' '}
+              </Typography>
             </a>
 
             <div className={classes.sectionDesktop}>
@@ -464,6 +482,11 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
               <div>
                 <Link to={'/airdrop'}>
                   <Button className={classes.airdropButton}>Get Airdrop</Button>
+                </Link>
+              </div>
+              <div>
+                <Link to={'/sale'}>
+                  <Button className={classes.saleButton}>Flash Sale</Button>
                 </Link>
               </div>
             </div>

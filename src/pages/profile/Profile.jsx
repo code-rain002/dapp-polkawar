@@ -10,7 +10,7 @@ import CustomButton from '../../components/CustomButton';
 import { authenticateUser } from './../../actions/authActions';
 import { getUserItems } from './../../actions/itemActions';
 import CreateCharacterForm from '../../components/CreateCharacterForm';
-import { tokenOfOwnerByIndex, tokenURICharacter, checkApproved } from './../../actions/smartActions/SmartActions';
+import { tokenOfOwnerByIndex, tokenURICharacter } from './../../actions/smartActions/SmartActions';
 import axios from 'axios';
 import imageBaseUrl from './../../actions/imageBaseUrl';
 import { checkWalletAvailable, checkCorrectNetwork } from './../../actions/web3Actions';
@@ -288,7 +288,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
       if (walletAvailable) {
         console.log('1. Wallet Available');
 
-        const correctNetwork = checkCorrectNetwork();
+        const correctNetwork = await checkCorrectNetwork();
         if (correctNetwork) {
           console.log('2. Correct Network');
 
@@ -323,13 +323,13 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
   }, [authenticated]);
 
   const getCharacter = async () => {
+    console.log('Get Character');
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     const accountAddress = accounts[0];
     let ownerTokenId = await tokenOfOwnerByIndex(accountAddress, 0);
     let characterHash = await tokenURICharacter(ownerTokenId);
     await axios.get(`${imageBaseUrl}${characterHash}`).then((res) => {
       let tempObject = [res.data];
-      console.log(tempObject);
       if (tempObject[0].name === 'Archer') {
         setCharacterIndex(0);
       } else {
@@ -339,6 +339,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
           setCharacterIndex(2);
         }
       }
+
       setCharacters(tempObject);
     });
   };
@@ -346,7 +347,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
   useEffect(() => {
     if (user !== null) {
       setUserData(user);
-      getCharacter();
+      //getCharacter();
     }
   }, [authenticated]);
 
@@ -478,9 +479,8 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                           <div style={{ paddingLeft: 30 }}>
                             <h6 className={classes.title}>Statistics</h6>
                             <div className="d-flex flex-column justify-content-center">
-                              {characters[0].properties !== null && (
+                              {characters[0].properties !== undefined && (
                                 <div>
-                                  {' '}
                                   {Object.entries(characters[0].properties).map(([key, value]) => {
                                     return (
                                       <div className="mb-2 d-flex flex-row justify-content-start align-items-center">
@@ -488,7 +488,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                                         <h6 className={classes.propValue}> {value}</h6>
                                       </div>
                                     );
-                                  })}{' '}
+                                  })}
                                 </div>
                               )}
                             </div>
@@ -560,9 +560,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                       <div className="text-center">
                         <h6 className={classes.title}>No items found</h6>
                         <div className="d-flex justify-content-center">
-                          <p className={classes.subheading}>
-                            Come back soon! Or try to browse something for you on our marketplace
-                          </p>
+                          <p className={classes.subheading}>Come back soon! Or buy something from our marketplace</p>
                         </div>
                       </div>
                       <div className={classes.buttonWrapper}>

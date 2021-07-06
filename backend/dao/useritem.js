@@ -1,4 +1,6 @@
 var UserItemModel = require('../models/useritem');
+var FlashSaleModel = require('../models/flashsaleitems');
+
 
 const limit = 15;
 
@@ -13,8 +15,13 @@ const userItemDao = {
     return data;
   },
 
-  async createItem(itemData, ownerAddress) {
-    await UserItemModel.insertMany(itemData);
+  async createItem(itemData, ownerAddress, JsonId) {
+    let response = await UserItemModel.insertMany(itemData);
+
+    let response2 = await FlashSaleModel.findOneAndUpdate(
+      { _id: JsonId },
+      { $inc: { remaining_quantity: - 1 } }
+    );
     return await UserItemModel.find({ owner: ownerAddress });
   },
 

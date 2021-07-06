@@ -3,7 +3,7 @@ import constants from './constants';
 
 
 let saleConstant;
-if ((process.env.NODE_ENV = 'production')) {
+if ((process.env.NODE_ENV === 'production')) {
   //For Mainnet
  saleConstant = {
   rpcUrl: 'https://bsc-dataseed.binance.org/',

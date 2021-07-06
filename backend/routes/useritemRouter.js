@@ -29,9 +29,10 @@ router.get('/useritems/:owner', async (req, res, next) => {
 });
 
 // Public
-// POST items based on category
+// POST Add items into users list
 router.post('/useritem', async (req, res, next) => {
   var soldItem = {
+
     tokenId: req.body.token_id,
     tokenType: req.body.token_type,
     event: req.body.event,
@@ -40,7 +41,7 @@ router.post('/useritem', async (req, res, next) => {
   };
   console.log(soldItem);
   try {
-    const data = await UserItemDao.createItem(soldItem, req.body.owner);
+    const data = await UserItemDao.createItem(soldItem, req.body.owner, req.body._id);
     return res.status(200).send(data);
   } catch (error) {
     return res.status(400).send('error');

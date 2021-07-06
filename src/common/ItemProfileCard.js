@@ -117,10 +117,21 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
+  pricingTextStrike: {
+    color: 'yellow',
+    fontSize: 13,
+    fontWeight: 400,
+    fontFamily: 'Balsamiq Sans',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 10,
+      fontWeight: 600,
+    },
+  },
   pricingText: {
     color: 'white',
     fontSize: 15,
-    fontWeight: 700,
+    fontWeight: 400,
+
     [theme.breakpoints.down('sm')]: {
       fontSize: 10,
       fontWeight: 600,
@@ -185,7 +196,9 @@ function ItemProfileCard({ item, user }) {
   useEffect(() => {
     async function asyncFn() {
       //To load Item JSON Information
-      let itemString = await tokenURI(9);
+      let tokenId = item.tokenId;
+      let itemString = await tokenURI(tokenId);
+      console.log(tokenId);
       console.log(itemString);
       await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
         setItemJson(res.data);
@@ -212,9 +225,14 @@ function ItemProfileCard({ item, user }) {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     let userAddress = accounts[0];
     console.log('Address' + user.address);
+
+    //   itemConnection.methods.balanceOf('0x9D7117a07fca9F22911d379A9fd5118A5FA4F448').call(async (err, response) => {
+    //   console.log('balanceOf: ' + response);
+    //   return response;
+    // });
     const response = await new Promise((resolve, reject) => {
       itemConnection.methods
-        .approve('0x10a3E1Bebf925dbaF88C6eae587Fd110Ac73207e', 9)
+        .approve('3f0bb4b0ae4341704d805930eceef5e7141a79eb1bb434b60b26eb3beb2616c5', 9)
         .send({ from: userAddress }, function (error, transactionHash) {
           if (transactionHash) {
             resolve(transactionHash);
@@ -261,13 +279,14 @@ function ItemProfileCard({ item, user }) {
               <div className="d-flex justify-content-between mt-2">
                 <div className={classes.priceBadgeWrapper}>
                   <h4 className={classes.pricingBadge}>
-                    <span className={classes.pricingText}>{itemJson.price} BNB</span>
+                    <span className={classes.pricingTextStrike}><strike>{itemJson.original_price}</strike> </span>
+                    <span className={classes.pricingText}>{itemJson.sell_price} BNB</span>
                   </h4>
                 </div>
                 <div className="d-flex justify-content-center align-items-center">
                   <h6 className={classes.levelText}>Level : </h6>
                   <div className={classes.iconWrapper}>
-                    {Array.from(Array(item.level)).map((character) => {
+                    {Array.from(Array(parseInt(itemJson.level))).map((character) => {
                       return (
                         <img
                           alt="level"
@@ -280,10 +299,10 @@ function ItemProfileCard({ item, user }) {
                 </div>
               </div>
               <div className={classes.mediaWrapper1}>
-                <img alt="item" src={`${imageBaseUrl}/${itemJson.hashimage}`} className={classes.media} />
+                <img alt="item" src={`${imageBaseUrl}/${itemJson.image}`} className={classes.media} />
               </div>
               <div>
-                <h4 className={classes.title1}>{itemJson.description}</h4>
+                <h4 className={classes.title1}>{itemJson.name}</h4>
               </div>
               <div className="text-center mt-4">
                 {approved ? (
