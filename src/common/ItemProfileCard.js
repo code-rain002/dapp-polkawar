@@ -11,6 +11,8 @@ import Loader from '../components/Loader';
 import { checkApproved } from './../actions/smartActions/SmartActions';
 import constants from './../utils/constants';
 import itemConnection from './../utils/itemConnection';
+import propTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -169,11 +171,12 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
   },
 }));
-function ItemProfileCard({ item, approved }) {
+function ItemProfileCard({ item, user }) {
   const classes = useStyles();
   const [itemJson, setItemJson] = useState(null);
   const [sellPopup, setSellPoup] = useState(false);
   const [actualCase, setActualCase] = useState(0);
+  const [approved, setApproved] = useState(false);
 
   const toggleSellPopup = (value) => {
     setSellPoup(value);
@@ -190,29 +193,41 @@ function ItemProfileCard({ item, approved }) {
       });
       setActualCase(1);
     }
+
     asyncFn();
+    isApproved();
   }, []);
 
+  const isApproved = async () => {
+    let approved = await checkApproved(9);
+    if (approved.toString() === user.address.toString()) {
+      setApproved(true);
+    } else {
+      setApproved(false);
+    }
+  };
+
   const approveFn = async () => {
-    actualCase(0);
+    setActualCase(0);
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     let userAddress = accounts[0];
+    console.log('Address' + user.address);
     const response = await new Promise((resolve, reject) => {
       itemConnection.methods
-        .approve(constants.itemContractAddress, '999999999999999999999999999999999999')
+        .approve('0x10a3E1Bebf925dbaF88C6eae587Fd110Ac73207e', 9)
         .send({ from: userAddress }, function (error, transactionHash) {
           if (transactionHash) {
             resolve(transactionHash);
           } else {
             //console.log('Rejected by user!');
-            actualCase(1);
+            setActualCase(1);
             reject();
           }
         })
         .on('receipt', async function (receipt) {
           console.log('1.reloading');
           window.location.reload();
-          let approved = await checkApproved(userAddress);
+          let approved = await checkApproved(9);
           if (approved) {
             //console.log('Approved');
             setActualCase(1);
@@ -222,10 +237,13 @@ function ItemProfileCard({ item, approved }) {
             //console.log('Not Approved');
             setActualCase(1);
           }
-          actualCase(1);
+          setActualCase(1);
+        })
+        .on('error', async function (error) {
+          console.log(error);
         });
     });
-    //console.log(response);
+    console.log(response);
     return response;
   };
   return (
@@ -310,4 +328,15 @@ function ItemProfileCard({ item, approved }) {
     </div>
   );
 }
-export default ItemProfileCard;
+ItemProfileCard.propTypes = {
+  authenticateUser: propTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  authenticated: state.auth.authenticated,
+  user: state.auth.user,
+});
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItemProfileCard);

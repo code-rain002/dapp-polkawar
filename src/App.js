@@ -15,11 +15,13 @@ import SocialLinks from './common/SocialLinks';
 import './web';
 import Sale from './pages/sale/Sale';
 export default function App() {
+  
   return (
     <Provider store={store}>
       <Router>
         <ThemeProvider theme={theme}>
           <Fragment>
+         
             <Appbar />
             <Switch>
               <Route exact path="/">

@@ -53,18 +53,24 @@ export const getAirdrop = async (userAddress) => {
 //RETURNS Item json string
 export const tokenURI = (tokenId) => {
   return itemContract.methods.tokenURI(tokenId).call(async (err, response) => {
-    console.log('tokenURI: ' + response);
+    // console.log('tokenURI: ' + response);
     return response;
   });
 };
 
 //Check isApproved or not
-export const checkApproved = (userAddress) => {
-  return itemContract.methods.allowance(userAddress, constants.itemContractAddress).call((err, response) => {
+export const checkApproved = (tokenId) => {
+  return itemContract.methods.getApproved(tokenId).call((err, response) => {
     return response;
   });
 };
 
+//Approve Item
+export const approveItem = (address, tokenId) => {
+  return itemContract.methods.approve(address, tokenId).call((err, response) => {
+    return response;
+  });
+};
 //Character Functions
 
 //WRITE create new character for user

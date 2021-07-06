@@ -271,7 +271,6 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
   const [stopPopupClick, setStopPopupClick] = useState(false);
   const [characters, setCharacters] = useState([]);
   const [characterIndex, setCharacterIndex] = useState(0);
-  const [approved, setApproved] = useState(false);
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState('');
 
@@ -344,20 +343,10 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
     });
   };
 
-  const isApproved = async () => {
-    // let approved = await checkApproved();
-    // console.log('approved: ' + approved);
-    if (false) {
-      setApproved(true);
-    } else {
-      setApproved(false);
-    }
-  };
   useEffect(() => {
     if (user !== null) {
       setUserData(user);
       getCharacter();
-      isApproved();
     }
   }, [authenticated]);
 
@@ -558,7 +547,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                       {useritems.map((item, index) => {
                         return (
                           <div key={index} className="col-12 col-md-4">
-                            <ItemProfileCard item={item} approved={approved} />
+                            <ItemProfileCard item={item} />
                           </div>
                         );
                       })}
