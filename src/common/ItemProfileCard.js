@@ -196,24 +196,32 @@ function ItemProfileCard({ item, user }) {
   useEffect(() => {
     async function asyncFn() {
       //To load Item JSON Information
+
       let tokenId = item.tokenId;
       let itemString = await tokenURI(tokenId);
-      console.log(tokenId);
-      console.log(itemString);
       await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
         setItemJson(res.data);
+        isApproved();
         console.log(res.data);
       });
       setActualCase(1);
     }
 
     asyncFn();
-    isApproved();
+
   }, []);
 
   const isApproved = async () => {
-    let approved = await checkApproved(9);
-    if (approved.toString() === user.address.toString()) {
+    let tokenId = item.tokenId;
+    console.log(typeof tokenId);
+
+    let approvedAddress = await checkApproved(tokenId);
+    let ownerAddress = constants.saleContractAddress;
+
+    console.log('approvedAddress: ' + approvedAddress);
+    console.log('ownerAddress: ' + ownerAddress);
+    console.log(approvedAddress === ownerAddress);
+    if (approvedAddress.toString() === ownerAddress.toString()) {
       setApproved(true);
     } else {
       setApproved(false);
@@ -230,9 +238,10 @@ function ItemProfileCard({ item, user }) {
     //   console.log('balanceOf: ' + response);
     //   return response;
     // });
+    let tokenId = itemJson.tokenId;
     const response = await new Promise((resolve, reject) => {
       itemConnection.methods
-        .approve('3f0bb4b0ae4341704d805930eceef5e7141a79eb1bb434b60b26eb3beb2616c5', 9)
+        .approve('0x44EeE203F8aD35dA2F8B30c74A3F291FaebF97b1', tokenId)
         .send({ from: userAddress }, function (error, transactionHash) {
           if (transactionHash) {
             resolve(transactionHash);
