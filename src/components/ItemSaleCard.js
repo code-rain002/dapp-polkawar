@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
+import { Button, Dialog, Slide, Backdrop, IconButton, Divider } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { Link } from 'react-router-dom';
 import imageBaseUrl from './../actions/imageBaseUrl';
@@ -12,6 +12,11 @@ import saleContract from './../utils/saleConnection';
 import axios from 'axios';
 import baseUrl from './../actions/baseUrl';
 import Loader from './Loader';
+import { Close } from '@material-ui/icons';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const useStyles = makeStyles((theme) => ({
   card1: {
@@ -28,35 +33,60 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundColor: theme.palette.pbr.textPrimaryOpp,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       width: '100%',
-      height: 250,
+      height: '100%',
     },
   },
-
+  background: {
+    height: '100%',
+    width: 500,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    paddingBottom: 20,
+  },
+  padding: {
+    paddingTop: 20,
+    paddingLeft: 20,
+  },
   media: {
     height: 200,
     marginLeft: 5,
     marginRight: 5,
     borderRadius: 10,
-    [theme.breakpoints.down('sm')]: {
-      height: 150,
+    [theme.breakpoints.down('md')]: {
+      height: 100,
+      marginLeft: 0,
+      marginRight: 0,
     },
+  },
+
+  messageTitle: {
+    paddingTop: 15,
+    fontWeight: 400,
+    verticalAlign: 'baseline',
+    letterSpacing: '-0.8px',
+    margin: 0,
+    textAlign: 'center',
+    color: 'black',
+    fontSize: 25,
   },
   title: {
     verticalAlign: 'baseline',
     textAlign: 'left',
-    color: theme.palette.pbr.textPrimary,
-    fontWeight: 700,
-    letterSpacing: 1,
+    color: 'black',
+    fontWeight: 500,
+    letterSpacing: 0.1,
     fontSize: 22,
     lineHeight: '35.7px',
-    fontFamily: 'Balsamiq Sans',
+
     [theme.breakpoints.down('md')]: {
       fontWeight: 700,
-      fontSize: 12,
+      fontSize: 14,
+      lineHeight: '20.7px',
     },
   },
+
   section2: {
     paddingLeft: 15,
   },
@@ -71,7 +101,8 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Balsamiq Sans',
     [theme.breakpoints.down('md')]: {
       fontWeight: 300,
-      fontSize: 15,
+      fontSize: 14,
+      lineHeight: '20px',
     },
   },
   price: {
@@ -86,7 +117,9 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: 10,
     [theme.breakpoints.down('md')]: {
       fontWeight: 300,
-      fontSize: 15,
+      fontSize: 16,
+      paddingLeft: 5,
+      lineHeight: '20px',
     },
   },
   ownerCount: {
@@ -114,63 +147,13 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 10,
     display: 'block',
 
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 12,
-      paddingTop: 10,
-      paddingRight: 5,
-    },
-  },
-
-  quantityWrapper: {
-    position: 'relative',
-    width: 400,
-    height: 20,
-
-    backgroundColor: `#f8bbd0`,
-    padding: '2px 10px 2px 10px',
-    borderRadius: 50,
-
-    [theme.breakpoints.down('sm')]: {
-      paddingTop: 5,
-    },
-  },
-  quantityStatsWrapper: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: 100,
-    height: 20,
-    padding: '2px 10px 2px 10px',
-    borderRadius: 50,
-    backgroundColor: '#BF1088',
-  },
-  quantityText: {
-    paddingTop: 10,
-    paddingLeft: 5,
-    color: 'white',
-    fontFamily: 'Balsamiq Sans',
-    fontWeight: 700,
-    fontSize: 18,
     [theme.breakpoints.down('md')]: {
-      width: 400,
-      textAlign: 'center',
-      background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
-      padding: '2px 7px 2px 7px',
-
-      height: 26,
-      lineHeight: '16px',
+      fontSize: 12,
+      paddingRight: 5,
+      lineHeight: '10px',
     },
   },
 
-  pricingText: {
-    color: 'white',
-    fontSize: 15,
-    fontWeight: 600,
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 10,
-      fontWeight: 600,
-    },
-  },
 
   buyNowButton: {
     textAlign: 'center',
@@ -200,11 +183,26 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 10,
     },
   },
+  buttonDisplayMobile: {
+    display: 'none',
+    [theme.breakpoints.down('md')]: {
+      display: 'block',
+    },
+  },
+  buttonDisplayDesktop: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
+  }
 }));
 
 function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
   const classes = useStyles();
   const [actualCase, setActualCase] = useState(0);
+  const [popup, setPopup] = useState(false);
 
   const signTransaction = (nfthash, userAddress) => {
     let url = `${baseUrl}/flashsale-sign`;
@@ -225,6 +223,9 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
   };
 
   const buyItem = async () => {
+    setPopup(true);
+    setActualCase(1);
+
     let userAddress = user.address;
     let nftHashJson = nftHashList[item.name];
 
@@ -238,17 +239,17 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
         .send({ from: userAddress, value: 500000000000000000 }, function (error, transactionHash) {
           console.log('purchaseItem Called');
           if (transactionHash) {
-            setActualCase(2);
+            setActualCase(3);
             resolve(transactionHash);
           } else {
             console.log('Rejected by user!');
-            setActualCase(1);
+            setActualCase(2);
             reject();
           }
         })
         .on('receipt', async function (receipt) {
           console.log('4. Purchase Success');
-          setActualCase(4);
+
           let events = receipt.events;
           let returnValues = events.purchaseEvent.returnValues;
           let tokenId = parseInt(returnValues[1]);
@@ -264,97 +265,167 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
           };
           let response = await addUserItem(userItemData);
           if (response) {
-            setActualCase(4);
+            setActualCase(5);
+            window.location.reload();
           } else {
-            setActualCase(3);
+            setActualCase(4);
           }
 
         })
         .on('error', async function (error) {
-          setActualCase(3);
-          console.log(error);
+          setActualCase(4);
+
         });
     });
-    console.log(response);
+
 
   };
   return (
     <div>
-      <Link>
-        <Card className={classes.card1} elevation={0}>
-          <div className="d-flex justify-content-between">
-            <div className="d-flex justify-content-start">
-              <div className="text-center">
-                <img alt="item" src={`${imageBaseUrl}/${item.image}`} className={classes.media} />
-              </div>
-              <div className={classes.section2}>
-                <h6 className={classes.title}>{item.name}</h6>
-                <div className="d-flex justify-content-start">
-                  <h6 className={classes.priceStrike}>
-                    <strike>
-                      {item.original_price} {item.currency}
-                    </strike>
-                  </h6>
-                  <h6 className={classes.price}>
-                    {item.sell_price} {item.currency}
-                  </h6>
-                </div>
-                <div className="d-flex justify-content-start align-items-center">
-                  <h6 className={classes.levelText}>Level : </h6>
-                  <div className={classes.iconWrapper}>
-                    {Array.from(Array(item.level)).map((character) => {
-                      return (
-                        <img
-                          alt="level"
-                          src="https://pngimg.com/uploads/star/star_PNG1597.png"
-                          className={classes.levelImage}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>{' '}
-                <div className="mt-3">
-                  <ProgressBar bgcolor={'#BF1088'} completed={item.remaining_quantity} />
-                </div>
-              </div>
+
+      <Card className={classes.card1} elevation={0}>
+        <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-start">
+            <div className="text-center">
+              <img alt="item" src={`${imageBaseUrl}/${item.image}`} className={classes.media} />
             </div>
-
-            <div className="d-flex flex-column justify-content-center align-items-center" style={{ paddingRight: 20 }}>
-              {parseInt(item.remaining_quantity) === 0 ? (
-                <Button variant="contained" className={classes.soldOutButton}>
-                  <span>Sold Out</span>
-                </Button>
-              ) : (
-                <div>
-                  {actualCase === 0 && <Button variant="contained" className={classes.buyNowButton} onClick={buyItem}>
-                    <span>Buy Now</span>
-                  </Button>}
-                  {actualCase === 1 && <div className="mt-3">
-                    <Button variant="contained" className={classes.buyNowButton} onClick={buyItem}>
-                      <span>Buy Now</span>
+            <div className={classes.section2}>
+              <h6 className={classes.title}>{item.name}</h6>
+              <div className="d-flex justify-content-start">
+                <h6 className={classes.priceStrike}>
+                  <strike>
+                    {item.original_price} {item.currency}
+                  </strike>
+                </h6>
+                <h6 className={classes.price}>
+                  {item.sell_price} {item.currency}
+                </h6>
+              </div>
+              <div className="d-flex justify-content-start align-items-center">
+                <h6 className={classes.levelText}>Level : </h6>
+                <div className={classes.iconWrapper}>
+                  {Array.from(Array(item.level)).map((character) => {
+                    return (
+                      <img
+                        alt="level"
+                        src="https://pngimg.com/uploads/star/star_PNG1597.png"
+                        className={classes.levelImage}
+                      />
+                    );
+                  })}
+                </div>
+              </div>{' '}
+              <div className="mt-3">
+                <ProgressBar bgcolor={'#BF1088'} completed={item.remaining_quantity} />
+              </div>
+              <div className={classes.buttonDisplayMobile}>
+                <div className="d-flex flex-column justify-content-start align-items-start" style={{ paddingTop: 10 }}>
+                  {parseInt(item.remaining_quantity) === 0 ? (
+                    <Button variant="contained" className={classes.soldOutButton}>
+                      <span>Sold Out</span>
                     </Button>
-                  </div>}
-                  {actualCase === 2 && <div className="text-center mt-3">
-                    <Loader />
-                  </div>}
-                  {actualCase === 3 && <div className="text-center mt-3">
-                    <h6 style={{ color: 'red' }}>Transaction Failed, Please reload!</h6>
-                  </div>}
-                  {actualCase === 4 && <div className="text-center mt-3">
-                    <h6 style={{ color: '#4caf50' }}>Purchase Success! </h6>
-                  </div>}
-                </div>
-              )}
+                  ) : (
+                    <div>
+                      <Button variant="contained" className={classes.buyNowButton} onClick={buyItem}>
+                        <span>Buy Now</span>
+                      </Button>
+                    </div>
+                  )}
 
-              {actualCase === 1 && (
-                <div className="mt-3">
-                  <h6 style={{ color: '#4caf50' }}>Purchase Success! </h6>
+
                 </div>
-              )}
+              </div>
             </div>
           </div>
-        </Card>
-      </Link>
+          <div className={classes.buttonDisplayDesktop} style={{ paddingRight: 20 }}>
+            {parseInt(item.remaining_quantity) === 0 ? (
+              <Button variant="contained" className={classes.soldOutButton}>
+                <span>Sold Out</span>
+              </Button>
+            ) : (
+              <div>
+                <Button variant="contained" className={classes.buyNowButton} onClick={buyItem}>
+                  <span>Buy Now</span>
+                </Button>
+              </div>
+            )}
+
+            {actualCase === 1 && (
+              <div className="mt-3">
+                <h6 style={{ color: '#4caf50' }}>Purchase Success! </h6>
+              </div>
+            )}
+          </div>
+
+
+        </div>
+        <Dialog
+          className={classes.modal}
+          open={popup}
+          TransitionComponent={Transition}
+          keepMounted
+          onClose={() => setPopup(false)}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}>
+          <div >
+            <div className={classes.background}>
+              <div className="container text-center">
+                <div className="d-flex justify-content-between">
+                  <div className={classes.padding}>
+                    <h5 className={classes.title}>Purchase Status</h5>
+                  </div>{' '}
+                  <div style={{ paddingRight: 10, paddingTop: 10 }}>
+                    <IconButton>
+                      <Close onClick={() => setPopup(false)} />
+                    </IconButton>
+                  </div>{' '}
+                </div>
+                <Divider style={{ backgroundColor: 'grey' }} /></div>
+              {actualCase === 1 &&
+                (<div className="text-center my-3">
+                  <div className="text-center">
+                    <Loader />
+                  </div>
+                  <h5 className={classes.messageTitle}>Waiting for confirmation!</h5>
+                </div>)
+              }
+              {actualCase === 2 &&
+                (<div className="text-center my-3">
+                  <img src="https://icon-library.com/images/17c52fbb9e.svg.svg" height="100px" alt='error' />
+                  <h5 className={classes.messageTitle}>Transaction denied!</h5>
+                </div>)
+              }
+              {actualCase === 3 &&
+                (<div className="text-center my-3">
+                  <div className="text-center">
+                    <Loader />
+                  </div>
+                  <h5 className={classes.messageTitle}>Transaction submitted, please wait...</h5>
+                </div>)
+              }
+              {actualCase === 4 &&
+                (<div className="text-center my-3">
+                  <img src="https://icon-library.com/images/17c52fbb9e.svg.svg" height="100px" alt='error' />
+                  <h5 className={classes.messageTitle}>Transaction Failed!</h5>
+                </div>)
+              }
+              {actualCase === 5 &&
+                (< div className="my-3 d-flex flex-column justify-content-start">
+                  <div className="text-center my-3">
+                    <img src="https://www.freeiconspng.com/thumbs/success-icon/success-icon-10.png" height="100px" alt='success' />
+                  </div>
+                  <h5 className={classes.messageTitle}>Transaction Success!</h5>
+
+                </div>)
+              }
+            </div>
+          </div>
+        </Dialog>{' '}
+      </Card>
+
     </div>
   );
 }

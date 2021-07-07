@@ -1,14 +1,36 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  containerStyles: {
+    height: 22,
+    width: 400,
+    backgroundColor: '#e0e0de',
+    borderRadius: 50,
+    [theme.breakpoints.down('md')]: {
+      width: 100,
+      height: 20,
+    },
+  },
+
+  labelStyles: {
+
+    color: 'white',
+    fontFamily: 'Balsamiq Sans',
+    fontWeight: 700,
+    fontSize: 14,
+
+    [theme.breakpoints.down('md')]: {
+      fontSize: 14,
+      lineHeight: '20px'
+
+    },
+  }
+}));
 
 const ProgressBar = (props) => {
   const { bgcolor, completed } = props;
-
-  const containerStyles = {
-    height: 25,
-    width: '400px',
-    backgroundColor: '#e0e0de',
-    borderRadius: 50,
-  };
+  const classes = useStyles();
 
   const fillerStyles = {
     height: '100%',
@@ -19,19 +41,11 @@ const ProgressBar = (props) => {
     transition: 'width 1s ease-in-out',
   };
 
-  const labelStyles = {
-    padding: 5,
-    color: 'white',
-    paddingLeft: 5,
-    fontFamily: 'Balsamiq Sans',
-    fontWeight: 700,
-    fontSize: 16,
-  };
 
   return (
-    <div style={containerStyles}>
+    <div className={classes.containerStyles}>
       <div style={fillerStyles}>
-        <span style={labelStyles}>{`${completed} Left`}</span>
+        <span className={classes.labelStyles}>{`${completed} Left`}</span>
       </div>
     </div>
   );

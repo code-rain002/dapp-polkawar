@@ -186,8 +186,8 @@ function ItemProfileCard({ item, user }) {
   const classes = useStyles();
   const [itemJson, setItemJson] = useState(null);
   const [sellPopup, setSellPoup] = useState(false);
-  const [actualCase, setActualCase] = useState(0);
   const [approved, setApproved] = useState(false);
+  const [actualCase, setActualCase] = useState(0);
 
   const toggleSellPopup = (value) => {
     setSellPoup(value);

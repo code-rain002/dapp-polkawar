@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Slide } from '@material-ui/core';
-import { getFlashItems } from './../../actions/itemActions';
+import { getFlashItems, getUserItems } from './../../actions/itemActions';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ItemSaleCard from '../../components/ItemSaleCard';
@@ -18,9 +17,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     [theme.breakpoints.down('md')]: {
-      flexDirection: 'column',
-      justifyContent: 'start',
+
       height: '100%',
+      width: '100%',
     },
   },
   sectionCard1: {
@@ -33,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 20,
     borderRadius: 20,
     filter: `drop-shadow(0 0 0.9rem #1a237e)`,
+    [theme.breakpoints.down('md')]: {
+      width: 300,
+    },
   },
   banner: {
     height: 280,
@@ -42,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: 'cover',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
+    [theme.breakpoints.down('md')]: {
+      width: '100%',
+      height: '100px',
+    },
   },
   title: {
     verticalAlign: 'baseline',
@@ -53,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     paddingTop: 20,
     [theme.breakpoints.down('md')]: {
-      fontSize: 22,
+      fontSize: 20,
       lineHeight: '30.7px',
     },
   },
@@ -66,14 +72,14 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
     textAlign: 'center',
     [theme.breakpoints.down('md')]: {
-      fontSize: 22,
-      lineHeight: '30.7px',
+      fontSize: 14,
     },
   },
   timerBox: {
     paddingTop: 20,
     display: 'flex',
     justifyContent: 'center',
+
   },
   ends: {
     verticalAlign: 'baseline',
@@ -83,81 +89,25 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 15,
     textAlign: 'center',
     [theme.breakpoints.down('md')]: {
-      fontSize: 22,
-      lineHeight: '30.7px',
-    },
-  },
-  price: {
-    verticalAlign: 'baseline',
-    textAlign: 'left',
-    color: theme.palette.pbr.textPrimary,
-    fontWeight: 700,
-    fontSize: 20,
-    lineHeight: '30.7px',
-  },
-  description: {
-    verticalAlign: 'baseline',
-    textAlign: 'left',
-    color: theme.palette.pbr.textSecondary,
-    fontWeight: 500,
-    fontSize: 16,
-    lineHeight: '25.7px',
-    maxWidth: 500,
-    [theme.breakpoints.down('md')]: {
-      fontSize: 14,
-    },
-  },
-  categoryTab: {
-    display: 'inline-block',
-    border: '1px solid #616161',
-    borderRadius: '20px',
-    fontSize: 16,
-    fontWeight: 500,
-    padding: '8px 20px 8px 20px',
-    minWidth: '60px',
-    marginTop: 10,
-    marginBottom: 10,
-    cursor: 'pointer',
-    color: theme.palette.pbr.textPrimary,
-    [theme.breakpoints.down('md')]: {
-      padding: '6px 14px 6px 14px',
-      fontSize: 13,
-      height: '35px',
-      marginRight: '5px',
-    },
-  },
-  buyHistory: {
-    verticalAlign: 'baseline',
-    textAlign: 'left',
-    color: theme.palette.pbr.textPrimary,
-    fontWeight: 800,
-    letterSpacing: 0.5,
-    fontSize: 22,
-    lineHeight: '30.7px',
-    [theme.breakpoints.down('md')]: {
       fontSize: 20,
+
     },
   },
-  levelText: {
-    color: 'white',
-    fontWeight: 600,
-    fontSize: 15,
-    paddingTop: 10,
-    paddingRight: 10,
-  },
-  imageWrapper: {
-    padding: 20,
-    [theme.breakpoints.down('sm')]: {
-      padding: 0,
-    },
-  },
+
+
 }));
 
-function FlashSale({ getFlashItems, flash }) {
+function FlashSale({ getFlashItems, getUserItems, flash, }) {
   const classes = useStyles();
 
   useEffect(() => {
-    getFlashItems();
+    async function asyncFn() {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      let userAddress = accounts[0];
+      getFlashItems();
+      getUserItems(userAddress);
+    }
+    asyncFn();
   }, []);
 
   let nftHashList = {
@@ -173,7 +123,7 @@ function FlashSale({ getFlashItems, flash }) {
         <h1 className={classes.title}>
           Flash Sale <img src="images/thunder.png" height="20px" alt="thunder" />
         </h1>
-        {/* <h6 className={classes.para}>100 limited edition NFTs are on sale 72 Hrs only at discounted price.</h6> */}
+        <h6 className={classes.para}>You must HODL or STAKE 2000 PWAR Tokens to participate in flash sale.</h6>
       </div>
       <div className={classes.mainCard}>
         <div className={classes.sectionCard1}>
@@ -181,7 +131,7 @@ function FlashSale({ getFlashItems, flash }) {
           <div className={classes.timerBox}>
             <h1 className={classes.ends}>Sale Ends in: </h1>
             <h6 style={{ color: 'white' }}>
-              <Timer endTime={'July 3, 2021 00:00:00 UTC'} />
+              <Timer endTime={'July 8, 2021 00:00:00 UTC'} />
             </h6>
           </div>
           <div className="row mt-3">
@@ -204,12 +154,16 @@ function FlashSale({ getFlashItems, flash }) {
 
 FlashSale.propTypes = {
   getFlashItems: propTypes.func.isRequired,
+  getUserItems: propTypes.func.isRequired,
+
 };
 
 const mapStateToProps = (state) => ({
   flash: state.items.flash,
+  useritems: state.items.useritems,
+
 });
 
-const mapDispatchToProps = { getFlashItems };
+const mapDispatchToProps = { getFlashItems, getUserItems };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FlashSale);
