@@ -44,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     borderRadius: 10,
     paddingBottom: 20,
+    [theme.breakpoints.down('md')]: {
+      maxWidth: 300,
+
+    },
   },
   padding: {
     paddingTop: 20,
@@ -70,6 +74,10 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     color: 'black',
     fontSize: 25,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 20,
+      fontWeight: 400,
+    },
   },
   title: {
     verticalAlign: 'baseline',
@@ -97,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
 
     [theme.breakpoints.down('md')]: {
       fontWeight: 700,
-      fontSize: 14,
+      fontSize: 16,
       lineHeight: '20.7px',
     },
   },
@@ -211,7 +219,24 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('md')]: {
       display: 'none',
     },
-  }
+  },
+  profileButton: {
+    borderRadius: '50px',
+    background: `linear-gradient(to bottom,yellow, orange)`,
+    lineHeight: '24px',
+    verticalAlign: 'baseline',
+    letterSpacing: '-1px',
+    margin: 0,
+    marginTop: 5,
+    marginLeft: 10,
+    color: 'black',
+    padding: '10px 16px 10px 16px',
+    fontWeight: 400,
+    fontSize: 16,
+    textTransform: 'none',
+    textDecoration: 'none',
+
+  },
 }));
 
 function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
@@ -268,7 +293,7 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
           let events = receipt.events;
           let returnValues = events.purchaseEvent.returnValues;
           let tokenId = parseInt(returnValues[1]);
-          const utcDateTimestamp = new Date(Date());
+          const utcDateTimestamp = new Date();
           let utcDate = utcDateTimestamp.toUTCString();
           let userItemData = {
             _id: item._id,
@@ -281,7 +306,7 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
           let response = await addUserItem(userItemData);
           if (response) {
             setActualCase(5);
-            window.location.reload();
+            //window.location.reload();
           } else {
             setActualCase(4);
           }
@@ -289,7 +314,6 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
         })
         .on('error', async function (error) {
           setActualCase(4);
-
         });
     });
 
@@ -365,11 +389,7 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
               </div>
             )}
 
-            {actualCase === 1 && (
-              <div className="mt-3">
-                <h6 style={{ color: '#4caf50' }}>Purchase Success! </h6>
-              </div>
-            )}
+
           </div>
 
 
@@ -433,7 +453,9 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
                     <img src="https://www.freeiconspng.com/thumbs/success-icon/success-icon-10.png" height="100px" alt='success' />
                   </div>
                   <h5 className={classes.messageTitle}>Transaction Success!</h5>
-
+                  <div className='text-center mt-3'>
+                    <Link to='/profile'><Button className={classes.profileButton} variant='contained' >Go to your Profile</Button></Link>
+                  </div>
                 </div>)
               }
             </div>

@@ -129,7 +129,7 @@ export const addUserItem = (useritemData) => (dispatch) => {
   let url = `${baseUrl}/useritem`;
 
   console.log('addUserItem');
-  axios
+  let data = axios
     .post(url, useritemData)
     .then((res) => {
       dispatch({
@@ -145,7 +145,7 @@ export const addUserItem = (useritemData) => (dispatch) => {
       });
       return false;
     });
-
+  return data;
 };
 
 //Update User Item

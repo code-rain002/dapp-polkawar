@@ -189,7 +189,7 @@ function FlashSale({ getFlashItems, getUserItems, flash, }) {
                     If you don't want to sell, you can hold the item upto 15th Aug and you will receive 2000 PWAR tokens as a reward.
                   </li>
                 </ol>
-                <div>
+                <div className='text-center'>
                   <Button className={classes.saleButton} variant='contained' onClick={goToSale}>Participate in Flash Sale</Button>
                 </div>
               </div>
