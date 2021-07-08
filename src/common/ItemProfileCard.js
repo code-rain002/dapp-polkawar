@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Dialog, Slide, Backdrop } from '@material-ui/core';
+import { Button, Dialog, Slide, Backdrop, Divider, IconButton } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { Link } from 'react-router-dom';
 import imageBaseUrl from './../actions/imageBaseUrl';
@@ -13,6 +13,7 @@ import constants from './../utils/constants';
 import itemConnection from './../utils/itemConnection';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Close } from '@material-ui/icons';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -181,16 +182,62 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
     margin: 0,
   },
+  background: {
+    height: '100%',
+    width: 500,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    paddingBottom: 20,
+    [theme.breakpoints.down('md')]: {
+      maxWidth: 300,
+
+    },
+  },
+  padding: {
+    paddingTop: 20,
+    paddingLeft: 20,
+  },
+  media: {
+    height: 200,
+    marginLeft: 5,
+    marginRight: 5,
+    borderRadius: 10,
+    [theme.breakpoints.down('md')]: {
+      height: 100,
+      marginLeft: 0,
+      marginRight: 0,
+    },
+  },
+
+  messageTitle: {
+    paddingTop: 15,
+    fontWeight: 400,
+    verticalAlign: 'baseline',
+    letterSpacing: '-0.8px',
+    margin: 0,
+    textAlign: 'center',
+    color: 'black',
+    fontSize: 25,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 20,
+      fontWeight: 400,
+    },
+  },
 }));
 function ItemProfileCard({ item, user }) {
   const classes = useStyles();
   const [itemJson, setItemJson] = useState(null);
-  const [sellPopup, setSellPoup] = useState(false);
+  const [sellPopup, setSellPopup] = useState(false);
+  const [approvePopup, setApprovePopup] = useState(false);
   const [approved, setApproved] = useState(false);
   const [actualCase, setActualCase] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const toggleSellPopup = (value) => {
-    setSellPoup(value);
+    setSellPopup(value);
+  };
+  const toggleApprovePopup = (value) => {
+    setApprovePopup(value);
   };
 
   useEffect(() => {
@@ -202,9 +249,9 @@ function ItemProfileCard({ item, user }) {
       await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
         setItemJson(res.data);
         isApproved();
-        console.log(res.data);
+
       });
-      setActualCase(1);
+      setLoading(false);
     }
 
     asyncFn();
@@ -213,14 +260,10 @@ function ItemProfileCard({ item, user }) {
 
   const isApproved = async () => {
     let tokenId = item.tokenId;
-    console.log(typeof tokenId);
+
 
     let approvedAddress = await checkApproved(tokenId);
     let ownerAddress = constants.saleContractAddress;
-
-    console.log('approvedAddress: ' + approvedAddress);
-    console.log('ownerAddress: ' + ownerAddress);
-    console.log(approvedAddress === ownerAddress);
     if (approvedAddress.toString() === ownerAddress.toString()) {
       setApproved(true);
     } else {
@@ -229,60 +272,51 @@ function ItemProfileCard({ item, user }) {
   };
 
   const approveFn = async () => {
-    setActualCase(0);
+    toggleApprovePopup(true)
+    setActualCase(1);
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     let userAddress = accounts[0];
-    console.log('Address' + user.address);
 
-    //   itemConnection.methods.balanceOf('0x9D7117a07fca9F22911d379A9fd5118A5FA4F448').call(async (err, response) => {
-    //   console.log('balanceOf: ' + response);
-    //   return response;
-    // });
-    let tokenId = itemJson.tokenId;
+    let tokenId = item.tokenId;
     const response = await new Promise((resolve, reject) => {
+
+
       itemConnection.methods
-        .approve('0x44EeE203F8aD35dA2F8B30c74A3F291FaebF97b1', tokenId)
+        .approve(constants.saleContractAddress, tokenId)
         .send({ from: userAddress }, function (error, transactionHash) {
+
           if (transactionHash) {
+            setActualCase(3);
             resolve(transactionHash);
           } else {
             //console.log('Rejected by user!');
-            setActualCase(1);
+            setActualCase(2);
             reject();
           }
         })
         .on('receipt', async function (receipt) {
           console.log('1.reloading');
           window.location.reload();
-          let approved = await checkApproved(9);
-          if (approved) {
-            //console.log('Approved');
-            setActualCase(1);
-            console.log('2.reloading');
-            window.location.reload();
-          } else {
-            //console.log('Not Approved');
-            setActualCase(1);
-          }
-          setActualCase(1);
+          setActualCase(5);
+
         })
         .on('error', async function (error) {
           console.log(error);
+          setActualCase(4);
         });
     });
-    console.log(response);
-    return response;
+
   };
   return (
     <div>
       {itemJson !== null && (
         <Card className={classes.card1} elevation={0}>
-          {actualCase === 0 && (
+          {loading && (
             <div>
               <Loader />
             </div>
           )}
-          {actualCase === 1 && (
+          {!loading && (
             <div>
               {' '}
               <div className="d-flex justify-content-between mt-2">
@@ -347,10 +381,78 @@ function ItemProfileCard({ item, user }) {
                     <SellModal closePopup={() => toggleSellPopup(false)} item={item} />
                   </div>
                 </div>
-              </Dialog>{' '}
+              </Dialog>
+              <Dialog
+                className={classes.modal}
+                open={approvePopup}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={() => toggleApprovePopup(false)}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
+                }}>
+                <div style={{ backgroundColor: 'black' }}>
+                  <div >
+                    <div className={classes.background}>
+                      <div className="container text-center">
+                        <div className="d-flex justify-content-between">
+                          <div className={classes.padding}>
+                            <h5 className={classes.ModalTitle}>Transaction Status</h5>
+                          </div>{' '}
+                          <div style={{ paddingRight: 10, paddingTop: 10 }}>
+                            <IconButton>
+                              <Close onClick={() => toggleApprovePopup(false)} />
+                            </IconButton>
+                          </div>{' '}
+                        </div>
+                        <Divider style={{ backgroundColor: 'grey' }} /></div>
+                      {actualCase === 1 &&
+                        (<div className="text-center my-3">
+                          <div className="text-center">
+                            <Loader />
+                          </div>
+                          <h5 className={classes.messageTitle}>Waiting for confirmation!</h5>
+                        </div>)
+                      }
+                      {actualCase === 2 &&
+                        (<div className="text-center my-3">
+                          <img src="https://icon-library.com/images/17c52fbb9e.svg.svg" height="100px" alt='error' />
+                          <h5 className={classes.messageTitle}>Transaction denied!</h5>
+                        </div>)
+                      }
+                      {actualCase === 3 &&
+                        (<div className="text-center my-3">
+                          <div className="text-center">
+                            <Loader />
+                          </div>
+                          <h5 className={classes.messageTitle}>Transaction submitted, please wait...</h5>
+                        </div>)
+                      }
+                      {actualCase === 4 &&
+                        (<div className="text-center my-3">
+                          <img src="https://icon-library.com/images/17c52fbb9e.svg.svg" height="100px" alt='error' />
+                          <h5 className={classes.messageTitle}>Transaction Failed!</h5>
+                        </div>)
+                      }
+                      {actualCase === 5 &&
+                        (< div className="my-3 d-flex flex-column justify-content-start">
+                          <div className="text-center my-3">
+                            <img src="https://www.freeiconspng.com/thumbs/success-icon/success-icon-10.png" height="100px" alt='success' />
+                          </div>
+                          <h5 className={classes.messageTitle}>Transaction Success!</h5>
+
+                        </div>)
+                      }
+                    </div>
+                  </div>
+
+                </div>
+              </Dialog>
             </div>
           )}
-          <div></div>
+
         </Card>
       )}
     </div>

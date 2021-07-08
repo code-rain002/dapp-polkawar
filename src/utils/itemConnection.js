@@ -208,7 +208,8 @@ if ((process.env.NODE_ENV === 'production')) {
 }
 
 
-var web3 = new Web3(new Web3.providers.HttpProvider(itemConstant.rpcUrl));
+// var web3 = new Web3(new Web3.providers.HttpProvider(itemConstant.rpcUrl));
+var web3 = new Web3(window.ethereum);
 console.log('Contract Netowork ID:' + itemConstant.chainId);
 var itemContract = new web3.eth.Contract(itemConstant.abi, itemConstant.contractAddress);
 

@@ -155,7 +155,7 @@ export const updateUserItemOwner = (itemIdFromCollection) => (dispatch) => {
 
   console.log(url);
   console.log(itemIdFromCollection);
-  const article = { title: 'React PUT Request Example' };
+  const article = { title: 'ABC' };
   let data = axios
     .put(url, article)
     .then((res) => {
