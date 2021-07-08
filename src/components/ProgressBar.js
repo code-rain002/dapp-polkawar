@@ -5,7 +5,7 @@ const useStyles = makeStyles((theme) => ({
   containerStyles: {
     height: 22,
     width: 400,
-    backgroundColor: '#e0e0de',
+    backgroundColor: '#bdbdbd',
     borderRadius: 50,
     [theme.breakpoints.down('md')]: {
       width: 100,
@@ -14,12 +14,23 @@ const useStyles = makeStyles((theme) => ({
   },
 
   labelStyles: {
-
     color: 'white',
     fontFamily: 'Balsamiq Sans',
     fontWeight: 700,
     fontSize: 14,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 14,
+      lineHeight: '20px'
+    },
 
+  },
+  labelStylesBlack: {
+    color: 'red',
+    fontFamily: 'Balsamiq Sans',
+    fontWeight: 700,
+    fontSize: 14,
+    paddingLeft: 5,
+    paddingTop: 5,
     [theme.breakpoints.down('md')]: {
       fontSize: 14,
       lineHeight: '20px'
@@ -45,8 +56,11 @@ const ProgressBar = (props) => {
   return (
     <div className={classes.containerStyles}>
       <div style={fillerStyles}>
-        <span className={classes.labelStyles}>{`${completed} Left`}</span>
+        {completed !== 0 && <span className={classes.labelStyles}>{completed} Left</span>}
+
       </div>
+      {completed === 0 && <span className={classes.labelStylesBlack}>{completed} Left</span>}
+
     </div>
   );
 };

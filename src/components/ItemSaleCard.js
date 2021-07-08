@@ -74,6 +74,21 @@ const useStyles = makeStyles((theme) => ({
   title: {
     verticalAlign: 'baseline',
     textAlign: 'left',
+    color: 'white',
+    fontWeight: 500,
+    letterSpacing: 0.1,
+    fontSize: 22,
+    lineHeight: '35.7px',
+
+    [theme.breakpoints.down('md')]: {
+      fontWeight: 700,
+      fontSize: 14,
+      lineHeight: '20.7px',
+    },
+  },
+  ModalTitle: {
+    verticalAlign: 'baseline',
+    textAlign: 'left',
     color: 'black',
     fontWeight: 500,
     letterSpacing: 0.1,
@@ -86,7 +101,6 @@ const useStyles = makeStyles((theme) => ({
       lineHeight: '20.7px',
     },
   },
-
   section2: {
     paddingLeft: 15,
   },
@@ -141,11 +155,12 @@ const useStyles = makeStyles((theme) => ({
   },
   levelText: {
     color: 'white',
-    fontWeight: 600,
+    fontWeight: 300,
     fontSize: 15,
     paddingTop: 10,
     paddingRight: 10,
-    display: 'block',
+
+
 
     [theme.breakpoints.down('md')]: {
       fontSize: 12,
@@ -375,7 +390,7 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
               <div className="container text-center">
                 <div className="d-flex justify-content-between">
                   <div className={classes.padding}>
-                    <h5 className={classes.title}>Purchase Status</h5>
+                    <h5 className={classes.ModalTitle}>Purchase Status</h5>
                   </div>{' '}
                   <div style={{ paddingRight: 10, paddingTop: 10 }}>
                     <IconButton>
