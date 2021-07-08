@@ -138,13 +138,6 @@ function SellModal({ closePopup, item, updateUserItemOwner, user }) {
           console.log(error);
         });
     });
-    console.log(response);
-    return response;
-
-
-
-
-
 
   };
   return (
