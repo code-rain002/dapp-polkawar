@@ -252,7 +252,7 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
                     After purchasing the item, you can also sell this item back to PolkaWar system and you will get 0.7 BNB.
                   </li>
                   <li className={classes.listItem}>
-                    If you don't want to sell, you can hold the item upto 15th Aug and you will receive 2000 PWAR tokens as a reward.
+                    If you don't want to sell, you can hold the item upto <span style={{ color: 'red' }}>15th Aug</span> and you will receive 2000 PWAR tokens as a reward.
                   </li>
                 </ol>
                 {/* <div className='text-center'>
