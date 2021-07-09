@@ -278,15 +278,16 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
 
           </div>
 
-          {checkIsAlreadyPurchased() && <div className='mt-5'>
-            <h2 className={classes.thanksHeading}>Thanks for Participating!.</h2>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <p className={classes.thanksText}>Great! You have already purchased an item during flash sale. Go to your items section of the profile and check your item.</p>
+          {checkIsAlreadyPurchased() &&
+            <div className='mt-5 pb-5'>
+              <h2 className={classes.thanksHeading}>Thanks for Participating!</h2>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <p className={classes.thanksText}>Great! You have already purchased an item during flash sale. Go to your items section of the profile and check your item.</p>
 
-            </div>
-            <Link to='/profile'><div className='text-center'><Button variant="contained" className={classes.profileButton} >
-              <span>Go To Profile</span></Button>
-            </div></Link></div>}
+              </div>
+              <Link to='/profile'><div className='text-center'><Button variant="contained" className={classes.profileButton} >
+                <span>Go To Profile</span></Button>
+              </div></Link></div>}
           {!checkIsAlreadyPurchased() && <div className="row mt-4">
             {flash.length !== 0 &&
               flash.map((singleItem) => {

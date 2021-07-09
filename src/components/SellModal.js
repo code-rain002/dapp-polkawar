@@ -97,14 +97,16 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
   },
   para: {
+    marginTop: 10,
     fontWeight: 400,
     verticalAlign: 'baseline',
-    letterSpacing: '-0.8px',
+    letterSpacing: '-0.4px',
     margin: 0,
+    fontFamily: 'Balsamiq Sans',
     paddingTop: 10,
     paddingBottom: 10,
-    textAlign: 'left',
-    color: 'white',
+    textAlign: 'center',
+    color: 'black',
     fontSize: 18,
   },
 }));
@@ -124,37 +126,7 @@ function SellModal({ closePopup, item, updateUserItemOwner, user }) {
     let endedStatus = checkResellEndedTime();
 
     if (startStatus && !endedStatus) {
-      //Calling Smart Contract
-      setActualCase(1);
-      setResellStarted(true);
-
-      let userAddress = user.address;
-      const response = await new Promise((resolve, reject) => {
-        saleContract.methods
-          .resellItemForSystem()
-          .send({ from: userAddress }, function (error, transactionHash) {
-            if (transactionHash) {
-              setActualCase(2);
-              resolve(transactionHash);
-            } else {
-              //console.log('Rejected by user!');
-              setActualCase(1);
-              reject();
-            }
-          })
-          .on('receipt', async function (receipt) {
-            //Now time to update owner details
-            console.log('receipt:' + receipt);
-            let response = await updateUserItemOwner(item._id);
-            console.log(response);
-            setActualCase(4);
-            window.location.reload();
-          })
-          .on('error', async function (error) {
-            setActualCase(3);
-            console.log(error);
-          });
-      });
+      setActualCase(5);
     }
     if (endedStatus) {
       setResellEnded(true);
@@ -167,6 +139,42 @@ function SellModal({ closePopup, item, updateUserItemOwner, user }) {
 
 
   };
+
+  const confirmResell = async () => {
+
+    //Calling Smart Contract
+    setActualCase(1);
+    setResellStarted(true);
+
+    let userAddress = user.address;
+    const response = await new Promise((resolve, reject) => {
+      saleContract.methods
+        .resellItemForSystem()
+        .send({ from: userAddress }, function (error, transactionHash) {
+          if (transactionHash) {
+            setActualCase(2);
+            resolve(transactionHash);
+          } else {
+            //console.log('Rejected by user!');
+            setActualCase(1);
+            reject();
+          }
+        })
+        .on('receipt', async function (receipt) {
+          //Now time to update owner details
+          console.log('receipt:' + receipt);
+          let response = await updateUserItemOwner(item._id);
+          console.log(response);
+          setActualCase(4);
+          window.location.reload();
+        })
+        .on('error', async function (error) {
+          setActualCase(3);
+          console.log(error);
+        });
+    });
+
+  }
   const handleClosePopup = () => {
     closePopup();
     setActualCase(0);
@@ -250,7 +258,7 @@ function SellModal({ closePopup, item, updateUserItemOwner, user }) {
                   <HomeWork style={{ marginRight: 10 }} />
                   Resell to the system
                 </Button>
-                {resellStarted && <div>
+                {!resellStarted && <div>
                   <h6 style={{
                     paddingTop: 7, paddingBottom: 0, marginBottom: 0,
                   }}>    Resell will start at <Moment format="DD-MM-YYYY HH:mm">
@@ -292,6 +300,19 @@ function SellModal({ closePopup, item, updateUserItemOwner, user }) {
               </div>
               <h5 className={classes.messageTitle}>Transaction Success</h5>
 
+            </div>)
+          }
+          {actualCase === 5 &&
+            (< div className="my-3 d-flex flex-column justify-content-start">
+
+              <h5 className={classes.messageTitle}> Please confirm </h5>
+              <p className={classes.para}>If you resell to the system, you will get 0.7BNB and your NFT item will be lost. And you will not receive receive reward of 2000 PWAR on 15th of August,2021.</p>
+              <div className='mt-3'>
+                <Button variant="contained" className={classes.buttonSystem} onClick={confirmResell}>
+
+                  Yes, Resell please
+                </Button>
+              </div>
             </div>)
           }
         </div>
