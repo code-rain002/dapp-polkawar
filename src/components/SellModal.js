@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Divider, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Close, HomeWork, Store } from '@material-ui/icons';
@@ -110,50 +110,123 @@ const useStyles = makeStyles((theme) => ({
 function SellModal({ closePopup, item, updateUserItemOwner, user }) {
   const classes = useStyles();
   const [actualCase, setActualCase] = useState(0);
+  const [marketPlaceMessage, setMarketPlaceMessage] = useState(false);
+  const [resellStarted, setResellStarted] = useState(true);
+  const [resellEnded, setResellEnded] = useState(false);
+
+  let resaleStartTime = process.env.REACT_APP_START_RESELL;
+  let resaleEndTime = process.env.REACT_APP_END_RESELL;
+
 
   const resellToSystem = async () => {
-    //Calling Smart Contract
-    setActualCase(1);
+    let startStatus = checkResellTime();
+    let endedStatus = checkResellEndedTime();
 
-    let userAddress = user.address;
-    const response = await new Promise((resolve, reject) => {
-      saleContract.methods
-        .resellItemForSystem()
-        .send({ from: userAddress }, function (error, transactionHash) {
-          if (transactionHash) {
-            setActualCase(2);
-            resolve(transactionHash);
-          } else {
-            //console.log('Rejected by user!');
-            setActualCase(1);
-            reject();
-          }
-        })
-        .on('receipt', async function (receipt) {
-          //Now time to update owner details
-          console.log('receipt:' + receipt);
-          let response = await updateUserItemOwner(item._id);
-          console.log(response);
-          setActualCase(4);
-          window.location.reload();
-        })
-        .on('error', async function (error) {
-          setActualCase(3);
-          console.log(error);
-        });
-    });
+    if (startStatus && !endedStatus) {
+      //Calling Smart Contract
+      setActualCase(1);
+      setResellStarted(true);
+
+      let userAddress = user.address;
+      const response = await new Promise((resolve, reject) => {
+        saleContract.methods
+          .resellItemForSystem()
+          .send({ from: userAddress }, function (error, transactionHash) {
+            if (transactionHash) {
+              setActualCase(2);
+              resolve(transactionHash);
+            } else {
+              //console.log('Rejected by user!');
+              setActualCase(1);
+              reject();
+            }
+          })
+          .on('receipt', async function (receipt) {
+            //Now time to update owner details
+            console.log('receipt:' + receipt);
+            let response = await updateUserItemOwner(item._id);
+            console.log(response);
+            setActualCase(4);
+            window.location.reload();
+          })
+          .on('error', async function (error) {
+            setActualCase(3);
+            console.log(error);
+          });
+      });
+    }
+    if (endedStatus) {
+      setResellEnded(true);
+    } else {
+      setResellEnded(false);
+    }
+    if (!startStatus) {
+      setResellStarted(false);
+    }
+
 
   };
+  const handleClosePopup = () => {
+    closePopup();
+    setActualCase(0);
+  }
+  const sellOnMarketPlace = () => {
+    setMarketPlaceMessage(!marketPlaceMessage)
+  }
+  const checkResellTime = () => {
+    //PUT Resell start date time
+    const difference = +new Date(resaleStartTime) - +new Date();
+    if (difference > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  const checkResellEndedTime = () => {
+    //PUT Resell start date time
+    const difference = +new Date(resaleEndTime) - +new Date();
+    if (difference > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     console.log('Calling')
+  //     let startStatus = checkResellTime();
+  //     let endedStatus = checkResellEndedTime();
+
+
+
+  //     if (endedStatus) {
+  //       console.log('Ended True');
+  //       setResellEnded(true);
+  //     } else {
+  //       setResellEnded(false);
+  //     }
+  //     if (!startStatus) {
+  //       console.log('Not Yet Started');
+  //       setResellStarted(false);
+  //     } else {
+  //       console.log(' Started');
+  //       setResellStarted(true);
+  //     }
+  //   }, 5000)
+  // }, [])
   return (
     <div className={classes.background}>
       <div className="container text-center">
+
         <div className="d-flex justify-content-between">
           <div className={classes.padding}>
             <h5 className={classes.title}>Sell Your NFT</h5>
           </div>{' '}
           <div style={{ paddingRight: 10, paddingTop: 10 }}>
             <IconButton>
-              <Close onClick={closePopup} />
+              <Close onClick={handleClosePopup} />
             </IconButton>
           </div>{' '}
         </div>
@@ -163,16 +236,25 @@ function SellModal({ closePopup, item, updateUserItemOwner, user }) {
           {actualCase === 0 &&
             (< div className="my-3 d-flex flex-column justify-content-start">
               <div style={{ paddingBottom: 20 }}>
-                <Button variant="contained" className={classes.buttonMarketplace}>
+                <Button variant="contained" className={classes.buttonMarketplace} onClick={sellOnMarketPlace}>
                   <Store style={{ marginRight: 10 }} />
                   Sell on Marketplace
                 </Button>
+                {marketPlaceMessage && <div>
+                  <h6 style={{ paddingTop: 5, paddingBottom: 0, marginBottom: 0 }}>    Coming soon...</h6>
+                </div>}
               </div>
               <div>
                 <Button variant="contained" className={classes.buttonSystem} onClick={resellToSystem}>
                   <HomeWork style={{ marginRight: 10 }} />
                   Resell to the system
                 </Button>
+                {!resellStarted && <div>
+                  <h6 style={{ paddingTop: 5, paddingBottom: 0, marginBottom: 0 }}>    Resell not yet started...</h6>
+                </div>}
+                {resellEnded && <div>
+                  <h6 style={{ paddingTop: 5, paddingBottom: 0, marginBottom: 0 }}>    Resell time ended...</h6>
+                </div>}
               </div>
             </div>)
           }

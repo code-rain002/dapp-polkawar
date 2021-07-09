@@ -265,7 +265,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList, useritems }) {
+function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList, }) {
   const classes = useStyles();
   const [actualCase, setActualCase] = useState(0);
   const [popup, setPopup] = useState(false);
@@ -354,13 +354,7 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList, use
       return false;
     }
   }
-  const checkIsAlreadyPurchased = () => {
-    if (useritems.length === 0) {
-      return false;
-    } else {
-      return false;
-    }
-  }
+
   return (
     <div>
 
@@ -407,9 +401,9 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList, use
                     </Button>
                   ) : (
                     <div>
-                      {enableBuyButton() ? <Button variant="contained" className={classes.buyNowButton} onClick={buyItem}>
-                        <span>Buy Now</span>
-                      </Button> : <Button variant="contained" className={classes.endedButton} >
+                      {enableBuyButton() ? <div><Button variant="contained" className={classes.endedButton} >
+                        <span>Sale Ended</span>
+                      </Button></div> : <Button variant="contained" className={classes.endedButton} >
                         <span>Sale Ended</span>
                       </Button>}
                     </div>
@@ -427,9 +421,9 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList, use
               </Button>
             ) : (
               <div>
-                {enableBuyButton() ? <Button variant="contained" className={classes.buyNowButton} onClick={buyItem}>
+                {enableBuyButton() ? <div> <Button variant="contained" className={classes.buyNowButton} onClick={buyItem}>
                   <span>Buy Now</span>
-                </Button> : <Button variant="contained" className={classes.endedButton} >
+                </Button></div> : <Button variant="contained" className={classes.endedButton} >
                   <span>Sale Ended</span>
                 </Button>}
               </div>
@@ -521,6 +515,7 @@ ItemSaleCard.propTypes = {
 const mapStateToProps = (state) => ({
   user: state.auth.user,
   items: state.items.items,
+  useritems: state.items.useritems,
 });
 
 const mapDispatchToProps = { addUserItem };
