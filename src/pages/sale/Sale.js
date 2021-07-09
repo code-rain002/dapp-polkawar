@@ -4,10 +4,11 @@ import { getFlashItems, getUserItems } from './../../actions/itemActions';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ItemSaleCard from '../../components/ItemSaleCard';
-
 import Timer from '../../components/Timer';
 import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import Moment from 'react-moment';
+
 
 const useStyles = makeStyles((theme) => ({
   mainCard: {
@@ -223,20 +224,26 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
           Flash Sale <img src="images/thunder.png" height="20px" alt="thunder" />
         </h1>
       </div>
-      {actualCase === 0 && <div className={classes.mainCard}>
+
+      <div className={classes.mainCard}>
         <div className={classes.sectionCard1}>
           <div className={classes.banner}></div>
-
-          <div className={classes.timerBox}>
-
+          {actualCase === 0 && <div className={classes.timerBox} for='sale starts in'>
             <h1 className={classes.ends}>Sale Starts in: </h1>
             <h6 className={classes.timerTime}>
               <Timer endTime={process.env.REACT_APP_SALE_START_DATE} />
             </h6>
-
+          </div>
+          }
+          {actualCase === 1 && <div className={classes.timerBox} for='sale ends in'>
+            <h1 className={classes.ends}>Sale Ends in: </h1>
+            <h6 className={classes.timerTime}>
+              <Timer endTime={process.env.REACT_APP_SALE_END_DATE} />
+            </h6>
           </div>
 
-          <div className="mt-5" >
+          }
+          <div className="mt-5" for="rules">
             <h6 style={{ color: 'yellow', fontSize: 18, textAlign: 'center' }}>Flash Sale Rules</h6>
             <h6 className={classes.para}>Please read the rules carefully before participating into flash sale.</h6>
             <div className='d-flex justify-content-center mt-3' >
@@ -252,57 +259,52 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
                     After purchasing the item, you can also sell this item back to PolkaWar system and you will get 0.7 BNB.
                   </li>
                   <li className={classes.listItem}>
-                    If you don't want to sell, you can hold the item upto <span style={{ color: 'red' }}>15th Aug</span> and you will receive 2000 PWAR tokens as a reward.
+                    If you resell to the system, you will get 0.7BNB and your NFT item will be lost. And you will not receive receive reward of 2000 PWAR on 15th of August,2021.
+                  </li>
+                  <li className={classes.listItem}>
+                    Reselling of the NFT Item will start from <span style={{ color: 'yellow' }}><Moment format="DD-MM-YYYY HH:mm">
+                      {process.env.REACT_APP_START_RESELL}
+                    </Moment></span> and will end <span style={{ color: 'yellow' }}><Moment format="DD-MM-YYYY HH:mm">
+                      {process.env.REACT_APP_END_RESELL}
+                    </Moment>.</span>
+                  </li>
+                  <li className={classes.listItem}>
+                    If you don't want to sell, you can hold the item upto <span style={{ color: 'yellow' }}>15th Aug</span> and you will receive 2000 PWAR tokens as a reward.
                   </li>
                 </ol>
-                {/* <div className='text-center'>
-                  <Button className={classes.saleButton} variant='contained' onClick={goToSale}>Participate in Flash Sale</Button>
-                </div> */}
+
               </div>
             </div>{' '}
 
           </div>
 
-        </div></div>
-      }
-      {actualCase === 1 &&
-        <div>
-
-          <div className={classes.mainCard}>
-            <div className={classes.sectionCard1}>
-              <div className={classes.banner}></div>
-              <div className={classes.timerBox}>
-                <h1 className={classes.ends}>Sale Ends in: </h1>
-
-                <h6 className={classes.timerTime}>
-                  <Timer endTime={process.env.REACT_APP_SALE_END_DATE} />
-                </h6>
-              </div>
-              {checkIsAlreadyPurchased() && <div className='mt-5'>
-                <h2 className={classes.thanksHeading}>Thanks for Participating!.</h2>
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <p className={classes.thanksText}>Great! You have already purchased an item during flash sale. Go to your items section of the profile and check your item.</p>
-
-                </div>
-                <Link to='/profile'><div className='text-center'><Button variant="contained" className={classes.profileButton} >
-                  <span>Go To Profile</span></Button>
-                </div></Link></div>}
-              {!checkIsAlreadyPurchased() && <div className="row mt-4">
-                {flash.length !== 0 &&
-                  flash.map((singleItem) => {
-                    return (
-                      <div className="col-12">
-                        <div className="d-flex flex-column justify-content-center">
-                          <ItemSaleCard item={singleItem} nftHashList={nftHashList} userItemsLength={useritems.length} />
-                        </div>
-                      </div>
-                    );
-                  })}
-              </div>}
+          {checkIsAlreadyPurchased() && <div className='mt-5'>
+            <h2 className={classes.thanksHeading}>Thanks for Participating!.</h2>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <p className={classes.thanksText}>Great! You have already purchased an item during flash sale. Go to your items section of the profile and check your item.</p>
 
             </div>
-          </div>
-        </div>}
+            <Link to='/profile'><div className='text-center'><Button variant="contained" className={classes.profileButton} >
+              <span>Go To Profile</span></Button>
+            </div></Link></div>}
+          {!checkIsAlreadyPurchased() && <div className="row mt-4">
+            {flash.length !== 0 &&
+              flash.map((singleItem) => {
+                return (
+                  <div className="col-12">
+                    <div className="d-flex flex-column justify-content-center">
+                      <ItemSaleCard item={singleItem} nftHashList={nftHashList} userItemsLength={useritems.length} />
+                    </div>
+                  </div>
+                );
+              })}
+          </div>}
+        </div></div>
+
+
+      <div>
+
+      </div>
     </div >
   );
 }

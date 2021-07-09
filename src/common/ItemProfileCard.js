@@ -359,7 +359,7 @@ function ItemProfileCard({ item, user }) {
                 <div className={classes.priceBadgeWrapper}>
                   <h6 style={{ color: 'white' }}>
                     <strong> Price :</strong> {' '}
-                    <span className={classes.pricingTextStrike}><strike>{itemJson.original_price}</strike> </span>
+
                     <span className={classes.pricingText}>{itemJson.sell_price} BNB</span>
                   </h6>
                   <h6 style={{ color: 'white' }}>

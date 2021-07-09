@@ -6,6 +6,7 @@ import { updateUserItemOwner } from './../actions/itemActions';
 import { connect } from 'react-redux';
 import saleContract from './../utils/saleConnection';
 import Loader from './Loader';
+import Moment from 'react-moment';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -249,8 +250,12 @@ function SellModal({ closePopup, item, updateUserItemOwner, user }) {
                   <HomeWork style={{ marginRight: 10 }} />
                   Resell to the system
                 </Button>
-                {!resellStarted && <div>
-                  <h6 style={{ paddingTop: 5, paddingBottom: 0, marginBottom: 0 }}>    Resell not yet started...</h6>
+                {resellStarted && <div>
+                  <h6 style={{
+                    paddingTop: 7, paddingBottom: 0, marginBottom: 0,
+                  }}>    Resell will start at <Moment format="DD-MM-YYYY HH:mm">
+                      {process.env.REACT_APP_START_RESELL}
+                    </Moment> </h6>
                 </div>}
                 {resellEnded && <div>
                   <h6 style={{ paddingTop: 5, paddingBottom: 0, marginBottom: 0 }}>    Resell time ended...</h6>
@@ -291,7 +296,7 @@ function SellModal({ closePopup, item, updateUserItemOwner, user }) {
           }
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
