@@ -19,9 +19,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     [theme.breakpoints.down('md')]: {
-
       height: '100%',
       width: '100%',
+      paddingLeft: 5,
+      paddingRight: 5,
     },
   },
   sectionCard1: {
@@ -35,7 +36,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 20,
     filter: `drop-shadow(0 0 0.9rem #1a237e)`,
     [theme.breakpoints.down('md')]: {
-      width: 300,
+      maxWidth: 350,
+      marginRight: 0,
+      marginLeft: 0,
     },
   },
   banner: {
@@ -79,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   timerBox: {
-    paddingTop: 20,
+    paddingTop: 35,
     display: 'flex',
     justifyContent: 'center',
 
@@ -89,10 +92,10 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.pbr.textPrimary,
     fontWeight: 400,
     letterSpacing: 0.5,
-    fontSize: 15,
+    fontSize: 28,
     textAlign: 'center',
     [theme.breakpoints.down('md')]: {
-      fontSize: 20,
+      fontSize: 18,
 
     },
   },
@@ -122,9 +125,49 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
 
   },
+  timerTime: {
+    color: 'white',
+    fontSize: 28,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 18,
+    },
+  },
+  profileButton: {
+    textAlign: 'center',
+    background: `linear-gradient(to bottom,#ffffff, yellow)`,
+    padding: '8px 16px 8px 16px',
+    borderRadius: 50,
+    color: 'black',
+    fontSize: 14,
+    fontWeight: 500,
+    textTransform: 'none',
+    [theme.breakpoints.down('sm')]: {
+      padding: '8px 14px 8px 14px',
+      fontSize: 14,
+    },
+  },
+  thanksHeading: {
+    color: 'yellow',
+    textAlign: 'center',
+    fontSize: 32,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 24,
+    },
+  },
+  thanksText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 16,
+    width: 500,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 15,
+      fontWeight: 400,
+      width: '100%',
+    },
+  }
 }));
 
-function FlashSale({ getFlashItems, getUserItems, flash, }) {
+function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
   const classes = useStyles();
 
   const [actualCase, setActualCase] = useState(0)
@@ -139,9 +182,33 @@ function FlashSale({ getFlashItems, getUserItems, flash, }) {
     asyncFn();
   }, []);
 
-  const goToSale = () => {
-    setActualCase(1)
+  useEffect(() => {
+    setInterval(() => {
+      checkSaleStart()
+    }, 1000);
+  }, []);
+
+
+
+  const checkSaleStart = () => {
+
+    //PUT Sale start date time
+    const difference = +new Date(process.env.REACT_APP_SALE_START_DATE) - +new Date();
+    if (difference > 0) {
+      setActualCase(0)
+    } else {
+      setActualCase(1)
+    }
   }
+
+  const checkIsAlreadyPurchased = () => {
+    if (useritems.length === 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   let nftHashList = {
     Sword: 'Qma1PHjHqtf8BgMUKwLw2jpWpPdxJwMbPzmPXttApTWGes',
     Gun: 'QmctTBBWEpCSvcW5UqESPKxpnRq2YFSNujsxin6jcw6Vp3',
@@ -155,7 +222,6 @@ function FlashSale({ getFlashItems, getUserItems, flash, }) {
         <h1 className={classes.title}>
           Flash Sale <img src="images/thunder.png" height="20px" alt="thunder" />
         </h1>
-
       </div>
       {actualCase === 0 && <div className={classes.mainCard}>
         <div className={classes.sectionCard1}>
@@ -163,9 +229,9 @@ function FlashSale({ getFlashItems, getUserItems, flash, }) {
 
           <div className={classes.timerBox}>
 
-            <h1 className={classes.ends}>Sale Ends in: </h1>
-            <h6 style={{ color: 'white' }}>
-              <Timer endTime={'July 12, 2021 00:00:00 UTC'} />
+            <h1 className={classes.ends}>Sale Starts in: </h1>
+            <h6 className={classes.timerTime}>
+              <Timer endTime={process.env.REACT_APP_SALE_START_DATE} />
             </h6>
 
           </div>
@@ -189,9 +255,9 @@ function FlashSale({ getFlashItems, getUserItems, flash, }) {
                     If you don't want to sell, you can hold the item upto 15th Aug and you will receive 2000 PWAR tokens as a reward.
                   </li>
                 </ol>
-                <div className='text-center'>
+                {/* <div className='text-center'>
                   <Button className={classes.saleButton} variant='contained' onClick={goToSale}>Participate in Flash Sale</Button>
-                </div>
+                </div> */}
               </div>
             </div>{' '}
 
@@ -199,34 +265,45 @@ function FlashSale({ getFlashItems, getUserItems, flash, }) {
 
         </div></div>
       }
-      {actualCase === 1 && <div>
+      {actualCase === 1 &&
+        <div>
 
-        <div className={classes.mainCard}>
-          <div className={classes.sectionCard1}>
-            <div className={classes.banner}></div>
-            <div className={classes.timerBox}>
-              <h1 className={classes.ends}>Sale Ends in: </h1>
+          <div className={classes.mainCard}>
+            <div className={classes.sectionCard1}>
+              <div className={classes.banner}></div>
+              <div className={classes.timerBox}>
+                <h1 className={classes.ends}>Sale Ends in: </h1>
 
-              <h6 style={{ color: 'white' }}>
-                <Timer endTime={'July 12, 2021 00:00:00 UTC'} />
-              </h6>
-            </div>
-            <div className="row mt-3">
-              {flash.length !== 0 &&
-                flash.map((singleItem) => {
-                  return (
-                    <div className="col-12">
-                      <div className="d-flex flex-column justify-content-center">
-                        <ItemSaleCard item={singleItem} nftHashList={nftHashList} />
+                <h6 className={classes.timerTime}>
+                  <Timer endTime={process.env.REACT_APP_SALE_END_DATE} />
+                </h6>
+              </div>
+              {checkIsAlreadyPurchased() && <div className='mt-5'>
+                <h2 className={classes.thanksHeading}>Thanks for Participating!.</h2>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <p className={classes.thanksText}>Great! You have already purchased an item during flash sale. Go to your items section of the profile and check your item.</p>
+
+                </div>
+                <Link to='/profile'><div className='text-center'><Button variant="contained" className={classes.profileButton} >
+                  <span>Go To Profile</span></Button>
+                </div></Link></div>}
+              {!checkIsAlreadyPurchased() && <div className="row mt-4">
+                {flash.length !== 0 &&
+                  flash.map((singleItem) => {
+                    return (
+                      <div className="col-12">
+                        <div className="d-flex flex-column justify-content-center">
+                          <ItemSaleCard item={singleItem} nftHashList={nftHashList} userItemsLength={useritems.length} />
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+              </div>}
+
             </div>
           </div>
-        </div>
-      </div>}
-    </div>
+        </div>}
+    </div >
   );
 }
 

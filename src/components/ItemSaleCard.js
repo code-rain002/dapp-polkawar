@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   card1: {
     width: 900,
     height: 250,
-    borderRadius: 14,
+    borderRadius: 20,
     border: '1px solid #e5e5e5',
     marginBottom: 20,
     paddingTop: 20,
@@ -235,11 +235,37 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     textTransform: 'none',
     textDecoration: 'none',
+    [theme.breakpoints.down('md')]: {
+      marginLeft: 0,
+      padding: '8px 16px 8px 16px',
 
+    },
   },
+  endedButton: {
+    borderRadius: '50px',
+    background: `linear-gradient(to right,red, red)`,
+    lineHeight: '24px',
+    verticalAlign: 'baseline',
+    letterSpacing: '-1px',
+    margin: 0,
+    marginTop: 5,
+    marginLeft: 10,
+    color: 'white',
+    padding: '10px 16px 10px 16px',
+    fontWeight: 400,
+    fontSize: 16,
+    textTransform: 'none',
+    textDecoration: 'none',
+
+    [theme.breakpoints.down('md')]: {
+      marginLeft: 0,
+      padding: '8px 16px 8px 16px',
+
+    },
+  }
 }));
 
-function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
+function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList, }) {
   const classes = useStyles();
   const [actualCase, setActualCase] = useState(0);
   const [popup, setPopup] = useState(false);
@@ -319,6 +345,16 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
 
 
   };
+
+  const enableBuyButton = () => {
+    const difference = +new Date(process.env.REACT_APP_SALE_END_DATE) - +new Date();
+    if (difference > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   return (
     <div>
 
@@ -365,9 +401,11 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
                     </Button>
                   ) : (
                     <div>
-                      <Button variant="contained" className={classes.buyNowButton} onClick={buyItem}>
-                        <span>Buy Now</span>
-                      </Button>
+                      {enableBuyButton() ? <div><Button variant="contained" className={classes.endedButton} >
+                        <span>Sale Ended</span>
+                      </Button></div> : <Button variant="contained" className={classes.endedButton} >
+                        <span>Sale Ended</span>
+                      </Button>}
                     </div>
                   )}
 
@@ -383,9 +421,11 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
               </Button>
             ) : (
               <div>
-                <Button variant="contained" className={classes.buyNowButton} onClick={buyItem}>
+                {enableBuyButton() ? <div> <Button variant="contained" className={classes.buyNowButton} onClick={buyItem}>
                   <span>Buy Now</span>
-                </Button>
+                </Button></div> : <Button variant="contained" className={classes.endedButton} >
+                  <span>Sale Ended</span>
+                </Button>}
               </div>
             )}
 
@@ -405,7 +445,7 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
           BackdropProps={{
             timeout: 500,
           }}>
-          <div >
+          <div style={{ backgroundColor: 'black' }}>
             <div className={classes.background}>
               <div className="container text-center">
                 <div className="d-flex justify-content-between">
@@ -461,6 +501,7 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList }) {
             </div>
           </div>
         </Dialog>{' '}
+
       </Card>
 
     </div>
@@ -474,6 +515,7 @@ ItemSaleCard.propTypes = {
 const mapStateToProps = (state) => ({
   user: state.auth.user,
   items: state.items.items,
+  useritems: state.items.useritems,
 });
 
 const mapDispatchToProps = { addUserItem };

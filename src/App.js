@@ -14,6 +14,7 @@ import Airdrop from './pages/airdrop/Airdrop';
 import SocialLinks from './common/SocialLinks';
 import './web';
 import Sale from './pages/sale/Sale';
+
 export default function App() {
   
   return (

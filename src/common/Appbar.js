@@ -274,13 +274,20 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
             {[
               { name: 'Landing Page', id: 'https://polkawar.com' },
               { name: 'Get Airdrop', id: '/airdrop' },
+
             ].map((tab, index) => (
               <a href={tab.id} className={classes.mobileLink}>
                 <ListItem button key={tab.name}>
                   <ListItemText primary={tab.name} className={classes.menuTitle} />
                 </ListItem>
               </a>
+
             ))}
+            <Link to={'/sale'}>
+              <ListItem button onClick={toggleDrawer(anchor, false)} key={39}>
+                <ListItemText primary={'Flash Sale'} className={classes.menuTitle} style={{ color: 'yellow' }} />
+              </ListItem>
+            </Link>
             <ListItem button>
               <div>
                 <Button className={classes.balanceButton}>

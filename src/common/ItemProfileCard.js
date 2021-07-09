@@ -13,7 +13,8 @@ import constants from './../utils/constants';
 import itemConnection from './../utils/itemConnection';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Close } from '@material-ui/icons';
+import { AccessAlarm, Close } from '@material-ui/icons';
+import Moment from 'react-moment';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -22,7 +23,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const useStyles = makeStyles((theme) => ({
   card1: {
     width: 300,
-    height: 400,
+    height: 420,
     borderRadius: 20,
     border: '4px solid #e5e5e5',
     marginBottom: 30,
@@ -40,21 +41,21 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: 'baseline',
     textAlign: 'center',
     color: theme.palette.pbr.textPrimary,
-    fontWeight: 900,
+    fontWeight: 700,
     letterSpacing: 1,
-    fontSize: 22,
-    lineHeight: '35.7px',
-    fontFamily: 'Carter One',
+    fontSize: 20,
+
+
     [theme.breakpoints.down('sm')]: {
       fontWeight: 700,
-      fontSize: 12,
+      fontSize: 14,
     },
   },
   mediaWrapper1: {
-    height: 200,
+    height: 180,
     textAlign: 'center',
-    [theme.breakpoints.down('sm')]: {
-      height: 100,
+    [theme.breakpoints.down('md')]: {
+      height: 90,
     },
   },
   media: {
@@ -62,8 +63,8 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 5,
     marginRight: 5,
     borderRadius: 10,
-    [theme.breakpoints.down('sm')]: {
-      height: 100,
+    [theme.breakpoints.down('md')]: {
+      height: 80,
     },
   },
   icon: {
@@ -94,31 +95,30 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 7,
   },
   priceBadgeWrapper: {
-    display: 'inline-block',
-    paddingTop: 20,
-    [theme.breakpoints.down('sm')]: {
-      paddingTop: 5,
-    },
-  },
-  pricingBadge: {
-    textAlign: 'left',
-    background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
-    padding: '2px 10px 2px 10px',
-    borderTopRightRadius: 50,
-    borderBottomRightRadius: 50,
-    height: 36,
-    [theme.breakpoints.down('sm')]: {
-      textAlign: 'left',
-      background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
-      padding: '2px 7px 2px 7px',
-      borderTopRightRadius: 50,
-      borderBottomRightRadius: 50,
-      height: 26,
+    marginTop: 5,
+    fontFamily: 'Balsamiq Sans',
+    textAlign: 'center',
+    background: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1))`,
+    padding: '5px 40px 5px 40px',
+    borderRadius: 50,
+    height: '100%',
+    width: 'fit-content',
+    [theme.breakpoints.down('md')]: {
+      marginTop: 0,
+      textAlign: 'center',
+      background: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1))`,
+      padding: '5px 20px 5px 20px',
+      borderRadius: 50,
+      height: '100%',
       lineHeight: '16px',
+      width: 'fit-content',
     },
   },
 
+
   pricingTextStrike: {
+    fontFamily: 'Balsamiq Sans',
+
     color: 'yellow',
     fontSize: 13,
     fontWeight: 400,
@@ -129,6 +129,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   pricingText: {
+    fontFamily: 'Balsamiq Sans',
+
     color: 'white',
     fontSize: 15,
     fontWeight: 400,
@@ -193,21 +195,28 @@ const useStyles = makeStyles((theme) => ({
 
     },
   },
+  bidPopupCard: {
+    height: 400,
+    width: 400,
+    padding: 30,
+    background: `linear-gradient(to right,#6F2F9B, #8D37A9)`,
+    borderRadius: 10,
+    paddingBottom: 20,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    [theme.breakpoints.down('md')]: {
+      maxWidth: 300,
+      height: 300,
+
+    },
+  },
   padding: {
     paddingTop: 20,
     paddingLeft: 20,
   },
-  media: {
-    height: 200,
-    marginLeft: 5,
-    marginRight: 5,
-    borderRadius: 10,
-    [theme.breakpoints.down('md')]: {
-      height: 100,
-      marginLeft: 0,
-      marginRight: 0,
-    },
-  },
+
 
   messageTitle: {
     paddingTop: 15,
@@ -228,6 +237,7 @@ function ItemProfileCard({ item, user }) {
   const classes = useStyles();
   const [itemJson, setItemJson] = useState(null);
   const [sellPopup, setSellPopup] = useState(false);
+  const [bidPopup, setBidPopup] = useState(false);
   const [approvePopup, setApprovePopup] = useState(false);
   const [approved, setApproved] = useState(false);
   const [actualCase, setActualCase] = useState(0);
@@ -236,6 +246,10 @@ function ItemProfileCard({ item, user }) {
   const toggleSellPopup = (value) => {
     setSellPopup(value);
   };
+  const toggleBidPopup = (value) => {
+    setBidPopup(value);
+  };
+
   const toggleApprovePopup = (value) => {
     setApprovePopup(value);
   };
@@ -319,13 +333,7 @@ function ItemProfileCard({ item, user }) {
           {!loading && (
             <div>
               {' '}
-              <div className="d-flex justify-content-between mt-2">
-                <div className={classes.priceBadgeWrapper}>
-                  <h4 className={classes.pricingBadge}>
-                    <span className={classes.pricingTextStrike}><strike>{itemJson.original_price}</strike> </span>
-                    <span className={classes.pricingText}>{itemJson.sell_price} BNB</span>
-                  </h4>
-                </div>
+              <div className="d-flex justify-content-center mt-2">
                 <div className="d-flex justify-content-center align-items-center">
                   <h6 className={classes.levelText}>Level : </h6>
                   <div className={classes.iconWrapper}>
@@ -347,13 +355,30 @@ function ItemProfileCard({ item, user }) {
               <div>
                 <h4 className={classes.title1}>{itemJson.name}</h4>
               </div>
+              <div className='d-flex justify-content-center'>
+                <div className={classes.priceBadgeWrapper}>
+                  <h6 style={{ color: 'white' }}>
+                    <strong> Price :</strong> {' '}
+                    <span className={classes.pricingTextStrike}><strike>{itemJson.original_price}</strike> </span>
+                    <span className={classes.pricingText}>{itemJson.sell_price} BNB</span>
+                  </h6>
+                  <h6 style={{ color: 'white' }}>
+                    {' '}
+                    <strong>   Date : </strong>
+                    <span className={classes.pricingText}>  <Moment format="DD/MM/YYYY">
+                      {item.buyDate}
+                    </Moment> </span>
+                  </h6>
+                </div>
+
+              </div>
               <div className="text-center mt-4">
                 {approved ? (
                   <div>
                     <Button variant="contained" className={classes.sellButton} onClick={() => toggleSellPopup(true)}>
                       <span>Sell</span>
                     </Button>
-                    <Button variant="contained" className={classes.bidButton}>
+                    <Button variant="contained" className={classes.bidButton} onClick={() => toggleBidPopup(true)}>
                       <span>Bid</span>
                     </Button>
                   </div>
@@ -379,6 +404,29 @@ function ItemProfileCard({ item, user }) {
                 <div style={{ backgroundColor: 'black' }}>
                   <div>
                     <SellModal closePopup={() => toggleSellPopup(false)} item={item} />
+                  </div>
+                </div>
+              </Dialog>
+              <Dialog
+                className={classes.modal}
+                open={bidPopup}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={() => toggleBidPopup(false)}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
+                }}>
+                <div style={{ backgroundColor: 'black' }}>
+                  <div className={classes.bidPopupCard}>
+                    <div><AccessAlarm style={{ fontSize: 44, color: 'yellow', }} /></div>
+                    <h6 style={{ fontSize: 32, color: 'white', marginTop: 10 }}>
+                      Coming Soon...
+                    </h6>
+                    <p style={{ fontSize: 15, textAlign: 'center', color: 'white' }}>
+                      Stay tuned! Bidding feature will be available very soon.
+                    </p>
                   </div>
                 </div>
               </Dialog>
