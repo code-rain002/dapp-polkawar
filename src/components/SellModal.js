@@ -15,6 +15,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     borderRadius: 10,
     paddingBottom: 20,
+    [theme.breakpoints.down('md')]: {
+      height: '100%',
+      width: '100%',
+    },
   },
   padding: {
     paddingTop: 20,

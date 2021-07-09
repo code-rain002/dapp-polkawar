@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import ItemSaleCard from '../../components/ItemSaleCard';
 
 import Timer from '../../components/Timer';
-import { Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   mainCard: {
@@ -19,9 +17,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     [theme.breakpoints.down('md')]: {
-
       height: '100%',
       width: '100%',
+      paddingLeft: 5,
+      paddingRight: 5,
     },
   },
   sectionCard1: {
@@ -35,7 +34,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 20,
     filter: `drop-shadow(0 0 0.9rem #1a237e)`,
     [theme.breakpoints.down('md')]: {
-      width: 300,
+      maxWidth: 350,
+      marginRight: 0,
+      marginLeft: 0,
     },
   },
   banner: {
@@ -79,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   timerBox: {
-    paddingTop: 20,
+    paddingTop: 35,
     display: 'flex',
     justifyContent: 'center',
 
@@ -89,10 +90,10 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.pbr.textPrimary,
     fontWeight: 400,
     letterSpacing: 0.5,
-    fontSize: 15,
+    fontSize: 28,
     textAlign: 'center',
     [theme.breakpoints.down('md')]: {
-      fontSize: 20,
+      fontSize: 18,
 
     },
   },
@@ -122,9 +123,16 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
 
   },
+  timerTime: {
+    color: 'white',
+    fontSize: 28,
+    [theme.breakpoints.down('md')]: {
+      fontSize: 18,
+    },
+  }
 }));
 
-function FlashSale({ getFlashItems, getUserItems, flash, }) {
+function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
   const classes = useStyles();
 
   const [actualCase, setActualCase] = useState(0)
@@ -139,8 +147,23 @@ function FlashSale({ getFlashItems, getUserItems, flash, }) {
     asyncFn();
   }, []);
 
-  const goToSale = () => {
-    setActualCase(1)
+  useEffect(() => {
+    setInterval(() => {
+      checkSaleStart()
+    }, 1000);
+  }, []);
+
+
+
+  const checkSaleStart = () => {
+
+    //PUT Sale start date time
+    const difference = +new Date(process.env.REACT_APP_SALE_START_DATE) - +new Date();
+    if (difference > 0) {
+      setActualCase(0)
+    } else {
+      setActualCase(1)
+    }
   }
   let nftHashList = {
     Sword: 'Qma1PHjHqtf8BgMUKwLw2jpWpPdxJwMbPzmPXttApTWGes',
@@ -163,9 +186,9 @@ function FlashSale({ getFlashItems, getUserItems, flash, }) {
 
           <div className={classes.timerBox}>
 
-            <h1 className={classes.ends}>Sale Ends in: </h1>
-            <h6 style={{ color: 'white' }}>
-              <Timer endTime={'July 12, 2021 00:00:00 UTC'} />
+            <h1 className={classes.ends}>Sale Starts in: </h1>
+            <h6 className={classes.timerTime}>
+              <Timer endTime={process.env.REACT_APP_SALE_START_DATE} />
             </h6>
 
           </div>
@@ -189,9 +212,9 @@ function FlashSale({ getFlashItems, getUserItems, flash, }) {
                     If you don't want to sell, you can hold the item upto 15th Aug and you will receive 2000 PWAR tokens as a reward.
                   </li>
                 </ol>
-                <div className='text-center'>
+                {/* <div className='text-center'>
                   <Button className={classes.saleButton} variant='contained' onClick={goToSale}>Participate in Flash Sale</Button>
-                </div>
+                </div> */}
               </div>
             </div>{' '}
 
@@ -207,17 +230,17 @@ function FlashSale({ getFlashItems, getUserItems, flash, }) {
             <div className={classes.timerBox}>
               <h1 className={classes.ends}>Sale Ends in: </h1>
 
-              <h6 style={{ color: 'white' }}>
-                <Timer endTime={'July 12, 2021 00:00:00 UTC'} />
+              <h6 className={classes.timerTime}>
+                <Timer endTime={process.env.REACT_APP_SALE_END_DATE} />
               </h6>
             </div>
-            <div className="row mt-3">
+            <div className="row mt-4">
               {flash.length !== 0 &&
                 flash.map((singleItem) => {
                   return (
                     <div className="col-12">
                       <div className="d-flex flex-column justify-content-center">
-                        <ItemSaleCard item={singleItem} nftHashList={nftHashList} />
+                        <ItemSaleCard item={singleItem} nftHashList={nftHashList} userItems={useritems} />
                       </div>
                     </div>
                   );
