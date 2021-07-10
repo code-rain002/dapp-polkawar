@@ -102,6 +102,8 @@ export const getFlashItems = () => (dispatch) => {
     });
 };
 
+
+
 //GET User Item
 //Getting NFTs from userItem Collection
 export const getUserItems = (userAddress) => (dispatch) => {

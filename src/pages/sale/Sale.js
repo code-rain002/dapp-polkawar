@@ -193,6 +193,8 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
     }, 1000);
   }, []);
 
+
+
   const checkSaleStart = () => {
     //PUT Sale start date time
     const differenceStart = +new Date(saleStartDate) - +new Date();

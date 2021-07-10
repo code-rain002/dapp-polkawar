@@ -15,6 +15,9 @@ router.get('/useritem/:id', async (req, res, next) => {
   }
 });
 
+
+
+
 // Public
 // GET All User Items based on owner address
 router.get('/useritems/:owner', async (req, res, next) => {

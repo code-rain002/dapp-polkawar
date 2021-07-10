@@ -56,6 +56,18 @@ router.post('/flashsale-sign', async function (req, res) {
 });
 
 // Public
+// GET remaining slots
+router.get('/flashsale-slots/:id', async (req, res, next) => {
+  const itemid = req.params.id;
+  try {
+    const data = await FlashSaleDao.getItemRemainingSlot(itemid);
+    return res.status(200).send(data.toString());
+  } catch (error) {
+    return res.status(400).send('error');
+  }
+});
+
+// Public
 // POST items based on category
 router.post('/flashsale', async (req, res, next) => {
   let saleItems = [

@@ -13,6 +13,14 @@ const flashsaleDao = {
     return await FlashSaleModel.find({});
   },
 
+  async getItemRemainingSlot(itemId) {
+
+    let data = await FlashSaleModel.findOne({ _id: itemId });
+    let slots = data["remaining_quantity"]
+    console.log(slots);
+    return slots;
+  },
+
   async getListItems(pageIndex, pageSize) {
     let skipped = pageIndex * pageSize;
     return await FlashSaleModel.find({}).skip(skipped).limit(pageSize);

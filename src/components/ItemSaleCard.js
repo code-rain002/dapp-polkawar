@@ -13,6 +13,8 @@ import axios from 'axios';
 import baseUrl from './../actions/baseUrl';
 import Loader from './Loader';
 import { Close } from '@material-ui/icons';
+import { getFlashItems } from './../actions/itemActions';
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -281,11 +283,31 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds }) {
+function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds, getFlashItems }) {
   const classes = useStyles();
   const [actualCase, setActualCase] = useState(0);
   const [popup, setPopup] = useState(false);
   const [disablePopup, setDisablePopup] = useState(false);
+
+
+
+  useEffect(() => {
+
+    async function asyncFn() {
+      let apiResponse = await checkSlotsAvailable(item._id);
+      let slotsAvailable = apiResponse.data;
+
+      if (parseInt(slotsAvailable) <= 0) {
+        setInterval(() => {
+          getFlashItems();
+        }, 5000);
+      } else {
+
+      }
+    }
+
+    asyncFn()
+  }, []);
 
   const signTransaction = (nfthash, userAddress) => {
     let url = `${baseUrl}/flashsale-sign`;
@@ -305,64 +327,79 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds }) {
     return data;
   };
 
+  const checkSlotsAvailable = async (itemId) => {
+    let url = `${baseUrl}/flashsale-slots/${itemId}`;
+    let response = await axios.get(url);
+    return response;
+  }
+
   const buyItem = async () => {
     setPopup(true);
     setActualCase(1);
-
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const userAddress = accounts[0];
     let nftHashJson = nftHashList[item.name];
 
     let signResponse = await signTransaction(nftHashJson, userAddress);
     console.log(signResponse);
     setDisablePopup(true);
 
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    const userAddress = accounts[0];
 
-    const response = await new Promise((resolve, reject) => {
-      saleContract.methods
-        .purchaseItem(nftHashJson, signResponse.v, signResponse.r, signResponse.s, signResponse.messageHash)
-        .send({ from: userAddress, value: 500000000000000000 }, function (error, transactionHash) {
-          console.log('purchaseItem Called');
-          if (transactionHash) {
-            setActualCase(3);
-            resolve(transactionHash);
-          } else {
-            console.log('Rejected by user!');
-            setActualCase(2);
-            reject();
-          }
-        })
-        .on('receipt', async function (receipt) {
-          console.log('4. Purchase Success');
 
-          let events = receipt.events;
-          let returnValues = events.purchaseEvent.returnValues;
-          let tokenId = parseInt(returnValues[1]);
-          const utcDateTimestamp = new Date();
-          let utcDate = utcDateTimestamp.toUTCString();
-          let userItemData = {
-            _id: item._id,
-            token_id: tokenId,
-            token_type: 2,
-            event: 'flashsale',
-            owner: user.address,
-            buydate: utcDate,
-          };
-          let response = await addUserItem(userItemData);
-          if (response) {
-            setActualCase(5);
-            //window.location.reload();
-          } else {
+
+    let apiResponse = await checkSlotsAvailable(item._id);
+    let slotsAvailable = apiResponse.data;
+    console.log(slotsAvailable);
+
+    if (parseInt(slotsAvailable) !== 0) {
+      const response = await new Promise((resolve, reject) => {
+        saleContract.methods
+          .purchaseItem(nftHashJson, signResponse.v, signResponse.r, signResponse.s, signResponse.messageHash)
+          .send({ from: userAddress, value: 500000000000000000 }, function (error, transactionHash) {
+            console.log('purchaseItem Called');
+            if (transactionHash) {
+              setActualCase(3);
+              resolve(transactionHash);
+            } else {
+              console.log('Rejected by user!');
+              setActualCase(2);
+              reject();
+            }
+          })
+          .on('receipt', async function (receipt) {
+            console.log('4. Purchase Success');
+
+            let events = receipt.events;
+            let returnValues = events.purchaseEvent.returnValues;
+            let tokenId = parseInt(returnValues[1]);
+            const utcDateTimestamp = new Date();
+            let utcDate = utcDateTimestamp.toUTCString();
+            let userItemData = {
+              _id: item._id,
+              token_id: tokenId,
+              token_type: 2,
+              event: 'flashsale',
+              owner: user.address,
+              buydate: utcDate,
+            };
+            let response = await addUserItem(userItemData);
+            if (response) {
+              setActualCase(5);
+              //window.location.reload();
+            } else {
+              setActualCase(4);
+            }
+
+          })
+          .on('error', async function (error) {
             setActualCase(4);
-          }
-
-        })
-        .on('error', async function (error) {
-          setActualCase(4);
-          setDisablePopup(false);
-        });
-    });
-
+            setDisablePopup(false);
+          });
+      });
+    } else {
+      // SET Popup
+      setActualCase(6);
+    }
 
   };
 
@@ -469,6 +506,7 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds }) {
 
                 </div>
                 <Divider style={{ backgroundColor: 'grey' }} /></div>
+              {actualCase}
               {actualCase === 1 &&
                 (<div className="text-center my-3">
                   <div className="text-center">
@@ -508,6 +546,17 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds }) {
                   </div>
                 </div>)
               }
+              {actualCase === 6 &&
+                (< div className="my-3 d-flex flex-column justify-content-start">
+                  <div className="text-center my-3">
+                    <img src="https://icon-library.com/images/17c52fbb9e.svg.svg" height="100px" alt='success' />
+                  </div>
+                  <h5 className={classes.messageTitle}>This is item sold out!</h5>
+                  <div className='text-center mt-3'>
+                    <Button className={classes.profileButton} variant='contained' onClick={() => window.location.reload()}>Please reload</Button>
+                  </div>
+                </div>)
+              }
             </div>
           </div>
         </Dialog>{' '}
@@ -528,6 +577,6 @@ const mapStateToProps = (state) => ({
   useritems: state.items.useritems,
 });
 
-const mapDispatchToProps = { addUserItem };
+const mapDispatchToProps = { addUserItem, getFlashItems };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemSaleCard);

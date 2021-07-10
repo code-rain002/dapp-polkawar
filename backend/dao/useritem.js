@@ -15,6 +15,8 @@ const userItemDao = {
     return data;
   },
 
+
+
   async createItem(itemData, ownerAddress, JsonId) {
     let response = await UserItemModel.insertMany(itemData);
 
@@ -24,6 +26,7 @@ const userItemDao = {
     );
     return await UserItemModel.find({ owner: ownerAddress });
   },
+
 
   async updateItemOwner(itemId) {
     return await UserItemModel.findOneAndUpdate(
