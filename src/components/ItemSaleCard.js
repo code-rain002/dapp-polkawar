@@ -411,11 +411,12 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds }) {
                     </Button>
                   ) : (
                     <div>
-                      {!saleEnds ? <div><Button variant="contained" className={classes.endedButton} >
-                        <span>Sale Ended</span>
-                      </Button></div> : <Button variant="contained" className={classes.endedButton} >
-                        <span>Sale Ended</span>
-                      </Button>}
+                      {!saleEnds ? <div> <Button variant="contained" className={classes.buyNowButton} onClick={buyItem}>
+                        <span>Buy Now</span>
+                      </Button></div>
+                        : <Button variant="contained" className={classes.endedButton} >
+                          <span>Sale Ended</span>
+                        </Button>}
                     </div>
                   )}
 
@@ -509,9 +510,9 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds }) {
           </div>
         </Dialog>{' '}
 
-      </Card>
+      </Card >
 
-    </div>
+    </div >
   );
 }
 

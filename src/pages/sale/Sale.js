@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { getFlashItems, getUserItems } from './../../actions/itemActions';
+import { checkIsPurchased } from './../../actions/smartActions/SmartActions'
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ItemSaleCard from '../../components/ItemSaleCard';
@@ -177,12 +178,14 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
 
   const [actualCase, setActualCase] = useState(0);
   const [saleEnds, setSaleEnds] = useState(false);
+  const [purchased, setPurchased] = useState(false);
 
 
   useEffect(() => {
     async function asyncFn() {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
       let userAddress = accounts[0];
+      checkIsAlreadyPurchased();
       getFlashItems();
       getUserItems(userAddress);
     }
@@ -213,12 +216,17 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
     }
   }
 
-  const checkIsAlreadyPurchased = () => {
-    if (useritems.length === 0) {
-      return false;
-    } else {
-      return true;
+  const checkIsAlreadyPurchased = async () => {
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    let userAddress = accounts[0];
+    let response = await checkIsPurchased(userAddress);
+    console.log(response);
+    if (response) {
+      console.log('checkIsPurchased')
+      setPurchased(true)
+
     }
+
   }
 
   let nftHashList = {
@@ -230,6 +238,7 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
   };
   return (
     <div>
+
       <div className="text-center">
         <h1 className={classes.title}>
           Flash Sale <img src="images/thunder.png" height="20px" alt="thunder" />
@@ -289,7 +298,7 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
 
           </div>
 
-          {checkIsAlreadyPurchased() &&
+          {purchased &&
             <div className='mt-5 pb-5'>
               <h2 className={classes.thanksHeading}>Thanks for Participating!</h2>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -299,7 +308,7 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
               <Link to='/profile'><div className='text-center'><Button variant="contained" className={classes.profileButton} >
                 <span>Go To Profile</span></Button>
               </div></Link></div>}
-          {(!checkIsAlreadyPurchased() && actualCase === 1) && <div className="row mt-4">
+          {(!purchased && actualCase === 1) && <div className="row mt-4">
             {flash.length !== 0 &&
               flash.map((singleItem) => {
                 return (

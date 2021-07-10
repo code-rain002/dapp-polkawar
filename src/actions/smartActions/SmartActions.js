@@ -2,6 +2,7 @@ import airdropContract from './../../utils/airdropConnection';
 import itemContract from './../../utils/itemConnection';
 import characterContract from './../../utils/characterConnection';
 import pwrContract from './../../utils/pwrConnection';
+import flashsaleContract from './../../utils/saleConnection';
 import constants from './../../utils/constants';
 
 //Airdrop Functions
@@ -121,6 +122,18 @@ export const tokenURICharacter = (tokenId) => {
 //Returns PWR Balance of User
 export const getPwarBalance = (userAddress) => {
   return pwrContract.methods.balanceOf(userAddress).call(async (err, response) => {
+    return response;
+  });
+};
+
+
+//Flash Sale Functions
+
+//READ
+//Returns PWR Balance of User
+export const checkIsPurchased = (userAddress) => {
+  return flashsaleContract.methods.isPurchased(userAddress).call(async (err, response) => {
+    console.log(response)
     return response;
   });
 };
