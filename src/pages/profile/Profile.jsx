@@ -546,11 +546,13 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                     <div className="row">
                       {useritems.map((item, index) => {
                         return (
-                          <div key={index} className="col-12 col-md-4">
+                          <div key={index} className="col-12 col-md-6">
                             <ItemProfileCard item={item} />
+                           
                           </div>
                         );
                       })}
+                       
                     </div>
                   ) : (
                     <div className="text-center">
