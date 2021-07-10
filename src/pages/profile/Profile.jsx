@@ -346,6 +346,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
 
   useEffect(() => {
     if (user !== null) {
+    
       setUserData(user);
       //getCharacter();
     }

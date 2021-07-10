@@ -309,12 +309,14 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds }) {
     setPopup(true);
     setActualCase(1);
 
-    let userAddress = user.address;
     let nftHashJson = nftHashList[item.name];
 
     let signResponse = await signTransaction(nftHashJson, userAddress);
     console.log(signResponse);
     setDisablePopup(true);
+
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const userAddress = accounts[0];
 
     const response = await new Promise((resolve, reject) => {
       saleContract.methods

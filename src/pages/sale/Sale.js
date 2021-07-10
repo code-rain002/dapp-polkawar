@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { getFlashItems, getUserItems } from './../../actions/itemActions';
-import { checkIsPurchased } from './../../actions/smartActions/SmartActions'
+import { checkIsPurchased } from './../../actions/smartActions/SmartActions';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ItemSaleCard from '../../components/ItemSaleCard';
@@ -9,7 +9,6 @@ import Timer from '../../components/Timer';
 import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
-
 
 const useStyles = makeStyles((theme) => ({
   mainCard: {
@@ -87,7 +86,6 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 35,
     display: 'flex',
     justifyContent: 'center',
-
   },
   ends: {
     verticalAlign: 'baseline',
@@ -98,7 +96,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     [theme.breakpoints.down('md')]: {
       fontSize: 18,
-
     },
   },
 
@@ -125,7 +122,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     textTransform: 'none',
     textDecoration: 'none',
-
   },
   timerTime: {
     color: 'white',
@@ -166,7 +162,7 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: 400,
       width: '100%',
     },
-  }
+  },
 }));
 // var saleStartDate = 'July 10, 2021 02:30:00 UTC';
 // var saleEndDate = 'July 10, 2021 04:30:00 UTC';
@@ -179,7 +175,6 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
   const [actualCase, setActualCase] = useState(0);
   const [saleEnds, setSaleEnds] = useState(false);
   const [purchased, setPurchased] = useState(false);
-
 
   useEffect(() => {
     async function asyncFn() {
@@ -194,27 +189,25 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
 
   useEffect(() => {
     setInterval(() => {
-      checkSaleStart()
+      checkSaleStart();
     }, 1000);
   }, []);
-
-
 
   const checkSaleStart = () => {
     //PUT Sale start date time
     const differenceStart = +new Date(saleStartDate) - +new Date();
     const differenceEnd = +new Date(saleEndDate) - +new Date();
     if (differenceEnd <= 0) {
-      setSaleEnds(true)
+      setSaleEnds(true);
     } else {
-      setSaleEnds(false)
+      setSaleEnds(false);
     }
     if (differenceStart > 0) {
-      setActualCase(0)
+      setActualCase(0);
     } else {
-      setActualCase(1)
+      setActualCase(1);
     }
-  }
+  };
 
   const checkIsAlreadyPurchased = async () => {
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -222,12 +215,10 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
     let response = await checkIsPurchased(userAddress);
     console.log(response);
     if (response) {
-      console.log('checkIsPurchased')
-      setPurchased(true)
-
+      console.log('checkIsPurchased');
+      setPurchased(true);
     }
-
-  }
+  };
 
   let nftHashList = {
     Sword: 'Qma1PHjHqtf8BgMUKwLw2jpWpPdxJwMbPzmPXttApTWGes',
@@ -238,7 +229,6 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
   };
   return (
     <div>
-
       <div className="text-center">
         <h1 className={classes.title}>
           Flash Sale <img src="images/thunder.png" height="20px" alt="thunder" />
@@ -247,99 +237,117 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
 
       <div className={classes.mainCard}>
         <div className={classes.sectionCard1}>
-          <div className={classes.banner}></div>
-          {actualCase === 0 && <div className={classes.timerBox} for='sale starts in'>
-            <h1 className={classes.ends}>Sale Starts in: </h1>
-            <h6 className={classes.timerTime}>
-              <Timer endTime={saleStartDate} />
-            </h6>
-          </div>
-          }
-          {actualCase === 1 && <div className={classes.timerBox} for='sale ends in'>
-            <h1 className={classes.ends}>Sale Ends in: </h1>
-            <h6 className={classes.timerTime}>
-              <Timer endTime={saleEndDate} />
-            </h6>
-          </div>
-
-          }
+          <div className={classes.banner} />
+          {actualCase === 0 && (
+            <div className={classes.timerBox} for="sale starts in">
+              <h1 className={classes.ends}>Sale Starts in: </h1>
+              <h6 className={classes.timerTime}>
+                <Timer endTime={saleStartDate} />
+              </h6>
+            </div>
+          )}
+          {actualCase === 1 && (
+            <div className={classes.timerBox} for="sale ends in">
+              <h1 className={classes.ends}>Sale Ends in: </h1>
+              <h6 className={classes.timerTime}>
+                <Timer endTime={saleEndDate} />
+              </h6>
+            </div>
+          )}
           <div className="mt-5" for="rules">
             <h6 style={{ color: 'yellow', fontSize: 18, textAlign: 'center' }}>Flash Sale Rules</h6>
-            <h6 className={classes.para}>Please read the rules carefully before participating into flash sale.</h6>
-            <div className='d-flex justify-content-center mt-3' >
+            <h6 className={classes.para}>
+              Please read the rules carefully before participating into flash sale.
+            </h6>
+            <div className="d-flex justify-content-center mt-3">
               <div style={{ maxWidth: 600 }}>
                 <ol>
-                  <li className={classes.listItem}>
-                    You must HODL or STAKE 2000 PWAR Tokens.
-                  </li>
+                  <li className={classes.listItem}>You must HODL or STAKE 2000 PWAR Tokens.</li>
                   <li className={classes.listItem}>
                     You can only purchase item once during the flash sale.
                   </li>
                   <li className={classes.listItem}>
-                    After purchasing the item, you can also sell this item back to PolkaWar system and you will get 0.7 BNB.
+                    After purchasing the item, you can also sell this item back to PolkaWar system
+                    and you will get 0.7 BNB.
                   </li>
                   <li className={classes.listItem}>
-                    If you resell to the system, you will get 0.7BNB and your NFT item will be lost. And you will not receive receive reward of 2000 PWAR on 15th of August,2021.
+                    If you resell to the system, you will get 0.7BNB and your NFT item will be lost.
+                    And you will not receive receive reward of 2000 PWAR on 15th of August,2021.
                   </li>
                   <li className={classes.listItem}>
-                    Reselling of the NFT Item will start from <span style={{ color: 'yellow' }}><Moment format="DD-MM-YYYY HH:mm">
-                      {saleStartDate}
-                    </Moment></span> and will end <span style={{ color: 'yellow' }}><Moment format="DD-MM-YYYY HH:mm">
-                      {saleEndDate}
-                    </Moment>.</span>
+                    Reselling of the NFT Item will start from{' '}
+                    <span style={{ color: 'yellow' }}>
+                      <Moment format="DD-MM-YYYY HH:mm">{saleStartDate}</Moment>
+                    </span>{' '}
+                    and will end{' '}
+                    <span style={{ color: 'yellow' }}>
+                      <Moment format="DD-MM-YYYY HH:mm">{saleEndDate}</Moment>.
+                    </span>
                   </li>
                   <li className={classes.listItem}>
-                    If you don't want to sell, you can hold the item upto <span style={{ color: 'yellow' }}>15th Aug</span> and you will receive 2000 PWAR tokens as a reward.
+                    If you don't want to sell, you can hold the item upto{' '}
+                    <span style={{ color: 'yellow' }}>15th Aug</span> and you will receive 2000 PWAR
+                    tokens as a reward.
                   </li>
                 </ol>
-
               </div>
             </div>{' '}
-
           </div>
 
-          {purchased &&
-            <div className='mt-5 pb-5'>
+          {purchased && (
+            <div className="mt-5 pb-5">
               <h2 className={classes.thanksHeading}>Thanks for Participating!</h2>
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <p className={classes.thanksText}>Great! You have already purchased an item during flash sale. Go to your items section of the profile and check your item.</p>
-
+                <p className={classes.thanksText}>
+                  Great! You have already purchased an item during flash sale. Go to your items
+                  section of the profile and check your item.
+                </p>
               </div>
-              <Link to='/profile'><div className='text-center'><Button variant="contained" className={classes.profileButton} >
-                <span>Go To Profile</span></Button>
-              </div></Link></div>}
-          {(!purchased && actualCase === 1) && <div className="row mt-4">
-            {flash.length !== 0 &&
-              flash.map((singleItem) => {
-                return (
-                  <div className="col-12">
-                    <div className="d-flex flex-column justify-content-center">
-                      <ItemSaleCard item={singleItem} nftHashList={nftHashList} userItemsLength={useritems.length} saleEnds={saleEnds} />
-                    </div>
-                  </div>
-                );
-              })}
-          </div>}
-        </div></div>
-
-
-      <div>
-
+              <Link to="/profile">
+                <div className="text-center">
+                  <Button variant="contained" className={classes.profileButton}>
+                    <span>Go To Profile</span>
+                  </Button>
+                </div>
+              </Link>
+            </div>
+          )}
+          {!purchased &&
+            actualCase === 1 && (
+              <div className="row mt-4">
+                {flash.length !== 0 &&
+                  flash.map((singleItem) => {
+                    return (
+                      <div className="col-12">
+                        <div className="d-flex flex-column justify-content-center">
+                          <ItemSaleCard
+                            item={singleItem}
+                            nftHashList={nftHashList}
+                            userItemsLength={useritems.length}
+                            saleEnds={saleEnds}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
+        </div>
       </div>
-    </div >
+
+      <div />
+    </div>
   );
 }
 
 FlashSale.propTypes = {
   getFlashItems: propTypes.func.isRequired,
   getUserItems: propTypes.func.isRequired,
-
 };
 
 const mapStateToProps = (state) => ({
   flash: state.items.flash,
   useritems: state.items.useritems,
-
 });
 
 const mapDispatchToProps = { getFlashItems, getUserItems };
