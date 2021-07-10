@@ -167,10 +167,10 @@ const useStyles = makeStyles((theme) => ({
     },
   }
 }));
-var saleStartDate = 'July 10, 2021 02:30:00 UTC';
-var saleEndDate = 'July 10, 2021 04:30:00 UTC';
-// var saleStartDate = process.env.REACT_APP_SALE_START_DATE;
-// var saleEndDate = process.env.REACT_APP_SALE_END_DATE;
+// var saleStartDate = 'July 10, 2021 02:30:00 UTC';
+// var saleEndDate = 'July 10, 2021 04:30:00 UTC';
+var saleStartDate = process.env.REACT_APP_SALE_START_DATE;
+var saleEndDate = process.env.REACT_APP_SALE_END_DATE;
 
 function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
   const classes = useStyles();
