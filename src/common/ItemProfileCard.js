@@ -242,6 +242,8 @@ function ItemProfileCard({ item, user }) {
   const [approved, setApproved] = useState(false);
   const [actualCase, setActualCase] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [disableApprovePopup, setDisableApprovePopup] = useState(false);
+  const [disableSellPopup, setDisableSellPopup] = useState(false);
 
   const toggleSellPopup = (value) => {
     setSellPopup(value);
@@ -278,6 +280,7 @@ function ItemProfileCard({ item, user }) {
 
     let approvedAddress = await checkApproved(tokenId);
     let ownerAddress = constants.saleContractAddress;
+
     if (approvedAddress.toString() === ownerAddress.toString()) {
       setApproved(true);
     } else {
@@ -288,6 +291,7 @@ function ItemProfileCard({ item, user }) {
   const approveFn = async () => {
     toggleApprovePopup(true)
     setActualCase(1);
+    setDisableApprovePopup(true);
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     let userAddress = accounts[0];
 
@@ -310,6 +314,7 @@ function ItemProfileCard({ item, user }) {
         })
         .on('receipt', async function (receipt) {
           console.log('1.reloading');
+          setDisableApprovePopup(false);
           window.location.reload();
           setActualCase(5);
 
@@ -317,6 +322,8 @@ function ItemProfileCard({ item, user }) {
         .on('error', async function (error) {
           console.log(error);
           setActualCase(4);
+          setDisableApprovePopup(false);
+
         });
     });
 
@@ -391,6 +398,7 @@ function ItemProfileCard({ item, user }) {
                 )}
               </div>
               <Dialog
+                for='sale'
                 className={classes.modal}
                 open={sellPopup}
                 TransitionComponent={Transition}
@@ -398,16 +406,18 @@ function ItemProfileCard({ item, user }) {
                 onClose={() => toggleSellPopup(false)}
                 closeAfterTransition
                 BackdropComponent={Backdrop}
+                disableBackdropClick={disableSellPopup}
                 BackdropProps={{
                   timeout: 500,
                 }}>
                 <div style={{ backgroundColor: 'black' }}>
                   <div>
-                    <SellModal closePopup={() => toggleSellPopup(false)} item={item} />
+                    <SellModal closePopup={() => toggleSellPopup(false)} item={item} setDisableSellPopup={setDisableSellPopup} />
                   </div>
                 </div>
               </Dialog>
               <Dialog
+                for='bidding'
                 className={classes.modal}
                 open={bidPopup}
                 TransitionComponent={Transition}
@@ -431,6 +441,7 @@ function ItemProfileCard({ item, user }) {
                 </div>
               </Dialog>
               <Dialog
+                for='approve'
                 className={classes.modal}
                 open={approvePopup}
                 TransitionComponent={Transition}
@@ -438,6 +449,7 @@ function ItemProfileCard({ item, user }) {
                 onClose={() => toggleApprovePopup(false)}
                 closeAfterTransition
                 BackdropComponent={Backdrop}
+                disableBackdropClick={disableApprovePopup}
                 BackdropProps={{
                   timeout: 500,
                 }}>
@@ -449,11 +461,7 @@ function ItemProfileCard({ item, user }) {
                           <div className={classes.padding}>
                             <h5 className={classes.ModalTitle}>Transaction Status</h5>
                           </div>{' '}
-                          <div style={{ paddingRight: 10, paddingTop: 10 }}>
-                            <IconButton>
-                              <Close onClick={() => toggleApprovePopup(false)} />
-                            </IconButton>
-                          </div>{' '}
+
                         </div>
                         <Divider style={{ backgroundColor: 'grey' }} /></div>
                       {actualCase === 1 &&

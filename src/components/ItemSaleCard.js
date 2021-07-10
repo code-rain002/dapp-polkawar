@@ -94,6 +94,22 @@ const useStyles = makeStyles((theme) => ({
       lineHeight: '20.7px',
     },
   },
+  description: {
+    verticalAlign: 'baseline',
+    textAlign: 'left',
+    color: 'white',
+    fontWeight: 300,
+    letterSpacing: 0.1,
+    fontSize: 16,
+    lineHeight: '25.7px',
+    fontFamily: 'Balsamiq Sans',
+    [theme.breakpoints.down('md')]: {
+      fontWeight: 700,
+      fontSize: 14,
+      lineHeight: '20.7px',
+    },
+  },
+
   ModalTitle: {
     verticalAlign: 'baseline',
     textAlign: 'left',
@@ -265,10 +281,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList, }) {
+function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds }) {
   const classes = useStyles();
   const [actualCase, setActualCase] = useState(0);
   const [popup, setPopup] = useState(false);
+  const [disablePopup, setDisablePopup] = useState(false);
 
   const signTransaction = (nfthash, userAddress) => {
     let url = `${baseUrl}/flashsale-sign`;
@@ -297,7 +314,7 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList, }) 
 
     let signResponse = await signTransaction(nftHashJson, userAddress);
     console.log(signResponse);
-
+    setDisablePopup(true);
 
     const response = await new Promise((resolve, reject) => {
       saleContract.methods
@@ -340,24 +357,16 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList, }) 
         })
         .on('error', async function (error) {
           setActualCase(4);
+          setDisablePopup(false);
         });
     });
 
 
   };
 
-  const enableBuyButton = () => {
-    const difference = +new Date(process.env.REACT_APP_SALE_END_DATE) - +new Date();
-    if (difference > 0) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   return (
     <div>
-
       <Card className={classes.card1} elevation={0}>
         <div className="d-flex justify-content-between">
           <div className="d-flex justify-content-start">
@@ -366,6 +375,7 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList, }) 
             </div>
             <div className={classes.section2}>
               <h6 className={classes.title}>{item.name}</h6>
+              <h6 className={classes.description}>{item.description}</h6>
               <div className="d-flex justify-content-start">
                 <h6 className={classes.priceStrike}>
                   <strike>
@@ -401,7 +411,7 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList, }) 
                     </Button>
                   ) : (
                     <div>
-                      {enableBuyButton() ? <div><Button variant="contained" className={classes.endedButton} >
+                      {!saleEnds ? <div><Button variant="contained" className={classes.endedButton} >
                         <span>Sale Ended</span>
                       </Button></div> : <Button variant="contained" className={classes.endedButton} >
                         <span>Sale Ended</span>
@@ -421,7 +431,7 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList, }) 
               </Button>
             ) : (
               <div>
-                {enableBuyButton() ? <div> <Button variant="contained" className={classes.buyNowButton} onClick={buyItem}>
+                {!saleEnds ? <div> <Button variant="contained" className={classes.buyNowButton} onClick={buyItem}>
                   <span>Buy Now</span>
                 </Button></div> : <Button variant="contained" className={classes.endedButton} >
                   <span>Sale Ended</span>
@@ -438,10 +448,11 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList, }) 
           className={classes.modal}
           open={popup}
           TransitionComponent={Transition}
-          keepMounted
+          keepMounted={false}
           onClose={() => setPopup(false)}
           closeAfterTransition
           BackdropComponent={Backdrop}
+          disableBackdropClick={disablePopup}
           BackdropProps={{
             timeout: 500,
           }}>
@@ -452,11 +463,7 @@ function ItemSaleCard({ item, addUserItem, user, signFlashSale, nftHashList, }) 
                   <div className={classes.padding}>
                     <h5 className={classes.ModalTitle}>Purchase Status</h5>
                   </div>{' '}
-                  <div style={{ paddingRight: 10, paddingTop: 10 }}>
-                    <IconButton>
-                      <Close onClick={() => setPopup(false)} />
-                    </IconButton>
-                  </div>{' '}
+
                 </div>
                 <Divider style={{ backgroundColor: 'grey' }} /></div>
               {actualCase === 1 &&

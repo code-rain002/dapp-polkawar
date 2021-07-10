@@ -28,7 +28,7 @@ const userItemDao = {
   async updateItemOwner(itemId) {
     return await UserItemModel.findOneAndUpdate(
       { _id: itemId },
-      { owner: '0xFa2D318565C9cFC4CB666E271cE2598a4e85c08F' },
+      { owner: process.env.OWNER_ADDRESS },
     );
   },
 

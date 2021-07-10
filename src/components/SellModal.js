@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 18,
   },
 }));
-function SellModal({ closePopup, item, updateUserItemOwner, user }) {
+function SellModal({ closePopup, item, updateUserItemOwner, user, setDisableSellPopup }) {
   const classes = useStyles();
   const [actualCase, setActualCase] = useState(0);
   const [marketPlaceMessage, setMarketPlaceMessage] = useState(false);
@@ -143,6 +143,7 @@ function SellModal({ closePopup, item, updateUserItemOwner, user }) {
   const confirmResell = async () => {
 
     //Calling Smart Contract
+    setDisableSellPopup(true);
     setActualCase(1);
     setResellStarted(true);
 
@@ -166,19 +167,21 @@ function SellModal({ closePopup, item, updateUserItemOwner, user }) {
           let response = await updateUserItemOwner(item._id);
           console.log(response);
           setActualCase(4);
+          setDisableSellPopup(false);
+
           window.location.reload();
         })
         .on('error', async function (error) {
           setActualCase(3);
+          setDisableSellPopup(false);
+          window.location.reload();
+
           console.log(error);
         });
     });
 
   }
-  const handleClosePopup = () => {
-    closePopup();
-    setActualCase(0);
-  }
+
   const sellOnMarketPlace = () => {
     setMarketPlaceMessage(!marketPlaceMessage)
   }
@@ -233,11 +236,7 @@ function SellModal({ closePopup, item, updateUserItemOwner, user }) {
           <div className={classes.padding}>
             <h5 className={classes.title}>Sell Your NFT</h5>
           </div>{' '}
-          <div style={{ paddingRight: 10, paddingTop: 10 }}>
-            <IconButton>
-              <Close onClick={handleClosePopup} />
-            </IconButton>
-          </div>{' '}
+
         </div>
         <Divider style={{ backgroundColor: 'grey' }} />
 

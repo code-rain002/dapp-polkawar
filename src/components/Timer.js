@@ -40,7 +40,7 @@ function Timer({ endTime }) {
     );
   });
   return (
-    <div>
+    <div style={{ marginLeft: 10 }}>
       {timerComponents.length ? (
         timerComponents
       ) : (

@@ -167,11 +167,17 @@ const useStyles = makeStyles((theme) => ({
     },
   }
 }));
+var saleStartDate = 'July 10, 2021 02:30:00 UTC';
+var saleEndDate = 'July 10, 2021 04:30:00 UTC';
+// var saleStartDate = process.env.REACT_APP_SALE_START_DATE;
+// var saleEndDate = process.env.REACT_APP_SALE_END_DATE;
 
 function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
   const classes = useStyles();
 
-  const [actualCase, setActualCase] = useState(0)
+  const [actualCase, setActualCase] = useState(0);
+  const [saleEnds, setSaleEnds] = useState(false);
+
 
   useEffect(() => {
     async function asyncFn() {
@@ -192,10 +198,15 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
 
 
   const checkSaleStart = () => {
-
     //PUT Sale start date time
-    const difference = +new Date(process.env.REACT_APP_SALE_START_DATE) - +new Date();
-    if (difference > 0) {
+    const differenceStart = +new Date(saleStartDate) - +new Date();
+    const differenceEnd = +new Date(saleEndDate) - +new Date();
+    if (differenceEnd <= 0) {
+      setSaleEnds(true)
+    } else {
+      setSaleEnds(false)
+    }
+    if (differenceStart > 0) {
       setActualCase(0)
     } else {
       setActualCase(1)
@@ -231,14 +242,14 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
           {actualCase === 0 && <div className={classes.timerBox} for='sale starts in'>
             <h1 className={classes.ends}>Sale Starts in: </h1>
             <h6 className={classes.timerTime}>
-              <Timer endTime={process.env.REACT_APP_SALE_START_DATE} />
+              <Timer endTime={saleStartDate} />
             </h6>
           </div>
           }
           {actualCase === 1 && <div className={classes.timerBox} for='sale ends in'>
             <h1 className={classes.ends}>Sale Ends in: </h1>
             <h6 className={classes.timerTime}>
-              <Timer endTime={process.env.REACT_APP_SALE_END_DATE} />
+              <Timer endTime={saleEndDate} />
             </h6>
           </div>
 
@@ -263,9 +274,9 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
                   </li>
                   <li className={classes.listItem}>
                     Reselling of the NFT Item will start from <span style={{ color: 'yellow' }}><Moment format="DD-MM-YYYY HH:mm">
-                      {process.env.REACT_APP_START_RESELL}
+                      {saleStartDate}
                     </Moment></span> and will end <span style={{ color: 'yellow' }}><Moment format="DD-MM-YYYY HH:mm">
-                      {process.env.REACT_APP_END_RESELL}
+                      {saleEndDate}
                     </Moment>.</span>
                   </li>
                   <li className={classes.listItem}>
@@ -288,13 +299,13 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
               <Link to='/profile'><div className='text-center'><Button variant="contained" className={classes.profileButton} >
                 <span>Go To Profile</span></Button>
               </div></Link></div>}
-          {!checkIsAlreadyPurchased() && <div className="row mt-4">
+          {(!checkIsAlreadyPurchased() && actualCase === 1) && <div className="row mt-4">
             {flash.length !== 0 &&
               flash.map((singleItem) => {
                 return (
                   <div className="col-12">
                     <div className="d-flex flex-column justify-content-center">
-                      <ItemSaleCard item={singleItem} nftHashList={nftHashList} userItemsLength={useritems.length} />
+                      <ItemSaleCard item={singleItem} nftHashList={nftHashList} userItemsLength={useritems.length} saleEnds={saleEnds} />
                     </div>
                   </div>
                 );
