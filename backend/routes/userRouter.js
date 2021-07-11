@@ -1,9 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var axios = require('axios');
-var multer = require('multer');
-var FormData = require('form-data');
-var fs = require('fs');
 
 var UserDao = require('../dao/user');
 

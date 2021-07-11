@@ -193,6 +193,23 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'none',
     textDecoration: 'none',
   },
+
+  saleButton: {
+    borderRadius: '50px',
+    background: `linear-gradient(to bottom,yellow, orange)`,
+    lineHeight: '24px',
+    verticalAlign: 'baseline',
+    letterSpacing: '-1px',
+    margin: 0,
+    marginTop: 5,
+    marginLeft: 10,
+    color: 'black',
+    padding: '8px 16px 8px 16px',
+    fontWeight: 400,
+    fontSize: 16,
+    textTransform: 'none',
+    textDecoration: 'none',
+  },
 }));
 
 function Alert(props) {
@@ -257,13 +274,20 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
             {[
               { name: 'Landing Page', id: 'https://polkawar.com' },
               { name: 'Get Airdrop', id: '/airdrop' },
+
             ].map((tab, index) => (
               <a href={tab.id} className={classes.mobileLink}>
                 <ListItem button key={tab.name}>
                   <ListItemText primary={tab.name} className={classes.menuTitle} />
                 </ListItem>
               </a>
+
             ))}
+            <Link to={'/sale'}>
+              <ListItem button onClick={toggleDrawer(anchor, false)} key={39}>
+                <ListItemText primary={'Flash Sale'} className={classes.menuTitle} style={{ color: 'yellow' }} />
+              </ListItem>
+            </Link>
             <ListItem button>
               <div>
                 <Button className={classes.balanceButton}>
@@ -335,13 +359,12 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         const currentAddress = accounts[0];
         const localAddress = localStorage.getItem('userAddress');
-
         setUserAdd(currentAddress);
         authenticateUser(currentAddress);
         getBalance(currentAddress);
       }
     }
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (user !== null) {
@@ -430,6 +453,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
             <Typography className={classes.tabs} variant="subtitle1" noWrap>
               Battle Room
             </Typography>
+
             <a href="https://polkawar.com">
               {' '}
               <Typography
@@ -438,7 +462,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
                 className={navIndex === 3 ? classes.tabsActive : classes.tabs}
                 onClick={() => setNavIndex(3)}>
                 Landing Page
-              </Typography>{' '}
+              </Typography>
             </a>
 
             <div className={classes.sectionDesktop}>
@@ -465,6 +489,11 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
               <div>
                 <Link to={'/airdrop'}>
                   <Button className={classes.airdropButton}>Get Airdrop</Button>
+                </Link>
+              </div>
+              <div>
+                <Link to={'/sale'}>
+                  <Button className={classes.saleButton}>Flash Sale</Button>
                 </Link>
               </div>
             </div>

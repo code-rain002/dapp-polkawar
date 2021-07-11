@@ -13,12 +13,16 @@ import store from './store';
 import Airdrop from './pages/airdrop/Airdrop';
 import SocialLinks from './common/SocialLinks';
 import './web';
+import Sale from './pages/sale/Sale';
+
 export default function App() {
+  
   return (
     <Provider store={store}>
       <Router>
         <ThemeProvider theme={theme}>
           <Fragment>
+         
             <Appbar />
             <Switch>
               <Route exact path="/">
@@ -27,6 +31,9 @@ export default function App() {
               <Route exact path="/profile">
                 <Profile />
               </Route>
+              <Route exact path="/sale">
+                <Sale />
+              </Route>
               <Route exact path="/item/:id">
                 <Details />
               </Route>
@@ -34,7 +41,7 @@ export default function App() {
                 <Airdrop />
               </Route>
             </Switch>
-            <SocialLinks />
+            {/* <SocialLinks /> */}
           </Fragment>
         </ThemeProvider>
       </Router>

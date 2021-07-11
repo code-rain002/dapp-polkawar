@@ -108,48 +108,55 @@ function Airdrop({ authenticated, user, authenticateUser }) {
 
   const [activate, setActivate] = React.useState(false);
 
-  useEffect(async () => {
-    checkWalletAvailable();
-    let res = await checkCorrectNetwork();
-    console.log('airdrop:' + res);
+  useEffect(() => {
+
+    async function asyncFn() {
+      checkWalletAvailable();
+      let res = await checkCorrectNetwork();
+      console.log('airdrop:' + res);
+    }
+    asyncFn();
   }, []);
 
-  useEffect(async () => {
-    const walletAvailable = await checkWalletAvailable();
+  useEffect(() => {
+    async function asyncFn() {
+      const walletAvailable = await checkWalletAvailable();
 
-    if (walletAvailable) {
-      //Get all participants
-      getParticipants();
-      //console.log('1. Wallet Available');
-      const correctNetwork = checkCorrectNetwork();
-      if (correctNetwork) {
-        //console.log('2. Correct Network');
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      if (walletAvailable) {
+        //Get all participants
+        getParticipants();
+        //console.log('1. Wallet Available');
+        const correctNetwork = checkCorrectNetwork();
+        if (correctNetwork) {
+          //console.log('2. Correct Network');
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-        const accountAddress = accounts[0];
-        authenticateUser(accountAddress);
+          const accountAddress = accounts[0];
+          authenticateUser(accountAddress);
 
-        if (authenticated) {
-          //console.log('3. Authenticated True');
-          await checkIsJoined();
-        } else {
-          if (typeof window.ethereum === 'undefined') {
-            //console.log('3. Authenticated False');
-            setActualCase(3);
+          if (authenticated) {
+            //console.log('3. Authenticated True');
+            await checkIsJoined();
+          } else {
+            if (typeof window.ethereum === 'undefined') {
+              //console.log('3. Authenticated False');
+              setActualCase(3);
+            }
           }
+        } else {
+          //console.log('2. Wrong Network');
+
+          setActualCase(2);
+          setLoading(false);
         }
       } else {
-        //console.log('2. Wrong Network');
+        //console.log('1. Wallet not Available');
 
-        setActualCase(2);
+        setActualCase(1);
         setLoading(false);
       }
-    } else {
-      //console.log('1. Wallet not Available');
-
-      setActualCase(1);
-      setLoading(false);
     }
+    asyncFn();
   }, [typeof window.ethereum, authenticated]);
 
   const getParticipants = async () => {
@@ -277,7 +284,7 @@ function Airdrop({ authenticated, user, authenticateUser }) {
                           <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
                             1. You will receive 1 NFT item and 25 PWAR tokens.
                           </p>
-                          <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
+                          <div style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
                             2. Do following tasks
                             <ul>
                               <li>
@@ -290,7 +297,7 @@ function Airdrop({ authenticated, user, authenticateUser }) {
                                 <a href="https://medium.com/@polkawar">Follow Medium</a>
                               </li>
                             </ul>
-                          </p>{' '}
+                          </div>{' '}
                           <p style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
                             3. You can claim your rewards after 1st August, 2021.
                           </p>

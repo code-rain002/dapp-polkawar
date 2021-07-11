@@ -20,6 +20,7 @@ export default function Home() {
   return (
     <div className={classes.spacing}>
       <section id="hot-characters">
+      
         <HotCharacters />
       </section>
       <section id="categories">

@@ -8,15 +8,15 @@ import Tab from '@material-ui/core/Tab';
 import TabPanel from '../../components/TabPanel';
 import CustomButton from '../../components/CustomButton';
 import { authenticateUser } from './../../actions/authActions';
-import web3 from './../../web';
+import { getUserItems } from './../../actions/itemActions';
 import CreateCharacterForm from '../../components/CreateCharacterForm';
 import { tokenOfOwnerByIndex, tokenURICharacter } from './../../actions/smartActions/SmartActions';
 import axios from 'axios';
 import imageBaseUrl from './../../actions/imageBaseUrl';
-import constants from './../../utils/constants';
 import { checkWalletAvailable, checkCorrectNetwork } from './../../actions/web3Actions';
 import Loader from '../../components/Loader';
 import ConnectButton from '../../components/ConnectButton';
+import ItemProfileCard from '../../common/ItemProfileCard';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -261,11 +261,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Profile({ authenticateUser, user, authenticated }) {
+function Profile({ authenticateUser, getUserItems, user, authenticated, useritems }) {
   const classes = useStyles();
 
   const [actualCase, setActualCase] = useState(0);
-
   const [value, setValue] = useState(0);
   const [selectedChar, setSelectedChar] = useState(false);
   const [characterPopup, setCharacterPopup] = useState(false);
@@ -283,50 +282,54 @@ function Profile({ authenticateUser, user, authenticated }) {
     setCharacterPopup(value);
   };
 
-  useEffect(async () => {
-    const walletAvailable = await checkWalletAvailable();
-    if (walletAvailable) {
-      console.log('1. Wallet Available');
+  useEffect(() => {
+    async function asyncFn() {
+      const walletAvailable = await checkWalletAvailable();
+      if (walletAvailable) {
+        console.log('1. Wallet Available');
 
-      const correctNetwork = checkCorrectNetwork();
-      if (correctNetwork) {
-        console.log('2. Correct Network');
+        const correctNetwork = await checkCorrectNetwork();
+        if (correctNetwork) {
+          console.log('2. Correct Network');
 
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-        const accountAddress = accounts[0];
-        authenticateUser(accountAddress);
-        if (authenticated) {
-          console.log('3. Authenticated True');
-          getCharacter();
-          setActualCase(4);
-          //await checkIsJoined();
-        } else {
-          if (typeof window.ethereum === 'undefined') {
-            console.log('3. Authenticated False');
-            setActualCase(3);
+          const accountAddress = accounts[0];
+          authenticateUser(accountAddress);
+          if (authenticated) {
+            console.log('3. Authenticated True');
+            getCharacter();
+            getUserItems(accountAddress);
+            setActualCase(4);
+            //await checkIsJoined();
+          } else {
+            if (typeof window.ethereum === 'undefined') {
+              console.log('3. Authenticated False');
+              setActualCase(3);
+            }
           }
+        } else {
+          console.log('2. Wrong Network');
+
+          setActualCase(2);
         }
       } else {
-        console.log('2. Wrong Network');
+        console.log('1. Wallet not Available');
 
-        setActualCase(2);
+        setActualCase(1);
       }
-    } else {
-      console.log('1. Wallet not Available');
-
-      setActualCase(1);
     }
+    asyncFn();
   }, [authenticated]);
 
   const getCharacter = async () => {
+    console.log('Get Character');
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     const accountAddress = accounts[0];
     let ownerTokenId = await tokenOfOwnerByIndex(accountAddress, 0);
     let characterHash = await tokenURICharacter(ownerTokenId);
     await axios.get(`${imageBaseUrl}${characterHash}`).then((res) => {
       let tempObject = [res.data];
-      console.log(tempObject);
       if (tempObject[0].name === 'Archer') {
         setCharacterIndex(0);
       } else {
@@ -336,14 +339,16 @@ function Profile({ authenticateUser, user, authenticated }) {
           setCharacterIndex(2);
         }
       }
+
       setCharacters(tempObject);
     });
   };
 
   useEffect(() => {
     if (user !== null) {
+    
       setUserData(user);
-      getCharacter();
+      //getCharacter();
     }
   }, [authenticated]);
 
@@ -430,7 +435,7 @@ function Profile({ authenticateUser, user, authenticated }) {
                   scrollButtons="auto">
                   <Tab label="Characters" className={classes.tab} />
                   <Tab label="On Sale" className={classes.tab} />
-                  <Tab label="Equipment Bag" className={classes.tab} />
+                  <Tab label="Items Bag" className={classes.tab} />
                   <Tab label="History battles" className={classes.tab} />
                   <Tab label="Activities" className={classes.tab} />
                 </Tabs>
@@ -475,9 +480,8 @@ function Profile({ authenticateUser, user, authenticated }) {
                           <div style={{ paddingLeft: 30 }}>
                             <h6 className={classes.title}>Statistics</h6>
                             <div className="d-flex flex-column justify-content-center">
-                              {characters[0].properties !== null && (
+                              {characters[0].properties !== undefined && (
                                 <div>
-                                  {' '}
                                   {Object.entries(characters[0].properties).map(([key, value]) => {
                                     return (
                                       <div className="mb-2 d-flex flex-row justify-content-start align-items-center">
@@ -485,7 +489,7 @@ function Profile({ authenticateUser, user, authenticated }) {
                                         <h6 className={classes.propValue}> {value}</h6>
                                       </div>
                                     );
-                                  })}{' '}
+                                  })}
                                 </div>
                               )}
                             </div>
@@ -539,8 +543,18 @@ function Profile({ authenticateUser, user, authenticated }) {
                   )}
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                  {user.ownTokenIds.length !== 0 ? (
-                    <div>Equipments List</div>
+                  {useritems.length !== 0 ? (
+                    <div className="row">
+                      {useritems.map((item, index) => {
+                        return (
+                          <div key={index} className="col-12 col-md-6">
+                            <ItemProfileCard item={item} />
+                           
+                          </div>
+                        );
+                      })}
+                       
+                    </div>
                   ) : (
                     <div className="text-center">
                       <div className="my-3">
@@ -549,9 +563,7 @@ function Profile({ authenticateUser, user, authenticated }) {
                       <div className="text-center">
                         <h6 className={classes.title}>No items found</h6>
                         <div className="d-flex justify-content-center">
-                          <p className={classes.subheading}>
-                            Come back soon! Or try to browse something for you on our marketplace
-                          </p>
+                          <p className={classes.subheading}>Come back soon! Or buy something from our marketplace</p>
                         </div>
                       </div>
                       <div className={classes.buttonWrapper}>
@@ -642,13 +654,15 @@ function Profile({ authenticateUser, user, authenticated }) {
 
 Profile.propTypes = {
   authenticateUser: propTypes.func.isRequired,
+  getUserItems: propTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated,
   user: state.auth.user,
+  useritems: state.items.useritems,
 });
 
-const mapDispatchToProps = { authenticateUser };
+const mapDispatchToProps = { authenticateUser, getUserItems };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

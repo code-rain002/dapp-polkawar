@@ -2,9 +2,8 @@ import airdropContract from './../../utils/airdropConnection';
 import itemContract from './../../utils/itemConnection';
 import characterContract from './../../utils/characterConnection';
 import pwrContract from './../../utils/pwrConnection';
-import axios from 'axios';
-import imageBaseUrl from './../imageBaseUrl';
-import { TramRounded } from '@material-ui/icons';
+import flashsaleContract from './../../utils/saleConnection';
+import constants from './../../utils/constants';
 
 //Airdrop Functions
 
@@ -49,15 +48,30 @@ export const getAirdrop = async (userAddress) => {
   });
 };
 
+//Item Functions
+
 //READ get NFT item hash
 //RETURNS Item json string
 export const tokenURI = (tokenId) => {
   return itemContract.methods.tokenURI(tokenId).call(async (err, response) => {
-    console.log('tokenURI: ' + response);
+    // console.log('tokenURI: ' + response);
     return response;
   });
 };
 
+//Check isApproved or not
+export const checkApproved = (tokenId) => {
+  return itemContract.methods.getApproved(tokenId).call((err, response) => {
+    return response;
+  });
+};
+
+//Approve Item
+export const approveItem = (address, tokenId) => {
+  return itemContract.methods.approve(address, tokenId).call((err, response) => {
+    return response;
+  });
+};
 //Character Functions
 
 //WRITE create new character for user
@@ -106,9 +120,20 @@ export const tokenURICharacter = (tokenId) => {
 
 //READ
 //Returns PWR Balance of User
-
 export const getPwarBalance = (userAddress) => {
   return pwrContract.methods.balanceOf(userAddress).call(async (err, response) => {
+    return response;
+  });
+};
+
+
+//Flash Sale Functions
+
+//READ
+//Returns PWR Balance of User
+export const checkIsPurchased = (userAddress) => {
+  return flashsaleContract.methods.isPurchased(userAddress).call(async (err, response) => {
+    console.log(response)
     return response;
   });
 };
