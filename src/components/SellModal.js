@@ -284,6 +284,7 @@ function SellModal({ closePopup, item, updateUserItemOwner, user, setDisableSell
                 <Loader />
               </div>
               <h5 className={classes.messageTitle}>Transaction submitted, please wait...</h5>
+              <p style={{ textAlign: 'center', paddingTop: 10, color: 'red' }}>* Do not reload otherwise you will lose.</p>
             </div>)
           }
           {actualCase === 3 &&
