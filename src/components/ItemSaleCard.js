@@ -335,7 +335,7 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds, getFlash
 
   const buyItem = async () => {
     setPopup(true);
-    setActualCase(3);
+    setActualCase(1);
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     const userAddress = accounts[0];
     let nftHashJson = nftHashList[item.name];
