@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   labelStyles: {
-    color: 'white',
+    color: 'black',
     fontFamily: 'Balsamiq Sans',
     fontWeight: 700,
     fontSize: 14,
@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ProgressBar = (props) => {
   const { bgcolor, completed } = props;
+
   const classes = useStyles();
 
   const fillerStyles = {
@@ -54,14 +55,17 @@ const ProgressBar = (props) => {
 
 
   return (
-    <div className={classes.containerStyles}>
-      <div style={fillerStyles}>
-        {completed >= 0 && <span className={classes.labelStyles}>{completed} Left</span>}
-        {completed < 0 && <span className={classes.labelStyles}>0 Left</span>}
+    <div>
+      <div className={classes.containerStyles}>
+        <div className='text-center' style={{ position: 'absolute', left: '45%' }}>
+
+          {completed >= 0 && <span className={classes.labelStyles}>{completed} Left </span>}
+          {completed < 0 && <span className={classes.labelStyles}>0 Left</span>}</div>
+        <div style={fillerStyles}>
+        </div>
+
 
       </div>
-      {completed === 0 && <span className={classes.labelStylesBlack}>{completed} Left</span>}
-
     </div>
   );
 };
