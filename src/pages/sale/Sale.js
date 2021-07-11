@@ -231,6 +231,7 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
   };
   return (
     <div>
+
       <div className="text-center">
         <h1 className={classes.title}>
           Flash Sale <img src="images/thunder.png" height="20px" alt="thunder" />

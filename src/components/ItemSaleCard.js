@@ -297,7 +297,7 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds, getFlash
       let apiResponse = await checkSlotsAvailable(item._id);
       let slotsAvailable = apiResponse.data;
 
-      if (parseInt(slotsAvailable) <= 0) {
+      if (parseInt(slotsAvailable) <= 5) {
         setInterval(() => {
           getFlashItems();
         }, 5000);
@@ -506,7 +506,7 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds, getFlash
 
                 </div>
                 <Divider style={{ backgroundColor: 'grey' }} /></div>
-              {actualCase}
+
               {actualCase === 1 &&
                 (<div className="text-center my-3">
                   <div className="text-center">
