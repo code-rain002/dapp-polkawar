@@ -56,7 +56,8 @@ const ProgressBar = (props) => {
   return (
     <div className={classes.containerStyles}>
       <div style={fillerStyles}>
-        {completed !== 0 && <span className={classes.labelStyles}>{completed} Left</span>}
+        {completed >= 0 && <span className={classes.labelStyles}>{completed} Left</span>}
+        {completed < 0 && <span className={classes.labelStyles}>0 Left</span>}
 
       </div>
       {completed === 0 && <span className={classes.labelStylesBlack}>{completed} Left</span>}
