@@ -351,7 +351,7 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds, getFlash
     let slotsAvailable = apiResponse.data;
     console.log(slotsAvailable);
 
-    if (parseInt(slotsAvailable) !== 0) {
+    if (parseInt(slotsAvailable) > 0) {
       const response = await new Promise((resolve, reject) => {
         saleContract.methods
           .purchaseItem(nftHashJson, signResponse.v, signResponse.r, signResponse.s, signResponse.messageHash)
@@ -444,7 +444,7 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds, getFlash
               </div>
               <div className={classes.buttonDisplayMobile}>
                 <div className="d-flex flex-column justify-content-start align-items-start" style={{ paddingTop: 10 }}>
-                  {parseInt(item.remaining_quantity) === 0 ? (
+                  {parseInt(item.remaining_quantity) <= 0 ? (
                     <Button variant="contained" className={classes.soldOutButton}>
                       <span>Sold Out</span>
                     </Button>
@@ -465,7 +465,7 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds, getFlash
             </div>
           </div>
           <div className={classes.buttonDisplayDesktop} style={{ paddingRight: 20 }}>
-            {parseInt(item.remaining_quantity) === 0 ? (
+            {parseInt(item.remaining_quantity) <= 0 ? (
               <Button variant="contained" className={classes.soldOutButton}>
                 <span>Sold Out</span>
               </Button>
