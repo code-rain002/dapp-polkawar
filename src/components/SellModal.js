@@ -289,14 +289,14 @@ function SellModal({ closePopup, item, updateUserItemOwner, user, setDisableSell
           }
           {actualCase === 3 &&
             (<div className="text-center my-3">
-              <img src="https://icon-library.com/images/17c52fbb9e.svg.svg" height="100px" alt='error' />
+              <img src="./images/failed.png" height="100px" alt='error' />
               <h5 className={classes.messageTitle}>Transaction Failed</h5>
             </div>)
           }
           {actualCase === 4 &&
             (< div className="my-3 d-flex flex-column justify-content-start">
               <div className="text-center my-3">
-                <img src="https://www.freeiconspng.com/thumbs/success-icon/success-icon-10.png" height="100px" alt='success' />
+                <img src="./images/success.png" height="100px" alt='success' />
               </div>
               <h5 className={classes.messageTitle}>Transaction Success</h5>
 

@@ -208,11 +208,11 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
             {completed ? (
               failed ? (
                 <div className="text-center my-5">
-                  <img src="https://icon-library.com/images/17c52fbb9e.svg.svg" height="100px" alt='error' />
+                  <img src="./images/failed.png" height="100px" alt='error' />
                 </div>
               ) : (
                 <div className="text-center my-5">
-                  <img src="https://www.freeiconspng.com/thumbs/success-icon/success-icon-10.png" height="100px" alt='success' />
+                  <img src="./images/success.png" height="100px" alt='success' />
                 </div>
               )
             ) : (

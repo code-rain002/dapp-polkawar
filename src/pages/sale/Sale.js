@@ -236,6 +236,9 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
         <h1 className={classes.title}>
           Flash Sale <img src="images/thunder.png" height="20px" alt="thunder" />
         </h1>
+        <div className="text-center my-3">
+          <img src="./images/success.png" height="100px" alt='success' />
+        </div>
       </div>
 
       <div className={classes.mainCard}>
