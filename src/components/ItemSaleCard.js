@@ -543,7 +543,7 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds, getFlash
                   </div>
                   <h5 className={classes.messageTitle}>Transaction Success!</h5>
                   <div className='text-center mt-3'>
-                    <Link to='/profile'><Button className={classes.profileButton} variant='contained' >Go to your Profile</Button></Link>
+                    <Link to='/profile'><Button className={classes.profileButton} variant='contained' >View item in Profile</Button></Link>
                   </div>
                 </div>)
               }
