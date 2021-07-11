@@ -335,7 +335,7 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds, getFlash
 
   const buyItem = async () => {
     setPopup(true);
-    setActualCase(1);
+    setActualCase(3);
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     const userAddress = accounts[0];
     let nftHashJson = nftHashList[item.name];
@@ -527,6 +527,7 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds, getFlash
                     <Loader />
                   </div>
                   <h5 className={classes.messageTitle}>Transaction submitted, please wait...</h5>
+                  <p style={{ textAlign: 'center', paddingTop: 10, color: 'red' }}>* Do not reload otherwise you will lose.</p>
                 </div>)
               }
               {actualCase === 4 &&
