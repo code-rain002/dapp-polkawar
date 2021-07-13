@@ -452,7 +452,7 @@ function Bid({ getBidItem, item }) {
 								<div className="d-flex justify-content-evenly mt-3">
 									{bidStatus === 0 && (
 										<Button variant="contained" className={classes.newbidButton}>
-											<span>New Bid</span>
+											<span>Place Bid</span>
 										</Button>
 									)}
 									{bidStatus === 1 && (
