@@ -255,6 +255,11 @@ function Bid({}) {
 		__v: 0,
 	};
 
+
+// Collection: id, imagehash, name, description, bid history[{user wallet, time, price, isactive(0 if cancel bid)}],
+// current bid price, start price, time start, time end,...)
+
+
 	return (
 		<div className={classes.sectionCard}>
 			{item ? (
@@ -289,8 +294,12 @@ function Bid({}) {
 							</div>
 							<p className={classes.description}>{item.description}</p>{' '}
 							<h6 className={classes.price}>
-								<span style={{ color: '#bdbdbd', paddingRight: 5 }}>Minimum Bid Price: </span>
+								<span style={{ color: '#bdbdbd', paddingRight: 5 }}>Starting Bid Price: </span>
 								{item.sell_price} {item.currency}
+							</h6>
+                            <h6 className={classes.price}>
+								<span style={{ color: '#bdbdbd', paddingRight: 5 }}>Highest Bid Price: </span>
+								{item.original_price} {item.currency}
 							</h6>
 							<div className="mt-5">
 								<h6 className={classes.timeline}>Bids Timeline</h6>
