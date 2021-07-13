@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
-import itemReducers from './itemReducers';
-import characterReducers from './characterReducers';
-import userReducers from './userReducers';
 import authReducers from './authReducers';
+import userReducers from './userReducers';
+import characterReducers from './characterReducers';
+import itemReducers from './itemReducers';
+import bidReducers from './bidReducers';
 
 export default combineReducers({
-  auth: authReducers,
-  user: userReducers,
-  characters: characterReducers,
-  items: itemReducers,
+	auth: authReducers,
+	user: userReducers,
+	characters: characterReducers,
+	items: itemReducers,
+	bids: bidReducers,
 });

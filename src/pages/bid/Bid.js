@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Dialog, Backdrop, Slide, Paper, Tabs, Tab, Avatar } from '@material-ui/core';
-import { getItem } from './../../actions/itemActions';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import imageBaseUrl from './../../actions/imageBaseUrl';
+import { Button, Slide, Avatar } from '@material-ui/core';
 import Loader from '../../components/Loader';
-import { Phone } from '@material-ui/icons';
 import Timer from '../../components/Timer';
+import { getBidItem } from './../../actions/bidActions';
+import imageBaseUrl from './../../actions/imageBaseUrl';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
@@ -17,7 +16,9 @@ const useStyles = makeStyles((theme) => ({
 	sectionCard: {
 		background: `linear-gradient(0deg, rgba(26, 35, 126, 0.31), rgba(28,22, 86, 0.1))`,
 		padding: 30,
-		margin: 30,
+		marginTop: 20,
+		marginLeft: 50,
+		marginRight: 50,
 		borderRadius: 10,
 		[theme.breakpoints.down('md')]: {
 			margin: 0,
@@ -155,20 +156,19 @@ const useStyles = makeStyles((theme) => ({
 			fontSize: 18,
 		},
 	},
-    auctionWrapper:{
-        display: 'flex',
-        flexDirection:'row',
-		justifyContent: 'center',
+	auctionWrapper: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-evenly',
 		alignItems: 'center',
-		
-        [theme.breakpoints.down('md')]: {
-		 display: 'flex',
-         flexDirection:'column',
-		 justifyContent: 'center',
-		 alignItems: 'center',
-	
+
+		[theme.breakpoints.down('md')]: {
+			display: 'flex',
+			flexDirection: 'column',
+			justifyContent: 'center',
+			alignItems: 'space-between',
 		},
-    },
+	},
 	title: {
 		verticalAlign: 'baseline',
 		textAlign: 'left',
@@ -189,7 +189,7 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: 16,
 		maxWidth: 500,
 		[theme.breakpoints.down('md')]: {
-            paddingTop:5,
+			paddingTop: 5,
 			fontSize: 14,
 		},
 	},
@@ -225,145 +225,170 @@ const useStyles = makeStyles((theme) => ({
 			fontSize: 20,
 		},
 	},
-	levelText: {
-		color: 'white',
-		fontWeight: 600,
-		fontSize: 15,
-		paddingTop: 10,
-		paddingRight: 10,
+	noBidText: {
+		verticalAlign: 'baseline',
+		textAlign: 'center',
+		color: theme.palette.pbr.textPrimary,
+		fontWeight: 800,
+		letterSpacing: 0.5,
+		fontSize: 22,
+		lineHeight: '50.7px',
 		[theme.breakpoints.down('md')]: {
-			paddingTop: 7,
+			fontSize: 20,
+			lineHeight: '40.7px',
 		},
+	},
+	level: {
+		height: '50px',
+		[theme.breakpoints.down('md')]: {
+			height: '30px',
+		},
+	},
+	scrollDiv: {
+		overflowY: 'scroll',
+		maxHeight: 200,
 	},
 }));
 
-function Bid({}) {
+function Bid({ getBidItem, item }) {
 	const classes = useStyles();
+	const [ timerStatus, setTimerStatus ] = useState(0);
 
-	let item = {
-		level: 3,
-		original_price: 2,
-		sell_price: 0.5,
-		currency: 'BNB',
-		remaining_quantity: 20,
-		category: 'sword',
-		createdDate: '2021-07-10T10:38:01.378Z',
-		_id: '60ea7f0b1954d362ad256312',
-		name: 'Sword',
-		image: 'QmZ8K4DxcKJjYUsSqQDBXzXBeaWcpt96Yuy9Cg3nu2hXx5',
-		description: 'Base Damage: 30, Bonus: +7%, Accuracy: +5',
-		__v: 0,
+	useEffect(() => {
+		getBidItem('60ea7f0b1954d362ad256312');
+		if (item !== null) {
+			console.log(item);
+			updateBidTimerStatus();
+		}
+	}, []);
+
+	const updateBidTimerStatus = () => {
+		const differenceStart = +new Date(item.time_start) - +new Date();
+		const differenceEnd = +new Date(item.time_end) - +new Date();
+
+		console.log(differenceStart);
+		console.log(differenceEnd);
+
+		if (differenceEnd <= 0) {
+			setTimerStatus(1);
+			console.log('Bid ends');
+		} else {
+			if (differenceStart > 0) {
+				setTimerStatus(3);
+				console.log('Bid not started');
+			} else {
+				setTimerStatus(4);
+				console.log('Bid started');
+			}
+		}
 	};
-
-
-// Collection: id, imagehash, name, description, bid history[{user wallet, time, price, isactive(0 if cancel bid)}],
-// current bid price, start price, time start, time end,...)
-
 
 	return (
 		<div className={classes.sectionCard}>
-			{item ? (
+			{item === null && (
+				<div className="text-center">
+					<Loader />
+				</div>
+			)}
+			{item !== null && (
 				<div className="row g-0">
-					<div className="col-12 col-md-7">
+					<div className="col-12 col-md-6">
 						<div className={classes.imageWrapper}>
 							<img src={`${imageBaseUrl}/${item.image}`} className={classes.image} alt="item-img" />
 						</div>
 					</div>
-					<div className="col-12 col-md-5 p-3">
+					<div className="col-12 col-md-6 p-3">
 						<div className={classes.section2}>
 							<div className="d-flex justify-content-between">
 								<h5 className={classes.title}>{item.name}</h5>
-
 								<div>
-									{' '}
-									<div className="d-flex justify-content-start align-items-center mt-2">
-										<h6 className={classes.levelText}>Level : </h6>
-										<div className={classes.iconWrapper}>
-											{Array.from(Array(item.level)).map((character) => {
-												return (
-													<img
-														src="https://pngimg.com/uploads/star/star_PNG1597.png"
-														height="16px"
-														alt="level-img"
-													/>
-												);
-											})}
-										</div>
-									</div>
+									<img src="./images/polkawar.png" className={classes.level} alt="level-img" />
 								</div>
 							</div>
 							<p className={classes.description}>{item.description}</p>{' '}
 							<h6 className={classes.price}>
 								<span style={{ color: '#bdbdbd', paddingRight: 5 }}>Starting Bid Price: </span>
-								{item.sell_price} {item.currency}
+								{item.start_price} {item.currency}
 							</h6>
-                            <h6 className={classes.price}>
+							<h6 className={classes.price}>
 								<span style={{ color: '#bdbdbd', paddingRight: 5 }}>Highest Bid Price: </span>
-								{item.original_price} {item.currency}
+								{item.current_price} {item.currency}
 							</h6>
 							<div className="mt-5">
 								<h6 className={classes.timeline}>Bids Timeline</h6>
 								<hr style={{ color: 'yellow' }} />
-								<div className={classes.bidCard}>
-									<div className="d-flex justify-content-start">
-										<div style={{ paddingRight: 15 }}>
-											<Avatar
-												alt="Tahir Ahmad"
-												className={classes.avatar}
-												src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
-											/>
-										</div>
-										<div>
-											<h6 className={classes.bidAmount}>
-												0.23BNB <span style={{ color: '#bdbdbd' }}> by</span>{' '}
-												0x9D7117a07fca9F....A5FA4F448
-											</h6>
-											<h6 className={classes.time}>23 mins ago</h6>
-										</div>
-									</div>
-									<div style={{ paddingRight: 10 }}>
-										<Button variant="contained" className={classes.cancelButton}>
-											Cancel
-										</Button>
-									</div>
-								</div>
-								<div className={classes.bidCard}>
-									<div className="d-flex justify-content-start">
-										<div style={{ paddingRight: 15 }}>
-											<Avatar
-												alt="Tahir Ahmad"
-												className={classes.avatar}
-												src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
-											/>
-										</div>
-										<div>
-											<h6 className={classes.bidAmount}>
-												0.23BNB <span style={{ color: '#bdbdbd' }}> by</span>{' '}
-												0x9D7117a07fca9F....A5FA4F448
-											</h6>
-											<h6 className={classes.time}>23 mins ago</h6>
-										</div>
-									</div>
-									<div style={{ paddingRight: 10 }} />
-								</div>
-								<div className={classes.bidCard}>
-									<div className="d-flex justify-content-start">
-										<div style={{ paddingRight: 15 }}>
-											<Avatar
-												alt="Tahir Ahmad"
-												className={classes.avatar}
-												src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
-											/>
-										</div>
-										<div>
-											<h6 className={classes.bidAmount}>
-												0.23BNB <span style={{ color: '#bdbdbd' }}> by</span>{' '}
-												0x9D7117a07fca9F....A5FA4F448
-											</h6>
-											<h6 className={classes.time}>23 mins ago</h6>
-										</div>
-									</div>
-									<div style={{ paddingRight: 10 }} />
+								<div className={classes.scrollDiv}>
+									{item.bidhistory.length === 0 && (
+										<div className={classes.noBidText}>No bid yet</div>
+									)}
+									{Array.from(Array(1)).map((row) => {
+										return (
+											<div>
+												{' '}
+												<div className={classes.bidCard}>
+													<div className="d-flex justify-content-start">
+														<div style={{ paddingRight: 15 }}>
+															<Avatar
+																alt="Tahir Ahmad"
+																className={classes.avatar}
+																src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
+															/>
+														</div>
+														<div>
+															<h6 className={classes.bidAmount}>
+																0.53BNB <span style={{ color: '#bdbdbd' }}> by</span>{' '}
+																0x9D7ew7a07fca9F....A5FA4F448
+															</h6>
+															<h6 className={classes.time}>23 mins ago</h6>
+														</div>
+													</div>
+													<div style={{ paddingRight: 10 }}>
+														<Button variant="contained" className={classes.cancelButton}>
+															Cancel
+														</Button>
+													</div>
+												</div>
+												<div className={classes.bidCard}>
+													<div className="d-flex justify-content-start">
+														<div style={{ paddingRight: 15 }}>
+															<Avatar
+																alt="Tahir Ahmad"
+																className={classes.avatar}
+																src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
+															/>
+														</div>
+														<div>
+															<h6 className={classes.bidAmount}>
+																0.29BNB <span style={{ color: '#bdbdbd' }}> by</span>{' '}
+																0x9D77aew07fca9F....A5FA4F448
+															</h6>
+															<h6 className={classes.time}>33 mins ago</h6>
+														</div>
+													</div>
+													<div style={{ paddingRight: 10 }} />
+												</div>
+												<div className={classes.bidCard}>
+													<div className="d-flex justify-content-start">
+														<div style={{ paddingRight: 15 }}>
+															<Avatar
+																alt="Tahir Ahmad"
+																className={classes.avatar}
+																src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
+															/>
+														</div>
+														<div>
+															<h6 className={classes.bidAmount}>
+																0.03BNB <span style={{ color: '#bdbdbd' }}> by</span>{' '}
+																0x9D7117a07fca9F....A5FA4F448
+															</h6>
+															<h6 className={classes.time}>43 mins ago</h6>
+														</div>
+													</div>
+													<div style={{ paddingRight: 10 }} />
+												</div>
+											</div>
+										);
+									})}
 								</div>
 							</div>
 							<div>
@@ -380,15 +405,21 @@ function Bid({}) {
 												/>
 											</div>
 											<div>
-												<h6 className={classes.bidAmount}>0.23 BNB</h6>
+												<h6 className={classes.bidAmount}>0.53 BNB</h6>
 												<h6 className={classes.time}>23 mins ago</h6>
 											</div>
 										</div>
 									</div>
 									<div for="auction">
-										<p className={classes.statusBoxHeading}>Auction ends in</p>{' '}
+										<p className={classes.statusBoxHeading}>
+											{timerStatus === 4 && 'Auction ends in'}
+											{timerStatus === 3 && 'Auction starts in'}
+
+											{timerStatus === 1 && 'Auction Status'}
+											{timerStatus === 0 && 'Auction Status'}
+										</p>{' '}
 										<div className="d-flex justify-content-start">
-											<Timer endTime={'July 14, 2021 02:30:00 UTC'} />
+											<Timer endTime={item.time_end} />
 										</div>
 									</div>
 								</div>
@@ -408,21 +439,19 @@ function Bid({}) {
 						</div>
 					</div>
 				</div>
-			) : (
-				<Loader />
 			)}
 		</div>
 	);
 }
 
 Bid.propTypes = {
-	getItem: propTypes.func.isRequired,
+	getBidItem: propTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-	singleItem: state.items.item,
+	item: state.bids.item,
 });
 
-const mapDispatchToProps = { getItem };
+const mapDispatchToProps = { getBidItem };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bid);
