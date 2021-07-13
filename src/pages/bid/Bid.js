@@ -32,10 +32,12 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		height: '100%',
 	},
+
 	image: {
-		height: 400,
+		width: '80%',
+		filter: `drop-shadow(0 0 0.9rem #1a237e)`,
 		[theme.breakpoints.down('md')]: {
-			maxHeight: 200,
+			width: '90%',
 		},
 	},
 	section2: {
@@ -239,7 +241,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	level: {
-		height: '50px',
+		height: '45px',
 		[theme.breakpoints.down('md')]: {
 			height: '30px',
 		},
@@ -253,6 +255,7 @@ const useStyles = makeStyles((theme) => ({
 function Bid({ getBidItem, item }) {
 	const classes = useStyles();
 	const [ timerStatus, setTimerStatus ] = useState(0);
+	const [ bidStatus, setBidStatus ] = useState(0);
 
 	useEffect(() => {
 		getBidItem('60ea7f0b1954d362ad256312');
@@ -291,13 +294,13 @@ function Bid({ getBidItem, item }) {
 				</div>
 			)}
 			{item !== null && (
-				<div className="row g-0">
-					<div className="col-12 col-md-6">
+				<div className="row g-0 mt-2">
+					<div className="col-12 col-md-7">
 						<div className={classes.imageWrapper}>
-							<img src={`${imageBaseUrl}/${item.image}`} className={classes.image} alt="item-img" />
+							<img src={`./images/mystery_box.png`} className={classes.image} alt="mysterybox" />
 						</div>
 					</div>
-					<div className="col-12 col-md-6 p-3">
+					<div className="col-12 col-md-5 p-3">
 						<div className={classes.section2}>
 							<div className="d-flex justify-content-between">
 								<h5 className={classes.title}>{item.name}</h5>
@@ -394,8 +397,8 @@ function Bid({ getBidItem, item }) {
 							<div>
 								<hr className={classes.border} />
 								<div className={classes.auctionWrapper}>
-									<div for="bidStatus">
-										<p className={classes.statusBoxHeading}>Your bid status</p>{' '}
+									<div for="highestBid">
+										<p className={classes.statusBoxHeading}>Highest Bid Price</p>{' '}
 										<div className="d-flex justify-content-start">
 											<div style={{ paddingRight: 15 }}>
 												<Avatar
@@ -410,6 +413,25 @@ function Bid({ getBidItem, item }) {
 											</div>
 										</div>
 									</div>
+
+									{bidStatus === 1 && (
+										<div for="bidStatus">
+											<p className={classes.statusBoxHeading}>Your bid status</p>{' '}
+											<div className="d-flex justify-content-start">
+												<div style={{ paddingRight: 15 }}>
+													<Avatar
+														alt="Tahir Ahmad"
+														className={classes.avatar}
+														src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
+													/>
+												</div>
+												<div>
+													<h6 className={classes.bidAmount}>0.53 BNB</h6>
+													<h6 className={classes.time}>23 mins ago</h6>
+												</div>
+											</div>
+										</div>
+									)}
 									<div for="auction">
 										<p className={classes.statusBoxHeading}>
 											{timerStatus === 4 && 'Auction ends in'}
@@ -428,12 +450,16 @@ function Bid({ getBidItem, item }) {
 								</div>
 								<p className={classes.statusBoxHeading} />{' '}
 								<div className="d-flex justify-content-evenly mt-3">
-									<Button variant="contained" className={classes.newbidButton}>
-										<span>New Bid</span>
-									</Button>
-									<Button variant="contained" className={classes.cancelbidButton}>
-										<span>Cancel Bid</span>
-									</Button>
+									{bidStatus === 0 && (
+										<Button variant="contained" className={classes.newbidButton}>
+											<span>New Bid</span>
+										</Button>
+									)}
+									{bidStatus === 1 && (
+										<Button variant="contained" className={classes.cancelbidButton}>
+											<span>Cancel Bid</span>
+										</Button>
+									)}
 								</div>
 							</div>
 						</div>

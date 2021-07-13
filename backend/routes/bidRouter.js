@@ -20,9 +20,9 @@ router.post('/bid', async (req, res, next) => {
 	let bidItems = [
 		{
 			itemId: '60ea7f0b1954d362ad256312',
-			name: 'Sword',
+			name: 'PolkaWar Mystery Box',
 			image: 'QmZ8K4DxcKJjYUsSqQDBXzXBeaWcpt96Yuy9Cg3nu2hXx5',
-			description: 'Base Damage: 30, Bonus: +7%, Accuracy: +5',
+			description: 'Amazing reward box containing random items and PWAR token.',
 			bidhistory: [],
 			current_price: '2.0',
 			start_price: '0.5',
