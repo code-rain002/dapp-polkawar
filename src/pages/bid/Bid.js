@@ -325,10 +325,6 @@ function Bid({ getBidItem, item }) {
 								<span style={{ color: '#bdbdbd', paddingRight: 5 }}>Starting Bid Price: </span>
 								{item.start_price} {item.currency}
 							</h6>
-							<h6 className={classes.price}>
-								<span style={{ color: '#bdbdbd', paddingRight: 5 }}>Highest Bid Price: </span>
-								{item.current_price} {item.currency}
-							</h6>
 							<div className="mt-5">
 								<h6 className={classes.timeline}>Bids Timeline</h6>
 								<hr style={{ color: 'yellow' }} />

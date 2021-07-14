@@ -43,12 +43,12 @@ router.post('/bid', async (req, res, next) => {
 			itemId: '0',
 			name: 'PolkaWar Mystery Box',
 			image: 'QmZ8K4DxcKJjYUsSqQDBXzXBeaWcpt96Yuy9Cg3nu2hXx5',
-			description: 'Amazing reward box containing random items and PWAR token.',
+			description: 'This mystery Box will contains NFT item, BNB rewards and PWAR tokens.',
 			bidhistory: [],
 			current_price: '2.0',
 			start_price: '0.5',
-			time_start: 'July 13, 2021 00:00:00 UTC',
-			time_end: 'July 15, 2021 14:00:00 UTC',
+			time_start: 'July 22, 2021 14:00:00 UTC',
+			time_end: 'July 26, 2021 14:00:00 UTC',
 		},
 	];
 
