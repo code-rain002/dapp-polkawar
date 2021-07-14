@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Slide, Avatar } from '@material-ui/core';
+import { Button, Slide, Avatar, Dialog, Backdrop } from '@material-ui/core';
 import Loader from '../../components/Loader';
 import Timer from '../../components/Timer';
 import { getBidItem } from './../../actions/bidActions';
-import imageBaseUrl from './../../actions/imageBaseUrl';
+import BidForm from '../../components/BidForm';
+import axios from 'axios';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
@@ -250,17 +251,28 @@ const useStyles = makeStyles((theme) => ({
 		overflowY: 'scroll',
 		maxHeight: 200,
 	},
+	modal: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		textDecoration: 'none',
+		outline: 'none',
+	},
 }));
 
 function Bid({ getBidItem, item }) {
 	const classes = useStyles();
+
 	const [ timerStatus, setTimerStatus ] = useState(0);
 	const [ bidStatus, setBidStatus ] = useState(0);
+	const [ bidPopup, setBidPopup ] = useState(false);
+	const [ stopPopupClick, setStopPopupClick ] = useState(false);
 
 	useEffect(() => {
-		getBidItem('60ea7f0b1954d362ad256312');
+		getBidItem(0);
 		if (item !== null) {
 			console.log(item);
+
 			updateBidTimerStatus();
 		}
 	}, []);
@@ -324,9 +336,9 @@ function Bid({ getBidItem, item }) {
 									{item.bidhistory.length === 0 && (
 										<div className={classes.noBidText}>No bid yet</div>
 									)}
-									{Array.from(Array(1)).map((row) => {
+									{item.bidhistory.map((row, index) => {
 										return (
-											<div>
+											<div key={index}>
 												{' '}
 												<div className={classes.bidCard}>
 													<div className="d-flex justify-content-start">
@@ -339,8 +351,13 @@ function Bid({ getBidItem, item }) {
 														</div>
 														<div>
 															<h6 className={classes.bidAmount}>
-																0.53BNB <span style={{ color: '#bdbdbd' }}> by</span>{' '}
-																0x9D7ew7a07fca9F....A5FA4F448
+																{row.price} BNB
+																<span style={{ color: '#bdbdbd' }}> by</span> {' '}
+																{[ ...row.address ].splice(0, 10)} {'...'}
+																{[ ...row.address ].splice(
+																	[ ...row.address ].length - 5,
+																	5,
+																)}
 															</h6>
 															<h6 className={classes.time}>23 mins ago</h6>
 														</div>
@@ -350,44 +367,6 @@ function Bid({ getBidItem, item }) {
 															Cancel
 														</Button>
 													</div>
-												</div>
-												<div className={classes.bidCard}>
-													<div className="d-flex justify-content-start">
-														<div style={{ paddingRight: 15 }}>
-															<Avatar
-																alt="Tahir Ahmad"
-																className={classes.avatar}
-																src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
-															/>
-														</div>
-														<div>
-															<h6 className={classes.bidAmount}>
-																0.29BNB <span style={{ color: '#bdbdbd' }}> by</span>{' '}
-																0x9D77aew07fca9F....A5FA4F448
-															</h6>
-															<h6 className={classes.time}>33 mins ago</h6>
-														</div>
-													</div>
-													<div style={{ paddingRight: 10 }} />
-												</div>
-												<div className={classes.bidCard}>
-													<div className="d-flex justify-content-start">
-														<div style={{ paddingRight: 15 }}>
-															<Avatar
-																alt="Tahir Ahmad"
-																className={classes.avatar}
-																src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
-															/>
-														</div>
-														<div>
-															<h6 className={classes.bidAmount}>
-																0.03BNB <span style={{ color: '#bdbdbd' }}> by</span>{' '}
-																0x9D7117a07fca9F....A5FA4F448
-															</h6>
-															<h6 className={classes.time}>43 mins ago</h6>
-														</div>
-													</div>
-													<div style={{ paddingRight: 10 }} />
 												</div>
 											</div>
 										);
@@ -451,7 +430,10 @@ function Bid({ getBidItem, item }) {
 								<p className={classes.statusBoxHeading} />{' '}
 								<div className="d-flex justify-content-evenly mt-3">
 									{bidStatus === 0 && (
-										<Button variant="contained" className={classes.newbidButton}>
+										<Button
+											variant="contained"
+											className={classes.newbidButton}
+											onClick={() => setBidPopup(true)}>
 											<span>Place Bid</span>
 										</Button>
 									)}
@@ -466,6 +448,22 @@ function Bid({ getBidItem, item }) {
 					</div>
 				</div>
 			)}
+			<Dialog
+				className={classes.modal}
+				open={bidPopup}
+				TransitionComponent={Transition}
+				keepMounted
+				onClose={() => setBidPopup(false)}
+				closeAfterTransition
+				BackdropComponent={Backdrop}
+				disableBackdropClick={stopPopupClick}
+				BackdropProps={{
+					timeout: 1000,
+				}}>
+				<div style={{ backgroundColor: 'black' }}>
+					<BidForm />
+				</div>
+			</Dialog>{' '}
 		</div>
 	);
 }

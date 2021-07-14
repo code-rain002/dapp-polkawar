@@ -15,11 +15,32 @@ router.get('/bid/:id', async (req, res, next) => {
 });
 
 // Public
-// POST items based on category
+// POST UPDATE BID HISTORY BY ID
+router.post('/bid/:id', async (req, res, next) => {
+	const itemId = req.params.id;
+	const bidData = req.body;
+
+	let bidHistory = {
+		address: bidData.address,
+		time: new Date(),
+		price: bidData.amount,
+		isactive: 1,
+	};
+
+	try {
+		const data = await BidDao.updateBidItem(itemId, bidHistory);
+		return res.status(200).send(data);
+	} catch (error) {
+		return res.status(400).send('error');
+	}
+});
+
+// Public
+// POST A new item for biding
 router.post('/bid', async (req, res, next) => {
 	let bidItems = [
 		{
-			itemId: '60ea7f0b1954d362ad256312',
+			itemId: '0',
 			name: 'PolkaWar Mystery Box',
 			image: 'QmZ8K4DxcKJjYUsSqQDBXzXBeaWcpt96Yuy9Cg3nu2hXx5',
 			description: 'Amazing reward box containing random items and PWAR token.',

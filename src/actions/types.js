@@ -12,6 +12,7 @@ export const GET_USER = 'GET_USER';
 
 //Bids Reducers
 export const GET_BID_ITEM_BY_ID = 'GET_BID_ITEM_BY_ID';
+export const CREATE_BID_BY_ID = 'CREATE_BID_BY_ID';
 
 //Items reducers
 export const GET_ITEMS_CATEGORY = 'GET_ITEMS_CATEGORY';
