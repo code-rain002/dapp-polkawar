@@ -168,12 +168,15 @@ const useStyles = makeStyles((theme) => ({
 var saleStartDate = process.env.REACT_APP_SALE_START_DATE;
 var saleEndDate = process.env.REACT_APP_SALE_END_DATE;
 
+var resaleStartDate = process.env.REACT_APP_START_RESELL;
+var resaleEndDate = process.env.REACT_APP_END_RESELL;
+
 function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
 	const classes = useStyles();
 
-	const [ actualCase, setActualCase ] = useState(0);
-	const [ saleEnds, setSaleEnds ] = useState(false);
-	const [ purchased, setPurchased ] = useState(false);
+	const [actualCase, setActualCase] = useState(0);
+	const [saleEnds, setSaleEnds] = useState(false);
+	const [purchased, setPurchased] = useState(false);
 
 	useEffect(() => {
 		async function asyncFn() {
@@ -277,11 +280,11 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
 									<li className={classes.listItem}>
 										Reselling of the NFT Item will start from{' '}
 										<span style={{ color: 'yellow' }}>
-											<Moment format="DD-MM-YYYY HH:mm">{saleStartDate}</Moment>
+											<Moment format="DD-MM-YYYY HH:mm">{resaleStartDate}</Moment>
 										</span>{' '}
 										and will end{' '}
 										<span style={{ color: 'yellow' }}>
-											<Moment format="DD-MM-YYYY HH:mm">{saleEndDate}</Moment>.
+											<Moment format="DD-MM-YYYY HH:mm">{resaleEndDate}</Moment>.
 										</span>
 									</li>
 									<li className={classes.listItem}>
