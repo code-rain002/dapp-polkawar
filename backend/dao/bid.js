@@ -5,7 +5,7 @@ const bidDao = {
 		return await BidModel.findOne({ itemId: id });
 	},
 
-	async getItems() {
+	async getAllBidItems() {
 		return await BidModel.find({});
 	},
 
@@ -14,6 +14,7 @@ const bidDao = {
 		await BidModel.insertMany(itemData);
 		return await BidModel.find({});
 	},
+
 	async updateBidItem(itemId, bidData) {
 		console.log('updateBidItem');
 		let bidItem = await BidModel.findOne({ itemId: itemId });

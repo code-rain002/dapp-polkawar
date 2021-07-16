@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Slide, Avatar, Dialog, Backdrop } from '@material-ui/core';
-import Loader from '../../components/Loader';
-import Timer from '../../components/Timer';
-import { getBidItem } from './../../actions/bidActions';
-import BidForm from '../../components/BidForm';
-import axios from 'axios';
+import { Button, Slide } from '@material-ui/core';
+
+import { getAllBidItems } from './../../actions/bidActions';
+
+import BidCard from '../../components/BidCard';
+import { Close, Gavel, MonetizationOn } from '@material-ui/icons';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
@@ -27,154 +27,10 @@ const useStyles = makeStyles((theme) => ({
 			padding: 0,
 		},
 	},
-	imageWrapper: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		height: '100%',
-	},
 
-	image: {
-		width: '80%',
-		filter: `drop-shadow(0 0 0.9rem #1a237e)`,
-		[theme.breakpoints.down('md')]: {
-			width: '90%',
-		},
-	},
-	section2: {
-		backgroundColor: 'transparent',
-		height: '100%',
-		width: '100%',
-		borderLeft: '1px solid #bdbdbd',
-		paddingLeft: 20,
-		[theme.breakpoints.down('md')]: {
-			borderLeft: 'none',
-			paddingLeft: 0,
-		},
-	},
-	avatar: {
-		color: 'orange',
-		backgroundColor: 'orange',
-		borderRadius: '50%',
-		border: '1px solid white',
-	},
-	bidCard: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		paddingTop: 10,
-		paddingBottom: 10,
-		borderBottom: '1px solid #616161',
-	},
-	bidAmount: {
-		verticalAlign: 'baseline',
-		textAlign: 'left',
-		color: theme.palette.pbr.textPrimary,
-		fontWeight: 300,
-		letterSpacing: 0.5,
-		fontSize: 14,
-		[theme.breakpoints.down('md')]: {
-			fontSize: 12,
-		},
-	},
-	time: {
-		verticalAlign: 'baseline',
-		textAlign: 'left',
-		color: theme.palette.pbr.textSecondary,
-		fontWeight: 300,
-		letterSpacing: 0.5,
-		fontSize: 12,
-		[theme.breakpoints.down('md')]: {
-			fontSize: 10,
-		},
-	},
-	bidButton: {
-		textAlign: 'center',
-		background: `linear-gradient(to right,#AF2C59, #C43262)`,
-		padding: '8px 16px 8px 16px',
-		marginRight: 10,
-		borderRadius: 50,
-		color: 'white',
-		fontSize: 14,
-		fontWeight: 500,
-		textTransform: 'none',
-		[theme.breakpoints.down('sm')]: {
-			padding: '4px 8px 4px 8px',
-			fontSize: 12,
-		},
-	},
-	cancelButton: {
-		textAlign: 'center',
-		background: `linear-gradient(to right,#6F2F9B, #8D37A9)`,
-		padding: '8px 16px 8px 16px',
-		borderRadius: 50,
-		color: 'white',
-		fontSize: 14,
-		fontWeight: 500,
-		textTransform: 'none',
-		[theme.breakpoints.down('sm')]: {
-			padding: '4px 8px 4px 8px',
-			fontSize: 12,
-		},
-	},
-
-	newbidButton: {
-		borderRadius: '50px',
-		background: `linear-gradient(to bottom,yellow, orange)`,
-		lineHeight: '24px',
-		verticalAlign: 'baseline',
-		letterSpacing: '-1px',
-		margin: 0,
-		marginTop: 5,
-		marginLeft: 10,
-		color: 'black',
-		padding: '18px 50px 18px 50px',
-		fontWeight: 400,
-		fontSize: 20,
-		textTransform: 'none',
-		textDecoration: 'none',
-		[theme.breakpoints.down('md')]: {
-			padding: '12px 20px 12px 20px',
-			fontSize: 18,
-		},
-	},
-	cancelbidButton: {
-		borderRadius: '50px',
-		background: `linear-gradient(to bottom,#ffffff, #fffde7)`,
-		lineHeight: '24px',
-		verticalAlign: 'baseline',
-		letterSpacing: '-1px',
-		margin: 0,
-		marginTop: 5,
-		marginLeft: 10,
-		color: 'black',
-		padding: '18px 50px 18px 50px',
-		fontWeight: 400,
-		fontSize: 20,
-		textTransform: 'none',
-		textDecoration: 'none',
-
-		[theme.breakpoints.down('md')]: {
-			padding: '12px 20px 12px 20px',
-			fontSize: 18,
-		},
-	},
-	auctionWrapper: {
-		display: 'flex',
-		flexDirection: 'row',
-		justifyContent: 'space-evenly',
-		alignItems: 'center',
-
-		[theme.breakpoints.down('md')]: {
-			display: 'flex',
-			flexDirection: 'column',
-			justifyContent: 'center',
-			alignItems: 'space-between',
-		},
-	},
 	title: {
 		verticalAlign: 'baseline',
-		textAlign: 'left',
+		textAlign: 'center',
 		color: theme.palette.pbr.textPrimary,
 		fontWeight: 800,
 		letterSpacing: 0.5,
@@ -184,376 +40,151 @@ const useStyles = makeStyles((theme) => ({
 			fontSize: 32,
 		},
 	},
-	statusBoxHeading: {
+	para: {
 		verticalAlign: 'baseline',
-		textAlign: 'center',
-		color: theme.palette.pbr.textSecondary,
+		fontFamily: 'Balsamiq Sans',
+		color: theme.palette.pbr.textPrimary,
 		fontWeight: 500,
+		letterSpacing: 0.5,
 		fontSize: 16,
-		maxWidth: 500,
+		textAlign: 'center',
 		[theme.breakpoints.down('md')]: {
-			paddingTop: 5,
-			fontSize: 14,
+			fontSize: 15,
 		},
 	},
-	price: {
+	rulesButton: {
+		borderRadius: '50px',
+		background: `linear-gradient(to bottom,#ffffff, #fffde7)`,
+		lineHeight: '24px',
 		verticalAlign: 'baseline',
-		textAlign: 'left',
-		color: '#b39ddb',
+		letterSpacing: '-1px',
+		margin: 0,
+		marginTop: 5,
+		marginLeft: 10,
+		color: 'black',
+		padding: '12px 30px 12px 30px',
 		fontWeight: 300,
-		fontSize: 16,
-	},
-	description: {
-		verticalAlign: 'baseline',
-		textAlign: 'left',
-		color: theme.palette.pbr.textSecondary,
-		fontWeight: 500,
-		fontSize: 16,
-
-		maxWidth: 500,
-		[theme.breakpoints.down('md')]: {
-			fontSize: 14,
-		},
-	},
-
-	timeline: {
-		verticalAlign: 'baseline',
-		textAlign: 'left',
-		color: theme.palette.pbr.textPrimary,
-		fontWeight: 800,
-		letterSpacing: 0.5,
-		fontSize: 22,
-		lineHeight: '30.7px',
-		[theme.breakpoints.down('md')]: {
-			fontSize: 20,
-		},
-	},
-	noBidText: {
-		verticalAlign: 'baseline',
-		textAlign: 'center',
-		color: theme.palette.pbr.textPrimary,
-		fontWeight: 800,
-		letterSpacing: 0.5,
-		fontSize: 22,
-		lineHeight: '50.7px',
-		[theme.breakpoints.down('md')]: {
-			fontSize: 20,
-			lineHeight: '40.7px',
-		},
-	},
-	level: {
-		height: '45px',
-		[theme.breakpoints.down('md')]: {
-			height: '30px',
-		},
-	},
-	scrollDiv: {
-		overflowY: 'scroll',
-		maxHeight: 200,
-	},
-	modal: {
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
+		fontSize: 20,
+		textTransform: 'none',
 		textDecoration: 'none',
-		outline: 'none',
+
+		[theme.breakpoints.down('md')]: {
+			padding: '8px 15px 8px 15px',
+			fontSize: 18,
+		},
+	},
+	listItem: {
+		fontWeight: 600,
+		color: 'white',
+		fontSize: 17,
+		textAlign: 'left',
+		paddingTop: 15,
+		fontFamily: 'Balsamiq Sans',
 	},
 }));
 
-function Bid({ getBidItem, item }) {
+function Bid({ getAllBidItems, items }) {
 	const classes = useStyles();
 
-	const [ timerStatus, setTimerStatus ] = useState(0);
-	const [ bidStatus, setBidStatus ] = useState(0);
-	const [ bidPopup, setBidPopup ] = useState(false);
-	const [ stopPopupClick, setStopPopupClick ] = useState(false);
+	const [ actualCase, setActualCase ] = useState(0);
+	const [ showRules, setShowRules ] = useState(false);
 
 	useEffect(() => {
-		getBidItem(0);
-		if (item !== null) {
-			console.log(item);
-
-			updateBidTimerStatus();
-		}
+		getAllBidItems();
 	}, []);
 
-	let mysteryRewards = [
-		{
-			id: 0,
-			rewards: {
-				bnb: '0.5',
-				pwar: '500',
-				nft_level: 1,
-			},
-		},
-		{
-			id: 1,
-			rewards: {
-				bnb: '1',
-				pwar: '1000',
-				nft_level: 1,
-			},
-		},
-		{
-			id: 2,
-			rewards: {
-				bnb: '2',
-				pwar: '2000',
-				nft_level: 1,
-			},
-		},
-		{
-			id: 3,
-			rewards: {
-				bnb: '3',
-				pwar: '3000',
-				nft_level: 2,
-			},
-		},
-		{
-			id: 4,
-			rewards: {
-				bnb: '4',
-				pwar: '4000',
-				nft_level: 2,
-			},
-		},
-		{
-			id: 5,
-			rewards: {
-				bnb: '5',
-				pwar: '5000',
-				nft_level: 2,
-			},
-		},
-		{
-			id: 6,
-			rewards: {
-				bnb: '7',
-				pwar: '7000',
-				nft_level: 3,
-			},
-		},
-		{
-			id: 7,
-			rewards: {
-				bnb: '10',
-				pwar: '10000',
-				nft_level: 3,
-			},
-		},
-		{
-			id: 8,
-			rewards: {
-				bnb: '20',
-				pwar: '20000',
-				nft_level: 3,
-			},
-		},
-		{
-			id: 9,
-			rewards: {
-				bnb: '50',
-				pwar: '50000',
-				nft_level: 3,
-			},
-		},
-	];
-	const updateBidTimerStatus = () => {
-		const differenceStart = +new Date(item.time_start) - +new Date();
-		const differenceEnd = +new Date(item.time_end) - +new Date();
-
-		console.log(differenceStart);
-		console.log(differenceEnd);
-
-		if (differenceEnd <= 0) {
-			setTimerStatus(1);
-			console.log('Bid ends');
-		} else {
-			if (differenceStart > 0) {
-				setTimerStatus(3);
-				console.log('Bid not started');
-			} else {
-				setTimerStatus(4);
-				console.log('Bid started');
-			}
-		}
+	const toggleRules = () => {
+		setShowRules(!showRules);
 	};
-
 	return (
 		<div className={classes.sectionCard}>
-			{item === null && (
-				<div className="text-center">
-					<Loader />
-				</div>
-			)}
-			{item !== null && (
-				<div className="row g-0 mt-2">
-					<div className="col-12 col-md-7">
-						<div className={classes.imageWrapper}>
-							<img src={`./images/mystery_box.png`} className={classes.image} alt="mysterybox" />
-						</div>
-					</div>
-					<div className="col-12 col-md-5 p-3">
-						<div className={classes.section2}>
-							<div className="d-flex justify-content-between">
-								<h5 className={classes.title}>{item.name}</h5>
-								<div>
-									<img src="./images/polkawar.png" className={classes.level} alt="level-img" />
-								</div>
-							</div>
-							<p className={classes.description}>{item.description}</p>{' '}
-							<h6 className={classes.price}>
-								<span style={{ color: '#bdbdbd', paddingRight: 5 }}>Starting Bid Price: </span>
-								{item.start_price} {item.currency}
-							</h6>
-							<div className="mt-5">
-								<h6 className={classes.timeline}>Bids Timeline</h6>
-								<hr style={{ color: 'yellow' }} />
-								<div className={classes.scrollDiv}>
-									{item.bidhistory.length === 0 && (
-										<div className={classes.noBidText}>No bid yet</div>
-									)}
-									{item.bidhistory.map((row, index) => {
-										return (
-											<div key={index}>
-												{' '}
-												<div className={classes.bidCard}>
-													<div className="d-flex justify-content-start">
-														<div style={{ paddingRight: 15 }}>
-															<Avatar
-																alt="Tahir Ahmad"
-																className={classes.avatar}
-																src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
-															/>
-														</div>
-														<div>
-															<h6 className={classes.bidAmount}>
-																{row.price} BNB
-																<span style={{ color: '#bdbdbd' }}> by</span> {' '}
-																{[ ...row.address ].splice(0, 10)} {'...'}
-																{[ ...row.address ].splice(
-																	[ ...row.address ].length - 5,
-																	5,
-																)}
-															</h6>
-															<h6 className={classes.time}>23 mins ago</h6>
-														</div>
-													</div>
-													<div style={{ paddingRight: 10 }}>
-														<Button variant="contained" className={classes.cancelButton}>
-															Cancel
-														</Button>
-													</div>
-												</div>
-											</div>
-										);
-									})}
-								</div>
-							</div>
-							<div>
-								<hr className={classes.border} />
-								<div className={classes.auctionWrapper}>
-									<div for="highestBid">
-										<p className={classes.statusBoxHeading}>Highest Bid Price</p>{' '}
-										<div className="d-flex justify-content-start">
-											<div style={{ paddingRight: 15 }}>
-												<Avatar
-													alt="Tahir Ahmad"
-													className={classes.avatar}
-													src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
-												/>
-											</div>
-											<div>
-												<h6 className={classes.bidAmount}>0.53 BNB</h6>
-												<h6 className={classes.time}>23 mins ago</h6>
-											</div>
-										</div>
-									</div>
+			<div className="text-center">
+				<h1 className={classes.title}>
+					Mystery Box Bidding <img src="images/thunder.png" height="20px" alt="thunder" />
+				</h1>
+				<h6 className={classes.para}>Participate in Mystery Box Bidding and win tons of rewards.</h6>
+			</div>
+			<div className="text-center mt-3">
+				<Button variant="contained" className={classes.rulesButton} onClick={toggleRules}>
+					<span>
+						{showRules ? (
+							<span>
+								<Close style={{ marginRight: 5, fontSize: 22 }} />Close Rules
+							</span>
+						) : (
+							<span>
+								<MonetizationOn style={{ marginRight: 5, fontSize: 22, color: '#ff6d00' }} />Rules &
+								Rewards
+							</span>
+						)}
+					</span>
+				</Button>
+			</div>
 
-									{bidStatus === 1 && (
-										<div for="bidStatus">
-											<p className={classes.statusBoxHeading}>Your bid status</p>{' '}
-											<div className="d-flex justify-content-start">
-												<div style={{ paddingRight: 15 }}>
-													<Avatar
-														alt="Tahir Ahmad"
-														className={classes.avatar}
-														src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
-													/>
-												</div>
-												<div>
-													<h6 className={classes.bidAmount}>0.53 BNB</h6>
-													<h6 className={classes.time}>23 mins ago</h6>
-												</div>
-											</div>
-										</div>
-									)}
-									<div for="auction">
-										<p className={classes.statusBoxHeading}>
-											{timerStatus === 4 && 'Auction ends in'}
-											{timerStatus === 3 && 'Auction starts in'}
+			{showRules && (
+				<div>
+					<div className="mt-5" for="rules">
+						<div className="d-flex justify-content-center mt-3">
+							<div style={{ maxWidth: 600 }}>
+								<h6 style={{ color: 'yellow', fontSize: 20, textAlign: 'left' }}>Bidding Rules</h6>
+								<ol>
+									<li className={classes.listItem}>You must HODL or STAKE 2000 PWAR Tokens.</li>
+									<li className={classes.listItem}>You can only place one bid at a time.</li>
+									<li className={classes.listItem}>
+										For another bid you have to cancel the first bid.
+									</li>
+								</ol>
+								<h6 style={{ color: 'yellow', fontSize: 20, textAlign: 'left', marginTop: 30 }}>
+									Expected Rewards
+								</h6>
+								<h6 style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
+									You will get one out of 10 below mentioned rewards.
+								</h6>
 
-											{timerStatus === 1 && 'Auction Status'}
-											{timerStatus === 0 && 'Auction Status'}
-										</p>{' '}
-										<div className="d-flex justify-content-start">
-											<Timer endTime={item.time_end} />
-										</div>
-									</div>
-								</div>
-								<div className="d-flex justify-content-center">
-									<hr style={{ width: 300, backgroundColor: '#616161', height: 1 }} />
-								</div>
-								<p className={classes.statusBoxHeading} />{' '}
-								<div className="d-flex justify-content-evenly mt-3">
-									{bidStatus === 0 && (
-										<Button
-											variant="contained"
-											className={classes.newbidButton}
-											onClick={() => setBidPopup(true)}>
-											<span>Place Bid</span>
-										</Button>
-									)}
-									{bidStatus === 1 && (
-										<Button variant="contained" className={classes.cancelbidButton}>
-											<span>Cancel Bid</span>
-										</Button>
-									)}
-								</div>
+								<ul>
+									<li className={classes.listItem}>0.5 BNB + 500 PWAR + 1 NFT Level 1</li>
+									<li className={classes.listItem}>1 BNB + 1000 PWAR + 1 NFT Level 1</li>
+									<li className={classes.listItem}>2 BNB + 2000 PWAR + 1 NFT Level 1</li>
+									<li className={classes.listItem}>3 BNB + 3000 PWAR + 1 NFT Level 2</li>
+									<li className={classes.listItem}>4 BNB + 4000 PWAR + 1 NFT Level 2</li>
+									<li className={classes.listItem}>5 BNB + 5000 PWAR + 1 NFT Level 2</li>
+									<li className={classes.listItem}>7 BNB + 7000 PWAR + 1 NFT Level 3</li>
+									<li className={classes.listItem}>10 BNB + 10000 PWAR + 1 NFT Level 3</li>
+									<li className={classes.listItem}>20 BNB + 20000 PWAR + 1 NFT Level 3</li>
+									<li className={classes.listItem}>50 BNB + 50000 PWAR + 1 NFT Level 3</li>
+								</ul>
 							</div>
-						</div>
+						</div>{' '}
 					</div>
 				</div>
 			)}
-			<Dialog
-				className={classes.modal}
-				open={bidPopup}
-				TransitionComponent={Transition}
-				keepMounted
-				onClose={() => setBidPopup(false)}
-				closeAfterTransition
-				BackdropComponent={Backdrop}
-				disableBackdropClick={stopPopupClick}
-				BackdropProps={{
-					timeout: 1000,
-				}}>
-				<div style={{ backgroundColor: 'black' }}>
-					<BidForm />
-				</div>
-			</Dialog>{' '}
+			<div className="row mt-5">
+				{items !== null && (
+					<div>
+						{items.map((singleItem) => {
+							return (
+								<div className="col-12 col-md-6">
+									<div className="d-flex flex-row justify-content-center">
+										<BidCard item={singleItem} />
+									</div>
+								</div>
+							);
+						})}
+					</div>
+				)}
+			</div>
 		</div>
 	);
 }
 
 Bid.propTypes = {
-	getBidItem: propTypes.func.isRequired,
+	getAllBidItems: propTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-	item: state.bids.item,
+	items: state.bids.items,
 });
 
-const mapDispatchToProps = { getBidItem };
+const mapDispatchToProps = { getAllBidItems };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Bid);

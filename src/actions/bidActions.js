@@ -1,6 +1,6 @@
 import axios from 'axios';
 import baseUrl from '../actions/baseUrl';
-import { GET_BID_ITEM_BY_ID, CREATE_BID_BY_ID, GET_ERRORS } from './types';
+import { GET_BID_ITEM_BY_ID, CREATE_BID_BY_ID, GET_ALL_BID_ITEMS, GET_ERRORS } from './types';
 
 //GET BID ITEM BY ID
 export const getBidItem = (id) => (dispatch) => {
@@ -9,6 +9,24 @@ export const getBidItem = (id) => (dispatch) => {
 		.then((res) => {
 			dispatch({
 				type: GET_BID_ITEM_BY_ID,
+				payload: res.data,
+			});
+		})
+		.catch((err) => {
+			dispatch({
+				type: GET_ERRORS,
+				payload: 'Network Error',
+			});
+		});
+};
+
+//GET ALL BID ITEMS
+export const getAllBidItems = () => (dispatch) => {
+	axios
+		.get(`${baseUrl}/bids`)
+		.then((res) => {
+			dispatch({
+				type: GET_ALL_BID_ITEMS,
 				payload: res.data,
 			});
 		})

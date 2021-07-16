@@ -1,4 +1,4 @@
-import { GET_BID_ITEM_BY_ID, CREATE_BID_BY_ID } from '../actions/types';
+import { GET_BID_ITEM_BY_ID, CREATE_BID_BY_ID, GET_ALL_BID_ITEMS } from '../actions/types';
 
 const initalState = {
 	item: null,
@@ -17,6 +17,12 @@ export default function Bids(state = initalState, action) {
 				...state,
 				item: action.payload,
 			};
+		case GET_ALL_BID_ITEMS:
+			return {
+				...state,
+				items: action.payload,
+			};
+
 		default:
 			return state;
 	}

@@ -15,6 +15,17 @@ router.get('/bid/:id', async (req, res, next) => {
 });
 
 // Public
+// GET ALL BID ITEMS
+router.get('/bids', async (req, res, next) => {
+	try {
+		const data = await BidDao.getAllBidItems();
+		return res.status(200).send(data);
+	} catch (error) {
+		return res.status(400).send('error');
+	}
+});
+
+// Public
 // POST UPDATE BID HISTORY BY ID
 router.post('/bid/:id', async (req, res, next) => {
 	const itemId = req.params.id;
