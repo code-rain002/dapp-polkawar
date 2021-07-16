@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Slide } from '@material-ui/core';
+import { Button, Grow, Slide } from '@material-ui/core';
 
 import { getAllBidItems } from './../../actions/bidActions';
 
@@ -122,41 +122,43 @@ function Bid({ getAllBidItems, items }) {
 			</div>
 
 			{showRules && (
-				<div>
-					<div className="mt-5" for="rules">
-						<div className="d-flex justify-content-center mt-3">
-							<div style={{ maxWidth: 600 }}>
-								<h6 style={{ color: 'yellow', fontSize: 20, textAlign: 'left' }}>Bidding Rules</h6>
-								<ol>
-									<li className={classes.listItem}>You must HODL or STAKE 2000 PWAR Tokens.</li>
-									<li className={classes.listItem}>You can only place one bid at a time.</li>
-									<li className={classes.listItem}>
-										For another bid you have to cancel the first bid.
-									</li>
-								</ol>
-								<h6 style={{ color: 'yellow', fontSize: 20, textAlign: 'left', marginTop: 30 }}>
-									Expected Rewards
-								</h6>
-								<h6 style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
-									You will get one out of 10 below mentioned rewards.
-								</h6>
+				<Grow in={true} timeout={1000}>
+					<div>
+						<div className="mt-5" for="rules">
+							<div className="d-flex justify-content-center mt-3">
+								<div style={{ maxWidth: 600 }}>
+									<h6 style={{ color: 'yellow', fontSize: 20, textAlign: 'left' }}>Bidding Rules</h6>
+									<ol>
+										<li className={classes.listItem}>You must HODL or STAKE 2000 PWAR Tokens.</li>
+										<li className={classes.listItem}>You can only place one bid at a time.</li>
+										<li className={classes.listItem}>
+											For another bid you have to cancel the first bid.
+										</li>
+									</ol>
+									<h6 style={{ color: 'yellow', fontSize: 20, textAlign: 'left', marginTop: 30 }}>
+										Expected Rewards
+									</h6>
+									<h6 style={{ color: 'white', fontSize: 14, textAlign: 'left' }}>
+										You will get one out of 10 below mentioned rewards.
+									</h6>
 
-								<ul>
-									<li className={classes.listItem}>0.5 BNB + 500 PWAR + 1 NFT Level 1</li>
-									<li className={classes.listItem}>1 BNB + 1000 PWAR + 1 NFT Level 1</li>
-									<li className={classes.listItem}>2 BNB + 2000 PWAR + 1 NFT Level 1</li>
-									<li className={classes.listItem}>3 BNB + 3000 PWAR + 1 NFT Level 2</li>
-									<li className={classes.listItem}>4 BNB + 4000 PWAR + 1 NFT Level 2</li>
-									<li className={classes.listItem}>5 BNB + 5000 PWAR + 1 NFT Level 2</li>
-									<li className={classes.listItem}>7 BNB + 7000 PWAR + 1 NFT Level 3</li>
-									<li className={classes.listItem}>10 BNB + 10000 PWAR + 1 NFT Level 3</li>
-									<li className={classes.listItem}>20 BNB + 20000 PWAR + 1 NFT Level 3</li>
-									<li className={classes.listItem}>50 BNB + 50000 PWAR + 1 NFT Level 3</li>
-								</ul>
-							</div>
-						</div>{' '}
+									<ul>
+										<li className={classes.listItem}>0.5 BNB + 500 PWAR + 1 NFT Level 1</li>
+										<li className={classes.listItem}>1 BNB + 1000 PWAR + 1 NFT Level 1</li>
+										<li className={classes.listItem}>2 BNB + 2000 PWAR + 1 NFT Level 1</li>
+										<li className={classes.listItem}>3 BNB + 3000 PWAR + 1 NFT Level 2</li>
+										<li className={classes.listItem}>4 BNB + 4000 PWAR + 1 NFT Level 2</li>
+										<li className={classes.listItem}>5 BNB + 5000 PWAR + 1 NFT Level 2</li>
+										<li className={classes.listItem}>7 BNB + 7000 PWAR + 1 NFT Level 3</li>
+										<li className={classes.listItem}>10 BNB + 10000 PWAR + 1 NFT Level 3</li>
+										<li className={classes.listItem}>20 BNB + 20000 PWAR + 1 NFT Level 3</li>
+										<li className={classes.listItem}>50 BNB + 50000 PWAR + 1 NFT Level 3</li>
+									</ul>
+								</div>
+							</div>{' '}
+						</div>
 					</div>
-				</div>
+				</Grow>
 			)}
 			<div className="row mt-5">
 				{items !== null && (
