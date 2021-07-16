@@ -5,6 +5,9 @@ import { updateUsername } from './../actions/userActions';
 import { createNewBid } from './../actions/bidActions';
 import Loader from './Loader';
 import { connect } from 'react-redux';
+import axios from 'axios';
+import baseUrl from './../actions/baseUrl';
+import bidContract from './../utils/bidConnection';
 
 const useStyles = makeStyles((theme) => ({
 	card: {
@@ -103,6 +106,14 @@ function BidForm({ item, createNewBid }) {
 	const [ bidAmount, setBidAmount ] = useState('0');
 	const [ error, setError ] = useState('');
 
+	let nftHashList = {
+		Sword: 'Qma1PHjHqtf8BgMUKwLw2jpWpPdxJwMbPzmPXttApTWGes',
+		Gun: 'QmctTBBWEpCSvcW5UqESPKxpnRq2YFSNujsxin6jcw6Vp3',
+		'Big Knife': 'QmSeaVVXmWdpgK8UbNNKRxyCLjRQHQL54V4d1ejMHP1jSr',
+		Tessen: 'QmQKCSr4r2oR9HwfDt9KZ3uGDRdMJFTZHEXEyiTWhPLN7a',
+		Bow: 'QmZ1sRwD8H56Y5Szaor78vemhfrihNAmCtPuEipK4wRqJK',
+	};
+
 	useEffect(() => {
 		console.log(item);
 		if (item !== null) {
@@ -124,14 +135,78 @@ function BidForm({ item, createNewBid }) {
 		}
 	};
 
+	const signTransaction = (nfthash, userAddress) => {
+		let url = `${baseUrl}/flashsale-sign`;
+		console.log(url);
+		let body = {
+			nft: nfthash,
+			address: userAddress,
+		};
+		let data = axios
+			.post(url, body)
+			.then((res) => {
+				return res.data;
+			})
+			.catch((err) => {
+				return err;
+			});
+		return data;
+	};
+
 	const submitForm = async () => {
 		let errorStatus = bidConditionCheck();
 		if (errorStatus) {
 			setError('');
+
+			// 1. Getting user account
 			const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 			let userAddress = accounts[0];
 
-			let res = await createNewBid(item.itemId, userAddress, bidAmount);
+			// 2. Getting nft hash json of item
+			let nftHashJson = nftHashList[item.name];
+
+			// 3. Signing jsonHash
+			let signResponse = await signTransaction(nftHashJson, userAddress);
+			console.log(signResponse);
+
+			// 4. Hitting Contract
+			let amount = parseInt(bidAmount * 1000000000000000000);
+			const response = await new Promise((resolve, reject) => {
+				bidContract.methods
+					.bid(nftHashJson, signResponse.v, signResponse.r, signResponse.s, signResponse.messageHash)
+					.send({ from: userAddress, value: amount }, function(error, transactionHash) {
+						console.log('purchaseItem Called');
+						if (transactionHash) {
+							setActualCase(3);
+							resolve(transactionHash);
+						} else {
+							console.log('Rejected by user!');
+							setActualCase(2);
+							reject();
+						}
+					})
+					.on('receipt', async function(receipt) {
+						console.log('4. Purchase Success');
+						console.log(receipt.events);
+						// let events = receipt.events;
+						// let returnValues = events.purchaseEvent.returnValues;
+						// let tokenId = parseInt(returnValues[1]);
+						// const utcDateTimestamp = new Date();
+						// let utcDate = utcDateTimestamp.toUTCString();
+
+						// if (response) {
+						// 	setActualCase(5);
+						// 	//window.location.reload();
+						// } else {
+						// 	setActualCase(4);
+						// }
+					})
+					.on('error', async function(error) {
+						setActualCase(4);
+					});
+			});
+
+			//let res = await createNewBid(item.itemId, userAddress, bidAmount);
 
 			//Calling smart contract function.
 		} else {
@@ -202,8 +277,6 @@ function BidForm({ item, createNewBid }) {
 
 const mapStateToProps = (state) => ({
 	authenticated: state.auth.authenticated,
-	user: state.auth.user,
-	item: state.bids.item,
 });
 
 const mapDispatchToProps = { createNewBid };

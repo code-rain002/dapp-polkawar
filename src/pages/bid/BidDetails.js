@@ -484,7 +484,7 @@ function BidDetails({ getBidItem, item }) {
 									<hr style={{ width: 300, backgroundColor: '#616161', height: 1 }} />
 								</div>
 								<p className={classes.statusBoxHeading} />{' '}
-								<div className="d-flex justify-content-evenly mt-3">
+								<div className="text-center mt-3">
 									{bidStatus === 0 && (
 										<Button
 											variant="contained"
@@ -495,7 +495,7 @@ function BidDetails({ getBidItem, item }) {
 									)}
 									{bidStatus === 1 && (
 										<Button variant="contained" className={classes.cancelbidButton}>
-											<span>Cancel Bid</span>
+											<span>Place a new Bid</span>
 										</Button>
 									)}
 								</div>
@@ -517,7 +517,7 @@ function BidDetails({ getBidItem, item }) {
 					timeout: 1000,
 				}}>
 				<div style={{ backgroundColor: 'black' }}>
-					<BidForm />
+					<BidForm item={item} />
 				</div>
 			</Dialog>{' '}
 		</div>
