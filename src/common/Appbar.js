@@ -233,17 +233,17 @@ function Alert(props) {
 }
 function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
 	const classes = useStyles();
-	const [ navIndex, setNavIndex ] = useState(0);
-	const [ userData, setUserData ] = useState(null);
-	const [ ethBal, setEthBal ] = useState(null);
-	const [ pwarBal, setPwarBal ] = useState(10);
-	const [ userAdd, setUserAdd ] = useState(null);
-	const [ popup, setPopup ] = useState(false);
+	const [navIndex, setNavIndex] = useState(0);
+	const [userData, setUserData] = useState(null);
+	const [ethBal, setEthBal] = useState(null);
+	const [pwarBal, setPwarBal] = useState(10);
+	const [userAdd, setUserAdd] = useState(null);
+	const [popup, setPopup] = useState(false);
 
-	const [ state, setState ] = React.useState({
+	const [state, setState] = React.useState({
 		right: false,
 	});
-	const [ alert, setAlert ] = React.useState({ status: false, message: '' });
+	const [alert, setAlert] = React.useState({ status: false, message: '' });
 	const vertical = 'top';
 	const horizontal = 'right';
 
@@ -309,7 +309,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
 						<Link to={'/bid'}>
 							<ListItem button onClick={toggleDrawer(anchor, false)} key={39}>
 								<ListItemText
-									primary={'Bid'}
+									primary={'Auction'}
 									className={classes.menuTitle}
 									style={{ color: '#8D37A9' }}
 								/>
@@ -349,7 +349,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
 			}
 			asyncFn();
 		},
-		[ user ],
+		[user],
 	);
 
 	const getBalance = async (currentAddress) => {
@@ -402,14 +402,14 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
 				setUserData(user);
 			}
 		},
-		[ user ],
+		[user],
 	);
 
 	useEffect(
 		() => {
 			//Events to detect changes in account or network.
 			if (window.ethereum !== undefined) {
-				window.ethereum.on('accountsChanged', function(accounts) {
+				window.ethereum.on('accountsChanged', function (accounts) {
 					web3.eth.requestAccounts().then((accounts) => {
 						const accountAddress = accounts[0];
 						setUserAdd(accountAddress);
@@ -419,7 +419,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
 						window.location.reload();
 					});
 				});
-				window.ethereum.on('networkChanged', async function(networkId) {
+				window.ethereum.on('networkChanged', async function (networkId) {
 					// console.log('networkId: ' + networkId);
 					// let chainID = await web3.eth.getChainId().then((res) => {
 					//   return res;
@@ -445,7 +445,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
 				});
 			}
 		},
-		[ user ],
+		[user],
 	);
 
 	return (
@@ -537,7 +537,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
 							<div>
 								<Link to={'/bid'}>
 									<Button className={classes.bidButton}>
-										Bid <img src="/images/thunder.png" height="18px" alt="thunder" />
+										Auction <img src="/images/thunder.png" height="18px" alt="thunder" />
 									</Button>
 								</Link>
 							</div>
@@ -551,7 +551,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
 						</div>
 
 						<div>
-							{[ 'top' ].map((anchor) => (
+							{['top'].map((anchor) => (
 								<React.Fragment key={anchor}>
 									<IconButton
 										aria-label="Menu"

@@ -86,8 +86,8 @@ const useStyles = makeStyles((theme) => ({
 function Bid({ getAllBidItems, items }) {
 	const classes = useStyles();
 
-	const [ actualCase, setActualCase ] = useState(0);
-	const [ showRules, setShowRules ] = useState(false);
+	const [actualCase, setActualCase] = useState(0);
+	const [showRules, setShowRules] = useState(false);
 
 	useEffect(() => {
 		getAllBidItems();
@@ -129,10 +129,10 @@ function Bid({ getAllBidItems, items }) {
 								<div style={{ maxWidth: 600 }}>
 									<h6 style={{ color: 'yellow', fontSize: 20, textAlign: 'left' }}>Bidding Rules</h6>
 									<ol>
-										<li className={classes.listItem}>You must HODL or STAKE 2000 PWAR Tokens.</li>
-										<li className={classes.listItem}>You can only place one bid at a time.</li>
+										<li className={classes.listItem}>You must HODL or STAKE 2000 PWAR.</li>
+										<li className={classes.listItem}>You can participate in multiple bid at different prices.</li>
 										<li className={classes.listItem}>
-											For another bid you have to cancel the first bid.
+											When someone bids higher than you, your bid will no longer be valid and you will get your previous bid amount back.
 										</li>
 									</ol>
 									<h6 style={{ color: 'yellow', fontSize: 20, textAlign: 'left', marginTop: 30 }}>
