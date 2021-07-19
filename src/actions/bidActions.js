@@ -44,7 +44,7 @@ export const createNewBid = (itemId, userAddress, bidAmount) => (dispatch) => {
 		address: userAddress,
 		amount: bidAmount,
 	};
-	axios
+	const response = axios
 		.post(`${baseUrl}/bid/${itemId}`, bidData)
 		.then((res) => {
 			dispatch({
@@ -60,4 +60,6 @@ export const createNewBid = (itemId, userAddress, bidAmount) => (dispatch) => {
 			});
 			return false;
 		});
+
+	return response;
 };
