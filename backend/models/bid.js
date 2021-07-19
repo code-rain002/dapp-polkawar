@@ -20,7 +20,10 @@ var BidModel = new mongoose.Schema({
 		type: Array,
 		default: [],
 	},
-
+	last_update: {
+		type: Date,
+		required: true,
+	},
 	current_price: {
 		type: String,
 		required: true,

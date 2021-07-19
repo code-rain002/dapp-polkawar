@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Button, Divider, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { updateUsername } from './../actions/userActions';
 import { createNewBid } from './../actions/bidActions';
 import Loader from './Loader';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import baseUrl from './../actions/baseUrl';
 import bidContract from './../utils/bidConnection';
+import { Refresh } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	card: {
@@ -98,28 +98,57 @@ const useStyles = makeStyles((theme) => ({
 			fontSize: 18,
 		},
 	},
+	reloadButton: {
+		borderRadius: '50px',
+		background: `linear-gradient(to bottom,#6F2F9B, #8D37A9)`,
+		lineHeight: '24px',
+		verticalAlign: 'baseline',
+		letterSpacing: '-1px',
+		margin: 0,
+		marginTop: 5,
+		marginLeft: 10,
+		color: '#eeeeee',
+		padding: '18px 50px 18px 50px',
+		fontWeight: 400,
+		fontSize: 20,
+		textTransform: 'none',
+		textDecoration: 'none',
+		[theme.breakpoints.down('md')]: {
+			padding: '12px 20px 12px 20px',
+			fontSize: 18,
+		},
+	},
+	dialogText: {
+		textAlign: 'center',
+		color: 'red',
+		fontFamily: 'Balsamiq Sans',
+		fontSize: 14,
+	},
+	dialogImage: {
+		height: 150,
+		paddingTop: 20,
+		paddingBottom: 20,
+	},
 }));
 
-function BidForm({ item, createNewBid }) {
+function BidForm({ item, createNewBid, setStopPopupClick }) {
 	const classes = useStyles();
 	const [ actualCase, setActualCase ] = useState(0);
 	const [ bidAmount, setBidAmount ] = useState('0');
+	const [ boxId, setBoxId ] = useState(0);
 	const [ error, setError ] = useState('');
 
-	let nftHashList = {
-		Sword: 'Qma1PHjHqtf8BgMUKwLw2jpWpPdxJwMbPzmPXttApTWGes',
-		Gun: 'QmctTBBWEpCSvcW5UqESPKxpnRq2YFSNujsxin6jcw6Vp3',
-		'Big Knife': 'QmSeaVVXmWdpgK8UbNNKRxyCLjRQHQL54V4d1ejMHP1jSr',
-		Tessen: 'QmQKCSr4r2oR9HwfDt9KZ3uGDRdMJFTZHEXEyiTWhPLN7a',
-		Bow: 'QmZ1sRwD8H56Y5Szaor78vemhfrihNAmCtPuEipK4wRqJK',
-	};
+	let mysteryBoxJsonList = [ 'Qma5vpAbdmiPj8aCkNbMEGppH9qNDk1uRR9HT3VrK1NEzi' ];
 
 	useEffect(() => {
 		console.log(item);
 		if (item !== null) {
 			console.log('Null nahin hai');
-			setActualCase(1);
+			setBoxId(item.itemId);
+			setActualCase(0);
 		} else {
+			setActualCase(-1);
+
 			console.log('Null  hai');
 		}
 	}, []);
@@ -127,7 +156,8 @@ function BidForm({ item, createNewBid }) {
 	const bidConditionCheck = () => {
 		let highestBid = item.current_price;
 		let currentBid = bidAmount;
-
+		console.log(item.current_price);
+		console.log(parseFloat(currentBid) > parseFloat(highestBid));
 		if (parseFloat(currentBid) > parseFloat(highestBid)) {
 			return true;
 		} else {
@@ -163,21 +193,30 @@ function BidForm({ item, createNewBid }) {
 			let userAddress = accounts[0];
 
 			// 2. Getting nft hash json of item
-			let nftHashJson = nftHashList[item.name];
+			let boxHash = mysteryBoxJsonList[boxId];
+			console.log('boxId: ' + boxId);
 
 			// 3. Signing jsonHash
-			let signResponse = await signTransaction(nftHashJson, userAddress);
+			let signResponse = await signTransaction(boxHash, userAddress);
 			console.log(signResponse);
 
-			// 4. Hitting Contract
-			let amount = parseInt(bidAmount * 1000000000000000000);
+			// 4. Converting amount Wei
+			let amount = bidAmount * 1000000000000000000;
+
+			//5. Setting Actual case to waiting -0
+			setActualCase(1);
+
+			// 6. Hitting Contract
+
 			const response = await new Promise((resolve, reject) => {
 				bidContract.methods
-					.bid(nftHashJson, signResponse.v, signResponse.r, signResponse.s, signResponse.messageHash)
+					.bid(boxId, signResponse.v, signResponse.r, signResponse.s, signResponse.messageHash)
 					.send({ from: userAddress, value: amount }, function(error, transactionHash) {
 						console.log('purchaseItem Called');
+						setStopPopupClick(true);
 						if (transactionHash) {
 							setActualCase(3);
+
 							resolve(transactionHash);
 						} else {
 							console.log('Rejected by user!');
@@ -187,35 +226,33 @@ function BidForm({ item, createNewBid }) {
 					})
 					.on('receipt', async function(receipt) {
 						console.log('4. Purchase Success');
-						console.log(receipt.events);
-						// let events = receipt.events;
-						// let returnValues = events.purchaseEvent.returnValues;
-						// let tokenId = parseInt(returnValues[1]);
-						// const utcDateTimestamp = new Date();
-						// let utcDate = utcDateTimestamp.toUTCString();
 
-						// if (response) {
-						// 	setActualCase(5);
-						// 	//window.location.reload();
-						// } else {
-						// 	setActualCase(4);
-						// }
+						let newBidResponse = await createNewBid(boxId, userAddress, bidAmount);
+						if (newBidResponse) {
+							setActualCase(6);
+							window.location.reload();
+						} else {
+							setActualCase(5);
+						}
 					})
 					.on('error', async function(error) {
 						setActualCase(4);
 					});
 			});
-
-			//let res = await createNewBid(item.itemId, userAddress, bidAmount);
-
-			//Calling smart contract function.
 		} else {
 			setError('Please enter a valid and higher bid.');
 		}
 	};
 	return (
 		<div className={classes.card}>
-			{actualCase === 1 && (
+			{actualCase === -1 && (
+				<div className="d-flex flex-column justify-content-center" style={{ height: '100%' }}>
+					<div className="text-center">
+						<Loader />
+					</div>
+				</div>
+			)}
+			{actualCase === 0 && (
 				<div className="container text-center">
 					<div>
 						<h5 className={classes.title}>Place A Bid</h5>
@@ -266,6 +303,96 @@ function BidForm({ item, createNewBid }) {
 						<div className="text-center">
 							<Button variant="contained" className={classes.submitButton} onClick={submitForm}>
 								Place Bid Now
+							</Button>
+						</div>
+					</div>
+				</div>
+			)}
+
+			{actualCase === 1 && (
+				<div className="d-flex flex-column justify-content-center" style={{ height: '100%' }}>
+					<div className="text-center my-3">
+						<div className="text-center">
+							<Loader />
+						</div>
+						<h5 className={classes.messageTitle}>Waiting for confirmation!</h5>
+					</div>
+				</div>
+			)}
+			{actualCase === 2 && (
+				<div className="d-flex flex-column justify-content-center" style={{ height: '100%' }}>
+					<div className="text-center my-3">
+						<img src="/images/failed.png" height="100px" alt="error" className={classes.dialogImage} />
+						<h5 className={classes.messageTitle}>Transaction Rejected</h5>
+						<div className="text-center">
+							<Button
+								variant="contained"
+								onClick={() => window.location.reload()}
+								className={classes.reloadButton}>
+								<Refresh />Reload
+							</Button>
+						</div>
+					</div>
+				</div>
+			)}
+			{actualCase === 3 && (
+				<div className="d-flex flex-column justify-content-center" style={{ height: '100%' }}>
+					<div className="text-center my-3">
+						<div className="text-center">
+							<Loader />
+						</div>
+						<h5 className={classes.messageTitle}>Transaction submitted, please wait...</h5>
+						<p className={classes.dialogText}>
+							<span style={{ color: '#e65100' }}>* Do not reload otherwise you may lose funds.</span>
+						</p>
+					</div>
+				</div>
+			)}
+			{actualCase === 4 && (
+				<div className="d-flex flex-column justify-content-center" style={{ height: '100%' }}>
+					<div className="text-center my-3">
+						<img src="/images/failed.png" height="100px" alt="error" className={classes.dialogImage} />
+						<h5 className={classes.messageTitle}>Transaction Failed</h5>
+						<div className="text-center">
+							<Button
+								variant="contained"
+								onClick={() => window.location.reload()}
+								className={classes.reloadButton}>
+								<Refresh />Reload
+							</Button>
+						</div>
+					</div>{' '}
+				</div>
+			)}
+			{actualCase === 5 && (
+				<div className="d-flex flex-column justify-content-center" style={{ height: '100%' }}>
+					<div className="text-center my-3">
+						<img src="/images/failed.png" height="100px" alt="error" className={classes.dialogImage} />
+						<h5 className={classes.messageTitle}>Transaction Success with Error</h5>
+
+						<p className={classes.dialogText}>* Contact admin and share the transaction hash.</p>
+						<div className="text-center">
+							<Button
+								variant="contained"
+								onClick={() => window.location.reload()}
+								className={classes.reloadButton}>
+								<Refresh />Reload
+							</Button>
+						</div>
+					</div>
+				</div>
+			)}
+			{actualCase === 6 && (
+				<div className="d-flex flex-column justify-content-center" style={{ height: '100%' }}>
+					<div className="text-center my-3">
+						<img src="/images/success.png" height="100px" alt="success" className={classes.dialogImage} />
+						<h5 className={classes.messageTitle}>Transaction Success</h5>
+						<div className="text-center">
+							<Button
+								variant="contained"
+								onClick={() => window.location.reload()}
+								className={classes.reloadButton}>
+								<Refresh />Reload
 							</Button>
 						</div>
 					</div>

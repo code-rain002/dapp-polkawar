@@ -37,10 +37,14 @@ router.post('/bid/:id', async (req, res, next) => {
 		price: bidData.amount,
 		isactive: 1,
 	};
-
+	console.log(bidHistory);
 	try {
 		const data = await BidDao.updateBidItem(itemId, bidHistory);
-		return res.status(200).send(data);
+		if (!data) {
+			return res.status(400).send('error');
+		} else {
+			return res.status(200).send(data);
+		}
 	} catch (error) {
 		return res.status(400).send('error');
 	}
@@ -56,10 +60,11 @@ router.post('/bid', async (req, res, next) => {
 			image: 'QmZ8K4DxcKJjYUsSqQDBXzXBeaWcpt96Yuy9Cg3nu2hXx5',
 			description: 'This mystery Box will contains NFT item, BNB rewards and PWAR tokens.',
 			bidhistory: [],
-			current_price: '2.0',
+			last_update: new Date(),
+			current_price: '0.5',
 			start_price: '0.5',
 			time_start: 'July 22, 2021 14:00:00 UTC',
-			time_end: 'July 26, 2021 14:00:00 UTC',
+			time_end: 'July 23, 2021 14:00:00 UTC',
 		},
 	];
 

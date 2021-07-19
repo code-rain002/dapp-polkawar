@@ -51,11 +51,13 @@ export const createNewBid = (itemId, userAddress, bidAmount) => (dispatch) => {
 				type: CREATE_BID_BY_ID,
 				payload: res.data,
 			});
+			return true;
 		})
 		.catch((err) => {
 			dispatch({
 				type: GET_ERRORS,
 				payload: 'Network Error!',
 			});
+			return false;
 		});
 };

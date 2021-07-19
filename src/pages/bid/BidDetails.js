@@ -6,8 +6,10 @@ import { Button, Slide, Avatar, Dialog, Backdrop } from '@material-ui/core';
 import Loader from '../../components/Loader';
 import Timer from '../../components/Timer';
 import { getBidItem } from './../../actions/bidActions';
+import { isUserBid } from './../../actions/smartActions/SmartActions';
 import BidForm from '../../components/BidForm';
-import axios from 'axios';
+
+import Moment from 'react-moment';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
@@ -250,17 +252,34 @@ function BidDetails({ getBidItem, item }) {
 	const classes = useStyles();
 
 	const [ timerStatus, setTimerStatus ] = useState(0);
-	const [ bidStatus, setBidStatus ] = useState(0);
+	const [ userBidStatus, setUserBidStatus ] = useState(0);
+	const [ bidCount, setBidCount ] = useState(0);
 	const [ bidPopup, setBidPopup ] = useState(false);
 	const [ stopPopupClick, setStopPopupClick ] = useState(false);
 
 	useEffect(() => {
-		getBidItem(0);
-		if (item !== null) {
-			console.log(item);
+		async function asyncFn() {
+			await getBidItem(0);
+			if (item !== null) {
+				console.log(item);
+				updateBidTimerStatus();
+				setBidCount(item.bidhistory.length);
 
-			updateBidTimerStatus();
+				// 1. Getting user account
+				const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+				let userAddress = accounts[0];
+				let isUserBidded = await isUserBid(userAddress, item.itemId);
+				console.log(isUserBidded);
+				if (isUserBidded) {
+					setUserBidStatus(1);
+				} else {
+					setUserBidStatus(0);
+				}
+			} else {
+				console.log('No item');
+			}
 		}
+		asyncFn();
 	}, []);
 
 	let mysteryRewards = [
@@ -388,7 +407,7 @@ function BidDetails({ getBidItem, item }) {
 							<p className={classes.description}>{item.description}</p>{' '}
 							<h6 className={classes.price}>
 								<span style={{ color: '#bdbdbd', paddingRight: 5 }}>Starting Bid Price: </span>
-								{item.start_price} {item.currency}
+								{item.start_price} {item.currency} {userBidStatus}
 							</h6>
 							<div className="mt-5">
 								<h6 className={classes.timeline}>Bids Timeline</h6>
@@ -430,39 +449,59 @@ function BidDetails({ getBidItem, item }) {
 								</div>
 							</div>
 							<div>
-								<hr className={classes.border} />
+								<hr style={{ color: 'yellow' }} />
 								<div className={classes.auctionWrapper}>
-									<div for="highestBid">
-										<p className={classes.statusBoxHeading}>Highest Bid Price</p>{' '}
-										<div className="d-flex justify-content-start">
-											<div style={{ paddingRight: 15 }}>
-												<Avatar
-													alt="Tahir Ahmad"
-													className={classes.avatar}
-													src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
-												/>
-											</div>
-											<div>
-												<h6 className={classes.bidAmount}>0.53 BNB</h6>
-												<h6 className={classes.time}>23 mins ago</h6>
+									{bidCount === 0 && (
+										<div for="noBid">
+											<p className={classes.statusBoxHeading}>Initial Bid Price</p>{' '}
+											<div className="d-flex justify-content-start">
+												<div style={{ paddingRight: 15 }}>
+													<Avatar alt="Avatar" className={classes.avatar} src="/token.png" />
+												</div>
+												<div>
+													<h6 className={classes.bidAmount}>{item.current_price} BNB</h6>
+													<h6 className={classes.time}>No bid yet</h6>
+												</div>
 											</div>
 										</div>
-									</div>
-
-									{bidStatus === 1 && (
-										<div for="bidStatus">
-											<p className={classes.statusBoxHeading}>Your bid status</p>{' '}
+									)}
+									{bidCount !== 0 && (
+										<div for="highestBid">
+											<p className={classes.statusBoxHeading}>Highest Bid Price</p>{' '}
 											<div className="d-flex justify-content-start">
 												<div style={{ paddingRight: 15 }}>
 													<Avatar
-														alt="Tahir Ahmad"
+														alt="Avatar"
 														className={classes.avatar}
 														src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
 													/>
 												</div>
 												<div>
-													<h6 className={classes.bidAmount}>0.53 BNB</h6>
-													<h6 className={classes.time}>23 mins ago</h6>
+													<h6 className={classes.bidAmount}>{item.current_price} BNB</h6>
+													<h6 className={classes.time}>
+														<Moment fromNow>{item.last_update}</Moment>
+													</h6>
+												</div>
+											</div>
+										</div>
+									)}
+
+									{userBidStatus === 1 && (
+										<div for="bidStatus">
+											<p className={classes.statusBoxHeading}>Your bid status</p>{' '}
+											<div className="d-flex justify-content-start">
+												<div style={{ paddingRight: 15 }}>
+													<Avatar
+														alt="Avatar"
+														className={classes.avatar}
+														src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
+													/>
+												</div>
+												<div>
+													<h6 className={classes.bidAmount}>{item.current_price} BNB</h6>
+													<h6 className={classes.time}>
+														<Moment fromNow>{item.last_update}</Moment>
+													</h6>
 												</div>
 											</div>
 										</div>
@@ -476,7 +515,11 @@ function BidDetails({ getBidItem, item }) {
 											{timerStatus === 0 && 'Auction Status'}
 										</p>{' '}
 										<div className="d-flex justify-content-start">
-											<Timer endTime={item.time_end} />
+											{timerStatus === 4 && <Timer endTime={item.time_ends} />}
+											{timerStatus === 3 && <Timer endTime={item.time_start} />}
+
+											{timerStatus === 1 && 'Auction Status'}
+											{timerStatus === 0 && 'Auction Status'}
 										</div>
 									</div>
 								</div>
@@ -485,7 +528,7 @@ function BidDetails({ getBidItem, item }) {
 								</div>
 								<p className={classes.statusBoxHeading} />{' '}
 								<div className="text-center mt-3">
-									{bidStatus === 0 && (
+									{userBidStatus === 0 && (
 										<Button
 											variant="contained"
 											className={classes.newbidButton}
@@ -493,7 +536,7 @@ function BidDetails({ getBidItem, item }) {
 											<span>Place Bid</span>
 										</Button>
 									)}
-									{bidStatus === 1 && (
+									{userBidStatus === 1 && (
 										<Button variant="contained" className={classes.cancelbidButton}>
 											<span>Place a new Bid</span>
 										</Button>
@@ -517,7 +560,7 @@ function BidDetails({ getBidItem, item }) {
 					timeout: 1000,
 				}}>
 				<div style={{ backgroundColor: 'black' }}>
-					<BidForm item={item} />
+					<BidForm item={item} setStopPopupClick={setStopPopupClick} />
 				</div>
 			</Dialog>{' '}
 		</div>

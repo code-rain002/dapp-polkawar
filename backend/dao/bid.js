@@ -17,14 +17,31 @@ const bidDao = {
 
 	async updateBidItem(itemId, bidData) {
 		console.log('updateBidItem');
+		console.log(bidData);
 		let bidItem = await BidModel.findOne({ itemId: itemId });
 		let bidHistory = bidItem.bidhistory;
+
 		if (bidHistory.length > 0) {
 			bidHistory[bidHistory.length - 1].isactive = 0;
 		}
-		await BidModel.findOneAndUpdate({ itemId: itemId }, { bidhistory: [ ...bidHistory, bidData ] });
+		let prevHighestBiddingPrice = bidItem.current_price;
+		console.log(prevHighestBiddingPrice);
+		console.log(bidData['price']);
+		if (parseFloat(bidData['price']) > parseFloat(prevHighestBiddingPrice)) {
+			console.log('true');
+			await BidModel.findOneAndUpdate(
+				{ itemId: itemId },
+				{
+					bidhistory: [ ...bidHistory, bidData ],
+					current_price: bidData['price'],
+					last_update: bidData['time'],
+				},
+			);
 
-		return await BidModel.findOne({ itemId: itemId });
+			return await BidModel.findOne({ itemId: itemId });
+		} else {
+			return false;
+		}
 	},
 
 	async deleteItem() {
