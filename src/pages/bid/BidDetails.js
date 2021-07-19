@@ -553,24 +553,26 @@ function BidDetails({ getBidItem, item }) {
 										<hr style={{ width: 300, backgroundColor: '#616161', height: 1 }} />
 									</div>
 									<p className={classes.statusBoxHeading} />{' '}
-									<div className="text-center mt-3">
-										{userBidStatus === 0 && (
-											<Button
-												variant="contained"
-												className={classes.newbidButton}
-												onClick={() => setBidPopup(true)}>
-												<span>Place Bid</span>
-											</Button>
-										)}
-										{userBidStatus === 1 && (
-											<Button
-												variant="contained"
-												className={classes.cancelbidButton}
-												onClick={() => setBidPopup(true)}>
-												<span>Place a new Bid</span>
-											</Button>
-										)}
-									</div>
+									{timerStatus === 4 && (
+										<div className="text-center mt-3">
+											{userBidStatus === 0 && (
+												<Button
+													variant="contained"
+													className={classes.newbidButton}
+													onClick={() => setBidPopup(true)}>
+													<span>Place Bid</span>
+												</Button>
+											)}
+											{userBidStatus === 1 && (
+												<Button
+													variant="contained"
+													className={classes.cancelbidButton}
+													onClick={() => setBidPopup(true)}>
+													<span>Place a new Bid</span>
+												</Button>
+											)}
+										</div>
+									)}
 								</div>
 							</div>
 						</div>
