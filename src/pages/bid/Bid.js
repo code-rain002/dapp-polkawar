@@ -100,9 +100,9 @@ function Bid({ getAllBidItems, items }) {
 		<div className={classes.sectionCard}>
 			<div className="text-center">
 				<h1 className={classes.title}>
-					Mystery Box Bidding <img src="images/thunder.png" height="20px" alt="thunder" />
+					PolkaWar NFT Auction Program <img src="images/thunder.png" height="20px" alt="thunder" />
 				</h1>
-				<h6 className={classes.para}>Participate in Mystery Box Bidding and win tons of rewards.</h6>
+				<h6 className={classes.para}>Participate in NFT auction and win tons of rewards.</h6>
 			</div>
 			<div className="text-center mt-3">
 				<Button variant="contained" className={classes.rulesButton} onClick={toggleRules}>
