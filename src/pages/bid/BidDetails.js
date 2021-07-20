@@ -10,6 +10,7 @@ import { isUserBid } from './../../actions/smartActions/SmartActions';
 import BidForm from '../../components/BidForm';
 import Moment from 'react-moment';
 import { useParams } from 'react-router-dom';
+import bidContract from './../../utils/bidConnection';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
@@ -247,6 +248,41 @@ const useStyles = makeStyles((theme) => ({
 		textDecoration: 'none',
 		outline: 'none',
 	},
+
+	claimButton: {
+		borderRadius: '50px',
+		background: `linear-gradient(to bottom, #43a047,#1b5e20)`,
+		lineHeight: '24px',
+		verticalAlign: 'baseline',
+		letterSpacing: '-1px',
+		margin: 0,
+		marginTop: 5,
+		marginBottom: 5,
+		marginLeft: 10,
+		color: 'white',
+		padding: '18px 50px 18px 50px',
+		fontWeight: 400,
+		fontSize: 20,
+		textTransform: 'none',
+		textDecoration: 'none',
+
+		[theme.breakpoints.down('md')]: {
+			padding: '12px 20px 12px 20px',
+			fontSize: 18,
+		},
+	},
+	congratsText: {
+		verticalAlign: 'baseline',
+		textAlign: 'center',
+		color: '#e5e5e5',
+		fontWeight: 500,
+		fontSize: 16,
+
+		[theme.breakpoints.down('md')]: {
+			paddingTop: 5,
+			fontSize: 14,
+		},
+	},
 }));
 
 function BidDetails({ getBidItem, item }) {
@@ -256,6 +292,9 @@ function BidDetails({ getBidItem, item }) {
 	const [ userBidStatus, setUserBidStatus ] = useState(0);
 	const [ bidCount, setBidCount ] = useState(0);
 	const [ bidPopup, setBidPopup ] = useState(false);
+	const [ isWinner, setIsWinner ] = useState(false);
+	const [ claimLoading, setClaimLoading ] = useState(false);
+	const [ claimCase, setClaimCase ] = useState(0);
 	const [ stopPopupClick, setStopPopupClick ] = useState(false);
 
 	let { id } = useParams();
@@ -383,6 +422,7 @@ function BidDetails({ getBidItem, item }) {
 		if (differenceEnd <= 0) {
 			setTimerStatus(1);
 			console.log('Bid ends');
+			checkIsWinner();
 		} else {
 			if (differenceStart > 0) {
 				setTimerStatus(3);
@@ -393,7 +433,39 @@ function BidDetails({ getBidItem, item }) {
 			}
 		}
 	};
+	const checkIsWinner = async () => {};
+	const claimFn = async () => {
+		setClaimCase(1);
 
+		// 1. Getting user account
+		const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+		let userAddress = accounts[0];
+		const response = await new Promise((resolve, reject) => {
+			bidContract.methods
+				.claim(item.itemId)
+				.send({ from: userAddress }, function(error, transactionHash) {
+					console.log('purchaseItem Called');
+					setStopPopupClick(true);
+					if (transactionHash) {
+						setClaimCase(3);
+						resolve(transactionHash);
+					} else {
+						console.log('Rejected by user!');
+						setClaimCase(2);
+						reject();
+					}
+				})
+				.on('receipt', async function(receipt) {
+					console.log('4. Claim Success');
+
+					//let newBidResponse = await createNewBid(boxId, userAddress, bidAmount);
+					setClaimCase(5);
+				})
+				.on('error', async function(error) {
+					setClaimCase(4);
+				});
+		});
+	};
 	return (
 		<div className={classes.sectionCard}>
 			{item === null && (
@@ -568,6 +640,48 @@ function BidDetails({ getBidItem, item }) {
 													onClick={() => setBidPopup(true)}>
 													<span>Place a new Bid</span>
 												</Button>
+											)}
+										</div>
+									)}
+									{isWinner && (
+										<div className="text-center mt-3">
+											<h6 className={classes.congratsText}>Congratulations for winning!</h6>
+											{(claimCase === 2 || claimCase === 4) && (
+												<div>
+													<Button
+														variant="contained"
+														className={classes.claimButton}
+														onClick={claimFn}>
+														<span>Claim Rewards</span>
+													</Button>
+												</div>
+											)}
+											{(claimCase === 1 || claimCase === 3) && (
+												<div>
+													<Loader />
+												</div>
+											)}
+
+											{claimCase === 2 && (
+												<div>
+													<h6 className={classes.congratsText}>
+														<span style={{ color: '#f44336' }}>Claim Cancelled!</span>
+													</h6>
+												</div>
+											)}
+											{claimCase === 4 && (
+												<div>
+													<h6 className={classes.congratsText}>
+														<span style={{ color: '#f44336' }}>Claim Failed!</span>
+													</h6>
+												</div>
+											)}
+											{claimCase === 5 && (
+												<div>
+													<h6 className={classes.congratsText}>
+														<span style={{ color: '#4caf50' }}>Successfully Claimed!</span>
+													</h6>
+												</div>
 											)}
 										</div>
 									)}

@@ -96,28 +96,33 @@ const useStyles = makeStyles((theme) => ({
 function BidCard({ item }) {
 	const classes = useStyles();
 
-	const [ bidStarts, setBidStarts ] = useState(false);
-	const [ bidEnds, setBidEnds ] = useState(false);
+	const [ timerStatus, setTimerStatus ] = useState(0);
 
 	useEffect(() => {
-		checkSaleStart();
+		updateBidTimerStatus();
 	}, []);
 
-	const checkSaleStart = () => {
-		//PUT Sale start date time
+	const updateBidTimerStatus = () => {
 		const differenceStart = +new Date(item.time_start) - +new Date();
 		const differenceEnd = +new Date(item.time_end) - +new Date();
+
+		console.log(differenceStart);
+		console.log(differenceEnd);
+
 		if (differenceEnd <= 0) {
-			setBidEnds(true);
+			setTimerStatus(1);
+			console.log('Bid ends');
 		} else {
-			setBidEnds(false);
-		}
-		if (differenceStart > 0) {
-			setBidStarts(false);
-		} else {
-			setBidStarts(true);
+			if (differenceStart > 0) {
+				setTimerStatus(3);
+				console.log('Bid not started');
+			} else {
+				setTimerStatus(4);
+				console.log('Bid started');
+			}
 		}
 	};
+
 	return (
 		<div>
 			<div className="text-center" />
@@ -135,14 +140,19 @@ function BidCard({ item }) {
 						<div className={classes.priceBadgeWrapper}>
 							<h6 style={{ color: 'white' }}>
 								<strong>
-									{' '}
-									{bidEnds && 'Bid Status'}
-									{bidStarts && 'Ending In'}
-									{!bidStarts && 'Starting In'}
+									{timerStatus === 4 && 'Auction ends in'}
+									{timerStatus === 3 && 'Auction starts in'}
+
+									{timerStatus === 1 && 'Auction Status'}
+									{timerStatus === 0 && 'Auction Status'}
 								</strong>{' '}
 							</h6>
 							<div>
-								<Timer endTime={item.time_start} />
+								{timerStatus === 4 && <Timer endTime={item.time_end} />}
+								{timerStatus === 3 && <Timer endTime={item.time_start} />}
+
+								{timerStatus === 1 && <Timer endTime={item.time_end} />}
+								{timerStatus === 0 && 'checking...'}
 							</div>
 						</div>
 					</div>
