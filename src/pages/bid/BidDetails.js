@@ -252,7 +252,6 @@ const useStyles = makeStyles((theme) => ({
 function BidDetails({ getBidItem, item }) {
 	const classes = useStyles();
 
-	const [ data, setData ] = useState(null);
 	const [ timerStatus, setTimerStatus ] = useState(0);
 	const [ userBidStatus, setUserBidStatus ] = useState(0);
 	const [ bidCount, setBidCount ] = useState(0);
@@ -268,7 +267,6 @@ function BidDetails({ getBidItem, item }) {
 	useEffect(
 		() => {
 			if (item !== null) {
-				setData(item);
 				setBidCount(item.bidhistory.length);
 				updateBidTimerStatus();
 				callIsBid();
@@ -293,88 +291,88 @@ function BidDetails({ getBidItem, item }) {
 		}
 	};
 
-	let mysteryRewards = [
-		{
-			id: 0,
-			rewards: {
-				bnb: '0.5',
-				pwar: '500',
-				nft_level: 1,
-			},
-		},
-		{
-			id: 1,
-			rewards: {
-				bnb: '1',
-				pwar: '1000',
-				nft_level: 1,
-			},
-		},
-		{
-			id: 2,
-			rewards: {
-				bnb: '2',
-				pwar: '2000',
-				nft_level: 1,
-			},
-		},
-		{
-			id: 3,
-			rewards: {
-				bnb: '3',
-				pwar: '3000',
-				nft_level: 2,
-			},
-		},
-		{
-			id: 4,
-			rewards: {
-				bnb: '4',
-				pwar: '4000',
-				nft_level: 2,
-			},
-		},
-		{
-			id: 5,
-			rewards: {
-				bnb: '5',
-				pwar: '5000',
-				nft_level: 2,
-			},
-		},
-		{
-			id: 6,
-			rewards: {
-				bnb: '7',
-				pwar: '7000',
-				nft_level: 3,
-			},
-		},
-		{
-			id: 7,
-			rewards: {
-				bnb: '10',
-				pwar: '10000',
-				nft_level: 3,
-			},
-		},
-		{
-			id: 8,
-			rewards: {
-				bnb: '20',
-				pwar: '20000',
-				nft_level: 3,
-			},
-		},
-		{
-			id: 9,
-			rewards: {
-				bnb: '50',
-				pwar: '50000',
-				nft_level: 3,
-			},
-		},
-	];
+	// let mysteryRewards = [
+	// 	{
+	// 		id: 0,
+	// 		rewards: {
+	// 			bnb: '0.5',
+	// 			pwar: '500',
+	// 			nft_level: 1,
+	// 		},
+	// 	},
+	// 	{
+	// 		id: 1,
+	// 		rewards: {
+	// 			bnb: '1',
+	// 			pwar: '1000',
+	// 			nft_level: 1,
+	// 		},
+	// 	},
+	// 	{
+	// 		id: 2,
+	// 		rewards: {
+	// 			bnb: '2',
+	// 			pwar: '2000',
+	// 			nft_level: 1,
+	// 		},
+	// 	},
+	// 	{
+	// 		id: 3,
+	// 		rewards: {
+	// 			bnb: '3',
+	// 			pwar: '3000',
+	// 			nft_level: 2,
+	// 		},
+	// 	},
+	// 	{
+	// 		id: 4,
+	// 		rewards: {
+	// 			bnb: '4',
+	// 			pwar: '4000',
+	// 			nft_level: 2,
+	// 		},
+	// 	},
+	// 	{
+	// 		id: 5,
+	// 		rewards: {
+	// 			bnb: '5',
+	// 			pwar: '5000',
+	// 			nft_level: 2,
+	// 		},
+	// 	},
+	// 	{
+	// 		id: 6,
+	// 		rewards: {
+	// 			bnb: '7',
+	// 			pwar: '7000',
+	// 			nft_level: 3,
+	// 		},
+	// 	},
+	// 	{
+	// 		id: 7,
+	// 		rewards: {
+	// 			bnb: '10',
+	// 			pwar: '10000',
+	// 			nft_level: 3,
+	// 		},
+	// 	},
+	// 	{
+	// 		id: 8,
+	// 		rewards: {
+	// 			bnb: '20',
+	// 			pwar: '20000',
+	// 			nft_level: 3,
+	// 		},
+	// 	},
+	// 	{
+	// 		id: 9,
+	// 		rewards: {
+	// 			bnb: '50',
+	// 			pwar: '50000',
+	// 			nft_level: 3,
+	// 		},
+	// 	},
+	// ];
 	const updateBidTimerStatus = () => {
 		const differenceStart = +new Date(item.time_start) - +new Date();
 		const differenceEnd = +new Date(item.time_end) - +new Date();
@@ -428,7 +426,7 @@ function BidDetails({ getBidItem, item }) {
 										{item.bidhistory.length === 0 && (
 											<div className={classes.noBidText}>No bid yet</div>
 										)}
-										{item.bidhistory.map((row, index) => {
+										{item.bidhistory.slice(0).reverse().map((row, index) => {
 											return (
 												<div key={index}>
 													{' '}
@@ -541,11 +539,11 @@ function BidDetails({ getBidItem, item }) {
 												{timerStatus === 0 && 'Auction Status'}
 											</p>{' '}
 											<div className="d-flex justify-content-start">
-												{timerStatus === 4 && <Timer endTime={item.time_ends} />}
+												{timerStatus === 4 && <Timer endTime={item.time_end} />}
 												{timerStatus === 3 && <Timer endTime={item.time_start} />}
 
-												{timerStatus === 1 && 'Auction Status'}
-												{timerStatus === 0 && 'Auction Status'}
+												{timerStatus === 1 && <Timer endTime={item.time_end} />}
+												{timerStatus === 0 && 'checking...'}
 											</div>
 										</div>
 									</div>
