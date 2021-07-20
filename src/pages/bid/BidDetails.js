@@ -454,11 +454,15 @@ function BidDetails({ getBidItem, item }) {
 
 		//2. Getting last bid user address
 		let bidHistoryLength = item.bidhistory.length;
-		let bidWinner = item.bidhistory[bidHistoryLength];
-		if (bidWinner.address === userAddress) {
-			setIsWinner(true);
-		} else {
-			setIsWinner(false);
+
+		if (bidHistoryLength > 0) {
+			let bidWinner = item.bidhistory[bidHistoryLength - 1];
+
+			if (bidWinner.address === userAddress) {
+				setIsWinner(true);
+			} else {
+				setIsWinner(false);
+			}
 		}
 	};
 	const claimFn = async () => {
