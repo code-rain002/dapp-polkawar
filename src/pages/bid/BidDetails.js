@@ -290,10 +290,11 @@ function BidDetails({ getBidItem, item }) {
 
 	const [ timerStatus, setTimerStatus ] = useState(0);
 	const [ userBidStatus, setUserBidStatus ] = useState(0);
+	const [ myHighBid, setMyHighBid ] = useState(null);
 	const [ bidCount, setBidCount ] = useState(0);
 	const [ bidPopup, setBidPopup ] = useState(false);
 	const [ isWinner, setIsWinner ] = useState(false);
-	const [ claimLoading, setClaimLoading ] = useState(false);
+
 	const [ claimCase, setClaimCase ] = useState(0);
 	const [ stopPopupClick, setStopPopupClick ] = useState(false);
 
@@ -307,6 +308,7 @@ function BidDetails({ getBidItem, item }) {
 		() => {
 			if (item !== null) {
 				setBidCount(item.bidhistory.length);
+				myBidStatus();
 				updateBidTimerStatus();
 				callIsBid();
 			}
@@ -330,6 +332,18 @@ function BidDetails({ getBidItem, item }) {
 		}
 	};
 
+	const myBidStatus = async () => {
+		// 1. Getting user account
+		const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+		let userAddress = accounts[0];
+		let myBids = item.bidhistory.slice(0).reverse().filter((obj) => {
+			return obj.address === userAddress;
+		});
+		console.log(myBids);
+
+		setMyHighBid(myBids[0]);
+		return myBids[0];
+	};
 	// let mysteryRewards = [
 	// 	{
 	// 		id: 0,
@@ -433,7 +447,20 @@ function BidDetails({ getBidItem, item }) {
 			}
 		}
 	};
-	const checkIsWinner = async () => {};
+	const checkIsWinner = async () => {
+		// 1. Getting user account
+		const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+		let userAddress = accounts[0];
+
+		//2. Getting last bid user address
+		let bidHistoryLength = item.bidhistory.length;
+		let bidWinner = item.bidhistory[bidHistoryLength];
+		if (bidWinner.address === userAddress) {
+			setIsWinner(true);
+		} else {
+			setIsWinner(false);
+		}
+	};
 	const claimFn = async () => {
 		setClaimCase(1);
 
@@ -583,23 +610,41 @@ function BidDetails({ getBidItem, item }) {
 										)}
 
 										{userBidStatus === 1 && (
-											<div for="bidStatus">
-												<p className={classes.statusBoxHeading}>Your bid status</p>{' '}
-												<div className="d-flex justify-content-start">
-													<div style={{ paddingRight: 15 }}>
-														<Avatar
-															alt="Avatar"
-															className={classes.avatar}
-															src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
-														/>
+											<div>
+												{myHighBid !== null && (
+													<div for="bidStatus">
+														<p className={classes.statusBoxHeading}>
+															Your bid status<span>
+																{myHighBid.price === item.current_price ? (
+																	<span style={{ color: 'green', paddingLeft: 5 }}>
+																		(Approved)
+																	</span>
+																) : (
+																	<span style={{ color: 'red', paddingLeft: 5 }}>
+																		(Cancelled)
+																	</span>
+																)}
+															</span>
+														</p>{' '}
+														<div className="d-flex justify-content-start">
+															<div style={{ paddingRight: 15 }}>
+																<Avatar
+																	alt="Avatar"
+																	className={classes.avatar}
+																	src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
+																/>
+															</div>
+															<div>
+																<h6 className={classes.bidAmount}>
+																	{myHighBid.price} BNB
+																</h6>
+																<h6 className={classes.time}>
+																	<Moment fromNow>{myHighBid.time}</Moment>
+																</h6>
+															</div>
+														</div>
 													</div>
-													<div>
-														<h6 className={classes.bidAmount}>{item.current_price} BNB</h6>
-														<h6 className={classes.time}>
-															<Moment fromNow>{item.last_update}</Moment>
-														</h6>
-													</div>
-												</div>
+												)}
 											</div>
 										)}
 										<div for="auction">
