@@ -17,6 +17,7 @@ import { checkWalletAvailable, checkCorrectNetwork } from './../../actions/web3A
 import Loader from '../../components/Loader';
 import ConnectButton from '../../components/ConnectButton';
 import ItemProfileCard from '../../common/ItemProfileCard';
+import ProfileMysteryCard from '../../components/ProfileMysteryCard';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -551,8 +552,8 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                       {useritems.map((item, index) => {
                         return (
                           <div key={index} className="col-12 col-md-6">
-                            <ItemProfileCard item={item} />
-                           
+                            {item.event==='auction' && <ProfileMysteryCard item={item}/>}
+                            {item.event==='flashsale' && <ItemProfileCard item={item} />}
                           </div>
                         );
                       })}

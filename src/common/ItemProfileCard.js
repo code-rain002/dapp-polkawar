@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Dialog, Slide, Backdrop, Divider, IconButton } from '@material-ui/core';
+import { Button, Dialog, Slide, Backdrop, Divider } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
-import { Link } from 'react-router-dom';
 import imageBaseUrl from './../actions/imageBaseUrl';
 import { tokenURI } from './../actions/smartActions/SmartActions';
 import axios from 'axios';
@@ -11,10 +10,9 @@ import Loader from '../components/Loader';
 import { checkApproved } from './../actions/smartActions/SmartActions';
 import constants from './../utils/constants';
 import itemConnection from './../utils/itemConnection';
-import bidConnection from './../utils/bidConnection';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { AccessAlarm, Close } from '@material-ui/icons';
+import { AccessAlarm } from '@material-ui/icons';
 import Moment from 'react-moment';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -263,17 +261,14 @@ const useStyles = makeStyles((theme) => ({
 function ItemProfileCard({ item, user }) {
 	const classes = useStyles();
 	const [ itemJson, setItemJson ] = useState(null);
-	const [ eventType, setEventType ] = useState(null);
 	const [ sellPopup, setSellPopup ] = useState(false);
 	const [ bidPopup, setBidPopup ] = useState(false);
 	const [ approvePopup, setApprovePopup ] = useState(false);
-	const [ openPopup, setOpenPopup ] = useState(false);
 	const [ approved, setApproved ] = useState(false);
 	const [ actualCase, setActualCase ] = useState(0);
 	const [ loading, setLoading ] = useState(true);
 	const [ disableApprovePopup, setDisableApprovePopup ] = useState(false);
 	const [ disableSellPopup, setDisableSellPopup ] = useState(false);
-	const [ disableOpenPopup, setDisableOpenPopup ] = useState(false);
 
 	const toggleSellPopup = (value) => {
 		setSellPopup(value);
@@ -285,16 +280,13 @@ function ItemProfileCard({ item, user }) {
 	const toggleApprovePopup = (value) => {
 		setApprovePopup(value);
 	};
-	const toggleOpenPopup = (value) => {
-		setOpenPopup(value);
-	};
 
 	useEffect(() => {
 		async function asyncFn() {
 			//To load Item JSON Information
 
 			let tokenId = item.tokenId;
-			setEventType(item.event);
+
 			let itemString = await tokenURI(tokenId);
 			await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
 				setItemJson(res.data);
@@ -354,42 +346,6 @@ function ItemProfileCard({ item, user }) {
 		});
 	};
 
-	const openMysteryBox = async () => {
-		let tokenId = item.tokenId;
-		const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-		let userAddress = accounts[0];
-
-		toggleOpenPopup(true);
-		setActualCase(1);
-		setDisableOpenPopup(true);
-
-		const response = await new Promise((resolve, reject) => {
-			bidConnection.methods
-				.open(tokenId)
-				.send({ from: userAddress }, function(error, transactionHash) {
-					if (transactionHash) {
-						setActualCase(3);
-						resolve(transactionHash);
-					} else {
-						//console.log('Rejected by user!');
-						setActualCase(2);
-						reject();
-					}
-				})
-				.on('receipt', async function(receipt) {
-					console.log('1.reloading');
-					console.log(receipt);
-					setDisableOpenPopup(false);
-					//window.location.reload();
-					setActualCase(5);
-				})
-				.on('error', async function(error) {
-					console.log(error);
-					setActualCase(4);
-					setDisableOpenPopup(false);
-				});
-		});
-	};
 	return (
 		<div>
 			<h1 style={{ color: 'yellow' }}>{console.log(itemJson)}</h1>
@@ -402,327 +358,198 @@ function ItemProfileCard({ item, user }) {
 					)}
 					{!loading && (
 						<div>
-							{eventType === 'auction' && (
-								<div>
-									<div className={classes.mysteryboxWrapper1}>
-										<img
-											alt="item"
-											src={`/images/mystery_box.png`}
-											className={classes.mysterybox}
-										/>
-									</div>
-									<div>
-										<h4 className={classes.title1}>{itemJson.name}</h4>
-									</div>
-									<div className="d-flex justify-content-center">
-										<div className={classes.priceBadgeWrapper}>
-											<h6 style={{ color: 'white' }}>
-												<strong> </strong> <span className={classes.pricingText} />
-											</h6>
-											<h6 style={{ color: 'white' }}>
-												{' '}
-												<strong> Date : </strong>
-												<span className={classes.pricingText}>
-													{' '}
-													<Moment format="DD/MM/YYYY">{item.buyDate}</Moment>{' '}
-												</span>
-											</h6>
+							<div>
+								<div className="d-flex justify-content-center mt-2">
+									<div className="d-flex justify-content-center align-items-center">
+										<h6 className={classes.levelText}>Level : </h6>
+										<div className={classes.iconWrapper}>
+											{Array.from(Array(parseInt(itemJson.level))).map((character) => {
+												return (
+													<img
+														alt="level"
+														src="https://pngimg.com/uploads/star/star_PNG1597.png"
+														className={classes.levelImage}
+													/>
+												);
+											})}
 										</div>
 									</div>
-									<div className="text-center mt-4">
+								</div>
+								<div className={classes.mediaWrapper1}>
+									<img
+										alt="item"
+										src={`${imageBaseUrl}/${itemJson.hashimage}`}
+										className={classes.media}
+									/>
+								</div>
+								<div>
+									<h4 className={classes.title1}>{itemJson.name}</h4>
+								</div>
+								<div className="d-flex justify-content-center">
+									<div className={classes.priceBadgeWrapper}>
+										<h6 style={{ color: 'white' }}>
+											<strong> Price :</strong>{' '}
+											<span className={classes.pricingText}>0.5 BNB</span>
+										</h6>
+										<h6 style={{ color: 'white' }}>
+											{' '}
+											<strong> Date : </strong>
+											<span className={classes.pricingText}>
+												{' '}
+												<Moment format="DD/MM/YYYY">{item.buyDate}</Moment>{' '}
+											</span>
+										</h6>
+									</div>
+								</div>
+								<div className="text-center mt-4">
+									{approved ? (
 										<div>
 											<Button
 												variant="contained"
-												className={classes.openButton}
-												onClick={openMysteryBox}>
-												<span>Open Box</span>
+												className={classes.sellButton}
+												onClick={() => toggleSellPopup(true)}>
+												<span>Sell</span>
+											</Button>
+											<Button
+												variant="contained"
+												className={classes.bidButton}
+												onClick={() => toggleBidPopup(true)}>
+												<span>Bid</span>
 											</Button>
 										</div>
-									</div>
-									<Dialog
-										for="openbox"
-										className={classes.modal}
-										open={openPopup}
-										TransitionComponent={Transition}
-										keepMounted
-										onClose={() => toggleOpenPopup(false)}
-										closeAfterTransition
-										BackdropComponent={Backdrop}
-										disableBackdropClick={disableOpenPopup}
-										BackdropProps={{
-											timeout: 500,
-										}}>
-										<div style={{ backgroundColor: 'black' }}>
-											<div>
-												<div className={classes.background}>
-													<div className="container text-center">
-														<div className="d-flex justify-content-between">
-															<div className={classes.padding}>
-																<h5 className={classes.ModalTitle}>
-																	Transaction Status
-																</h5>
-															</div>{' '}
-														</div>
-														<Divider style={{ backgroundColor: 'grey' }} />
-													</div>
-													{actualCase === 1 && (
-														<div className="text-center my-3">
-															<div className="text-center">
-																<Loader />
-															</div>
-															<h5 className={classes.messageTitle}>
-																Waiting for confirmation!
-															</h5>
-														</div>
-													)}
-													{actualCase === 2 && (
-														<div className="text-center my-3">
-															<img src="./images/failed.png" height="100px" alt="error" />
-															<h5 className={classes.messageTitle}>
-																Transaction denied!
-															</h5>
-														</div>
-													)}
-													{actualCase === 3 && (
-														<div className="text-center my-3">
-															<div className="text-center">
-																<Loader />
-															</div>
-															<h5 className={classes.messageTitle}>
-																Transaction submitted, please wait...
-															</h5>
-														</div>
-													)}
-													{actualCase === 4 && (
-														<div className="text-center my-3">
-															<img src="./images/failed.png" height="100px" alt="error" />
-															<h5 className={classes.messageTitle}>
-																Transaction Failed!
-															</h5>
-														</div>
-													)}
-													{actualCase === 5 && (
-														<div className="my-3 d-flex flex-column justify-content-start">
-															<div className="text-center my-3">
-																<img
-																	src="./images/success.png"
-																	height="100px"
-																	alt="success"
-																/>
-															</div>
-															<h5 className={classes.messageTitle}>
-																Transaction Success!
-															</h5>
-														</div>
-													)}
-												</div>
-											</div>
+									) : (
+										<div>
+											<Button
+												variant="contained"
+												className={classes.bidButton}
+												onClick={approveFn}>
+												<span>Approve</span>
+											</Button>
 										</div>
-									</Dialog>
+									)}
 								</div>
-							)}
-							{eventType === 'flashsale' && (
-								<div>
-									<div className="d-flex justify-content-center mt-2">
-										<div className="d-flex justify-content-center align-items-center">
-											<h6 className={classes.levelText}>Level : </h6>
-											<div className={classes.iconWrapper}>
-												{Array.from(Array(parseInt(itemJson.level))).map((character) => {
-													return (
-														<img
-															alt="level"
-															src="https://pngimg.com/uploads/star/star_PNG1597.png"
-															className={classes.levelImage}
-														/>
-													);
-												})}
-											</div>
+								<Dialog
+									for="sale"
+									className={classes.modal}
+									open={sellPopup}
+									TransitionComponent={Transition}
+									keepMounted
+									onClose={() => toggleSellPopup(false)}
+									closeAfterTransition
+									BackdropComponent={Backdrop}
+									disableBackdropClick={disableSellPopup}
+									BackdropProps={{
+										timeout: 500,
+									}}>
+									<div style={{ backgroundColor: 'black' }}>
+										<div>
+											<SellModal
+												closePopup={() => toggleSellPopup(false)}
+												item={item}
+												setDisableSellPopup={setDisableSellPopup}
+											/>
 										</div>
 									</div>
-									<div className={classes.mediaWrapper1}>
-										<img
-											alt="item"
-											src={`${imageBaseUrl}/${itemJson.hashimage}`}
-											className={classes.media}
-										/>
-									</div>
-									<div>
-										<h4 className={classes.title1}>{itemJson.name}</h4>
-									</div>
-									<div className="d-flex justify-content-center">
-										<div className={classes.priceBadgeWrapper}>
-											<h6 style={{ color: 'white' }}>
-												<strong> Price :</strong>{' '}
-												<span className={classes.pricingText}>0.5 BNB</span>
+								</Dialog>
+								<Dialog
+									for="bidding"
+									className={classes.modal}
+									open={bidPopup}
+									TransitionComponent={Transition}
+									keepMounted
+									onClose={() => toggleBidPopup(false)}
+									closeAfterTransition
+									BackdropComponent={Backdrop}
+									BackdropProps={{
+										timeout: 500,
+									}}>
+									<div style={{ backgroundColor: 'black' }}>
+										<div className={classes.bidPopupCard}>
+											<div>
+												<AccessAlarm style={{ fontSize: 44, color: 'yellow' }} />
+											</div>
+											<h6 style={{ fontSize: 32, color: 'white', marginTop: 10 }}>
+												Coming Soon...
 											</h6>
-											<h6 style={{ color: 'white' }}>
-												{' '}
-												<strong> Date : </strong>
-												<span className={classes.pricingText}>
-													{' '}
-													<Moment format="DD/MM/YYYY">{item.buyDate}</Moment>{' '}
-												</span>
-											</h6>
+											<p style={{ fontSize: 15, textAlign: 'center', color: 'white' }}>
+												Stay tuned! Bidding feature will be available very soon.
+											</p>
 										</div>
 									</div>
-									<div className="text-center mt-4">
-										{approved ? (
-											<div>
-												<Button
-													variant="contained"
-													className={classes.sellButton}
-													onClick={() => toggleSellPopup(true)}>
-													<span>Sell</span>
-												</Button>
-												<Button
-													variant="contained"
-													className={classes.bidButton}
-													onClick={() => toggleBidPopup(true)}>
-													<span>Bid</span>
-												</Button>
-											</div>
-										) : (
-											<div>
-												<Button
-													variant="contained"
-													className={classes.bidButton}
-													onClick={approveFn}>
-													<span>Approve</span>
-												</Button>
-											</div>
-										)}
-									</div>
-									<Dialog
-										for="sale"
-										className={classes.modal}
-										open={sellPopup}
-										TransitionComponent={Transition}
-										keepMounted
-										onClose={() => toggleSellPopup(false)}
-										closeAfterTransition
-										BackdropComponent={Backdrop}
-										disableBackdropClick={disableSellPopup}
-										BackdropProps={{
-											timeout: 500,
-										}}>
-										<div style={{ backgroundColor: 'black' }}>
-											<div>
-												<SellModal
-													closePopup={() => toggleSellPopup(false)}
-													item={item}
-													setDisableSellPopup={setDisableSellPopup}
-												/>
-											</div>
-										</div>
-									</Dialog>
-									<Dialog
-										for="bidding"
-										className={classes.modal}
-										open={bidPopup}
-										TransitionComponent={Transition}
-										keepMounted
-										onClose={() => toggleBidPopup(false)}
-										closeAfterTransition
-										BackdropComponent={Backdrop}
-										BackdropProps={{
-											timeout: 500,
-										}}>
-										<div style={{ backgroundColor: 'black' }}>
-											<div className={classes.bidPopupCard}>
-												<div>
-													<AccessAlarm style={{ fontSize: 44, color: 'yellow' }} />
-												</div>
-												<h6 style={{ fontSize: 32, color: 'white', marginTop: 10 }}>
-													Coming Soon...
-												</h6>
-												<p style={{ fontSize: 15, textAlign: 'center', color: 'white' }}>
-													Stay tuned! Bidding feature will be available very soon.
-												</p>
-											</div>
-										</div>
-									</Dialog>
-									<Dialog
-										for="approve"
-										className={classes.modal}
-										open={approvePopup}
-										TransitionComponent={Transition}
-										keepMounted
-										onClose={() => toggleApprovePopup(false)}
-										closeAfterTransition
-										BackdropComponent={Backdrop}
-										disableBackdropClick={disableApprovePopup}
-										BackdropProps={{
-											timeout: 500,
-										}}>
-										<div style={{ backgroundColor: 'black' }}>
-											<div>
-												<div className={classes.background}>
-													<div className="container text-center">
-														<div className="d-flex justify-content-between">
-															<div className={classes.padding}>
-																<h5 className={classes.ModalTitle}>
-																	Transaction Status
-																</h5>
-															</div>{' '}
-														</div>
-														<Divider style={{ backgroundColor: 'grey' }} />
+								</Dialog>
+								<Dialog
+									for="approve"
+									className={classes.modal}
+									open={approvePopup}
+									TransitionComponent={Transition}
+									keepMounted
+									onClose={() => toggleApprovePopup(false)}
+									closeAfterTransition
+									BackdropComponent={Backdrop}
+									disableBackdropClick={disableApprovePopup}
+									BackdropProps={{
+										timeout: 500,
+									}}>
+									<div style={{ backgroundColor: 'black' }}>
+										<div>
+											<div className={classes.background}>
+												<div className="container text-center">
+													<div className="d-flex justify-content-between">
+														<div className={classes.padding}>
+															<h5 className={classes.ModalTitle}>Transaction Status</h5>
+														</div>{' '}
 													</div>
-													{actualCase === 1 && (
-														<div className="text-center my-3">
-															<div className="text-center">
-																<Loader />
-															</div>
-															<h5 className={classes.messageTitle}>
-																Waiting for confirmation!
-															</h5>
-														</div>
-													)}
-													{actualCase === 2 && (
-														<div className="text-center my-3">
-															<img src="./images/failed.png" height="100px" alt="error" />
-															<h5 className={classes.messageTitle}>
-																Transaction denied!
-															</h5>
-														</div>
-													)}
-													{actualCase === 3 && (
-														<div className="text-center my-3">
-															<div className="text-center">
-																<Loader />
-															</div>
-															<h5 className={classes.messageTitle}>
-																Transaction submitted, please wait...
-															</h5>
-														</div>
-													)}
-													{actualCase === 4 && (
-														<div className="text-center my-3">
-															<img src="./images/failed.png" height="100px" alt="error" />
-															<h5 className={classes.messageTitle}>
-																Transaction Failed!
-															</h5>
-														</div>
-													)}
-													{actualCase === 5 && (
-														<div className="my-3 d-flex flex-column justify-content-start">
-															<div className="text-center my-3">
-																<img
-																	src="./images/success.png"
-																	height="100px"
-																	alt="success"
-																/>
-															</div>
-															<h5 className={classes.messageTitle}>
-																Transaction Success!
-															</h5>
-														</div>
-													)}
+													<Divider style={{ backgroundColor: 'grey' }} />
 												</div>
+												{actualCase === 1 && (
+													<div className="text-center my-3">
+														<div className="text-center">
+															<Loader />
+														</div>
+														<h5 className={classes.messageTitle}>
+															Waiting for confirmation!
+														</h5>
+													</div>
+												)}
+												{actualCase === 2 && (
+													<div className="text-center my-3">
+														<img src="./images/failed.png" height="100px" alt="error" />
+														<h5 className={classes.messageTitle}>Transaction denied!</h5>
+													</div>
+												)}
+												{actualCase === 3 && (
+													<div className="text-center my-3">
+														<div className="text-center">
+															<Loader />
+														</div>
+														<h5 className={classes.messageTitle}>
+															Transaction submitted, please wait...
+														</h5>
+													</div>
+												)}
+												{actualCase === 4 && (
+													<div className="text-center my-3">
+														<img src="./images/failed.png" height="100px" alt="error" />
+														<h5 className={classes.messageTitle}>Transaction Failed!</h5>
+													</div>
+												)}
+												{actualCase === 5 && (
+													<div className="my-3 d-flex flex-column justify-content-start">
+														<div className="text-center my-3">
+															<img
+																src="./images/success.png"
+																height="100px"
+																alt="success"
+															/>
+														</div>
+														<h5 className={classes.messageTitle}>Transaction Success!</h5>
+													</div>
+												)}
 											</div>
 										</div>
-									</Dialog>
-								</div>
-							)}
+									</div>
+								</Dialog>
+							</div>
 						</div>
 					)}
 				</Card>

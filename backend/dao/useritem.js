@@ -23,7 +23,7 @@ const userItemDao = {
 
 	async updateItemOwner(itemId) {
 		return await UserItemModel.findOneAndUpdate({ _id: itemId }, { owner: process.env.OWNER_ADDRESS });
-		// return await UserItemModel.findOneAndUpdate({ _id: itemId }, { tokenId: 1 });
+		// return await UserItemModel.findOneAndUpdate({ _id: itemId }, { tokenId: 0 });
 	},
 
 	async deleteItem() {
