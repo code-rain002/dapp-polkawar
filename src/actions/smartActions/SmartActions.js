@@ -55,7 +55,8 @@ export const getAirdrop = async (userAddress) => {
 //RETURNS Item json string
 export const tokenURI = (tokenId) => {
 	return itemContract.methods.tokenURI(tokenId).call(async (err, response) => {
-		// console.log('tokenURI: ' + response);
+		console.log('tokenURI: ' + err);
+		console.log('tokenURI: ' + response);
 		return response;
 	});
 };
@@ -146,5 +147,16 @@ export const isUserBid = (userAddress, itemId) => {
 	return bidContract.methods.isUserBid(userAddress, itemId).call(async (err, response) => {
 		console.log(response);
 		return response;
+	});
+};
+
+//Bid  Functions
+
+//READ
+//Returns true or false
+export const isUserClaimed = (itemId) => {
+	return bidContract.methods.programs(itemId).call(async (err, response) => {
+		console.log(response);
+		return response.isClaimed;
 	});
 };

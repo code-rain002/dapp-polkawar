@@ -544,7 +544,10 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                   {useritems.length !== 0 ? (
+
+                    
                     <div className="row">
+                    
                       {useritems.map((item, index) => {
                         return (
                           <div key={index} className="col-12 col-md-6">

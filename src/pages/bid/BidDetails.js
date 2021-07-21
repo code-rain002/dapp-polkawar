@@ -6,11 +6,12 @@ import { Button, Slide, Avatar, Dialog, Backdrop } from '@material-ui/core';
 import Loader from '../../components/Loader';
 import Timer from '../../components/Timer';
 import { getBidItem } from './../../actions/bidActions';
-import { isUserBid } from './../../actions/smartActions/SmartActions';
+import { isUserBid, isUserClaimed } from './../../actions/smartActions/SmartActions';
 import BidForm from '../../components/BidForm';
 import Moment from 'react-moment';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import bidContract from './../../utils/bidConnection';
+import { addUserItem } from './../../actions/itemActions';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
@@ -283,6 +284,39 @@ const useStyles = makeStyles((theme) => ({
 			fontSize: 14,
 		},
 	},
+	profileButton: {
+		textAlign: 'center',
+		background: `linear-gradient(to bottom,#ffffff, yellow)`,
+		padding: '12px 16px 12px 16px',
+		borderRadius: 50,
+		color: 'black',
+		fontSize: 14,
+		fontWeight: 500,
+		textTransform: 'none',
+		[theme.breakpoints.down('sm')]: {
+			padding: '8px 14px 8px 14px',
+			fontSize: 14,
+		},
+	},
+	thanksHeading: {
+		color: 'yellow',
+		textAlign: 'center',
+		fontSize: 28,
+		[theme.breakpoints.down('md')]: {
+			fontSize: 24,
+		},
+	},
+	thanksText: {
+		color: 'white',
+		textAlign: 'center',
+		fontSize: 15,
+		width: 500,
+		[theme.breakpoints.down('md')]: {
+			fontSize: 15,
+			fontWeight: 400,
+			width: '100%',
+		},
+	},
 }));
 
 function BidDetails({ getBidItem, item }) {
@@ -294,6 +328,7 @@ function BidDetails({ getBidItem, item }) {
 	const [ bidCount, setBidCount ] = useState(0);
 	const [ bidPopup, setBidPopup ] = useState(false);
 	const [ isWinner, setIsWinner ] = useState(false);
+	const [ isClaimed, setIsClaimed ] = useState(false);
 
 	const [ claimCase, setClaimCase ] = useState(0);
 	const [ stopPopupClick, setStopPopupClick ] = useState(false);
@@ -311,6 +346,7 @@ function BidDetails({ getBidItem, item }) {
 				myBidStatus();
 				updateBidTimerStatus();
 				callIsBid();
+				checkIsClaimed();
 			}
 		},
 		[ item ],
@@ -428,7 +464,7 @@ function BidDetails({ getBidItem, item }) {
 	// ];
 	const updateBidTimerStatus = () => {
 		const differenceStart = +new Date(item.time_start) - +new Date();
-		const differenceEnd = +new Date('July 21, 2021 05:00:00 UTC') - +new Date();
+		const differenceEnd = +new Date(item.time_end) - +new Date();
 
 		console.log(differenceStart);
 		console.log(differenceEnd);
@@ -465,6 +501,15 @@ function BidDetails({ getBidItem, item }) {
 			}
 		}
 	};
+	const checkIsClaimed = async () => {
+		// 1. Calling Smart Action to check isClaimed
+		let claimed = await isUserClaimed(item.itemId);
+		if (claimed) {
+			setIsClaimed(true);
+		} else {
+			setIsClaimed(false);
+		}
+	};
 	const claimFn = async () => {
 		setClaimCase(1);
 
@@ -489,7 +534,34 @@ function BidDetails({ getBidItem, item }) {
 				.on('receipt', async function(receipt) {
 					console.log('4. Claim Success');
 
-					//let newBidResponse = await createNewBid(boxId, userAddress, bidAmount);
+					const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+					let userAddress = accounts[0];
+					console.log(receipt);
+					let events = receipt.events;
+					let returnValues = events.purchaseEvent.returnValues;
+					let tokenId = parseInt(returnValues[1]);
+					console.log(tokenId);
+
+					const utcDateTimestamp = new Date();
+					let utcDate = utcDateTimestamp.toUTCString();
+
+					let userItemData = {
+						_id: item._id,
+						token_id: tokenId,
+						token_type: 2,
+						event: 'auction',
+						owner: userAddress,
+						buydate: utcDate,
+					};
+					let response = await addUserItem(userItemData);
+					console.log(response);
+
+					if (response) {
+						setClaimCase(5);
+						//window.location.reload();
+					} else {
+						setClaimCase(6);
+					}
 					setClaimCase(5);
 				})
 				.on('error', async function(error) {
@@ -697,14 +769,43 @@ function BidDetails({ getBidItem, item }) {
 											<h6 className={classes.congratsText}>
 												Congratulations, You are the winner.
 											</h6>
-											{(claimCase === 0 || claimCase === 2 || claimCase === 4) && (
+
+											{isClaimed && (
 												<div>
-													<Button
-														variant="contained"
-														className={classes.claimButton}
-														onClick={claimFn}>
-														<span>Claim Rewards</span>
-													</Button>
+													<div className="mt-5 pb-5">
+														<h2 className={classes.thanksHeading}>
+															Thanks for Participating!
+														</h2>
+														<div style={{ display: 'flex', justifyContent: 'center' }}>
+															<p className={classes.thanksText}>
+																Now you can visit to your profile section<br /> and
+																access your winning mystery box.
+															</p>
+														</div>
+														<Link to="/profile">
+															<div className="text-center">
+																<Button
+																	variant="contained"
+																	className={classes.profileButton}>
+																	<span>Go To Profile</span>
+																</Button>
+															</div>
+														</Link>
+													</div>
+												</div>
+											)}
+											{!isClaimed && (
+												<div>
+													{(claimCase === 0 || claimCase === 2 || claimCase === 4) && (
+														<div>
+															<Button
+																variant="contained"
+																className={classes.claimButton}
+																onClick={claimFn}>
+																<span>Claim Rewards</span>
+															</Button>
+														</div>
+													)}
 												</div>
 											)}
 											{(claimCase === 1 || claimCase === 3) && (
