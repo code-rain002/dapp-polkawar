@@ -428,7 +428,7 @@ function BidDetails({ getBidItem, item }) {
 	// ];
 	const updateBidTimerStatus = () => {
 		const differenceStart = +new Date(item.time_start) - +new Date();
-		const differenceEnd = +new Date(item.time_end) - +new Date();
+		const differenceEnd = +new Date('July 21, 2021 05:00:00 UTC') - +new Date();
 
 		console.log(differenceStart);
 		console.log(differenceEnd);
@@ -694,8 +694,10 @@ function BidDetails({ getBidItem, item }) {
 									)}
 									{isWinner && (
 										<div className="text-center mt-3">
-											<h6 className={classes.congratsText}>Congratulations for winning!</h6>
-											{(claimCase === 2 || claimCase === 4) && (
+											<h6 className={classes.congratsText}>
+												Congratulations, You are the winner.
+											</h6>
+											{(claimCase === 0 || claimCase === 2 || claimCase === 4) && (
 												<div>
 													<Button
 														variant="contained"
