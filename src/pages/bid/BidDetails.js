@@ -504,6 +504,7 @@ function BidDetails({ getBidItem, item }) {
 	const checkIsClaimed = async () => {
 		// 1. Calling Smart Action to check isClaimed
 		let claimed = await isUserClaimed(item.itemId);
+		console.log(claimed);
 		if (claimed) {
 			setIsClaimed(true);
 		} else {
@@ -516,6 +517,8 @@ function BidDetails({ getBidItem, item }) {
 		// 1. Getting user account
 		const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 		let userAddress = accounts[0];
+
+		let highestBidUser = item.current_price;
 		const response = await new Promise((resolve, reject) => {
 			bidContract.methods
 				.claim(item.itemId)
@@ -538,20 +541,20 @@ function BidDetails({ getBidItem, item }) {
 					let userAddress = accounts[0];
 					console.log(receipt);
 					let events = receipt.events;
-					let returnValues = events.purchaseEvent.returnValues;
-					let tokenId = parseInt(returnValues[1]);
+					let returnValues = events._claim.returnValues;
+					let tokenId = parseInt(returnValues._pid);
 					console.log(tokenId);
 
 					const utcDateTimestamp = new Date();
 					let utcDate = utcDateTimestamp.toUTCString();
 
 					let userItemData = {
-						_id: item._id,
 						token_id: tokenId,
 						token_type: 2,
 						event: 'auction',
 						owner: userAddress,
 						buydate: utcDate,
+						price: highestBidUser,
 					};
 					let response = await addUserItem(userItemData);
 					console.log(response);

@@ -14,6 +14,11 @@ const userItemDao = {
 		return data;
 	},
 
+	async getAllItems() {
+		let data = await UserItemModel.find({});
+		console.log(data);
+		return data;
+	},
 	async createItem(itemData, ownerAddress, JsonId) {
 		let response = await UserItemModel.insertMany(itemData);
 
@@ -27,8 +32,10 @@ const userItemDao = {
 	},
 
 	async deleteItem() {
-		await UserItemModel.deleteMany({});
-		return await UserItemModel.find({});
+		// await UserItemModel.deleteMany({});
+		// return await UserItemModel.find({});
+		//After testing delete items
+		// return await UserItemModel.remove({ event: 'auction' });
 	},
 };
 

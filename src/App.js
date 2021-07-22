@@ -13,6 +13,7 @@ import Airdrop from './pages/airdrop/Airdrop';
 import Sale from './pages/sale/Sale';
 import Bid from './pages/bid/Bid';
 import BidDetails from './pages/bid/BidDetails';
+import BidRewards from './components/BidRewards';
 
 export default function App() {
 	return (
@@ -36,6 +37,9 @@ export default function App() {
 							</Route>
 							<Route exact path="/bid/:id">
 								<BidDetails />
+							</Route>
+							<Route exact path="/box-rewards/:pid">
+								<BidRewards />
 							</Route>
 							<Route exact path="/item/:id">
 								<Details />

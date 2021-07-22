@@ -8,6 +8,8 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import { addUserItem } from './../actions/itemActions';
+import { isBoxOpened } from '../actions/smartActions/SmartActions';
+import { Link } from 'react-router-dom';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
@@ -258,6 +260,7 @@ function ProfileMysteryCard({ item, user }) {
 	const [ actualCase, setActualCase ] = useState(0);
 	const [ loading, setLoading ] = useState(true);
 	const [ disableOpenPopup, setDisableOpenPopup ] = useState(false);
+	const [ isOpened, setIsOpened ] = useState(false);
 
 	const toggleOpenPopup = (value) => {
 		setOpenPopup(value);
@@ -267,6 +270,12 @@ function ProfileMysteryCard({ item, user }) {
 		async function asyncFn() {
 			//To load Item JSON Information
 			if (item !== null) {
+				let openStatus = await isBoxOpened(item.tokenId);
+				if (openStatus) {
+					setIsOpened(true);
+				} else {
+					setIsOpened(false);
+				}
 				setLoading(false);
 			} else {
 				setLoading(true);
@@ -313,8 +322,9 @@ function ProfileMysteryCard({ item, user }) {
 					let userItemData = {
 						_id: item._id,
 						token_id: nftTokenId,
+						combo_id: comboId,
 						token_type: 2,
-						event: 'auction',
+						event: 'auction-reward',
 						owner: userAddress,
 						buydate: utcDate,
 					};
@@ -369,9 +379,21 @@ function ProfileMysteryCard({ item, user }) {
 							</div>
 							<div className="text-center mt-4">
 								<div>
-									<Button variant="contained" className={classes.openButton} onClick={openMysteryBox}>
-										<span>Open Box</span>
-									</Button>
+									{!isOpened && (
+										<Button
+											variant="contained"
+											className={classes.openButton}
+											onClick={openMysteryBox}>
+											<span>Open Box</span>
+										</Button>
+									)}
+									{isOpened && (
+										<Link to={`/box-rewards/${item.tokenId}`}>
+											<Button variant="contained" className={classes.openButton}>
+												<span>View Rewards</span>
+											</Button>
+										</Link>
+									)}
 								</div>
 							</div>
 							<Dialog

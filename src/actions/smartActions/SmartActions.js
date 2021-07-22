@@ -154,9 +154,28 @@ export const isUserBid = (userAddress, itemId) => {
 
 //READ
 //Returns true or false
-export const isUserClaimed = (itemId) => {
-	return bidContract.methods.programs(itemId).call(async (err, response) => {
+export const isUserClaimed = async (itemId) => {
+	let data = await bidContract.methods.programs(itemId).call(async (err, response) => {
+		return response;
+	});
+
+	return data.isClaimed;
+};
+
+//READ
+//Returns true or false
+export const isBoxOpened = async (itemId) => {
+	let data = await bidContract.methods.programs(itemId).call(async (err, response) => {
+		return response;
+	});
+	return data.isOpened;
+};
+
+//READ
+//Returns object
+export const boxRewards = (programId) => {
+	return bidContract.methods.programs(programId).call(async (err, response) => {
 		console.log(response);
-		return response.isClaimed;
+		return response;
 	});
 };

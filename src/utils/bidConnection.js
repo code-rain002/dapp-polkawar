@@ -7,7 +7,7 @@ bidConstant = {
 	rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
 	chainId: 97, // now testnet
 	api: 'V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK',
-	contractAddress: '0x7D8AcE47e65FFD9c71753B4B0c7c6ce6b20B2e9B',
+	contractAddress: '0xD637DD77F463eCdeB3F8819093d25e7A71a4cF68',
 	abi: [
 		{
 			inputs: [
@@ -237,6 +237,17 @@ bidConstant = {
 			type: 'function',
 		},
 		{ inputs: [], name: 'renounceOwnership', outputs: [], stateMutability: 'nonpayable', type: 'function' },
+		{
+			inputs: [ { internalType: 'uint256', name: '', type: 'uint256' } ],
+			name: 'rewards',
+			outputs: [
+				{ internalType: 'uint256', name: 'amountBNB', type: 'uint256' },
+				{ internalType: 'uint256', name: 'amountPWAR', type: 'uint256' },
+				{ internalType: 'uint256', name: 'itemIndex', type: 'uint256' },
+			],
+			stateMutability: 'view',
+			type: 'function',
+		},
 		{
 			inputs: [
 				{ internalType: 'uint256', name: '_pid', type: 'uint256' },

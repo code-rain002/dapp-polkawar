@@ -378,7 +378,13 @@ function ItemProfileCard({ item, user }) {
 								<div className={classes.mediaWrapper1}>
 									<img
 										alt="item"
-										src={`${imageBaseUrl}/${itemJson.hashimage}`}
+										src={
+											itemJson.hashimage ? (
+												`${imageBaseUrl}/${itemJson.hashimage}`
+											) : (
+												`${imageBaseUrl}/${itemJson.image}`
+											)
+										}
 										className={classes.media}
 									/>
 								</div>
@@ -389,7 +395,9 @@ function ItemProfileCard({ item, user }) {
 									<div className={classes.priceBadgeWrapper}>
 										<h6 style={{ color: 'white' }}>
 											<strong> Price :</strong>{' '}
-											<span className={classes.pricingText}>0.5 BNB</span>
+											<span className={classes.pricingText}>
+												{itemJson.price ? itemJson.price : '0.5'} BNB
+											</span>
 										</h6>
 										<h6 style={{ color: 'white' }}>
 											{' '}
