@@ -3,9 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Grow, Slide } from '@material-ui/core';
-
 import { getAllBidItems } from './../../actions/bidActions';
-
 import BidCard from '../../components/BidCard';
 import { Close, Gavel, MonetizationOn } from '@material-ui/icons';
 
@@ -86,8 +84,8 @@ const useStyles = makeStyles((theme) => ({
 function Bid({ getAllBidItems, items }) {
 	const classes = useStyles();
 
-	const [actualCase, setActualCase] = useState(0);
-	const [showRules, setShowRules] = useState(false);
+	const [ actualCase, setActualCase ] = useState(0);
+	const [ showRules, setShowRules ] = useState(false);
 
 	useEffect(() => {
 		getAllBidItems();
@@ -130,9 +128,12 @@ function Bid({ getAllBidItems, items }) {
 									<h6 style={{ color: 'yellow', fontSize: 20, textAlign: 'left' }}>Bidding Rules</h6>
 									<ol>
 										<li className={classes.listItem}>You must HODL or STAKE 2000 PWAR.</li>
-										<li className={classes.listItem}>You can participate in multiple bid at different prices.</li>
 										<li className={classes.listItem}>
-											When someone bids higher than you, your bid will no longer be valid and you will get your previous bid amount back.
+											You can participate in multiple bid at different prices.
+										</li>
+										<li className={classes.listItem}>
+											When someone bids higher than you, your bid will no longer be valid and you
+											will get your previous bid amount back.
 										</li>
 									</ol>
 									<h6 style={{ color: 'yellow', fontSize: 20, textAlign: 'left', marginTop: 30 }}>

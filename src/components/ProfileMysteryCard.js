@@ -253,7 +253,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 }));
-function ProfileMysteryCard({ item, user }) {
+function ProfileMysteryCard({ item, user, addUserItem }) {
 	const classes = useStyles();
 
 	const [ openPopup, setOpenPopup ] = useState(false);
@@ -475,6 +475,7 @@ function ProfileMysteryCard({ item, user }) {
 }
 ProfileMysteryCard.propTypes = {
 	authenticateUser: propTypes.func.isRequired,
+	addUserItem: propTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -482,6 +483,6 @@ const mapStateToProps = (state) => ({
 	user: state.auth.user,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { addUserItem };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileMysteryCard);

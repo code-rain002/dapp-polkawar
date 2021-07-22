@@ -10,8 +10,8 @@ import { isUserBid, isUserClaimed } from './../../actions/smartActions/SmartActi
 import BidForm from '../../components/BidForm';
 import Moment from 'react-moment';
 import { Link, useParams } from 'react-router-dom';
-import bidContract from './../../utils/bidConnection';
 import { addUserItem } from './../../actions/itemActions';
+import bidContract from './../../utils/bidConnection';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
@@ -319,7 +319,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function BidDetails({ getBidItem, item }) {
+function BidDetails({ getBidItem, item, addUserItem }) {
 	const classes = useStyles();
 
 	const [ timerStatus, setTimerStatus ] = useState(0);
@@ -493,7 +493,7 @@ function BidDetails({ getBidItem, item }) {
 
 		if (bidHistoryLength > 0) {
 			let bidWinner = item.bidhistory[bidHistoryLength - 1];
-
+			console.log(bidWinner.address);
 			if (bidWinner.address === userAddress) {
 				setIsWinner(true);
 			} else {
@@ -519,6 +519,7 @@ function BidDetails({ getBidItem, item }) {
 		let userAddress = accounts[0];
 
 		let highestBidUser = item.current_price;
+
 		const response = await new Promise((resolve, reject) => {
 			bidContract.methods
 				.claim(item.itemId)
@@ -540,9 +541,8 @@ function BidDetails({ getBidItem, item }) {
 					const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 					let userAddress = accounts[0];
 					console.log(receipt);
-					let events = receipt.events;
-					let returnValues = events._claim.returnValues;
-					let tokenId = parseInt(returnValues._pid);
+
+					let tokenId = item.itemId;
 					console.log(tokenId);
 
 					const utcDateTimestamp = new Date();
@@ -598,7 +598,7 @@ function BidDetails({ getBidItem, item }) {
 									{item.start_price} {item.currency}
 								</h6>
 								<div className="mt-5">
-									<h6 className={classes.timeline}>Bids Timeline</h6>
+									<h6 className={classes.timeline}>Bids Timeline </h6>
 									<hr style={{ color: 'yellow' }} />
 									<div className={classes.scrollDiv}>
 										{item.bidhistory.length === 0 && (
@@ -868,12 +868,13 @@ function BidDetails({ getBidItem, item }) {
 
 BidDetails.propTypes = {
 	getBidItem: propTypes.func.isRequired,
+	addUserItem: propTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
 	item: state.bids.item,
 });
 
-const mapDispatchToProps = { getBidItem };
+const mapDispatchToProps = { getBidItem, addUserItem };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BidDetails);

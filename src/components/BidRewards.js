@@ -177,6 +177,7 @@ function BidRewards({ programId }) {
 	const getNftTokenData = async () => {
 		await axios.get(`${imageBaseUrl}${nftTokenHash}`).then((res) => {
 			setNftData(res.data);
+			console.log(res.data);
 		});
 	};
 	let mysteryRewards = [
@@ -310,11 +311,19 @@ function BidRewards({ programId }) {
 									{' '}
 									<div className="mt-5">
 										<div className={classes.imageWrapper}>
-											<img
+											{console.log(nftData)}
+											{nftData !== null && (
+												<img
+													src={`${imageBaseUrl}/${nftData.image}`}
+													className={classes.itemImagePwar}
+													alt="pwar"
+												/>
+											)}
+											{/* <img
 												src={`${imageBaseUrl}/${nftData.image}`}
 												className={classes.itemImagePwar}
 												alt="pwar"
-											/>
+											/> */}
 										</div>
 
 										<div className="mt-3">

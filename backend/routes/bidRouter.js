@@ -76,7 +76,7 @@ router.post('/bid', async (req, res, next) => {
 			current_price: '0.5',
 			start_price: '0.5',
 			time_start: 'July 21, 2021 04:00:00 UTC',
-			time_end: 'July 22, 2021 05:10:00 UTC',
+			time_end: 'July 23, 2021 05:10:00 UTC',
 		},
 	];
 

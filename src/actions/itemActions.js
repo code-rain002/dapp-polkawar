@@ -123,10 +123,12 @@ export const getUserItems = (userAddress) => (dispatch) => {
 // Adding entry into userItem Collection
 //event: flashsale, marketplace, auction
 //Tokentype =1 is character, token type=2 is equipment and weapon
+
 export const addUserItem = (useritemData) => (dispatch) => {
 	let url = `${baseUrl}/useritem`;
 
 	console.log('addUserItem');
+	console.log(useritemData);
 	let data = axios
 		.post(url, useritemData)
 		.then((res) => {
