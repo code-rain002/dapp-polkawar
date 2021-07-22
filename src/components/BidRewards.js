@@ -1,40 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Grow } from '@material-ui/core';
+import { Grow, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link, useParams } from 'react-router-dom';
-import { boxRewards } from '../actions/smartActions/SmartActions';
-import { ArrowBack } from '@material-ui/icons';
 import axios from 'axios';
 import { tokenURI } from './../actions/smartActions/SmartActions';
 import imageBaseUrl from './../actions/imageBaseUrl';
+import Loader from './Loader';
+import { Close } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
-	backButton: {
-		textAlign: 'center',
-		background: `linear-gradient(to right,#6F2F9B, #8D37A9)`,
-		padding: '14px 20px 14px 20px',
-		borderRadius: 50,
-		color: 'white',
-		fontSize: 14,
-		fontWeight: 500,
-		textTransform: 'none',
-
-		[theme.breakpoints.down('sm')]: {
-			padding: '4px 8px 4px 8px',
-			fontSize: 12,
-			marginTop: 0,
-		},
-	},
 	title: {
 		verticalAlign: 'baseline',
 		textAlign: 'center',
 		color: theme.palette.pbr.textPrimary,
 		fontWeight: 800,
 		letterSpacing: 0.5,
-		fontSize: 32,
+		fontSize: 24,
 		lineHeight: '40.7px',
 		[theme.breakpoints.down('md')]: {
-			fontSize: 32,
+			fontSize: 18,
 		},
 	},
 	para: {
@@ -59,81 +42,40 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 
-	buttonMain: {
-		borderRadius: '50px',
-		background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
-		lineHeight: '24px',
-		verticalAlign: 'baseline',
-		letterSpacing: '-1px',
-		margin: 0,
-		color: '#ffffff',
-		padding: '12px 20px 12px 20px',
-		fontWeight: 500,
-		fontSize: 18,
-		textTransform: 'none',
-	},
-	timerButton: {
-		borderRadius: '50px',
-		background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
-
-		lineHeight: '24px',
-		verticalAlign: 'baseline',
-		letterSpacing: '-1px',
-		margin: 0,
-		color: '#ffffff',
-		padding: '12px 20px 12px 20px',
-		fontWeight: 400,
-		fontSize: 18,
-		textTransform: 'none',
-	},
-	airdropHeading: {
-		color: 'yellow',
-		fontSize: 22,
-		[theme.breakpoints.down('md')]: {
-			fontSize: 16,
-		},
-	},
-	airdropText: {
-		color: 'white',
-		fontSize: 32,
-		[theme.breakpoints.down('md')]: {
-			fontSize: 22,
-		},
-	},
 	imageWrapper: {
-		height: 220,
+		height: 150,
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'flex-end',
 
 		[theme.breakpoints.down('md')]: {
-			height: 170,
+			height: 90,
 		},
 	},
 	bnbImage: {
-		height: 170,
+		height: 70,
 		[theme.breakpoints.down('md')]: {
-			height: 120,
+			height: 60,
 		},
 	},
 	itemImage: {
-		height: 200,
+		height: 80,
 		[theme.breakpoints.down('md')]: {
-			height: 150,
+			height: 50,
 		},
 	},
 	itemImagePwar: {
-		height: 160,
+		height: 80,
 		[theme.breakpoints.down('md')]: {
-			height: 120,
+			height: 50,
 		},
 	},
 	itemName: {
 		paddingTop: 10,
 		color: 'white',
-		fontSize: 28,
+		fontSize: 24,
 		[theme.breakpoints.down('md')]: {
-			fontSize: 20,
+			fontSize: 18,
 		},
 	},
 	plusSign: {
@@ -150,36 +92,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function BidRewards({ programId }) {
+function BidRewards({ useritems, closepopup }) {
 	const classes = useStyles();
-	let { pid } = useParams();
 
 	const [ comboId, setComboId ] = useState(0);
+	const [ item, setItem ] = useState(null);
+	const [ loading, setLoading ] = useState(true);
 
-	const [ nftTokenHash, setNftTokenHash ] = useState(null);
-	const [ nftData, setNftData ] = useState(null);
-
-	useEffect(() => {
-		async function asyncFn() {
-			//To load Item JSON Information
-			let boxRewardsData = await boxRewards(pid);
-			if (boxRewardsData) {
-				console.log(boxRewardsData);
-				setNftTokenHash(boxRewardsData.urlHash);
-				setComboId(boxRewardsData.comboRewards);
-				await getNftTokenData();
-			}
-		}
-
-		asyncFn();
-	}, []);
-
-	const getNftTokenData = async () => {
-		await axios.get(`${imageBaseUrl}${nftTokenHash}`).then((res) => {
-			setNftData(res.data);
-			console.log(res.data);
-		});
-	};
 	let mysteryRewards = [
 		{
 			id: 0,
@@ -263,89 +182,116 @@ function BidRewards({ programId }) {
 		},
 	];
 
+	useEffect(() => {
+		async function asyncFn() {
+			//To load Item JSON Information
+
+			let singleItem = useritems.filter((element) => element.event === 'auction-reward');
+
+			let nftTokenId = singleItem[0].tokenId;
+			let combo = singleItem[0].comboId;
+
+			setComboId(combo);
+
+			let itemString = await tokenURI(nftTokenId);
+			await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
+				setItem(res.data);
+				console.log(res.data);
+				setLoading(false);
+			});
+		}
+
+		asyncFn();
+	}, []);
+
 	return (
 		<div className={classes.container}>
 			<Grow in={true} timeout={1000}>
 				<div>
-					<div className="container">
-						<div>
-							<div className="text-center mt-5">
-								<h1 className={classes.title}>
-									Auction Rewards
-									<img src="/images/thunder.png" height="25px" alt="thunder" />
-								</h1>
-								<h6 className={classes.para}>
-									You have unlocked following rewards by opening the mystery box.
-								</h6>
-							</div>
-							<div className="d-flex justify-content-center align-items-end">
-								<div>
-									<div className="mt-3">
-										<div className={classes.imageWrapper}>
-											<img src={`/images/bnb.png`} className={classes.bnbImage} alt="binance" />
-										</div>
+					{loading && (
+						<div className="text-center">
+							<Loader />
+						</div>
+					)}
+					{!loading && (
+						<div className="container">
+							<div>
+								<div className="d-flex justify-content-between">
+									<div />
+									<div className="text-center mt-3">
+										<h1 className={classes.title}>
+											Auction Rewards
+											<img src="/images/thunder.png" height="25px" alt="thunder" />
+										</h1>
+										<h6 className={classes.para}>
+											You have unlocked following rewards by opening the mystery box.
+										</h6>
 									</div>
-									<div className="text-center">
-										<h5 className={classes.itemName}>
-											{mysteryRewards[comboId].rewards['bnb']} BNB
-										</h5>
+									<div>
+										<IconButton>
+											<Close onClick={closepopup} style={{ color: 'white' }} />
+										</IconButton>
 									</div>
 								</div>
-
-								<div className={classes.plusSign}>+</div>
-								<div style={{ paddingLeft: 20 }}>
-									{' '}
-									<div className="mt-5">
-										<div className={classes.imageWrapper}>
-											<img src={`/token.png`} className={classes.itemImagePwar} alt="pwar" />
+								<div className="d-flex justify-content-center align-items-end">
+									<div>
+										<div className="mt-1">
+											<div className={classes.imageWrapper}>
+												<img
+													src={`/images/bnb.png`}
+													className={classes.bnbImage}
+													alt="binance"
+												/>
+											</div>
 										</div>
-										<div className="mt-3 text-center">
+										<div className="text-center">
 											<h5 className={classes.itemName}>
-												{mysteryRewards[comboId].rewards['pwar']} PWAR
+												{mysteryRewards[comboId].rewards['bnb']} BNB
 											</h5>
 										</div>
 									</div>
-								</div>
-								<div className={classes.plusSign}>+</div>
-								<div style={{ paddingLeft: 20 }}>
-									{' '}
-									<div className="mt-5">
-										<div className={classes.imageWrapper}>
-											{console.log(nftData)}
-											{nftData !== null && (
-												<img
-													src={`${imageBaseUrl}/${nftData.image}`}
-													className={classes.itemImagePwar}
-													alt="pwar"
-												/>
-											)}
-											{/* <img
-												src={`${imageBaseUrl}/${nftData.image}`}
-												className={classes.itemImagePwar}
-												alt="pwar"
-											/> */}
-										</div>
 
-										<div className="mt-3">
-											<h5 className={classes.itemName}>NFT Item</h5>
+									<div className={classes.plusSign}>+</div>
+									<div style={{ paddingLeft: 20 }}>
+										{' '}
+										<div className="mt-5">
+											<div className={classes.imageWrapper}>
+												<img src={`/token.png`} className={classes.itemImagePwar} alt="pwar" />
+											</div>
+											<div className="mt-3 text-center">
+												<h5 className={classes.itemName}>
+													{mysteryRewards[comboId].rewards['pwar']} PWAR
+												</h5>
+											</div>
+										</div>
+									</div>
+									<div className={classes.plusSign}>+</div>
+									<div style={{ paddingLeft: 20 }}>
+										{' '}
+										<div className="mt-5">
+											<div className={classes.imageWrapper}>
+												{item !== null && (
+													<img
+														src={`${imageBaseUrl}/${item.image}`}
+														className={classes.itemImagePwar}
+														alt="pwar"
+													/>
+												)}
+											</div>
+
+											<div className="mt-3">
+												<h5 className={classes.itemName}>{item.name}</h5>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div className="mt-5 d-flex  justify-content-center">
-								<Link to={'/profile'}>
-									<Button variant="contained" className={classes.backButton}>
-										<span>
-											<ArrowBack /> Back To Profile
-										</span>
-									</Button>
-								</Link>
-							</div>
 						</div>
-					</div>{' '}
+					)}
 				</div>
 			</Grow>
 		</div>
 	);
 }
+
 export default BidRewards;

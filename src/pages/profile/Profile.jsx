@@ -552,8 +552,11 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                       {useritems.map((item, index) => {
                         return (
                           <div key={index} className="col-12 col-md-6">
-                           <div className='d-flex justify-content-center'> {item.event==='auction' && <ProfileMysteryCard item={item}/>}
-                            {item.event!=='auction' && <ItemProfileCard item={item} />}</div>
+                           <div className='d-flex justify-content-center'> 
+                            {item.event==='auction' && <ProfileMysteryCard item={item}/>}
+                            {item.event!=='auction' && <ItemProfileCard item={item} />}
+                            
+                            </div>
                           </div>
                         );
                       })}

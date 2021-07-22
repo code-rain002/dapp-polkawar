@@ -10,6 +10,7 @@ import Moment from 'react-moment';
 import { addUserItem } from './../actions/itemActions';
 import { isBoxOpened } from '../actions/smartActions/SmartActions';
 import { Link } from 'react-router-dom';
+import BidRewards from './BidRewards';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
@@ -217,6 +218,18 @@ const useStyles = makeStyles((theme) => ({
 			maxWidth: 300,
 		},
 	},
+	rewardBackground: {
+		height: '100%',
+		padding: 20,
+		width: 600,
+		backgroundColor: 'black',
+		borderRadius: 10,
+		paddingBottom: 50,
+		[theme.breakpoints.down('md')]: {
+			maxWidth: '100%',
+			padding: 5,
+		},
+	},
 	bidPopupCard: {
 		height: 400,
 		width: 400,
@@ -253,10 +266,11 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 }));
-function ProfileMysteryCard({ item, user, addUserItem }) {
+function ProfileMysteryCard({ item, user, addUserItem, useritems }) {
 	const classes = useStyles();
 
 	const [ openPopup, setOpenPopup ] = useState(false);
+	const [ rewardsPopup, setRewardsPopup ] = useState(false);
 	const [ actualCase, setActualCase ] = useState(0);
 	const [ loading, setLoading ] = useState(true);
 	const [ disableOpenPopup, setDisableOpenPopup ] = useState(false);
@@ -264,6 +278,9 @@ function ProfileMysteryCard({ item, user, addUserItem }) {
 
 	const toggleOpenPopup = (value) => {
 		setOpenPopup(value);
+	};
+	const toggleRewardsPopup = (value) => {
+		setRewardsPopup(value);
 	};
 
 	useEffect(() => {
@@ -392,16 +409,19 @@ function ProfileMysteryCard({ item, user, addUserItem }) {
 										</Button>
 									)}
 									{isOpened && (
-										<Link to={`/box-rewards/${item.tokenId}`}>
-											<Button variant="contained" className={classes.openButton}>
-												<span>View Rewards</span>
-											</Button>
-										</Link>
+										<Button
+											variant="contained"
+											className={classes.openButton}
+											onClick={() => {
+												setRewardsPopup(true);
+											}}>
+											<span>View Rewards</span>
+										</Button>
 									)}
 								</div>
 							</div>
 							<Dialog
-								for="openbox"
+								htmlFor="openbox"
 								className={classes.modal}
 								open={openPopup}
 								TransitionComponent={Transition}
@@ -466,6 +486,29 @@ function ProfileMysteryCard({ item, user, addUserItem }) {
 									</div>
 								</div>
 							</Dialog>
+							<Dialog
+								for="rewards"
+								className={classes.modal}
+								open={rewardsPopup}
+								TransitionComponent={Transition}
+								keepMounted
+								onClose={() => toggleRewardsPopup(false)}
+								closeAfterTransition
+								BackdropComponent={Backdrop}
+								BackdropProps={{
+									timeout: 500,
+								}}>
+								<div style={{ backgroundColor: 'black' }}>
+									<div>
+										<div className={classes.rewardBackground}>
+											<BidRewards
+												useritems={useritems}
+												closepopup={() => toggleRewardsPopup(false)}
+											/>
+										</div>
+									</div>
+								</div>
+							</Dialog>
 						</div>
 					</div>
 				)}
@@ -481,6 +524,7 @@ ProfileMysteryCard.propTypes = {
 const mapStateToProps = (state) => ({
 	authenticated: state.auth.authenticated,
 	user: state.auth.user,
+	useritems: state.items.useritems,
 });
 
 const mapDispatchToProps = { addUserItem };
