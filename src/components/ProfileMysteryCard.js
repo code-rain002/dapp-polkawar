@@ -364,9 +364,13 @@ function ProfileMysteryCard({ item, user }) {
 							</div>
 							<div className="d-flex justify-content-center">
 								<div className={classes.priceBadgeWrapper}>
-									<h6 style={{ color: 'white' }}>
-										<strong> </strong> <span className={classes.pricingText} />
-									</h6>
+									{item.price && (
+										<h6 style={{ color: 'white' }}>
+											{' '}
+											<strong> Price : </strong>
+											<span className={classes.pricingText}> {item.price}</span>
+										</h6>
+									)}
 									<h6 style={{ color: 'white' }}>
 										{' '}
 										<strong> Date : </strong>
