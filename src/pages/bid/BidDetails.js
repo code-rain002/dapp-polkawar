@@ -690,7 +690,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 
 										{userBidStatus === 1 && (
 											<div>
-												{myHighBid !== null && (
+												{(myHighBid !== null || myHighBid !== undefined) && (
 													<div for="bidStatus">
 														<p className={classes.statusBoxHeading}>
 															Your bid status<span>
