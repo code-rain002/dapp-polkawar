@@ -322,16 +322,16 @@ const useStyles = makeStyles((theme) => ({
 function BidDetails({ getBidItem, item, addUserItem }) {
 	const classes = useStyles();
 
-	const [ timerStatus, setTimerStatus ] = useState(0);
-	const [ userBidStatus, setUserBidStatus ] = useState(0);
-	const [ myHighBid, setMyHighBid ] = useState(null);
-	const [ bidCount, setBidCount ] = useState(0);
-	const [ bidPopup, setBidPopup ] = useState(false);
-	const [ isWinner, setIsWinner ] = useState(false);
-	const [ isClaimed, setIsClaimed ] = useState(false);
+	const [timerStatus, setTimerStatus] = useState(0);
+	const [userBidStatus, setUserBidStatus] = useState(0);
+	const [myHighBid, setMyHighBid] = useState(null);
+	const [bidCount, setBidCount] = useState(0);
+	const [bidPopup, setBidPopup] = useState(false);
+	const [isWinner, setIsWinner] = useState(false);
+	const [isClaimed, setIsClaimed] = useState(false);
 
-	const [ claimCase, setClaimCase ] = useState(0);
-	const [ stopPopupClick, setStopPopupClick ] = useState(false);
+	const [claimCase, setClaimCase] = useState(0);
+	const [stopPopupClick, setStopPopupClick] = useState(false);
 
 	let { id } = useParams();
 
@@ -349,7 +349,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 				checkIsClaimed();
 			}
 		},
-		[ item ],
+		[item],
 	);
 
 	const callBidItemAPI = async () => {
@@ -523,7 +523,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 		const response = await new Promise((resolve, reject) => {
 			bidContract.methods
 				.claim(item.itemId)
-				.send({ from: userAddress }, function(error, transactionHash) {
+				.send({ from: userAddress }, function (error, transactionHash) {
 					console.log('purchaseItem Called');
 					setStopPopupClick(true);
 					if (transactionHash) {
@@ -535,7 +535,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 						reject();
 					}
 				})
-				.on('receipt', async function(receipt) {
+				.on('receipt', async function (receipt) {
 					console.log('4. Claim Success');
 
 					const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -567,7 +567,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 					}
 					setClaimCase(5);
 				})
-				.on('error', async function(error) {
+				.on('error', async function (error) {
 					setClaimCase(4);
 				});
 		});
@@ -628,9 +628,9 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 																			{' '}
 																			by
 																		</span>{' '}
-																		{[ ...row.address ].splice(0, 10)} {'...'}
-																		{[ ...row.address ].splice(
-																			[ ...row.address ].length - 5,
+																		{[...row.address].splice(0, 10)} {'...'}
+																		{[...row.address].splice(
+																			[...row.address].length - 5,
 																			5,
 																		)}
 																	</h6>
@@ -690,10 +690,11 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 
 										{userBidStatus === 1 && (
 											<div>
-												{(myHighBid !== null || myHighBid !== undefined) && (
+												{(myHighBid !== null && myHighBid !== undefined) && (
 													<div for="bidStatus">
 														<p className={classes.statusBoxHeading}>
 															Your bid status<span>
+																{console.log(myHighBid)}
 																{myHighBid.price === item.current_price ? (
 																	<span style={{ color: 'green', paddingLeft: 5 }}>
 																		(Approved)
