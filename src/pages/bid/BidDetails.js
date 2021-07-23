@@ -322,16 +322,16 @@ const useStyles = makeStyles((theme) => ({
 function BidDetails({ getBidItem, item, addUserItem }) {
 	const classes = useStyles();
 
-	const [timerStatus, setTimerStatus] = useState(0);
-	const [userBidStatus, setUserBidStatus] = useState(0);
-	const [myHighBid, setMyHighBid] = useState(null);
-	const [bidCount, setBidCount] = useState(0);
-	const [bidPopup, setBidPopup] = useState(false);
-	const [isWinner, setIsWinner] = useState(false);
-	const [isClaimed, setIsClaimed] = useState(false);
+	const [ timerStatus, setTimerStatus ] = useState(0);
+	const [ userBidStatus, setUserBidStatus ] = useState(0);
+	const [ myHighBid, setMyHighBid ] = useState(null);
+	const [ bidCount, setBidCount ] = useState(0);
+	const [ bidPopup, setBidPopup ] = useState(false);
+	const [ isWinner, setIsWinner ] = useState(false);
+	const [ isClaimed, setIsClaimed ] = useState(false);
 
-	const [claimCase, setClaimCase] = useState(0);
-	const [stopPopupClick, setStopPopupClick] = useState(false);
+	const [ claimCase, setClaimCase ] = useState(0);
+	const [ stopPopupClick, setStopPopupClick ] = useState(false);
 
 	let { id } = useParams();
 
@@ -349,7 +349,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 				checkIsClaimed();
 			}
 		},
-		[item],
+		[ item ],
 	);
 
 	const callBidItemAPI = async () => {
@@ -360,7 +360,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 		const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 		let userAddress = accounts[0];
 		let isUserBidded = await isUserBid(userAddress, item.itemId);
-		console.log(isUserBidded);
+
 		if (isUserBidded) {
 			setUserBidStatus(1);
 		} else {
@@ -375,103 +375,19 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 		let myBids = item.bidhistory.slice(0).reverse().filter((obj) => {
 			return obj.address === userAddress;
 		});
-		console.log(myBids);
 
 		setMyHighBid(myBids[0]);
 		return myBids[0];
 	};
-	// let mysteryRewards = [
-	// 	{
-	// 		id: 0,
-	// 		rewards: {
-	// 			bnb: '0.5',
-	// 			pwar: '500',
-	// 			nft_level: 1,
-	// 		},
-	// 	},
-	// 	{
-	// 		id: 1,
-	// 		rewards: {
-	// 			bnb: '1',
-	// 			pwar: '1000',
-	// 			nft_level: 1,
-	// 		},
-	// 	},
-	// 	{
-	// 		id: 2,
-	// 		rewards: {
-	// 			bnb: '2',
-	// 			pwar: '2000',
-	// 			nft_level: 1,
-	// 		},
-	// 	},
-	// 	{
-	// 		id: 3,
-	// 		rewards: {
-	// 			bnb: '3',
-	// 			pwar: '3000',
-	// 			nft_level: 2,
-	// 		},
-	// 	},
-	// 	{
-	// 		id: 4,
-	// 		rewards: {
-	// 			bnb: '4',
-	// 			pwar: '4000',
-	// 			nft_level: 2,
-	// 		},
-	// 	},
-	// 	{
-	// 		id: 5,
-	// 		rewards: {
-	// 			bnb: '5',
-	// 			pwar: '5000',
-	// 			nft_level: 2,
-	// 		},
-	// 	},
-	// 	{
-	// 		id: 6,
-	// 		rewards: {
-	// 			bnb: '7',
-	// 			pwar: '7000',
-	// 			nft_level: 3,
-	// 		},
-	// 	},
-	// 	{
-	// 		id: 7,
-	// 		rewards: {
-	// 			bnb: '10',
-	// 			pwar: '10000',
-	// 			nft_level: 3,
-	// 		},
-	// 	},
-	// 	{
-	// 		id: 8,
-	// 		rewards: {
-	// 			bnb: '20',
-	// 			pwar: '20000',
-	// 			nft_level: 3,
-	// 		},
-	// 	},
-	// 	{
-	// 		id: 9,
-	// 		rewards: {
-	// 			bnb: '50',
-	// 			pwar: '50000',
-	// 			nft_level: 3,
-	// 		},
-	// 	},
-	// ];
+
 	const updateBidTimerStatus = () => {
 		const differenceStart = +new Date(item.time_start) - +new Date();
 		const differenceEnd = +new Date(item.time_end) - +new Date();
-
-		console.log(differenceStart);
-		console.log(differenceEnd);
+		//const differenceEnd = +new Date('July 23, 2021 05:10:00 UTC') - +new Date();
 
 		if (differenceEnd <= 0) {
 			setTimerStatus(1);
-			console.log('Bid ends');
+
 			checkIsWinner();
 		} else {
 			if (differenceStart > 0) {
@@ -493,7 +409,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 
 		if (bidHistoryLength > 0) {
 			let bidWinner = item.bidhistory[bidHistoryLength - 1];
-			console.log(bidWinner.address);
+
 			if (bidWinner.address === userAddress) {
 				setIsWinner(true);
 			} else {
@@ -504,7 +420,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 	const checkIsClaimed = async () => {
 		// 1. Calling Smart Action to check isClaimed
 		let claimed = await isUserClaimed(item.itemId);
-		console.log(claimed);
+
 		if (claimed) {
 			setIsClaimed(true);
 		} else {
@@ -518,59 +434,58 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 		const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 		let userAddress = accounts[0];
 
-		let highestBidUser = item.current_price;
+		let response = await bidContract.methods
+			.claim(item.itemId)
+			.send({ from: userAddress }, function(error, transactionHash) {
+				console.log('purchaseItem Called');
+				setStopPopupClick(true);
+				if (transactionHash) {
+					setClaimCase(3);
+				} else {
+					console.log('Rejected by user!');
+					setClaimCase(2);
+				}
+			})
+			.on('receipt', async function(receipt) {
+				console.log('4. Claim Success');
+				console.log(receipt);
 
-		const response = await new Promise((resolve, reject) => {
-			bidContract.methods
-				.claim(item.itemId)
-				.send({ from: userAddress }, function (error, transactionHash) {
-					console.log('purchaseItem Called');
-					setStopPopupClick(true);
-					if (transactionHash) {
-						setClaimCase(3);
-						resolve(transactionHash);
-					} else {
-						console.log('Rejected by user!');
-						setClaimCase(2);
-						reject();
-					}
-				})
-				.on('receipt', async function (receipt) {
-					console.log('4. Claim Success');
+				//2. Getting UTC Time
+				const utcDateTimestamp = new Date();
+				let utcDate = utcDateTimestamp.toUTCString();
 
-					const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-					let userAddress = accounts[0];
-					console.log(receipt);
+				//3. Getting Events data
+				let events = receipt.events;
+				let returnValues = events._claim.returnValues;
+				let nftTokenId = returnValues._tokenid;
 
-					let tokenId = item.itemId;
-					console.log(tokenId);
+				//4. Getting Highest Bid
+				let highestBidUser = item.current_price;
+				let userItemData = {
+					token_id: nftTokenId,
+					p_id: '0',
+					token_type: 2,
+					event: 'auction',
+					owner: userAddress,
+					buydate: utcDate,
+					price: highestBidUser,
+				};
+				let response = await addUserItem(userItemData);
+				console.log(response);
 
-					const utcDateTimestamp = new Date();
-					let utcDate = utcDateTimestamp.toUTCString();
-
-					let userItemData = {
-						token_id: tokenId,
-						token_type: 2,
-						event: 'auction',
-						owner: userAddress,
-						buydate: utcDate,
-						price: highestBidUser,
-					};
-					let response = await addUserItem(userItemData);
-					console.log(response);
-
-					if (response) {
-						setClaimCase(5);
-						//window.location.reload();
-					} else {
-						setClaimCase(6);
-					}
+				if (response) {
 					setClaimCase(5);
-				})
-				.on('error', async function (error) {
-					setClaimCase(4);
-				});
-		});
+					window.location.reload();
+				} else {
+					setClaimCase(6);
+				}
+				setClaimCase(5);
+			})
+			.on('error', async function(error) {
+				setClaimCase(4);
+			});
+
+		console.log(response);
 	};
 	return (
 		<div className={classes.sectionCard}>
@@ -628,9 +543,9 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 																			{' '}
 																			by
 																		</span>{' '}
-																		{[...row.address].splice(0, 10)} {'...'}
-																		{[...row.address].splice(
-																			[...row.address].length - 5,
+																		{[ ...row.address ].splice(0, 10)} {'...'}
+																		{[ ...row.address ].splice(
+																			[ ...row.address ].length - 5,
 																			5,
 																		)}
 																	</h6>
@@ -690,11 +605,11 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 
 										{userBidStatus === 1 && (
 											<div>
-												{(myHighBid !== null && myHighBid !== undefined) && (
+												{myHighBid !== null &&
+												myHighBid !== undefined && (
 													<div for="bidStatus">
 														<p className={classes.statusBoxHeading}>
 															Your bid status<span>
-
 																{myHighBid.price === item.current_price ? (
 																	<span style={{ color: 'green', paddingLeft: 5 }}>
 																		(Approved)

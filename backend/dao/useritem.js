@@ -22,7 +22,7 @@ const userItemDao = {
 	async createItem(itemData, ownerAddress, JsonId) {
 		let response = await UserItemModel.insertMany(itemData);
 
-		let response2 = await FlashSaleModel.findOneAndUpdate({ _id: JsonId }, { $inc: { remaining_quantity: -1 } });
+		//let response2 = await FlashSaleModel.findOneAndUpdate({ _id: JsonId }, { $inc: { remaining_quantity: -1 } });
 		return await UserItemModel.find({ owner: ownerAddress });
 	},
 
@@ -35,8 +35,8 @@ const userItemDao = {
 		// await UserItemModel.deleteMany({});
 		// return await UserItemModel.find({});
 		//After testing delete items
-		// return await UserItemModel.remove({ event: 'auction' });
-		// return await UserItemModel.remove({ event: 'auction-reward' });
+		//return await UserItemModel.remove({ event: 'auction' });
+		//return await UserItemModel.remove({ event: 'auction-reward' });
 	},
 };
 

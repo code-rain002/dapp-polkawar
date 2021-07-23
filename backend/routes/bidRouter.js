@@ -54,18 +54,6 @@ router.post('/bid/:id', async (req, res, next) => {
 // POST A new item for biding
 router.post('/bid', async (req, res, next) => {
 	let bidItems = [
-		// {
-		// 	itemId: '0',
-		// 	name: 'PolkaWar Mystery Box',
-		// 	image: 'QmZ8K4DxcKJjYUsSqQDBXzXBeaWcpt96Yuy9Cg3nu2hXx5',
-		// 	description: 'This mystery Box will contains NFT item, BNB rewards and PWAR tokens.',
-		// 	bidhistory: [],
-		// 	last_update: new Date(),
-		// 	current_price: '0.5',
-		// 	start_price: '0.5',
-		// 	time_start: 'July 22, 2021 14:00:00 UTC',
-		// 	time_end: 'July 23, 2021 14:00:00 UTC',
-		// },
 		{
 			itemId: '0',
 			name: 'PolkaWar Mystery Box',
@@ -75,9 +63,21 @@ router.post('/bid', async (req, res, next) => {
 			last_update: new Date(),
 			current_price: '0.5',
 			start_price: '0.5',
-			time_start: 'July 21, 2021 04:00:00 UTC',
-			time_end: 'July 23, 2021 05:10:00 UTC',
+			time_start: 'July 23, 2021 14:00:00 UTC',
+			time_end: 'July 24, 2021 14:00:00 UTC',
 		},
+		// {
+		// 	itemId: '0',
+		// 	name: 'PolkaWar Mystery Box',
+		// 	image: 'QmZ8K4DxcKJjYUsSqQDBXzXBeaWcpt96Yuy9Cg3nu2hXx5',
+		// 	description: 'This mystery Box will contains NFT item, BNB rewards and PWAR tokens.',
+		// 	bidhistory: [],
+		// 	last_update: new Date(),
+		// 	current_price: '0.5',
+		// 	start_price: '0.5',
+		// 	time_start: 'July 21, 2021 04:00:00 UTC',
+		// 	time_end: 'July 24, 2021 05:10:00 UTC',
+		// },
 	];
 
 	try {

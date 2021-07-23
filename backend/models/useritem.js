@@ -13,6 +13,10 @@ var UserItemModel = new mongoose.Schema({
 		type: String,
 		required: false,
 	},
+	pId: {
+		type: String,
+		required: false,
+	},
 	comboId: {
 		type: Number,
 		required: false,
