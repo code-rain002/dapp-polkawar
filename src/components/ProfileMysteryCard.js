@@ -226,7 +226,8 @@ const useStyles = makeStyles((theme) => ({
 		borderRadius: 10,
 		paddingBottom: 50,
 		[theme.breakpoints.down('md')]: {
-			maxWidth: '100%',
+			paddingBottom: 50,
+
 			padding: 5,
 		},
 	},
@@ -266,7 +267,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 }));
-function ProfileMysteryCard({ item, user, addUserItem, useritems }) {
+function ProfileMysteryCard({ item, addUserItem, useritems }) {
 	const classes = useStyles();
 
 	const [ openPopup, setOpenPopup ] = useState(false);
@@ -286,8 +287,8 @@ function ProfileMysteryCard({ item, user, addUserItem, useritems }) {
 	useEffect(() => {
 		async function asyncFn() {
 			//To load Item JSON Information
-			if (item !== null) {
-				let openStatus = await isBoxOpened(item.tokenId);
+			if (item !== null && item !== undefined) {
+				let openStatus = await isBoxOpened(item.pId);
 				if (openStatus) {
 					setIsOpened(true);
 				} else {
@@ -303,8 +304,9 @@ function ProfileMysteryCard({ item, user, addUserItem, useritems }) {
 	}, []);
 
 	const openMysteryBox = async () => {
-		let tokenId = item.tokenId;
+		let programId = item.pId;
 
+		// 1. Getting User address
 		const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 		let userAddress = accounts[0];
 
@@ -312,55 +314,56 @@ function ProfileMysteryCard({ item, user, addUserItem, useritems }) {
 		setActualCase(1);
 		setDisableOpenPopup(true);
 
-		const response = await new Promise((resolve, reject) => {
-			bidConnection.methods
-				.open(tokenId)
-				.send({ from: userAddress }, function(error, transactionHash) {
-					if (transactionHash) {
-						setActualCase(3);
-						resolve(transactionHash);
-					} else {
-						//console.log('Rejected by user!');
-						setActualCase(2);
-						reject();
-					}
-				})
-				.on('receipt', async function(receipt) {
-					console.log('1.reloading');
-					console.log(receipt);
-					let events = receipt.events;
+		const response = await bidConnection.methods
+			.open(programId)
+			.send({ from: userAddress }, function(error, transactionHash) {
+				if (transactionHash) {
+					setActualCase(3);
+				} else {
+					console.log('Rejected by user!');
+					setActualCase(2);
+				}
+			})
+			.on('receipt', async function(receipt) {
+				console.log('1.reloading');
+				console.log(receipt);
 
-					let returnValues = events._open.returnValues;
-					let comboId = returnValues._combo;
-					let nftTokenId = returnValues._nftTokenId;
-					const utcDateTimestamp = new Date();
-					let utcDate = utcDateTimestamp.toUTCString();
+				// 2. Getting events
+				let events = receipt.events;
+				let returnValues = events._open.returnValues;
+				let comboId = returnValues._combo;
+				let nftTokenId = returnValues._nftTokenId;
 
-					let userItemData = {
-						_id: item._id,
-						token_id: nftTokenId,
-						combo_id: comboId,
-						token_type: 2,
-						event: 'auction-reward',
-						owner: userAddress,
-						buydate: utcDate,
-					};
+				// 3. Getting UTC Date
+				const utcDateTimestamp = new Date();
+				let utcDate = utcDateTimestamp.toUTCString();
 
-					let response = await addUserItem(userItemData);
-					if (response) {
-						setActualCase(5);
-						window.location.reload();
-					} else {
-						setActualCase(4);
-					}
-					setDisableOpenPopup(false);
-				})
-				.on('error', async function(error) {
-					console.log(error);
+				let userItemData = {
+					token_id: nftTokenId,
+					combo_id: comboId,
+					p_id: programId,
+					token_type: 2,
+					event: 'auction-reward',
+					owner: userAddress,
+					buydate: utcDate,
+				};
+
+				let response = await addUserItem(userItemData);
+				if (response) {
+					setActualCase(5);
+					window.location.reload();
+				} else {
 					setActualCase(4);
-					setDisableOpenPopup(false);
-				});
-		});
+				}
+				setDisableOpenPopup(false);
+			})
+			.on('error', async function(error) {
+				console.log(error);
+				setActualCase(4);
+				setDisableOpenPopup(false);
+			});
+
+		console.log(response);
 	};
 	return (
 		<div>
@@ -501,7 +504,9 @@ function ProfileMysteryCard({ item, user, addUserItem, useritems }) {
 								<div style={{ backgroundColor: 'black' }}>
 									<div>
 										<div className={classes.rewardBackground}>
+											ds
 											<BidRewards
+												programId={0}
 												useritems={useritems}
 												closepopup={() => toggleRewardsPopup(false)}
 											/>

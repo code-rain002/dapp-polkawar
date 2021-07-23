@@ -7,7 +7,7 @@ bidConstant = {
 	rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
 	chainId: 97, // now testnet
 	api: 'V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK',
-	contractAddress: '0x4891f80A6A1459E5a89Fca1c95Bac3eEc8728903',
+	contractAddress: '0x37c6D3B18385a302165A2bDCa8240ddd7eB4fa48',
 	abi: [
 		{
 			inputs: [
@@ -52,6 +52,7 @@ bidConstant = {
 			inputs: [
 				{ indexed: false, internalType: 'address', name: 'user', type: 'address' },
 				{ indexed: false, internalType: 'uint256', name: '_pid', type: 'uint256' },
+				{ indexed: false, internalType: 'uint256', name: '_tokenid', type: 'uint256' },
 			],
 			name: '_claim',
 			type: 'event',

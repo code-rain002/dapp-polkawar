@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 	spacing: {
 		overflowX: 'hidden',
 		padding: 30,
-		// background: 'url("https://wallpaperaccess.com/full/3819332.gif")',
 
 		[theme.breakpoints.down('md')]: {
 			padding: 10,
@@ -67,7 +66,17 @@ const useStyles = makeStyles((theme) => ({
 	itemImagePwar: {
 		height: 80,
 		[theme.breakpoints.down('md')]: {
-			height: 50,
+			height: 60,
+		},
+	},
+	pwarWrapper: {
+		height: 150,
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'flex-end',
+
+		[theme.breakpoints.down('md')]: {
+			height: 90,
 		},
 	},
 	itemName: {
@@ -92,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function BidRewards({ useritems, closepopup }) {
+function BidRewards({ programId, useritems, closepopup }) {
 	const classes = useStyles();
 
 	const [ comboId, setComboId ] = useState(0);
@@ -185,20 +194,20 @@ function BidRewards({ useritems, closepopup }) {
 	useEffect(() => {
 		async function asyncFn() {
 			//To load Item JSON Information
+			if (useritems !== null && useritems !== undefined) {
+				let singleItem = useritems.filter((element) => element.pId === programId.toString());
 
-			let singleItem = useritems.filter((element) => element.event === 'auction-reward');
-
-			let nftTokenId = singleItem[0].tokenId;
-			let combo = singleItem[0].comboId;
-
-			setComboId(combo);
-
-			let itemString = await tokenURI(nftTokenId);
-			await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
-				setItem(res.data);
-				console.log(res.data);
-				setLoading(false);
-			});
+				console.log(singleItem);
+				let nftItem_Id = singleItem[0].tokenId;
+				let combo_Id = singleItem[0].comboId;
+				setComboId(combo_Id);
+				let itemString = await tokenURI(nftItem_Id);
+				await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
+					setItem(res.data);
+					console.log(res.data);
+					setLoading(false);
+				});
+			}
 		}
 
 		asyncFn();
@@ -245,9 +254,9 @@ function BidRewards({ useritems, closepopup }) {
 											</div>
 										</div>
 										<div className="text-center">
-											<h5 className={classes.itemName}>
+											{/* <h5 className={classes.itemName}>
 												{mysteryRewards[comboId].rewards['bnb']} BNB
-											</h5>
+											</h5> */}
 										</div>
 									</div>
 
@@ -255,13 +264,19 @@ function BidRewards({ useritems, closepopup }) {
 									<div style={{ paddingLeft: 20 }}>
 										{' '}
 										<div className="mt-5">
-											<div className={classes.imageWrapper}>
-												<img src={`/token.png`} className={classes.itemImagePwar} alt="pwar" />
+											<div className={classes.pwarWrapper}>
+												<div className="text-center">
+													<img
+														src={`/token.png`}
+														className={classes.itemImagePwar}
+														alt="pwar"
+													/>
+												</div>
 											</div>
 											<div className="mt-3 text-center">
-												<h5 className={classes.itemName}>
+												{/* <h5 className={classes.itemName}>
 													{mysteryRewards[comboId].rewards['pwar']} PWAR
-												</h5>
+												</h5> */}
 											</div>
 										</div>
 									</div>
@@ -271,11 +286,13 @@ function BidRewards({ useritems, closepopup }) {
 										<div className="mt-5">
 											<div className={classes.imageWrapper}>
 												{item !== null && (
-													<img
-														src={`${imageBaseUrl}/${item.image}`}
-														className={classes.itemImagePwar}
-														alt="pwar"
-													/>
+													<div className="text-center">
+														<img
+															src={`${imageBaseUrl}/${item.image}`}
+															className={classes.itemImagePwar}
+															alt="pwar"
+														/>
+													</div>
 												)}
 											</div>
 

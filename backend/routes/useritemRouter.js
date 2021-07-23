@@ -45,12 +45,14 @@ router.post('/useritem', async (req, res, next) => {
 	var soldItem = {
 		tokenId: req.body.token_id,
 		comboId: req.body.combo_id ? req.body.combo_id : '-1',
-		price: req.body.price ? req.body.price : '',
+		pId: req.body.p_id !== null && req.body.p_id !== undefined ? req.body.p_id : '-1',
+		price: req.body.price !== null && req.body.price !== undefined ? req.body.price : '',
 		tokenType: req.body.token_type,
 		event: req.body.event,
 		owner: req.body.owner,
-		buyDate: req.body.buy_date,
+		buyDate: req.body.buydate,
 	};
+	console.log(req.body);
 	console.log(soldItem);
 	try {
 		const data = await UserItemDao.createItem(soldItem, req.body.owner, req.body._id);

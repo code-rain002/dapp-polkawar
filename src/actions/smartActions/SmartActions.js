@@ -12,8 +12,6 @@ import bidContract from '../../utils/bidConnection';
 //RETURNS number
 export const isJoinAirdrop = (address) => {
 	return airdropContract.methods.isJoinAirdrop(address).call((err, response) => {
-		console.log('isJoinAirdrop: ' + response);
-
 		return response;
 	});
 };
@@ -22,8 +20,6 @@ export const isJoinAirdrop = (address) => {
 //RETURNS number
 export const getTotalParticipants = async () => {
 	return await airdropContract.methods.getTotalPaticipants().call((err, response) => {
-		console.log('getTotalParticipants: ' + response);
-
 		return response;
 	});
 };
@@ -55,8 +51,11 @@ export const getAirdrop = async (userAddress) => {
 //RETURNS Item json string
 export const tokenURI = (tokenId) => {
 	return itemContract.methods.tokenURI(tokenId).call(async (err, response) => {
-		console.log('tokenURI: ' + err);
-		console.log('tokenURI: ' + response);
+		if (err) {
+			console.log('tokenURI: ' + err);
+		} else {
+			console.log('tokenURI: ' + response);
+		}
 		return response;
 	});
 };
@@ -134,7 +133,6 @@ export const getPwarBalance = (userAddress) => {
 //Returns PWR Balance of User
 export const checkIsPurchased = (userAddress) => {
 	return flashsaleContract.methods.isPurchased(userAddress).call(async (err, response) => {
-		console.log(response);
 		return response;
 	});
 };
@@ -145,7 +143,6 @@ export const checkIsPurchased = (userAddress) => {
 //Returns true or false
 export const isUserBid = (userAddress, itemId) => {
 	return bidContract.methods.isUserBid(userAddress, itemId).call(async (err, response) => {
-		console.log(response);
 		return response;
 	});
 };
@@ -175,7 +172,6 @@ export const isBoxOpened = async (itemId) => {
 //Returns object
 export const boxRewards = (programId) => {
 	return bidContract.methods.programs(programId).call(async (err, response) => {
-		console.log(response);
 		return response;
 	});
 };
