@@ -104,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
 function BidRewards({ programId, useritems, closepopup }) {
 	const classes = useStyles();
 
-	const [ comboId, setComboId ] = useState(0);
+	const [ comboId, setComboId ] = useState(-1);
 	const [ item, setItem ] = useState(null);
 	const [ loading, setLoading ] = useState(true);
 
@@ -197,16 +197,18 @@ function BidRewards({ programId, useritems, closepopup }) {
 			if (useritems !== null && useritems !== undefined) {
 				let singleItem = useritems.filter((element) => element.pId === programId.toString());
 
-				console.log(singleItem);
-				let nftItem_Id = singleItem[0].tokenId;
-				let combo_Id = singleItem[0].comboId;
-				setComboId(combo_Id);
-				let itemString = await tokenURI(nftItem_Id);
-				await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
-					setItem(res.data);
-					console.log(res.data);
-					setLoading(false);
-				});
+				if (singleItem.length > 0) {
+					let nftItem_Id = singleItem[0].tokenId;
+					let combo_Id = singleItem[0].comboId;
+					setComboId(combo_Id);
+					console.log(combo_Id);
+					let itemString = await tokenURI(nftItem_Id);
+					await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
+						setItem(res.data);
+						console.log(res.data);
+						setLoading(false);
+					});
+				}
 			}
 		}
 
@@ -254,9 +256,11 @@ function BidRewards({ programId, useritems, closepopup }) {
 											</div>
 										</div>
 										<div className="text-center">
-											{/* <h5 className={classes.itemName}>
-												{mysteryRewards[comboId].rewards['bnb']} BNB
-											</h5> */}
+											{comboId !== -1 && (
+												<h5 className={classes.itemName}>
+													{mysteryRewards[comboId].rewards['bnb']} BNB
+												</h5>
+											)}
 										</div>
 									</div>
 
@@ -274,9 +278,11 @@ function BidRewards({ programId, useritems, closepopup }) {
 												</div>
 											</div>
 											<div className="mt-3 text-center">
-												{/* <h5 className={classes.itemName}>
-													{mysteryRewards[comboId].rewards['pwar']} PWAR
-												</h5> */}
+												{comboId !== -1 && (
+													<h5 className={classes.itemName}>
+														{mysteryRewards[comboId].rewards['pwar']} PWAR
+													</h5>
+												)}
 											</div>
 										</div>
 									</div>

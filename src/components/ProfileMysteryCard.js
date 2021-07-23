@@ -288,7 +288,8 @@ function ProfileMysteryCard({ item, addUserItem, useritems }) {
 		async function asyncFn() {
 			//To load Item JSON Information
 			if (item !== null && item !== undefined) {
-				let openStatus = await isBoxOpened(item.pId);
+				let programId = 0;
+				let openStatus = await isBoxOpened(programId);
 				if (openStatus) {
 					setIsOpened(true);
 				} else {
@@ -304,7 +305,8 @@ function ProfileMysteryCard({ item, addUserItem, useritems }) {
 	}, []);
 
 	const openMysteryBox = async () => {
-		let programId = item.pId;
+		// let programId = item.pId;
+		let programId = 0;
 
 		// 1. Getting User address
 		const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });

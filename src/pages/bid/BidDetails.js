@@ -382,7 +382,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 
 	const updateBidTimerStatus = () => {
 		const differenceStart = +new Date(item.time_start) - +new Date();
-		const differenceEnd = +new Date('July 23, 2021 04:10:00 UTC') - +new Date();
+		const differenceEnd = +new Date('July 23, 2021 05:10:00 UTC') - +new Date();
 		//July 23, 2021 05:10:00 UTC
 
 		if (differenceEnd <= 0) {
@@ -463,7 +463,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 				let highestBidUser = item.current_price;
 				let userItemData = {
 					token_id: nftTokenId,
-					p_id: item.tokenId,
+					p_id: '0',
 					token_type: 2,
 					event: 'auction',
 					owner: userAddress,

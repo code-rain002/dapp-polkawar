@@ -7,7 +7,7 @@ bidConstant = {
 	rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
 	chainId: 97, // now testnet
 	api: 'V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK',
-	contractAddress: '0x37c6D3B18385a302165A2bDCa8240ddd7eB4fa48',
+	contractAddress: '0x59D8ACBe48166e18454142942336CfA93297924a',
 	abi: [
 		{
 			inputs: [
