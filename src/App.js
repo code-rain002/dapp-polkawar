@@ -12,41 +12,46 @@ import store from './store';
 import Airdrop from './pages/airdrop/Airdrop';
 import Sale from './pages/sale/Sale';
 import Bid from './pages/bid/Bid';
+import BidDetails from './pages/bid/BidDetails';
+import BidRewards from './components/BidRewards';
 
 export default function App() {
-
-  return (
-    <Provider store={store}>
-      <Router>
-        <ThemeProvider theme={theme}>
-          <Fragment>
-
-            <Appbar />
-            <Switch>
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <Route exact path="/profile">
-                <Profile />
-              </Route>
-              <Route exact path="/sale">
-                <Sale />
-              </Route>
-              <Route exact path="/bid">
-                <Bid />
-              </Route>
-
-              <Route exact path="/item/:id">
-                <Details />
-              </Route>
-              <Route exact path="/airdrop">
-                <Airdrop />
-              </Route>
-            </Switch>
-            {/* <SocialLinks /> */}
-          </Fragment>
-        </ThemeProvider>
-      </Router>
-    </Provider>
-  );
+	return (
+		<Provider store={store}>
+			<Router>
+				<ThemeProvider theme={theme}>
+					<Fragment>
+						<Appbar />
+						<Switch>
+							<Route exact path="/">
+								<Home />
+							</Route>
+							<Route exact path="/profile">
+								<Profile />
+							</Route>
+							<Route exact path="/sale">
+								<Sale />
+							</Route>
+							<Route exact path="/bid">
+								<Bid />
+							</Route>
+							<Route exact path="/bid/:id">
+								<BidDetails />
+							</Route>
+							<Route exact path="/box-rewards/:pid">
+								<BidRewards />
+							</Route>
+							<Route exact path="/item/:id">
+								<Details />
+							</Route>
+							<Route exact path="/airdrop">
+								<Airdrop />
+							</Route>
+						</Switch>
+						{/* <SocialLinks /> */}
+					</Fragment>
+				</ThemeProvider>
+			</Router>
+		</Provider>
+	);
 }

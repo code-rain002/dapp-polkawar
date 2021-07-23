@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Dialog, Slide, Backdrop, IconButton, Divider } from '@material-ui/core';
+import { Button, Dialog, Slide, Backdrop, Divider } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { Link } from 'react-router-dom';
 import imageBaseUrl from './../actions/imageBaseUrl';
@@ -12,7 +12,6 @@ import saleContract from './../utils/saleConnection';
 import axios from 'axios';
 import baseUrl from './../actions/baseUrl';
 import Loader from './Loader';
-import { Close } from '@material-ui/icons';
 import { getFlashItems } from './../actions/itemActions';
 
 const Transition = React.forwardRef(function Transition(props, ref) {

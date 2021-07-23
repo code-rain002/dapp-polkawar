@@ -174,9 +174,9 @@ var resaleEndDate = process.env.REACT_APP_END_RESELL;
 function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
 	const classes = useStyles();
 
-	const [actualCase, setActualCase] = useState(0);
-	const [saleEnds, setSaleEnds] = useState(false);
-	const [purchased, setPurchased] = useState(false);
+	const [ actualCase, setActualCase ] = useState(0);
+	const [ saleEnds, setSaleEnds ] = useState(false);
+	const [ purchased, setPurchased ] = useState(false);
 
 	useEffect(() => {
 		async function asyncFn() {

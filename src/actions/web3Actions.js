@@ -31,7 +31,7 @@ export const checkCorrectNetwork = async () => {
   // } else {
   //   networkId = 97;
   // }
-  networkId = 56;
+  networkId = 97;
 
   if (chainID === networkId) {
     //console.log('BSC');

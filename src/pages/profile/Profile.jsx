@@ -17,6 +17,7 @@ import { checkWalletAvailable, checkCorrectNetwork } from './../../actions/web3A
 import Loader from '../../components/Loader';
 import ConnectButton from '../../components/ConnectButton';
 import ItemProfileCard from '../../common/ItemProfileCard';
+import ProfileMysteryCard from '../../components/ProfileMysteryCard';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -544,12 +545,20 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                   {useritems.length !== 0 ? (
+
+                    
                     <div className="row">
+                       
+                    
                       {useritems.map((item, index) => {
                         return (
                           <div key={index} className="col-12 col-md-6">
-                            <ItemProfileCard item={item} />
+                           <div className='d-flex justify-content-center'> 
                            
+                            {item.event==='auction' && <ProfileMysteryCard item={item} />}
+                            {item.event!=='auction' && <ItemProfileCard item={item} />}
+                            
+                            </div>
                           </div>
                         );
                       })}
