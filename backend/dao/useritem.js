@@ -36,7 +36,7 @@ const userItemDao = {
 		// return await UserItemModel.find({});
 		//After testing delete items
 		//return await UserItemModel.remove({ event: 'auction' });
-		return await UserItemModel.remove({ event: 'auction-reward' });
+		//return await UserItemModel.remove({ event: 'auction-reward' });
 	},
 };
 

@@ -382,8 +382,8 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 
 	const updateBidTimerStatus = () => {
 		const differenceStart = +new Date(item.time_start) - +new Date();
-		const differenceEnd = +new Date('July 23, 2021 05:10:00 UTC') - +new Date();
-		//July 23, 2021 05:10:00 UTC
+		const differenceEnd = +new Date(item.time_end) - +new Date();
+		//const differenceEnd = +new Date('July 23, 2021 05:10:00 UTC') - +new Date();
 
 		if (differenceEnd <= 0) {
 			setTimerStatus(1);
