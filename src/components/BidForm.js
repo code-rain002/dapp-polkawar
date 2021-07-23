@@ -133,12 +133,12 @@ const useStyles = makeStyles((theme) => ({
 
 function BidForm({ item, createNewBid, setStopPopupClick }) {
 	const classes = useStyles();
-	const [ actualCase, setActualCase ] = useState(0);
-	const [ bidAmount, setBidAmount ] = useState('0');
-	const [ boxId, setBoxId ] = useState(0);
-	const [ error, setError ] = useState('');
+	const [actualCase, setActualCase] = useState(0);
+	const [bidAmount, setBidAmount] = useState('0');
+	const [boxId, setBoxId] = useState(0);
+	const [error, setError] = useState('');
 
-	let mysteryBoxJsonList = [ 'Qma5vpAbdmiPj8aCkNbMEGppH9qNDk1uRR9HT3VrK1NEzi' ];
+	let mysteryBoxJsonList = ['Qma5vpAbdmiPj8aCkNbMEGppH9qNDk1uRR9HT3VrK1NEzi'];
 
 	useEffect(() => {
 		console.log(item);
@@ -198,7 +198,7 @@ function BidForm({ item, createNewBid, setStopPopupClick }) {
 
 			// 3. Signing jsonHash
 			let signResponse = await signTransaction(boxHash, userAddress);
-			console.log(signResponse);
+			//console.log(signResponse);
 
 			// 4. Converting amount Wei
 			let amount = bidAmount * 1000000000000000000;
@@ -211,7 +211,7 @@ function BidForm({ item, createNewBid, setStopPopupClick }) {
 			const response = await new Promise((resolve, reject) => {
 				bidContract.methods
 					.bid(boxId, signResponse.v, signResponse.r, signResponse.s, signResponse.messageHash)
-					.send({ from: userAddress, value: amount }, function(error, transactionHash) {
+					.send({ from: userAddress, value: amount }, function (error, transactionHash) {
 						console.log('purchaseItem Called');
 						setStopPopupClick(true);
 						if (transactionHash) {
@@ -224,7 +224,7 @@ function BidForm({ item, createNewBid, setStopPopupClick }) {
 							reject();
 						}
 					})
-					.on('receipt', async function(receipt) {
+					.on('receipt', async function (receipt) {
 						console.log('4. Purchase Success');
 
 						let newBidResponse = await createNewBid(boxId, userAddress, bidAmount);
@@ -235,7 +235,7 @@ function BidForm({ item, createNewBid, setStopPopupClick }) {
 							setActualCase(5);
 						}
 					})
-					.on('error', async function(error) {
+					.on('error', async function (error) {
 						setActualCase(4);
 					});
 			});
@@ -281,7 +281,7 @@ function BidForm({ item, createNewBid, setStopPopupClick }) {
 									className={classes.textField}
 									onChange={(e) => setBidAmount(e.target.value)}
 									fullWidth
-									// error={!bidConditionCheck()}
+								// error={!bidConditionCheck()}
 								/>
 								<h6 style={{ color: 'black', textAlign: 'left', fontSize: 16, fontWeight: 300 }}>
 									BNB
