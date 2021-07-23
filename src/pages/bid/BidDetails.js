@@ -694,7 +694,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 													<div for="bidStatus">
 														<p className={classes.statusBoxHeading}>
 															Your bid status<span>
-																{console.log(myHighBid)}
+
 																{myHighBid.price === item.current_price ? (
 																	<span style={{ color: 'green', paddingLeft: 5 }}>
 																		(Approved)
