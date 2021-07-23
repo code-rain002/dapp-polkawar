@@ -297,7 +297,7 @@ if (constants.net === 0) {
 		rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
 		chainId: 97, // now testnet
 		api: 'V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK',
-		contractAddress: '0x2946326189D260E18BB3E8ec1E27AA657E0A5b22',
+		contractAddress: '0x3Bab70E701ea44e0d46178457a31FDE2F28DF4ED',
 		abi: [
 			{
 				inputs: [
