@@ -579,6 +579,7 @@ if (constants.net === 0) {
 	};
 }
 
+console.log(constants.net);
 var web3 = new Web3(window.ethereum);
 var bidContract = new web3.eth.Contract(bidConstant.abi, bidConstant.contractAddress);
 
