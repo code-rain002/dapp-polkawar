@@ -381,9 +381,9 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 	};
 
 	const updateBidTimerStatus = () => {
-		const differenceStart = +new Date(item.time_start) - +new Date();
-		const differenceEnd = +new Date(item.time_end) - +new Date();
-		//const differenceEnd = +new Date('July 23, 2021 05:10:00 UTC') - +new Date();
+		const differenceStart = +new Date('July 23, 2021 10:00:00 UTC') - +new Date();
+		//const differenceEnd = +new Date(item.time_end) - +new Date();
+		const differenceEnd = +new Date('July 23, 2021 10:10:00 UTC') - +new Date();
 
 		if (differenceEnd <= 0) {
 			setTimerStatus(1);
@@ -461,9 +461,12 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 
 				//4. Getting Highest Bid
 				let highestBidUser = item.current_price;
+
+				//5. Getting program ID
+				let programId = item.itemId !== undefined && item.itemId !== null ? item.itemId : '0';
 				let userItemData = {
 					token_id: nftTokenId,
-					p_id: '0',
+					p_id: programId,
 					token_type: 2,
 					event: 'auction',
 					owner: userAddress,
@@ -662,7 +665,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 									<div className="d-flex justify-content-center">
 										<hr style={{ width: 300, backgroundColor: '#616161', height: 1 }} />
 									</div>
-									<p className={classes.statusBoxHeading} />{' '}
+
 									{timerStatus === 4 && (
 										<div className="text-center mt-3">
 											{userBidStatus === 0 && (

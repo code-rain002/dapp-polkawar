@@ -196,7 +196,7 @@ function BidRewards({ programId, useritems, closepopup }) {
 			//To load Item JSON Information
 			if (useritems !== null && useritems !== undefined) {
 				let singleItem = useritems.filter(
-					(element) => element.pId === programId.toString() && element.pId === 'auction-reward',
+					(element) => element.pId === programId.toString() && element.event === 'auction-reward',
 				);
 
 				if (singleItem.length > 0) {
