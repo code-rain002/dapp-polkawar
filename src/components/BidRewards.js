@@ -195,7 +195,9 @@ function BidRewards({ programId, useritems, closepopup }) {
 		async function asyncFn() {
 			//To load Item JSON Information
 			if (useritems !== null && useritems !== undefined) {
-				let singleItem = useritems.filter((element) => element.pId === programId.toString());
+				let singleItem = useritems.filter(
+					(element) => element.pId === programId.toString() && element.pId === 'auction-reward',
+				);
 
 				if (singleItem.length > 0) {
 					let nftItem_Id = singleItem[0].tokenId;
