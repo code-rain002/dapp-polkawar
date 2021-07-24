@@ -49,7 +49,9 @@ export default function App() {
 								<Airdrop />
 							</Route>
 						</Switch>
-						<Footer />
+						<div>
+							<Footer />
+						</div>
 					</Fragment>
 				</ThemeProvider>
 			</Router>

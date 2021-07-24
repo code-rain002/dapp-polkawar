@@ -11,17 +11,22 @@ import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 
 const useStyles = makeStyles((theme) => ({
-	mainCard: {
+	background: {
 		height: '100%',
+		[theme.breakpoints.down('md')]: {
+			height: '100%',
+		},
+	},
+	mainCard: {
 		paddingLeft: 30,
 		paddingRight: 30,
 		borderRadius: 10,
 		width: '100%',
 		display: 'flex',
+		flexDirection: 'column',
 		justifyContent: 'center',
+		alignItems: 'center',
 		[theme.breakpoints.down('md')]: {
-			height: '100%',
-			width: '100%',
 			paddingLeft: 5,
 			paddingRight: 5,
 		},
@@ -231,7 +236,7 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
 		Bow: 'QmZ1sRwD8H56Y5Szaor78vemhfrihNAmCtPuEipK4wRqJK',
 	};
 	return (
-		<div>
+		<div className={classes.background}>
 			<div className="text-center">
 				<h1 className={classes.title}>
 					Flash Sale <img src="images/thunder.png" height="20px" alt="thunder" />
@@ -239,106 +244,99 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
 			</div>
 
 			<div className={classes.mainCard}>
-				<div className={classes.sectionCard1}>
-					<div className={classes.banner} />
-					{actualCase === 0 && (
-						<div className={classes.timerBox} for="sale starts in">
-							<h1 className={classes.ends}>Sale Starts in: </h1>
-							<h6 className={classes.timerTime}>
-								<Timer endTime={saleStartDate} />
-							</h6>
-						</div>
-					)}
-					{actualCase === 1 && (
-						<div className={classes.timerBox} for="sale ends in">
-							<h1 className={classes.ends}>Sale Ends in: </h1>
-							<h6 className={classes.timerTime}>
-								<Timer endTime={saleEndDate} />
-							</h6>
-						</div>
-					)}
-					<div className="mt-5" for="rules">
-						<h6 style={{ color: 'yellow', fontSize: 18, textAlign: 'center' }}>Flash Sale Rules</h6>
-						<h6 className={classes.para}>
-							Please read the rules carefully before participating into flash sale.
+				<div className={classes.banner} />
+				{actualCase === 0 && (
+					<div className={classes.timerBox} for="sale starts in">
+						<h1 className={classes.ends}>Sale Starts in: </h1>
+						<h6 className={classes.timerTime}>
+							<Timer endTime={saleStartDate} />
 						</h6>
-						<div className="d-flex justify-content-center mt-3">
-							<div style={{ maxWidth: 600 }}>
-								<ol>
-									<li className={classes.listItem}>You must HODL or STAKE 2000 PWAR Tokens.</li>
-									<li className={classes.listItem}>
-										You can only purchase item once during the flash sale.
-									</li>
-									<li className={classes.listItem}>
-										After purchasing the item, you can also sell this item back to PolkaWar system
-										and you will get 0.7 BNB.
-									</li>
-									<li className={classes.listItem}>
-										If you resell to the system, you will get 0.7BNB and your NFT item will be lost.
-										And you will not receive receive reward of 2000 PWAR on 15th of August,2021.
-									</li>
-									<li className={classes.listItem}>
-										Reselling of the NFT Item will start from{' '}
-										<span style={{ color: 'yellow' }}>
-											<Moment format="DD-MM-YYYY HH:mm">{resaleStartDate}</Moment> UTC
-										</span>{' '}
-										and will end{' '}
-										<span style={{ color: 'yellow' }}>
-											<Moment format="DD-MM-YYYY HH:mm">{resaleEndDate}</Moment> UTC.
-										</span>
-									</li>
-									<li className={classes.listItem}>
-										If you don't want to sell, you can hold the item upto{' '}
-										<span style={{ color: 'yellow' }}>15th Aug</span> and you will receive 2000 PWAR
-										tokens as a reward.
-									</li>
-								</ol>
-							</div>
-						</div>{' '}
 					</div>
-
-					{purchased && (
-						<div className="mt-5 pb-5">
-							<h2 className={classes.thanksHeading}>Thanks for Participating!</h2>
-							<div style={{ display: 'flex', justifyContent: 'center' }}>
-								<p className={classes.thanksText}>
-									Great! You have already purchased an item during flash sale. Go to your items
-									section of the profile and check your item.
-								</p>
-							</div>
-							<Link to="/profile">
-								<div className="text-center">
-									<Button variant="contained" className={classes.profileButton}>
-										<span>Go To Profile</span>
-									</Button>
-								</div>
-							</Link>
+				)}
+				{actualCase === 1 && (
+					<div className={classes.timerBox} for="sale ends in">
+						<h1 className={classes.ends}>Sale Ends in: </h1>
+						<h6 className={classes.timerTime}>
+							<Timer endTime={saleEndDate} />
+						</h6>
+					</div>
+				)}
+				<div className="mt-5" htmlFor="rules">
+					<h6 style={{ color: 'yellow', fontSize: 18, textAlign: 'center' }}>Flash Sale Rules</h6>
+					<h6 className={classes.para}>
+						Please read the rules carefully before participating into flash sale.
+					</h6>
+					<div className="d-flex justify-content-center mt-3">
+						<div style={{ maxWidth: 600 }}>
+							<ol>
+								<li className={classes.listItem}>You must HODL or STAKE 2000 PWAR Tokens.</li>
+								<li className={classes.listItem}>
+									You can only purchase item once during the flash sale.
+								</li>
+								<li className={classes.listItem}>
+									After purchasing the item, you can also sell this item back to PolkaWar system and
+									you will get 0.7 BNB.
+								</li>
+								<li className={classes.listItem}>
+									If you resell to the system, you will get 0.7BNB and your NFT item will be lost. And
+									you will not receive receive reward of 2000 PWAR on 15th of August,2021.
+								</li>
+								<li className={classes.listItem}>
+									Reselling of the NFT Item will start from{' '}
+									<span style={{ color: 'yellow' }}>
+										<Moment format="DD-MM-YYYY HH:mm">{resaleStartDate}</Moment> UTC
+									</span>{' '}
+									and will end{' '}
+									<span style={{ color: 'yellow' }}>
+										<Moment format="DD-MM-YYYY HH:mm">{resaleEndDate}</Moment> UTC.
+									</span>
+								</li>
+								<li className={classes.listItem}>
+									If you don't want to sell, you can hold the item upto{' '}
+									<span style={{ color: 'yellow' }}>15th Aug</span> and you will receive 2000 PWAR
+									tokens as a reward.
+								</li>
+							</ol>
 						</div>
-					)}
-					{!purchased && (
-						<div className="row mt-4">
-							{flash.length !== 0 &&
-								flash.map((singleItem) => {
-									return (
-										<div className="col-12">
-											<div className="d-flex flex-column justify-content-center">
-												<ItemSaleCard
-													item={singleItem}
-													nftHashList={nftHashList}
-													userItemsLength={useritems.length}
-													saleEnds={saleEnds}
-													saleCase={actualCase}
-												/>
-											</div>
-										</div>
-									);
-								})}
-						</div>
-					)}
+					</div>{' '}
 				</div>
+				{purchased && (
+					<div className="mt-5 pb-5">
+						<h2 className={classes.thanksHeading}>Thanks for Participating!</h2>
+						<div style={{ display: 'flex', justifyContent: 'center' }}>
+							<p className={classes.thanksText}>
+								Great! You have already purchased an item during flash sale. Go to your items section of
+								the profile and check your item.
+							</p>
+						</div>
+						<Link to="/profile">
+							<div className="text-center">
+								<Button variant="contained" className={classes.profileButton}>
+									<span>Go To Profile</span>
+								</Button>
+							</div>
+						</Link>
+					</div>
+				)}
+				{!purchased && (
+					<div className="d-flex flex-column mt-4">
+						{flash.length !== 0 &&
+							flash.map((singleItem) => {
+								return (
+									<div>
+										<ItemSaleCard
+											item={singleItem}
+											nftHashList={nftHashList}
+											userItemsLength={useritems.length}
+											saleEnds={saleEnds}
+											saleCase={actualCase}
+										/>
+									</div>
+								);
+							})}
+					</div>
+				)}
 			</div>
-
-			<div />
 		</div>
 	);
 }

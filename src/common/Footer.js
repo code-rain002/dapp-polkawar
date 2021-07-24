@@ -5,7 +5,7 @@ import { Twitter, Telegram, GitHub, Email, Instagram } from '@material-ui/icons'
 const useStyles = makeStyles((theme) => ({
 	background: {
 		padding: 70,
-		height: '200px',
+		height: '100%',
 		[theme.breakpoints.down('md')]: {
 			padding: 10,
 		},
