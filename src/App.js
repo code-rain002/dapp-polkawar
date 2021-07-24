@@ -22,35 +22,37 @@ export default function App() {
 			<Router>
 				<ThemeProvider theme={theme}>
 					<Fragment>
-						<Appbar />
-						<Switch>
-							<Route exact path="/">
-								<Home />
-							</Route>
-							<Route exact path="/profile">
-								<Profile />
-							</Route>
-							<Route exact path="/sale">
-								<Sale />
-							</Route>
-							<Route exact path="/bid">
-								<Bid />
-							</Route>
-							<Route exact path="/bid/:id">
-								<BidDetails />
-							</Route>
-							<Route exact path="/box-rewards/:pid">
-								<BidRewards />
-							</Route>
-							<Route exact path="/item/:id">
-								<Details />
-							</Route>
-							<Route exact path="/airdrop">
-								<Airdrop />
-							</Route>
-						</Switch>
-						<div>
-							<Footer />
+						<div style={{ minHeight: '100vh' }}>
+							<Appbar />
+							<Switch>
+								<Route exact path="/">
+									<Home />
+								</Route>
+								<Route exact path="/profile">
+									<Profile />
+								</Route>
+								<Route exact path="/sale">
+									<Sale />
+								</Route>
+								<Route exact path="/bid">
+									<Bid />
+								</Route>
+								<Route exact path="/bid/:id">
+									<BidDetails />
+								</Route>
+								<Route exact path="/box-rewards/:pid">
+									<BidRewards />
+								</Route>
+								<Route exact path="/item/:id">
+									<Details />
+								</Route>
+								<Route exact path="/airdrop">
+									<Airdrop />
+								</Route>
+							</Switch>
+							<div>
+								<Footer />
+							</div>
 						</div>
 					</Fragment>
 				</ThemeProvider>
