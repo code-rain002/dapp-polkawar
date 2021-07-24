@@ -286,7 +286,7 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds, getFlash
 			let apiResponse = await checkSlotsAvailable(item._id);
 			let slotsAvailable = apiResponse.data;
 
-			if (parseInt(slotsAvailable) <= 5) {
+			if (parseInt(slotsAvailable) <= 5 && parseInt(slotsAvailable) > 0) {
 				setInterval(() => {
 					getFlashItems();
 				}, 5000);

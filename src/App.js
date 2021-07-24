@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import Appbar from './common/Appbar';
+import Footer from './common/Footer';
 import Home from './pages/home/Home';
 import './App.css';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -48,7 +49,7 @@ export default function App() {
 								<Airdrop />
 							</Route>
 						</Switch>
-						{/* <SocialLinks /> */}
+						<Footer />
 					</Fragment>
 				</ThemeProvider>
 			</Router>

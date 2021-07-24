@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: 50,
 		marginRight: 50,
 		borderRadius: 10,
+		minHeight: 600,
 		[theme.breakpoints.down('md')]: {
 			margin: 0,
 			borderRadius: 0,
@@ -35,7 +36,8 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: 32,
 		lineHeight: '40.7px',
 		[theme.breakpoints.down('md')]: {
-			fontSize: 32,
+			fontSize: 26,
+			marginTop: 10,
 		},
 	},
 	para: {
@@ -47,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: 16,
 		textAlign: 'center',
 		[theme.breakpoints.down('md')]: {
-			fontSize: 15,
+			fontSize: 14,
 		},
 	},
 	rulesButton: {
