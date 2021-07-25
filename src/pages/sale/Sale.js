@@ -281,11 +281,11 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
 								<li className={classes.listItem}>
 									Reselling of the NFT Item will start from{' '}
 									<span style={{ color: 'yellow' }}>
-										<Moment format="DD-MM-YYYY HH:mm">{resaleStartDate}</Moment> UTC
+										<Moment format="DD-MM-YYYY HH:mm">{resaleStartDate}</Moment>
 									</span>{' '}
 									and will end{' '}
 									<span style={{ color: 'yellow' }}>
-										<Moment format="DD-MM-YYYY HH:mm">{resaleEndDate}</Moment> UTC.
+										<Moment format="DD-MM-YYYY HH:mm">{resaleEndDate}</Moment> .
 									</span>
 								</li>
 								<li className={classes.listItem}>

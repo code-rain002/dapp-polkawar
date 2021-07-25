@@ -86,8 +86,8 @@ const useStyles = makeStyles((theme) => ({
 function Bid({ getAllBidItems, items }) {
 	const classes = useStyles();
 
-	const [ actualCase, setActualCase ] = useState(0);
-	const [ showRules, setShowRules ] = useState(false);
+	const [actualCase, setActualCase] = useState(0);
+	const [showRules, setShowRules] = useState(false);
 
 	useEffect(() => {
 		getAllBidItems();
@@ -156,6 +156,7 @@ function Bid({ getAllBidItems, items }) {
 										<li className={classes.listItem}>10 BNB + 10000 PWAR + 1 NFT Level 3</li>
 										<li className={classes.listItem}>20 BNB + 20000 PWAR + 1 NFT Level 3</li>
 										<li className={classes.listItem}>50 BNB + 50000 PWAR + 1 NFT Level 3</li>
+										<li className={classes.listItem}>100 BNB + 100000 PWAR + 1 NFT Level 3</li>
 									</ul>
 								</div>
 							</div>{' '}
