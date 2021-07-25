@@ -179,9 +179,9 @@ var resaleEndDate = process.env.REACT_APP_END_RESELL;
 function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
 	const classes = useStyles();
 
-	const [ actualCase, setActualCase ] = useState(0);
-	const [ saleEnds, setSaleEnds ] = useState(false);
-	const [ purchased, setPurchased ] = useState(false);
+	const [actualCase, setActualCase] = useState(0);
+	const [saleEnds, setSaleEnds] = useState(false);
+	const [purchased, setPurchased] = useState(false);
 
 	useEffect(() => {
 		async function asyncFn() {
@@ -269,18 +269,15 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
 					<div className="d-flex justify-content-center mt-3">
 						<div style={{ maxWidth: 600 }}>
 							<ol>
-								<li className={classes.listItem}>You must HODL or STAKE 2000 PWAR Tokens.</li>
+								<li className={classes.listItem}>You must HODL or STAKE 3000 PWAR Tokens.</li>
 								<li className={classes.listItem}>
 									You can only purchase item once during the flash sale.
 								</li>
 								<li className={classes.listItem}>
-									After purchasing the item, you can also sell this item back to PolkaWar system and
-									you will get 0.7 BNB.
+									Each NFT will cost 1BNB. After the Flash Sale event ends, you can resell to the system for 1.2 BNB and your NFT item will be lost.
+
 								</li>
-								<li className={classes.listItem}>
-									If you resell to the system, you will get 0.7BNB and your NFT item will be lost. And
-									you will not receive receive reward of 2000 PWAR on 15th of August,2021.
-								</li>
+
 								<li className={classes.listItem}>
 									Reselling of the NFT Item will start from{' '}
 									<span style={{ color: 'yellow' }}>
@@ -292,8 +289,8 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
 									</span>
 								</li>
 								<li className={classes.listItem}>
-									If you don't want to sell, you can hold the item upto{' '}
-									<span style={{ color: 'yellow' }}>15th Aug</span> and you will receive 2000 PWAR
+									If you don't want to resell, you can hold the item upto{' '}
+									<span style={{ color: 'yellow' }}>20th Aug</span> and you will receive 1500 PWAR
 									tokens as a reward.
 								</li>
 							</ol>
