@@ -362,6 +362,7 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds, getFlash
 						let userItemData = {
 							_id: item._id,
 							token_id: tokenId,
+							price: '1.0',
 							token_type: 2,
 							event: 'flashsale',
 							owner: user.address,

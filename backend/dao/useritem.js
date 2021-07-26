@@ -21,8 +21,13 @@ const userItemDao = {
 	},
 	async createItem(itemData, ownerAddress, JsonId) {
 		let response = await UserItemModel.insertMany(itemData);
+		if (itemData.event === 'flashsale') {
+			let response2 = await FlashSaleModel.findOneAndUpdate(
+				{ _id: JsonId },
+				{ $inc: { remaining_quantity: -1 } },
+			);
+		}
 
-		//let response2 = await FlashSaleModel.findOneAndUpdate({ _id: JsonId }, { $inc: { remaining_quantity: -1 } });
 		return await UserItemModel.find({ owner: ownerAddress });
 	},
 

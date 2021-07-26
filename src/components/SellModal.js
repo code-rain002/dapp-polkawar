@@ -307,8 +307,8 @@ function SellModal({ closePopup, item, updateUserItemOwner, user, setDisableSell
 						<div className="my-3 d-flex flex-column justify-content-start">
 							<h5 className={classes.messageTitle}> Please confirm </h5>
 							<p className={classes.para}>
-								If you resell to the system, you will get 0.7BNB and your NFT item will be lost. And you
-								will not receive receive reward of 2000 PWAR on 15th of August,2021.
+								If you resell to the system, you will get 1.2 BNB and your NFT item will be lost. And
+								you will not receive receive reward of 1500 PWAR on 20th of August,2021.
 							</p>
 							<div className="mt-3">
 								<Button variant="contained" className={classes.buttonSystem} onClick={confirmResell}>

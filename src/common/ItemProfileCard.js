@@ -396,7 +396,7 @@ function ItemProfileCard({ item, user }) {
 										<h6 style={{ color: 'white' }}>
 											<strong> Price :</strong>{' '}
 											<span className={classes.pricingText}>
-												{itemJson.price ? itemJson.price : '0.5'} BNB
+												{item.price ? item.price : '0.5    '} BNB
 											</span>
 										</h6>
 										<h6 style={{ color: 'white' }}>

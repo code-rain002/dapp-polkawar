@@ -500,7 +500,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                     ) : (
                       <div className="text-center">
                         <div className="my-3">
-                          <img src="images/character.png" height="100px" alt="character" />
+                          <img src="./images/swords.png" height="100px" alt="character" />
                         </div>
                         <div className="text-center">
                           <h6 className={classes.title}>No character found</h6>
