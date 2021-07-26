@@ -340,7 +340,7 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds, getFlash
 			const response = await new Promise((resolve, reject) => {
 				saleContract.methods
 					.purchaseItem(nftHashJson, signResponse.v, signResponse.r, signResponse.s, signResponse.messageHash)
-					.send({ from: userAddress, value: 500000000000000000 }, function(error, transactionHash) {
+					.send({ from: userAddress, value: 1000000000000000000 }, function(error, transactionHash) {
 						console.log('purchaseItem Called');
 						if (transactionHash) {
 							setActualCase(3);

@@ -527,7 +527,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                   ) : (
                     <div className="text-center">
                       <div className="my-3">
-                        <img src="images/man.png" height="100px" alt="sale" />
+                        <img src="./images/swords.png" height="100px" alt="sale" />
                       </div>
                       <div className="text-center">
                         <h6 className={classes.title}>No items found</h6>
@@ -587,7 +587,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                   ) : (
                     <div className="text-center">
                       <div className="my-3">
-                        <img src="images/battle.png" height="100px" alt="battle" />
+                        <img src="./images/swords.png" height="100px" alt="battle" />
                       </div>
                       <div className="text-center">
                         <h6 className={classes.title}>No items found</h6>
@@ -609,7 +609,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                   ) : (
                     <div className="text-center">
                       <div className="my-3">
-                        <img src="images/flag.png" height="100px" alt="activity" />
+                        <img src="./images/swords.png" height="100px" alt="activity" />
                       </div>
                       <div className="text-center">
                         <h6 className={classes.title}>No Activity found</h6>
