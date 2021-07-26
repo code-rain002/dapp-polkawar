@@ -26,12 +26,11 @@ export const checkCorrectNetwork = async () => {
 	});
 	//console.log(chainID);
 	let networkId;
-	// if (process.env.NODE_ENV === 'production') {
-	//   networkId = 56;
-	// } else {
-	//   networkId = 97;
-	// }
-	networkId = 56;
+	if (constants.net === 0) {
+		networkId = 56;
+	} else {
+		networkId = 97;
+	}
 
 	if (chainID === networkId) {
 		//console.log('BSC');
