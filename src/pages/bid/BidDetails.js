@@ -12,6 +12,7 @@ import Moment from 'react-moment';
 import { Link, useParams } from 'react-router-dom';
 import { addUserItem } from './../../actions/itemActions';
 import bidContract from './../../utils/bidConnection';
+import imageBaseUrl from './../../actions/imageBaseUrl';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
@@ -497,12 +498,23 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 					<Loader />
 				</div>
 			)}
-			{item !== null && (
+			{item !== null &&
+			item !== undefined && (
 				<div>
 					<div className="row g-0 mt-2">
 						<div className="col-12 col-md-6">
 							<div className={classes.imageWrapper}>
-								<img src={`/images/mystery_box.png`} className={classes.image} alt="mysterybox" />
+								<img
+									src={
+										item.itemId === '0' ? (
+											'./images/mystery_box.png'
+										) : (
+											`${imageBaseUrl}/${item.image}`
+										)
+									}
+									className={classes.image}
+									alt="mysterybox"
+								/>
 							</div>
 						</div>
 						<div className="col-12 col-md-6 p-3">

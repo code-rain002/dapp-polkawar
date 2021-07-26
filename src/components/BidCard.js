@@ -6,6 +6,7 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Timer from './Timer';
 import { Link } from 'react-router-dom';
+import imageBaseUrl from './../actions/imageBaseUrl';
 
 const useStyles = makeStyles((theme) => ({
 	card1: {
@@ -126,45 +127,52 @@ function BidCard({ item }) {
 	return (
 		<div>
 			<div className="text-center" />
-			<Card className={classes.card1} elevation={0}>
-				<div>
-					{' '}
-					<div className="d-flex justify-content-center" />
-					<div className={classes.mediaWrapper1}>
-						<img alt="item" src={`./images/mystery_box.png`} className={classes.media} />
-					</div>
+			{item !== null &&
+			item !== undefined && (
+				<Card className={classes.card1} elevation={0}>
 					<div>
-						<h4 className={classes.title1}>{item.name}</h4>
-					</div>
-					<div className="d-flex justify-content-center">
-						<div className={classes.priceBadgeWrapper}>
-							<h6 style={{ color: 'white' }}>
-								<strong>
-									{timerStatus === 4 && 'Auction ends in'}
-									{timerStatus === 3 && 'Auction starts in'}
+						{' '}
+						<div className="d-flex justify-content-center" />
+						<div className={classes.mediaWrapper1}>
+							<img
+								alt="item"
+								src={item.itemId === '0' ? './images/mystery_box.png' : `${imageBaseUrl}/${item.image}`}
+								className={classes.media}
+							/>
+						</div>
+						<div>
+							<h4 className={classes.title1}>{item.name}</h4>
+						</div>
+						<div className="d-flex justify-content-center">
+							<div className={classes.priceBadgeWrapper}>
+								<h6 style={{ color: 'white' }}>
+									<strong>
+										{timerStatus === 4 && 'Auction ends in'}
+										{timerStatus === 3 && 'Auction starts in'}
 
-									{timerStatus === 1 && 'Auction Status'}
-									{timerStatus === 0 && 'Auction Status'}
-								</strong>{' '}
-							</h6>
-							<div>
-								{timerStatus === 4 && <Timer endTime={item.time_end} />}
-								{timerStatus === 3 && <Timer endTime={item.time_start} />}
+										{timerStatus === 1 && 'Auction Status'}
+										{timerStatus === 0 && 'Auction Status'}
+									</strong>{' '}
+								</h6>
+								<div>
+									{timerStatus === 4 && <Timer endTime={item.time_end} />}
+									{timerStatus === 3 && <Timer endTime={item.time_start} />}
 
-								{timerStatus === 1 && <Timer endTime={item.time_end} />}
-								{timerStatus === 0 && 'checking...'}
+									{timerStatus === 1 && <Timer endTime={item.time_end} />}
+									{timerStatus === 0 && 'checking...'}
+								</div>
 							</div>
 						</div>
+						<div className="text-center mt-4">
+							<Link to={`/bid/${item.itemId}`}>
+								<Button variant="contained" className={classes.bidButton}>
+									<span>Bid Now</span>
+								</Button>
+							</Link>
+						</div>
 					</div>
-					<div className="text-center mt-4">
-						<Link to={`/bid/${item.itemId}`}>
-							<Button variant="contained" className={classes.bidButton}>
-								<span>Bid Now</span>
-							</Button>
-						</Link>
-					</div>
-				</div>
-			</Card>
+				</Card>
+			)}
 		</div>
 	);
 }

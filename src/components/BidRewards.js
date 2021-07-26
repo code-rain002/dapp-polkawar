@@ -189,6 +189,14 @@ function BidRewards({ programId, useritems, closepopup }) {
 				nft_level: 3,
 			},
 		},
+		{
+			id: 10,
+			rewards: {
+				bnb: '100',
+				pwar: '100000',
+				nft_level: 3,
+			},
+		},
 	];
 
 	useEffect(() => {

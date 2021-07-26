@@ -86,8 +86,8 @@ const useStyles = makeStyles((theme) => ({
 function Bid({ getAllBidItems, items }) {
 	const classes = useStyles();
 
-	const [actualCase, setActualCase] = useState(0);
-	const [showRules, setShowRules] = useState(false);
+	const [ actualCase, setActualCase ] = useState(0);
+	const [ showRules, setShowRules ] = useState(false);
 
 	useEffect(() => {
 		getAllBidItems();
@@ -164,10 +164,10 @@ function Bid({ getAllBidItems, items }) {
 					</div>
 				</Grow>
 			)}
-			<div className="row mt-5">
+			<div>
 				{items !== null && (
-					<div>
-						{items.map((singleItem) => {
+					<div className="row mt-5">
+						{items.slice(0).reverse().map((singleItem) => {
 							return (
 								<div className="col-12 col-md-6">
 									<div className="d-flex flex-row justify-content-center">

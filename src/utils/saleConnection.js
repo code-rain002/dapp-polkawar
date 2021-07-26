@@ -198,7 +198,7 @@ if (constants.net === 0) {
 		rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
 		chainId: 97, // Testnet
 		api: 'V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK',
-		contractAddress: '0x772611731D3C011ba282E400A056681b96B55783',
+		contractAddress: '0xb8D9288D6D8E74fB2C09f5d24a0dF194EBb1F208',
 
 		abi: [
 			{
@@ -246,8 +246,10 @@ if (constants.net === 0) {
 					{ internalType: 'uint256', name: '_maximumSoldCount', type: 'uint256' },
 					{ internalType: 'uint256', name: '_maximumPerItem', type: 'uint256' },
 					{ internalType: 'uint256', name: '_price', type: 'uint256' },
+					{ internalType: 'uint256', name: '_buybackprice', type: 'uint256' },
 					{ internalType: 'uint256', name: '_resellBeginDate', type: 'uint256' },
 					{ internalType: 'uint256', name: '_resellEndDate', type: 'uint256' },
+					{ internalType: 'uint256', name: '_minimumHolding', type: 'uint256' },
 				],
 				name: 'changeConstant',
 				outputs: [],

@@ -45,7 +45,7 @@ const bidDao = {
 	},
 
 	async deleteItem() {
-		await BidModel.deleteMany({});
+		await BidModel.remove({ itemId: '1' });
 		return await BidModel.find({});
 	},
 };
