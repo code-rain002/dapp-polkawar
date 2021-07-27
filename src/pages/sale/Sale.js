@@ -202,10 +202,10 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
 
 	const checkSaleStart = () => {
 		//PUT Sale start date time
-		// const differenceStart = +new Date(saleStartDate) - +new Date();
-		// const differenceEnd = +new Date(saleEndDate) - +new Date();
-		const differenceStart = +new Date('July 25, 2021 17:30:00 UTC') - +new Date();
+		const differenceStart = +new Date(saleStartDate) - +new Date();
 		const differenceEnd = +new Date(saleEndDate) - +new Date();
+		// const differenceStart = +new Date('July 25, 2021 17:30:00 UTC') - +new Date();
+		// const differenceEnd = +new Date(saleEndDate) - +new Date();
 
 		if (differenceEnd <= 0) {
 			setSaleEnds(true);
