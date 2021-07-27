@@ -507,7 +507,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 								<img
 									src={
 										item.itemId === '0' ? (
-											'./images/mystery_box.png'
+											`https://gateway.pinata.cloud/ipfs/Qmcr4GGFEU26zRGWtTZhbncRLitaVgaLqVuypvPT52Qep1`
 										) : (
 											`${imageBaseUrl}/${item.image}`
 										)

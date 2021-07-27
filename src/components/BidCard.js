@@ -136,7 +136,13 @@ function BidCard({ item }) {
 						<div className={classes.mediaWrapper1}>
 							<img
 								alt="item"
-								src={item.itemId === '0' ? './images/mystery_box.png' : `${imageBaseUrl}/${item.image}`}
+								src={
+									item.itemId === '0' ? (
+										'https://gateway.pinata.cloud/ipfs/Qmcr4GGFEU26zRGWtTZhbncRLitaVgaLqVuypvPT52Qep1'
+									) : (
+										`${imageBaseUrl}/${item.image}`
+									)
+								}
 								className={classes.media}
 							/>
 						</div>
