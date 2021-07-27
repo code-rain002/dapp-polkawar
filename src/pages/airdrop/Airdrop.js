@@ -3,13 +3,16 @@ import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Grow } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { isJoinAirdrop, getTotalParticipants, tokenURI } from './../../actions/smartActions/SmartActions';
-import { authenticateUser } from './../../actions/authActions';
 import Loader from './../../components/Loader';
 import CountdownTimer from './../../components/CountdownTimer';
 import ConnectButton from '../../components/ConnectButton';
 import imageBaseUrl from './../../actions/imageBaseUrl';
-import { checkCorrectNetwork, checkWalletAvailable } from './../../actions/web3Actions';
+import { checkCorrectNetwork, checkWalletAvailable, getUserAddress } from './../../actions/web3Actions';
+import { isJoinAirdrop, tokenURI } from './../../actions/smartActions/SmartActions';
+import { authenticateUser } from './../../actions/authActions';
+import { addUserItem } from './../../actions/itemActions';
+import airdropContract from '../../utils/airdropConnection';
+import TransactionStatus from '../../components/TransactionStatus';
 
 const useStyles = makeStyles((theme) => ({
 	spacing: {
@@ -98,14 +101,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function Airdrop({ authenticated, user, authenticateUser }) {
+function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 	const classes = useStyles();
 
 	const [ actualCase, setActualCase ] = useState(0);
 	const [ loading, setLoading ] = useState(true);
 	const [ airdropJoined, setAirdropJoined ] = useState(false);
 	const [ airdropParticipants, setAirdropParticipants ] = useState(0);
+	const [ tokenId, setTokenId ] = useState(null);
 	const [ itemJson, setItemJson ] = useState(null);
+	const [ claimCase, setClaimCase ] = useState(0);
 
 	const [ activate, setActivate ] = React.useState(false);
 
@@ -113,7 +118,6 @@ function Airdrop({ authenticated, user, authenticateUser }) {
 		async function asyncFn() {
 			checkWalletAvailable();
 			let res = await checkCorrectNetwork();
-			console.log('airdrop:' + res);
 		}
 		asyncFn();
 	}, []);
@@ -126,33 +130,25 @@ function Airdrop({ authenticated, user, authenticateUser }) {
 				if (walletAvailable) {
 					//Get all participants
 					getParticipants();
-					//console.log('1. Wallet Available');
+
 					const correctNetwork = checkCorrectNetwork();
 					if (correctNetwork) {
-						//console.log('2. Correct Network');
-						const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+						let accountAddress = await getUserAddress();
 
-						const accountAddress = accounts[0];
 						authenticateUser(accountAddress);
 
 						if (authenticated) {
-							//console.log('3. Authenticated True');
 							await checkIsJoined();
 						} else {
 							if (typeof window.ethereum === 'undefined') {
-								//console.log('3. Authenticated False');
 								setActualCase(3);
 							}
 						}
 					} else {
-						//console.log('2. Wrong Network');
-
 						setActualCase(2);
 						setLoading(false);
 					}
 				} else {
-					//console.log('1. Wallet not Available');
-
 					setActualCase(1);
 					setLoading(false);
 				}
@@ -165,7 +161,6 @@ function Airdrop({ authenticated, user, authenticateUser }) {
 	const getParticipants = async () => {
 		var f = 110 + 21323 + 328932;
 		setAirdropParticipants(f);
-		console.log('called');
 	};
 
 	const checkIsJoined = async () => {
@@ -174,6 +169,7 @@ function Airdrop({ authenticated, user, authenticateUser }) {
 		var joined = await isJoinAirdrop(user.address);
 
 		if (parseInt(joined) > 0) {
+			setTokenId(parseInt(joined));
 			setAirdropJoined(true);
 			let itemString = await tokenURI(joined);
 			await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
@@ -188,8 +184,46 @@ function Airdrop({ authenticated, user, authenticateUser }) {
 		}
 	};
 
-	const claimAirdrop = () => {
-		console.log('Claimed');
+	const claimAirdrop = async () => {
+		// Calling Smart Contract
+		setClaimCase(1);
+
+		let userAddress = await getUserAddress();
+
+		const response = await airdropContract.methods
+			.claimAirdrop()
+			.send({ from: userAddress }, function(error, transactionHash) {
+				if (transactionHash) {
+					setClaimCase(3);
+				} else {
+					setClaimCase(2);
+				}
+			})
+			.on('receipt', async function(receipt) {
+				console.log('4. Claim Success');
+
+				let nftTokenId = tokenId;
+				const utcDateTimestamp = new Date();
+				let utcDate = utcDateTimestamp.toUTCString();
+				let userItemData = {
+					token_id: nftTokenId,
+					price: '0.0',
+					token_type: 2,
+					event: 'airdrop',
+					owner: userAddress,
+					buydate: utcDate,
+				};
+				let response = await addUserItem(userItemData);
+				if (response) {
+					setActualCase(6);
+					window.location.reload();
+				} else {
+					setActualCase(5);
+				}
+			})
+			.on('error', async function(error) {
+				setClaimCase(4);
+			});
 	};
 
 	return (
@@ -277,18 +311,39 @@ function Airdrop({ authenticated, user, authenticateUser }) {
 											</div>
 											<div className="mt-5 d-flex flex-column justify-content-center align-items-center">
 												<h3 style={{ fontSize: 21, color: 'white' }}>Claim your airdrop</h3>
-												<Button
-													variant="outlined"
-													onClick={activate ? claimAirdrop : null}
-													className={activate ? classes.buttonMain : classes.timerButton}>
-													{activate ? (
-														'Claim Now'
-													) : (
-														<div>
-															<CountdownTimer enableClaim={setActivate} />
-														</div>
+												{claimCase === 0 && (
+													<Button
+														variant="outlined"
+														onClick={!activate ? claimAirdrop : null}
+														className={activate ? classes.buttonMain : classes.timerButton}>
+														{!activate ? (
+															'Claim Now'
+														) : (
+															<div>
+																<CountdownTimer enableClaim={setActivate} />
+															</div>
+														)}
+													</Button>
+												)}
+												<div className="mt-3">
+													{claimCase !== 0 &&
+													claimCase !== 7 && (
+														<TransactionStatus actualCase={claimCase} color={'#ffc107'} />
 													)}
-												</Button>
+												</div>
+												<div>
+													{claimCase === 7 && (
+														<p
+															style={{
+																color: 'green',
+																fontSize: 16,
+																textAlign: 'center',
+																paddingTop: 20,
+															}}>
+															Airdrop Claimed!
+														</p>
+													)}
+												</div>
 												<div className="mt-5">
 													<p style={{ color: 'yellow', fontSize: 16, textAlign: 'center' }}>
 														Airdrop requirements:
@@ -350,6 +405,6 @@ const mapStateToProps = (state) => ({
 	user: state.auth.user,
 });
 
-const mapDispatchToProps = { authenticateUser };
+const mapDispatchToProps = { authenticateUser, addUserItem };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Airdrop);
