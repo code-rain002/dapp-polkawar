@@ -1,6 +1,6 @@
 let constants;
 constants = {
-	net: 0, // 0 mainnet, 1 testnet
+	net: 1, // 0 mainnet, 1 testnet
 	network_id: '56',
 	network_address: 'https://bsc-dataseed.binance.org/',
 	saleContractAddress: '0xb8D9288D6D8E74fB2C09f5d24a0dF194EBb1F208', //This will be the owner
