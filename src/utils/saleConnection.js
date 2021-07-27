@@ -7,7 +7,7 @@ if (constants.net === 0) {
 		rpcUrl: 'https://bsc-dataseed.binance.org/',
 		chainId: 56, // Smart Chain - Mainnet chain id
 		api: 'V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK',
-		contractAddress: '0xdcAD5608a4ec6b5146B1873c2C9AEA19B329769C',
+		contractAddress: '0xC10f00254b6B475348BdA9C11eeB14beafd5E3a3',
 		abi: [
 			{
 				inputs: [
@@ -54,8 +54,10 @@ if (constants.net === 0) {
 					{ internalType: 'uint256', name: '_maximumSoldCount', type: 'uint256' },
 					{ internalType: 'uint256', name: '_maximumPerItem', type: 'uint256' },
 					{ internalType: 'uint256', name: '_price', type: 'uint256' },
+					{ internalType: 'uint256', name: '_buybackprice', type: 'uint256' },
 					{ internalType: 'uint256', name: '_resellBeginDate', type: 'uint256' },
 					{ internalType: 'uint256', name: '_resellEndDate', type: 'uint256' },
+					{ internalType: 'uint256', name: '_minimumHolding', type: 'uint256' },
 				],
 				name: 'changeConstant',
 				outputs: [],
