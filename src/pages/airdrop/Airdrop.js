@@ -164,7 +164,6 @@ function Airdrop({ authenticated, user, authenticateUser }) {
 
 	const getParticipants = async () => {
 		var f = 110 + 21323 + 328932;
-		var airdropParticipantsCount = await getTotalParticipants();
 		setAirdropParticipants(f);
 		console.log('called');
 	};
@@ -252,6 +251,7 @@ function Airdrop({ authenticated, user, authenticateUser }) {
 															<img
 																src={`${imageBaseUrl}/${itemJson.hashimage}`}
 																className={classes.itemImage}
+																alt="nft-item"
 															/>
 														</div>
 														<div>
@@ -264,7 +264,11 @@ function Airdrop({ authenticated, user, authenticateUser }) {
 												<div style={{ paddingLeft: 20 }}>
 													{' '}
 													<div className="mt-5">
-														<img src={`/token.png`} className={classes.itemImagePwar} />
+														<img
+															src={`/token.png`}
+															className={classes.itemImagePwar}
+															alt="pwar"
+														/>
 														<div className="mt-3">
 															<h5 className={classes.itemName}>25 PWAR</h5>
 														</div>
