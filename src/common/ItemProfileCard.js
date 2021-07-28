@@ -3,11 +3,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button, Dialog, Slide, Backdrop, Divider } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import imageBaseUrl from './../actions/imageBaseUrl';
-import { tokenURI } from './../actions/smartActions/SmartActions';
+import { tokenURI, checkApproved } from './../actions/smartActions/SmartActions';
 import axios from 'axios';
 import SellModal from '../components/SellModal';
 import Loader from '../components/Loader';
-import { checkApproved } from './../actions/smartActions/SmartActions';
+import { getUserAddress } from './../actions/web3Actions';
 import constants from './../utils/constants';
 import itemConnection from './../utils/itemConnection';
 import propTypes from 'prop-types';
@@ -265,6 +265,7 @@ function ItemProfileCard({ item, user }) {
 	const [ bidPopup, setBidPopup ] = useState(false);
 	const [ approvePopup, setApprovePopup ] = useState(false);
 	const [ approved, setApproved ] = useState(false);
+	const [ showApproveButton, setShowApproveButton ] = useState(false);
 	const [ actualCase, setActualCase ] = useState(0);
 	const [ loading, setLoading ] = useState(true);
 	const [ disableApprovePopup, setDisableApprovePopup ] = useState(false);
@@ -284,19 +285,30 @@ function ItemProfileCard({ item, user }) {
 	useEffect(() => {
 		async function asyncFn() {
 			//To load Item JSON Information
-
 			let tokenId = item.tokenId;
-
 			let itemString = await tokenURI(tokenId);
 			await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
 				setItemJson(res.data);
 				isApproved();
 			});
+			checkApproveButtonConditions();
 			setLoading(false);
 		}
 
 		asyncFn();
 	}, []);
+
+	const checkApproveButtonConditions = async () => {
+		const resellEnd = +new Date(process.env.REACT_APP_END_RESELL) - +new Date();
+		// if positive => Resell Not Ended
+		if (resellEnd >= 0) {
+			//  Resell Not Ended
+			setShowApproveButton(true);
+		} else {
+			//  Resell Ended
+			setShowApproveButton(false);
+		}
+	};
 
 	const isApproved = async () => {
 		let tokenId = item.tokenId;
@@ -315,40 +327,32 @@ function ItemProfileCard({ item, user }) {
 		toggleApprovePopup(true);
 		setActualCase(1);
 		setDisableApprovePopup(true);
-		const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-		let userAddress = accounts[0];
+
+		let userAddress = await getUserAddress();
 
 		let tokenId = item.tokenId;
-		const response = await new Promise((resolve, reject) => {
-			itemConnection.methods
-				.approve(constants.sale_owner_address, tokenId)
-				.send({ from: userAddress }, function(error, transactionHash) {
-					if (transactionHash) {
-						setActualCase(3);
-						resolve(transactionHash);
-					} else {
-						//console.log('Rejected by user!');
-						setActualCase(2);
-						reject();
-					}
-				})
-				.on('receipt', async function(receipt) {
-					console.log('1.reloading');
-					setDisableApprovePopup(false);
-					window.location.reload();
-					setActualCase(5);
-				})
-				.on('error', async function(error) {
-					console.log(error);
-					setActualCase(4);
-					setDisableApprovePopup(false);
-				});
-		});
+		const response = await itemConnection.methods
+			.approve(constants.sale_owner_address, tokenId)
+			.send({ from: userAddress }, function(error, transactionHash) {
+				if (transactionHash) {
+					setActualCase(3);
+				} else {
+					setActualCase(2);
+				}
+			})
+			.on('receipt', async function(receipt) {
+				setDisableApprovePopup(false);
+				window.location.reload();
+				setActualCase(5);
+			})
+			.on('error', async function(error) {
+				setActualCase(4);
+				setDisableApprovePopup(false);
+			});
 	};
 
 	return (
 		<div>
-			<h1 style={{ color: 'yellow' }}>{console.log(itemJson)}</h1>
 			{itemJson !== null && (
 				<Card className={classes.card1} elevation={0}>
 					{loading && (
@@ -410,28 +414,44 @@ function ItemProfileCard({ item, user }) {
 									</div>
 								</div>
 								<div className="text-center mt-4">
-									{approved ? (
+									{showApproveButton && (
 										<div>
-											<Button
-												variant="contained"
-												className={classes.sellButton}
-												onClick={() => toggleSellPopup(true)}>
-												<span>Sell</span>
-											</Button>
+											{approved && (
+												<div>
+													<Button
+														variant="contained"
+														className={classes.sellButton}
+														onClick={() => toggleSellPopup(true)}>
+														<span>Sell</span>
+													</Button>
+													<Button
+														variant="contained"
+														className={classes.bidButton}
+														onClick={() => toggleBidPopup(true)}>
+														<span>Bid</span>
+													</Button>
+												</div>
+											)}
+
+											{!approved && (
+												<div>
+													<Button
+														variant="contained"
+														className={classes.bidButton}
+														onClick={approveFn}>
+														<span>Approve</span>
+													</Button>
+												</div>
+											)}
+										</div>
+									)}
+									{!showApproveButton && (
+										<div>
 											<Button
 												variant="contained"
 												className={classes.bidButton}
 												onClick={() => toggleBidPopup(true)}>
 												<span>Bid</span>
-											</Button>
-										</div>
-									) : (
-										<div>
-											<Button
-												variant="contained"
-												className={classes.bidButton}
-												onClick={approveFn}>
-												<span>Approve</span>
 											</Button>
 										</div>
 									)}

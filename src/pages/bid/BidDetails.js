@@ -323,16 +323,16 @@ const useStyles = makeStyles((theme) => ({
 function BidDetails({ getBidItem, item, addUserItem }) {
 	const classes = useStyles();
 
-	const [timerStatus, setTimerStatus] = useState(0);
-	const [userBidStatus, setUserBidStatus] = useState(0);
-	const [myHighBid, setMyHighBid] = useState(null);
-	const [bidCount, setBidCount] = useState(0);
-	const [bidPopup, setBidPopup] = useState(false);
-	const [isWinner, setIsWinner] = useState(false);
-	const [isClaimed, setIsClaimed] = useState(false);
+	const [ timerStatus, setTimerStatus ] = useState(0);
+	const [ userBidStatus, setUserBidStatus ] = useState(0);
+	const [ myHighBid, setMyHighBid ] = useState(null);
+	const [ bidCount, setBidCount ] = useState(0);
+	const [ bidPopup, setBidPopup ] = useState(false);
+	const [ isWinner, setIsWinner ] = useState(false);
+	const [ isClaimed, setIsClaimed ] = useState(false);
 
-	const [claimCase, setClaimCase] = useState(0);
-	const [stopPopupClick, setStopPopupClick] = useState(false);
+	const [ claimCase, setClaimCase ] = useState(0);
+	const [ stopPopupClick, setStopPopupClick ] = useState(false);
 
 	let { id } = useParams();
 
@@ -350,7 +350,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 				checkIsClaimed();
 			}
 		},
-		[item],
+		[ item ],
 	);
 
 	const callBidItemAPI = async () => {
@@ -383,7 +383,6 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 
 	const updateBidTimerStatus = () => {
 		const differenceStart = +new Date(item.time_start) - +new Date();
-		//const differenceEnd = +new Date(item.time_end) - +new Date();
 		const differenceEnd = +new Date(item.time_end) - +new Date();
 
 		if (differenceEnd <= 0) {
@@ -437,7 +436,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 
 		let response = await bidContract.methods
 			.claim(item.itemId)
-			.send({ from: userAddress }, function (error, transactionHash) {
+			.send({ from: userAddress }, function(error, transactionHash) {
 				console.log('purchaseItem Called');
 				setStopPopupClick(true);
 				if (transactionHash) {
@@ -447,7 +446,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 					setClaimCase(2);
 				}
 			})
-			.on('receipt', async function (receipt) {
+			.on('receipt', async function(receipt) {
 				console.log('4. Claim Success');
 				console.log(receipt);
 
@@ -485,7 +484,7 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 				}
 				setClaimCase(5);
 			})
-			.on('error', async function (error) {
+			.on('error', async function(error) {
 				setClaimCase(4);
 			});
 
@@ -499,300 +498,300 @@ function BidDetails({ getBidItem, item, addUserItem }) {
 				</div>
 			)}
 			{item !== null &&
-				item !== undefined && (
-					<div>
-						<div className="row g-0 mt-2">
-							<div className="col-12 col-md-6">
-								<div className={classes.imageWrapper}>
-									<img
-										src={
-											item.itemId === '0' ? (
-												`https://cloudflare-ipfs.com/ipfs/Qmcr4GGFEU26zRGWtTZhbncRLitaVgaLqVuypvPT52Qep1`
-											) : (
-												`${imageBaseUrl}/${item.image}`
-											)
-										}
-										className={classes.image}
-										alt="mysterybox"
-									/>
-								</div>
+			item !== undefined && (
+				<div>
+					<div className="row g-0 mt-2">
+						<div className="col-12 col-md-6">
+							<div className={classes.imageWrapper}>
+								<img
+									src={
+										item.itemId === '0' ? (
+											`https://cloudflare-ipfs.com/ipfs/Qmcr4GGFEU26zRGWtTZhbncRLitaVgaLqVuypvPT52Qep1`
+										) : (
+											`${imageBaseUrl}/${item.image}`
+										)
+									}
+									className={classes.image}
+									alt="mysterybox"
+								/>
 							</div>
-							<div className="col-12 col-md-6 p-3">
-								<div className={classes.section2}>
-									<div>
-										<h5 className={classes.title}>{item.name}</h5>
-									</div>
-									<p className={classes.description}>{item.description}</p>{' '}
-									<h6 className={classes.price}>
-										<span style={{ color: '#bdbdbd', paddingRight: 5 }}>Starting Bid Price: </span>
-										{item.start_price} {item.currency}
-									</h6>
-									<div className="mt-5">
-										<h6 className={classes.timeline}>Bids Timeline </h6>
-										<hr style={{ color: 'yellow' }} />
-										<div className={classes.scrollDiv}>
-											{item.bidhistory.length === 0 && (
-												<div className={classes.noBidText}>No bid yet</div>
-											)}
-											{item.bidhistory.slice(0).reverse().map((row, index) => {
-												return (
-													<div key={index}>
-														{' '}
-														<div className={classes.bidCard}>
-															<div className="d-flex justify-content-start">
-																<div style={{ paddingRight: 15 }}>
-																	<Avatar
-																		alt="Tahir Ahmad"
-																		className={classes.avatar}
-																		src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
-																	/>
-																</div>
-																<div>
-																	<a
-																		href={`https://bscscan.com/address/${row.address}`}
-																		target="_blank"
-																		rel="noreferrer">
-																		<h6 className={classes.bidAmount}>
-																			{row.price} BNB
-																			<span style={{ color: '#bdbdbd' }}>
-																				{' '}
-																				by
-																			</span>{' '}
-																			{[...row.address].splice(0, 10)} {'...'}
-																			{[...row.address].splice(
-																				[...row.address].length - 5,
-																				5,
-																			)}
-																		</h6>
-																	</a>
-																	<h6 className={classes.time}>
-																		<Moment fromNow>{row.time}</Moment>
-																	</h6>
-																</div>
+						</div>
+						<div className="col-12 col-md-6 p-3">
+							<div className={classes.section2}>
+								<div>
+									<h5 className={classes.title}>{item.name}</h5>
+								</div>
+								<p className={classes.description}>{item.description}</p>{' '}
+								<h6 className={classes.price}>
+									<span style={{ color: '#bdbdbd', paddingRight: 5 }}>Starting Bid Price: </span>
+									{item.start_price} {item.currency}
+								</h6>
+								<div className="mt-5">
+									<h6 className={classes.timeline}>Bids Timeline </h6>
+									<hr style={{ color: 'yellow' }} />
+									<div className={classes.scrollDiv}>
+										{item.bidhistory.length === 0 && (
+											<div className={classes.noBidText}>No bid yet</div>
+										)}
+										{item.bidhistory.slice(0).reverse().map((row, index) => {
+											return (
+												<div key={index}>
+													{' '}
+													<div className={classes.bidCard}>
+														<div className="d-flex justify-content-start">
+															<div style={{ paddingRight: 15 }}>
+																<Avatar
+																	alt="Tahir Ahmad"
+																	className={classes.avatar}
+																	src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
+																/>
 															</div>
-														</div>
-													</div>
-												);
-											})}
-										</div>
-									</div>
-									<div>
-										<hr style={{ color: 'yellow' }} />
-										<div className={classes.auctionWrapper}>
-											{bidCount === 0 && (
-												<div for="noBid">
-													<p className={classes.statusBoxHeading}>Initial Bid Price</p>{' '}
-													<div className="d-flex justify-content-start">
-														<div style={{ paddingRight: 15 }}>
-															<Avatar
-																alt="Avatar"
-																className={classes.avatar}
-																src="/token.png"
-															/>
-														</div>
-														<div>
-															<h6 className={classes.bidAmount}>{item.current_price} BNB</h6>
-															<h6 className={classes.time}>No bid yet</h6>
-														</div>
-													</div>
-												</div>
-											)}
-											{bidCount !== 0 && (
-												<div for="highestBid">
-													<p className={classes.statusBoxHeading}>Highest Bid Price</p>{' '}
-													<div className="d-flex justify-content-start">
-														<div style={{ paddingRight: 15 }}>
-															<Avatar
-																alt="Avatar"
-																className={classes.avatar}
-																src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
-															/>
-														</div>
-														<div>
-															<h6 className={classes.bidAmount}>{item.current_price} BNB</h6>
-															<h6 className={classes.time}>
-																<Moment fromNow>{item.last_update}</Moment>
-															</h6>
-														</div>
-													</div>
-												</div>
-											)}
-
-											{userBidStatus === 1 && (
-												<div>
-													{myHighBid !== null &&
-														myHighBid !== undefined && (
-															<div for="bidStatus">
-																<p className={classes.statusBoxHeading}>
-																	Your bid status<span>
-																		{myHighBid.price === item.current_price ? (
-																			<span style={{ color: 'green', paddingLeft: 5 }}>
-																				(Approved)
-																			</span>
-																		) : (
-																			<span style={{ color: 'red', paddingLeft: 5 }}>
-																				(Cancelled)
-																			</span>
+															<div>
+																<a
+																	href={`https://bscscan.com/address/${row.address}`}
+																	target="_blank"
+																	rel="noreferrer">
+																	<h6 className={classes.bidAmount}>
+																		{row.price} BNB
+																		<span style={{ color: '#bdbdbd' }}>
+																			{' '}
+																			by
+																		</span>{' '}
+																		{[ ...row.address ].splice(0, 10)} {'...'}
+																		{[ ...row.address ].splice(
+																			[ ...row.address ].length - 5,
+																			5,
 																		)}
-																	</span>
-																</p>{' '}
-																<div className="d-flex justify-content-start">
-																	<div style={{ paddingRight: 15 }}>
-																		<Avatar
-																			alt="Avatar"
-																			className={classes.avatar}
-																			src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
-																		/>
-																	</div>
-																	<div>
-																		<h6 className={classes.bidAmount}>
-																			{myHighBid.price} BNB
-																		</h6>
-																		<h6 className={classes.time}>
-																			<Moment fromNow>{myHighBid.time}</Moment>
-																		</h6>
-																	</div>
-																</div>
+																	</h6>
+																</a>
+																<h6 className={classes.time}>
+																	<Moment fromNow>{row.time}</Moment>
+																</h6>
 															</div>
-														)}
+														</div>
+													</div>
 												</div>
-											)}
-											<div for="auction">
-												<p className={classes.statusBoxHeading}>
-													{timerStatus === 4 && 'Auction ends in'}
-													{timerStatus === 3 && 'Auction starts in'}
-
-													{timerStatus === 1 && 'Auction Status'}
-													{timerStatus === 0 && 'Auction Status'}
-												</p>{' '}
+											);
+										})}
+									</div>
+								</div>
+								<div>
+									<hr style={{ color: 'yellow' }} />
+									<div className={classes.auctionWrapper}>
+										{bidCount === 0 && (
+											<div for="noBid">
+												<p className={classes.statusBoxHeading}>Initial Bid Price</p>{' '}
 												<div className="d-flex justify-content-start">
-													{timerStatus === 4 && <Timer endTime={item.time_end} />}
-													{timerStatus === 3 && <Timer endTime={item.time_start} />}
-
-													{timerStatus === 1 && <Timer endTime={item.time_end} />}
-													{timerStatus === 0 && 'checking...'}
+													<div style={{ paddingRight: 15 }}>
+														<Avatar
+															alt="Avatar"
+															className={classes.avatar}
+															src="/token.png"
+														/>
+													</div>
+													<div>
+														<h6 className={classes.bidAmount}>{item.current_price} BNB</h6>
+														<h6 className={classes.time}>No bid yet</h6>
+													</div>
 												</div>
 											</div>
-										</div>
-										<div className="d-flex justify-content-center">
-											<hr style={{ width: 300, backgroundColor: '#616161', height: 1 }} />
-										</div>
+										)}
+										{bidCount !== 0 && (
+											<div for="highestBid">
+												<p className={classes.statusBoxHeading}>Highest Bid Price</p>{' '}
+												<div className="d-flex justify-content-start">
+													<div style={{ paddingRight: 15 }}>
+														<Avatar
+															alt="Avatar"
+															className={classes.avatar}
+															src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
+														/>
+													</div>
+													<div>
+														<h6 className={classes.bidAmount}>{item.current_price} BNB</h6>
+														<h6 className={classes.time}>
+															<Moment fromNow>{item.last_update}</Moment>
+														</h6>
+													</div>
+												</div>
+											</div>
+										)}
 
-										{timerStatus === 4 && (
-											<div className="text-center mt-3">
-												{userBidStatus === 0 && (
-													<Button
-														variant="contained"
-														className={classes.newbidButton}
-														onClick={() => setBidPopup(true)}>
-														<span>Place Bid</span>
-													</Button>
-												)}
-												{userBidStatus === 1 && (
-													<Button
-														variant="contained"
-														className={classes.cancelbidButton}
-														onClick={() => setBidPopup(true)}>
-														<span>Place a new Bid</span>
-													</Button>
+										{userBidStatus === 1 && (
+											<div>
+												{myHighBid !== null &&
+												myHighBid !== undefined && (
+													<div for="bidStatus">
+														<p className={classes.statusBoxHeading}>
+															Your bid status<span>
+																{myHighBid.price === item.current_price ? (
+																	<span style={{ color: 'green', paddingLeft: 5 }}>
+																		(Approved)
+																	</span>
+																) : (
+																	<span style={{ color: 'red', paddingLeft: 5 }}>
+																		(Cancelled)
+																	</span>
+																)}
+															</span>
+														</p>{' '}
+														<div className="d-flex justify-content-start">
+															<div style={{ paddingRight: 15 }}>
+																<Avatar
+																	alt="Avatar"
+																	className={classes.avatar}
+																	src="https://cdn0.iconfinder.com/data/icons/game-elements-3/64/mage-avatar-mystery-user-magician-512.png"
+																/>
+															</div>
+															<div>
+																<h6 className={classes.bidAmount}>
+																	{myHighBid.price} BNB
+																</h6>
+																<h6 className={classes.time}>
+																	<Moment fromNow>{myHighBid.time}</Moment>
+																</h6>
+															</div>
+														</div>
+													</div>
 												)}
 											</div>
 										)}
-										{isWinner && (
-											<div className="text-center mt-3">
-												<h6 className={classes.congratsText}>
-													Congratulations, You are the winner.
-												</h6>
+										<div for="auction">
+											<p className={classes.statusBoxHeading}>
+												{timerStatus === 4 && 'Auction ends in'}
+												{timerStatus === 3 && 'Auction starts in'}
 
-												{isClaimed && (
-													<div>
-														<div className="mt-5 pb-5">
-															<h2 className={classes.thanksHeading}>
-																Thanks for Participating!
-															</h2>
-															<div style={{ display: 'flex', justifyContent: 'center' }}>
-																<p className={classes.thanksText}>
-																	Now you can visit to your profile section<br /> and
-																	access your winning mystery box.
-																</p>
-															</div>
-															<Link to="/profile">
-																<div className="text-center">
-																	<Button
-																		variant="contained"
-																		className={classes.profileButton}>
-																		<span>Go To Profile</span>
-																	</Button>
-																</div>
-															</Link>
+												{timerStatus === 1 && 'Auction Status'}
+												{timerStatus === 0 && 'Auction Status'}
+											</p>{' '}
+											<div className="d-flex justify-content-start">
+												{timerStatus === 4 && <Timer endTime={item.time_end} />}
+												{timerStatus === 3 && <Timer endTime={item.time_start} />}
+
+												{timerStatus === 1 && <Timer endTime={item.time_end} />}
+												{timerStatus === 0 && 'checking...'}
+											</div>
+										</div>
+									</div>
+									<div className="d-flex justify-content-center">
+										<hr style={{ width: 300, backgroundColor: '#616161', height: 1 }} />
+									</div>
+
+									{timerStatus === 4 && (
+										<div className="text-center mt-3">
+											{userBidStatus === 0 && (
+												<Button
+													variant="contained"
+													className={classes.newbidButton}
+													onClick={() => setBidPopup(true)}>
+													<span>Place Bid</span>
+												</Button>
+											)}
+											{userBidStatus === 1 && (
+												<Button
+													variant="contained"
+													className={classes.cancelbidButton}
+													onClick={() => setBidPopup(true)}>
+													<span>Place a new Bid</span>
+												</Button>
+											)}
+										</div>
+									)}
+									{isWinner && (
+										<div className="text-center mt-3">
+											<h6 className={classes.congratsText}>
+												Congratulations, You are the winner.
+											</h6>
+
+											{isClaimed && (
+												<div>
+													<div className="mt-5 pb-5">
+														<h2 className={classes.thanksHeading}>
+															Thanks for Participating!
+														</h2>
+														<div style={{ display: 'flex', justifyContent: 'center' }}>
+															<p className={classes.thanksText}>
+																Now you can visit to your profile section<br /> and
+																access your winning mystery box.
+															</p>
 														</div>
-													</div>
-												)}
-												{!isClaimed && (
-													<div>
-														{(claimCase === 0 || claimCase === 2 || claimCase === 4) && (
-															<div>
+														<Link to="/profile">
+															<div className="text-center">
 																<Button
 																	variant="contained"
-																	className={classes.claimButton}
-																	onClick={claimFn}>
-																	<span>Claim Rewards</span>
+																	className={classes.profileButton}>
+																	<span>Go To Profile</span>
 																</Button>
 															</div>
-														)}
+														</Link>
 													</div>
-												)}
-												{(claimCase === 1 || claimCase === 3) && (
-													<div>
-														<Loader />
-													</div>
-												)}
+												</div>
+											)}
+											{!isClaimed && (
+												<div>
+													{(claimCase === 0 || claimCase === 2 || claimCase === 4) && (
+														<div>
+															<Button
+																variant="contained"
+																className={classes.claimButton}
+																onClick={claimFn}>
+																<span>Claim Rewards</span>
+															</Button>
+														</div>
+													)}
+												</div>
+											)}
+											{(claimCase === 1 || claimCase === 3) && (
+												<div>
+													<Loader />
+												</div>
+											)}
 
-												{claimCase === 2 && (
-													<div>
-														<h6 className={classes.congratsText}>
-															<span style={{ color: '#f44336' }}>Claim Cancelled!</span>
-														</h6>
-													</div>
-												)}
-												{claimCase === 4 && (
-													<div>
-														<h6 className={classes.congratsText}>
-															<span style={{ color: '#f44336' }}>Claim Failed!</span>
-														</h6>
-													</div>
-												)}
-												{claimCase === 5 && (
-													<div>
-														<h6 className={classes.congratsText}>
-															<span style={{ color: '#4caf50' }}>Successfully Claimed!</span>
-														</h6>
-													</div>
-												)}
-											</div>
-										)}
-									</div>
+											{claimCase === 2 && (
+												<div>
+													<h6 className={classes.congratsText}>
+														<span style={{ color: '#f44336' }}>Claim Cancelled!</span>
+													</h6>
+												</div>
+											)}
+											{claimCase === 4 && (
+												<div>
+													<h6 className={classes.congratsText}>
+														<span style={{ color: '#f44336' }}>Claim Failed!</span>
+													</h6>
+												</div>
+											)}
+											{claimCase === 5 && (
+												<div>
+													<h6 className={classes.congratsText}>
+														<span style={{ color: '#4caf50' }}>Successfully Claimed!</span>
+													</h6>
+												</div>
+											)}
+										</div>
+									)}
 								</div>
 							</div>
 						</div>
-						<Dialog
-							className={classes.modal}
-							open={bidPopup}
-							TransitionComponent={Transition}
-							keepMounted
-							onClose={() => setBidPopup(false)}
-							closeAfterTransition
-							BackdropComponent={Backdrop}
-							disableBackdropClick={stopPopupClick}
-							BackdropProps={{
-								timeout: 1000,
-							}}>
-							<div style={{ backgroundColor: 'black' }}>
-								<BidForm item={item} setStopPopupClick={setStopPopupClick} />
-							</div>
-						</Dialog>
 					</div>
-				)}{' '}
+					<Dialog
+						className={classes.modal}
+						open={bidPopup}
+						TransitionComponent={Transition}
+						keepMounted
+						onClose={() => setBidPopup(false)}
+						closeAfterTransition
+						BackdropComponent={Backdrop}
+						disableBackdropClick={stopPopupClick}
+						BackdropProps={{
+							timeout: 1000,
+						}}>
+						<div style={{ backgroundColor: 'black' }}>
+							<BidForm item={item} setStopPopupClick={setStopPopupClick} />
+						</div>
+					</Dialog>
+				</div>
+			)}{' '}
 		</div>
 	);
 }
