@@ -265,7 +265,7 @@ function ItemProfileCard({ item, user }) {
 	const [ bidPopup, setBidPopup ] = useState(false);
 	const [ approvePopup, setApprovePopup ] = useState(false);
 	const [ approved, setApproved ] = useState(false);
-	const [ showApproveButton, setShowApproveButton ] = useState(false);
+	const [ buttonsCase, setButtonsCase ] = useState(0);
 	const [ actualCase, setActualCase ] = useState(0);
 	const [ loading, setLoading ] = useState(true);
 	const [ disableApprovePopup, setDisableApprovePopup ] = useState(false);
@@ -299,14 +299,22 @@ function ItemProfileCard({ item, user }) {
 	}, []);
 
 	const checkApproveButtonConditions = async () => {
-		const resellEnd = +new Date(process.env.REACT_APP_END_RESELL) - +new Date();
-		// if positive => Resell Not Ended
-		if (resellEnd >= 0) {
-			//  Resell Not Ended
-			setShowApproveButton(true);
-		} else {
-			//  Resell Ended
-			setShowApproveButton(false);
+		if (item !== null && item !== undefined) {
+			if (item.event === 'flashsale') {
+				const resellEnd = +new Date(process.env.REACT_APP_END_RESELL) - +new Date();
+				// if positive => Resell Not Ended
+				if (resellEnd >= 0) {
+					//  Resell Not Ended
+					setButtonsCase(2);
+				} else {
+					//  Resell Ended
+					setButtonsCase(1);
+				}
+			} else {
+				//  Not flash sale
+
+				setButtonsCase(3);
+			}
 		}
 	};
 
@@ -414,7 +422,16 @@ function ItemProfileCard({ item, user }) {
 									</div>
 								</div>
 								<div className="text-center mt-4">
-									{showApproveButton && (
+									{buttonsCase === 1 && (
+										<Button
+											variant="contained"
+											className={classes.bidButton}
+											onClick={() => toggleBidPopup(true)}>
+											<span>Bid</span>
+										</Button>
+									)}
+
+									{buttonsCase === 2 && (
 										<div>
 											{approved && (
 												<div>
@@ -445,8 +462,14 @@ function ItemProfileCard({ item, user }) {
 											)}
 										</div>
 									)}
-									{!showApproveButton && (
+									{buttonsCase === 3 && (
 										<div>
+											<Button
+												variant="contained"
+												className={classes.sellButton}
+												onClick={() => toggleSellPopup(true)}>
+												<span>Sell</span>
+											</Button>
 											<Button
 												variant="contained"
 												className={classes.bidButton}
