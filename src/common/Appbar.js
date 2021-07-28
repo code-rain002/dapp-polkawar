@@ -386,18 +386,20 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
 		}
 	};
 
-	useEffect(async () => {
-		if (window.ethereum !== undefined) {
-			const networkStatus = await checkCorrectNetwork();
-			if (networkStatus) {
-				const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-				const currentAddress = accounts[0];
-				const localAddress = localStorage.getItem('userAddress');
-				setUserAdd(currentAddress);
-				authenticateUser(currentAddress);
-				getBalance(currentAddress);
+	useEffect(() => {
+		async function asyncFn() {
+			if (window.ethereum !== undefined) {
+				const networkStatus = await checkCorrectNetwork();
+				if (networkStatus) {
+					const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+					const currentAddress = accounts[0];
+					setUserAdd(currentAddress);
+					authenticateUser(currentAddress);
+					getBalance(currentAddress);
+				}
 			}
 		}
+		asyncFn();
 	}, []);
 
 	useEffect(
@@ -417,22 +419,12 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
 					web3.eth.requestAccounts().then((accounts) => {
 						const accountAddress = accounts[0];
 						setUserAdd(accountAddress);
-
 						authenticateUser(accountAddress);
-
 						window.location.reload();
 					});
 				});
 				window.ethereum.on('networkChanged', async function(networkId) {
-					// console.log('networkId: ' + networkId);
-					// let chainID = await web3.eth.getChainId().then((res) => {
-					//   return res;
-					// });
-					// console.log('chainID: ' + chainID);
-
-					// console.log('Network Changed');
 					let networkStatus = await checkCorrectNetwork();
-					// console.log('Network Status:' + networkStatus);
 
 					if (networkStatus) {
 						web3.eth.requestAccounts().then((accounts) => {

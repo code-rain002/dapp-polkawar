@@ -302,7 +302,7 @@ function ItemProfileCard({ item, user }) {
 		let tokenId = item.tokenId;
 
 		let approvedAddress = await checkApproved(tokenId);
-		let ownerAddress = constants.saleContractAddress;
+		let ownerAddress = constants.sale_owner_address;
 
 		if (approvedAddress.toString() === ownerAddress.toString()) {
 			setApproved(true);
@@ -321,7 +321,7 @@ function ItemProfileCard({ item, user }) {
 		let tokenId = item.tokenId;
 		const response = await new Promise((resolve, reject) => {
 			itemConnection.methods
-				.approve(constants.saleContractAddress, tokenId)
+				.approve(constants.sale_owner_address, tokenId)
 				.send({ from: userAddress }, function(error, transactionHash) {
 					if (transactionHash) {
 						setActualCase(3);
