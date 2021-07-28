@@ -24,6 +24,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const useStyles = makeStyles((theme) => ({
+   background: {
+   minHeight:'100vh'
+  },
   heading: {
     color: theme.palette.pbr.textPrimary,
     textAlign: 'left',
@@ -173,13 +176,15 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   card: {
+    minHeight:'300px',
     display: 'flex',
     justifyContent: 'center',
-
     marginBottom: 30,
     backgroundColor: 'transparent',
     [theme.breakpoints.down('sm')]: {
-      height: '100%',
+          minHeight:'300px',
+    marginBottom: 10,
+
     },
   },
 
@@ -275,6 +280,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState('');
 
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -285,16 +291,13 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
 
   useEffect(() => {
     async function asyncFn() {
-      const walletAvailable = await checkWalletAvailable();
+      let walletAvailable = await checkWalletAvailable();
       if (walletAvailable) {
         console.log('1. Wallet Available');
-
-        const correctNetwork = await checkCorrectNetwork();
+        let correctNetwork = await checkCorrectNetwork();
         if (correctNetwork) {
           console.log('2. Correct Network');
-
           const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-
           const accountAddress = accounts[0];
           authenticateUser(accountAddress);
           if (authenticated) {
@@ -302,7 +305,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
             getCharacter();
             getUserItems(accountAddress);
             setActualCase(4);
-            //await checkIsJoined();
+         
           } else {
             if (typeof window.ethereum === 'undefined') {
               console.log('3. Authenticated False');
@@ -311,12 +314,10 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
           }
         } else {
           console.log('2. Wrong Network');
-
           setActualCase(2);
         }
       } else {
         console.log('1. Wallet not Available');
-
         setActualCase(1);
       }
     }
@@ -324,7 +325,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
   }, [authenticated]);
 
   const getCharacter = async () => {
-    console.log('Get Character');
+ 
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     const accountAddress = accounts[0];
     let ownerTokenId = await tokenOfOwnerByIndex(accountAddress, 0);
@@ -392,7 +393,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
         </div>
       )}
       {actualCase === 4 && authenticated && (
-        <div className="mt-5 text-center">
+        <div className={classes.background}>   <div className="mt-5 text-center">
           <div>
             <div className="text-center mt-3">
               <img
@@ -651,7 +652,8 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
             </Dialog>{' '}
           </div>
         </div>
-      )}
+      </div>
+     )}
       {actualCase === 4 && !authenticated && (
         <div className="mt-5 text-center">
           <ConnectButton />

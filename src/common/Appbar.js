@@ -358,13 +358,14 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser }) {
 
 	const getBalance = async (currentAddress) => {
 		if (window.ethereum !== undefined) {
-			web3.eth.getBalance(currentAddress, (err, balance) => {
-				let ethBalance = web3.utils.fromWei(balance);
+			web3.eth.getBalance(currentAddress.toString(), (err, balance) => {
+				let mainBalance = balance ? balance.toString() : '0';
+				let ethBalance = web3.utils.fromWei(mainBalance.toString());
 
 				setEthBal(ethBalance);
 			});
 			let pwarBalance = await getPwarBalance(currentAddress);
-			let pwarInEth = web3.utils.fromWei(pwarBalance, 'ether');
+			let pwarInEth = web3.utils.fromWei(pwarBalance.toString(), 'ether');
 			setPwarBal(pwarInEth);
 		}
 	};

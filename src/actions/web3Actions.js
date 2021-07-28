@@ -24,7 +24,7 @@ export const checkCorrectNetwork = async () => {
 	let chainID = await web3.eth.getChainId().then((res) => {
 		return res;
 	});
-	//console.log(chainID);
+
 	let networkId;
 	if (constants.net === 0) {
 		networkId = 56;
