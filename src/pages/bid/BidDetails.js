@@ -22,12 +22,13 @@ const useStyles = makeStyles((theme) => ({
 	sectionCard: {
 		background: `linear-gradient(0deg, rgba(26, 35, 126, 0.31), rgba(28,22, 86, 0.1))`,
 		padding: 30,
-		marginTop: 20,
+		marginTop: 50,
 		marginLeft: 50,
 		marginRight: 50,
 		borderRadius: 10,
 		[theme.breakpoints.down('md')]: {
 			margin: 0,
+			marginTop: 10,
 			borderRadius: 0,
 			padding: 0,
 		},

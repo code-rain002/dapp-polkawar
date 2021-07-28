@@ -11,6 +11,7 @@ import { addUserItem } from './../actions/itemActions';
 import { isBoxOpened } from '../actions/smartActions/SmartActions';
 import { Link } from 'react-router-dom';
 import BidRewards from './BidRewards';
+import imageBaseUrl from './../actions/imageBaseUrl';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />;
@@ -66,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 		marginRight: 5,
 		borderRadius: 10,
 		[theme.breakpoints.down('md')]: {
-			height: 120,
+			height: 130,
 		},
 	},
 	media: {
@@ -307,7 +308,7 @@ function ProfileMysteryCard({ item, addUserItem, useritems }) {
 
 	const openMysteryBox = async () => {
 		// 0. Getting Auction Program Id
-		let programId = item.pId !== null && item.pId !== undefined ? item.pId : '0';
+		let programId = item.pId !== null && item.pId !== undefined ? item.pId : '1';
 
 		// // 1. Getting User address
 		const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -380,7 +381,17 @@ function ProfileMysteryCard({ item, addUserItem, useritems }) {
 					<div>
 						<div>
 							<div className={classes.mysteryboxWrapper1}>
-								<img alt="item" src={`/images/mystery_box.png`} className={classes.mysterybox} />
+								<img
+									alt="item"
+									src={
+										item.itemId === '0' ? (
+											'https://cloudflare-ipfs.com/ipfs/Qmcr4GGFEU26zRGWtTZhbncRLitaVgaLqVuypvPT52Qep1'
+										) : (
+											`https://cloudflare-ipfs.com/ipfs/QmYwkWx62Pr9bfiRZuyc1tKD2UmS1hYJAapeo3iwXPmuUn`
+										)
+									}
+									className={classes.mysterybox}
+								/>
 							</div>
 							<div>
 								<h4 className={classes.title1}>Mystery Box</h4>
