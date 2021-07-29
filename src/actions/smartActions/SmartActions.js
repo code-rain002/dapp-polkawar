@@ -16,6 +16,14 @@ export const isJoinAirdrop = (address) => {
 	});
 };
 
+//READ is user joined airdrop
+//RETURNS number
+export const getParticipants = (address) => {
+	return airdropContract.methods.participants(address).call((err, response) => {
+		return response;
+	});
+};
+
 //READ total no of participants
 //RETURNS number
 export const getTotalParticipants = async () => {
