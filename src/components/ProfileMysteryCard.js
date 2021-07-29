@@ -271,12 +271,12 @@ const useStyles = makeStyles((theme) => ({
 function ProfileMysteryCard({ item, addUserItem, useritems }) {
 	const classes = useStyles();
 
-	const [ openPopup, setOpenPopup ] = useState(false);
-	const [ rewardsPopup, setRewardsPopup ] = useState(false);
-	const [ actualCase, setActualCase ] = useState(0);
-	const [ loading, setLoading ] = useState(true);
-	const [ disableOpenPopup, setDisableOpenPopup ] = useState(false);
-	const [ isOpened, setIsOpened ] = useState(false);
+	const [openPopup, setOpenPopup] = useState(false);
+	const [rewardsPopup, setRewardsPopup] = useState(false);
+	const [actualCase, setActualCase] = useState(0);
+	const [loading, setLoading] = useState(true);
+	const [disableOpenPopup, setDisableOpenPopup] = useState(false);
+	const [isOpened, setIsOpened] = useState(false);
 
 	const toggleOpenPopup = (value) => {
 		setOpenPopup(value);
@@ -320,7 +320,7 @@ function ProfileMysteryCard({ item, addUserItem, useritems }) {
 
 		const response = await bidConnection.methods
 			.open(programId)
-			.send({ from: userAddress }, function(error, transactionHash) {
+			.send({ from: userAddress, gasPrice: 25000000000 }, function (error, transactionHash) {
 				if (transactionHash) {
 					setActualCase(3);
 				} else {
@@ -328,7 +328,7 @@ function ProfileMysteryCard({ item, addUserItem, useritems }) {
 					setActualCase(2);
 				}
 			})
-			.on('receipt', async function(receipt) {
+			.on('receipt', async function (receipt) {
 				console.log('1.reloading');
 				console.log(receipt);
 
@@ -361,7 +361,7 @@ function ProfileMysteryCard({ item, addUserItem, useritems }) {
 				}
 				setDisableOpenPopup(false);
 			})
-			.on('error', async function(error) {
+			.on('error', async function (error) {
 				console.log(error);
 				setActualCase(4);
 				setDisableOpenPopup(false);

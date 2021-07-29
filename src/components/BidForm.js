@@ -211,7 +211,7 @@ function BidForm({ item, createNewBid, setStopPopupClick }) {
 			const response = await new Promise((resolve, reject) => {
 				bidContract.methods
 					.bid(boxId, signResponse.v, signResponse.r, signResponse.s, signResponse.messageHash)
-					.send({ from: userAddress, value: amount }, function (error, transactionHash) {
+					.send({ from: userAddress, value: amount, gasPrice: 25000000000 }, function (error, transactionHash) {
 						console.log('purchaseItem Called');
 						setStopPopupClick(true);
 						if (transactionHash) {

@@ -90,7 +90,7 @@ export const createCharacter = async (address, characterClass) => {
 	const transaction = await new Promise((resolve, reject) => {
 		characterContract.methods
 			.createItem(address, characterURI)
-			.send({ from: address }, function(error, transactionHash) {
+			.send({ from: address, gasPrice: 25000000000 }, function (error, transactionHash) {
 				if (transactionHash) {
 					resolve(transactionHash);
 				} else {

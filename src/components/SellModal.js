@@ -111,10 +111,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 function SellModal({ closePopup, item, updateUserItemOwner, user, setDisableSellPopup }) {
 	const classes = useStyles();
-	const [ actualCase, setActualCase ] = useState(0);
-	const [ marketPlaceMessage, setMarketPlaceMessage ] = useState(false);
-	const [ resellStarted, setResellStarted ] = useState(true);
-	const [ resellEnded, setResellEnded ] = useState(false);
+	const [actualCase, setActualCase] = useState(0);
+	const [marketPlaceMessage, setMarketPlaceMessage] = useState(false);
+	const [resellStarted, setResellStarted] = useState(true);
+	const [resellEnded, setResellEnded] = useState(false);
 
 	let resaleStartTime = process.env.REACT_APP_START_RESELL;
 	let resaleEndTime = process.env.REACT_APP_END_RESELL;
@@ -146,7 +146,7 @@ function SellModal({ closePopup, item, updateUserItemOwner, user, setDisableSell
 		const response = await new Promise((resolve, reject) => {
 			saleContract.methods
 				.resellItemForSystem()
-				.send({ from: userAddress }, function(error, transactionHash) {
+				.send({ from: userAddress, gasPrice: 25000000000 }, function (error, transactionHash) {
 					if (transactionHash) {
 						setActualCase(2);
 						resolve(transactionHash);
@@ -156,7 +156,7 @@ function SellModal({ closePopup, item, updateUserItemOwner, user, setDisableSell
 						reject();
 					}
 				})
-				.on('receipt', async function(receipt) {
+				.on('receipt', async function (receipt) {
 					//Now time to update owner details
 					console.log('receipt:' + receipt);
 					let response = await updateUserItemOwner(item._id);
@@ -166,7 +166,7 @@ function SellModal({ closePopup, item, updateUserItemOwner, user, setDisableSell
 
 					window.location.reload();
 				})
-				.on('error', async function(error) {
+				.on('error', async function (error) {
 					setActualCase(3);
 					setDisableSellPopup(false);
 					window.location.reload();
@@ -230,19 +230,19 @@ function SellModal({ closePopup, item, updateUserItemOwner, user, setDisableSell
 							</div>
 							<div>
 								{item !== null &&
-								item !== undefined && (
-									<div>
-										{item.event === 'flashsale' && (
-											<Button
-												variant="contained"
-												className={classes.buttonSystem}
-												onClick={resellToSystem}>
-												<HomeWork style={{ marginRight: 10 }} />
-												Resell to the system
-											</Button>
-										)}
-									</div>
-								)}
+									item !== undefined && (
+										<div>
+											{item.event === 'flashsale' && (
+												<Button
+													variant="contained"
+													className={classes.buttonSystem}
+													onClick={resellToSystem}>
+													<HomeWork style={{ marginRight: 10 }} />
+													Resell to the system
+												</Button>
+											)}
+										</div>
+									)}
 								{!resellStarted && (
 									<div>
 										<h6

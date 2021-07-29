@@ -277,9 +277,9 @@ const useStyles = makeStyles((theme) => ({
 
 function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds, getFlashItems, saleCase }) {
 	const classes = useStyles();
-	const [ actualCase, setActualCase ] = useState(0);
-	const [ popup, setPopup ] = useState(false);
-	const [ disablePopup, setDisablePopup ] = useState(false);
+	const [actualCase, setActualCase] = useState(0);
+	const [popup, setPopup] = useState(false);
+	const [disablePopup, setDisablePopup] = useState(false);
 
 	useEffect(() => {
 		async function asyncFn() {
@@ -340,7 +340,7 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds, getFlash
 			const response = await new Promise((resolve, reject) => {
 				saleContract.methods
 					.purchaseItem(nftHashJson, signResponse.v, signResponse.r, signResponse.s, signResponse.messageHash)
-					.send({ from: userAddress, value: 1000000000000000000 }, function(error, transactionHash) {
+					.send({ from: userAddress, value: 1000000000000000000, gasPrice: 25000000000 }, function (error, transactionHash) {
 						console.log('purchaseItem Called');
 						if (transactionHash) {
 							setActualCase(3);
@@ -351,7 +351,7 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds, getFlash
 							reject();
 						}
 					})
-					.on('receipt', async function(receipt) {
+					.on('receipt', async function (receipt) {
 						console.log('4. Purchase Success');
 
 						let events = receipt.events;
@@ -376,7 +376,7 @@ function ItemSaleCard({ item, addUserItem, user, nftHashList, saleEnds, getFlash
 							setActualCase(4);
 						}
 					})
-					.on('error', async function(error) {
+					.on('error', async function (error) {
 						setActualCase(4);
 						setDisablePopup(false);
 					});

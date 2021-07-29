@@ -104,15 +104,15 @@ const useStyles = makeStyles((theme) => ({
 function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 	const classes = useStyles();
 
-	const [ actualCase, setActualCase ] = useState(0);
-	const [ loading, setLoading ] = useState(true);
-	const [ airdropJoined, setAirdropJoined ] = useState(false);
-	const [ airdropParticipants, setAirdropParticipants ] = useState(0);
-	const [ tokenId, setTokenId ] = useState(null);
-	const [ itemJson, setItemJson ] = useState(null);
-	const [ claimCase, setClaimCase ] = useState(0);
+	const [actualCase, setActualCase] = useState(0);
+	const [loading, setLoading] = useState(true);
+	const [airdropJoined, setAirdropJoined] = useState(false);
+	const [airdropParticipants, setAirdropParticipants] = useState(0);
+	const [tokenId, setTokenId] = useState(null);
+	const [itemJson, setItemJson] = useState(null);
+	const [claimCase, setClaimCase] = useState(0);
 
-	const [ activate, setActivate ] = React.useState(false);
+	const [activate, setActivate] = React.useState(false);
 
 	useEffect(() => {
 		async function asyncFn() {
@@ -155,7 +155,7 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 			}
 			asyncFn();
 		},
-		[ typeof window.ethereum, authenticated ],
+		[typeof window.ethereum, authenticated],
 	);
 
 	const getParticipants = async () => {
@@ -192,14 +192,14 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 
 		const response = await airdropContract.methods
 			.claimAirdrop()
-			.send({ from: userAddress }, function(error, transactionHash) {
+			.send({ from: userAddress, gasPrice: 25000000000 }, function (error, transactionHash) {
 				if (transactionHash) {
 					setClaimCase(3);
 				} else {
 					setClaimCase(2);
 				}
 			})
-			.on('receipt', async function(receipt) {
+			.on('receipt', async function (receipt) {
 				console.log('4. Claim Success');
 
 				let nftTokenId = tokenId;
@@ -221,7 +221,7 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 					setActualCase(5);
 				}
 			})
-			.on('error', async function(error) {
+			.on('error', async function (error) {
 				setClaimCase(4);
 			});
 	};
@@ -327,9 +327,9 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 												)}
 												<div className="mt-3">
 													{claimCase !== 0 &&
-													claimCase !== 7 && (
-														<TransactionStatus actualCase={claimCase} color={'#ffc107'} />
-													)}
+														claimCase !== 7 && (
+															<TransactionStatus actualCase={claimCase} color={'#ffc107'} />
+														)}
 												</div>
 												<div>
 													{claimCase === 7 && (

@@ -112,7 +112,7 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
       const transaction = await new Promise((resolve, reject) => {
         characterContract.methods
           .createItem(user.address, characterURI)
-          .send({ from: user.address }, function (error, transactionHash) {
+          .send({ from: user.address, gasPrice: 25000000000 }, function (error, transactionHash) {
             if (transactionHash) {
               resolve(transactionHash);
             } else {

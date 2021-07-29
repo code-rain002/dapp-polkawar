@@ -24,7 +24,7 @@ export default class Wheel extends Component {
     const transaction = await new Promise((resolve, reject) => {
       return airdropContract.methods
         .getAirdrop(userProvidedSeed)
-        .send({ from: userAddress }, function (error, transactionHash) {
+        .send({ from: userAddress, gasPrice: 25000000000 }, function (error, transactionHash) {
           if (transactionHash) {
             resolve(transactionHash);
           } else {

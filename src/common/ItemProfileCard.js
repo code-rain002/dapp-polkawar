@@ -260,16 +260,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 function ItemProfileCard({ item, user }) {
 	const classes = useStyles();
-	const [ itemJson, setItemJson ] = useState(null);
-	const [ sellPopup, setSellPopup ] = useState(false);
-	const [ bidPopup, setBidPopup ] = useState(false);
-	const [ approvePopup, setApprovePopup ] = useState(false);
-	const [ approved, setApproved ] = useState(false);
-	const [ buttonsCase, setButtonsCase ] = useState(0);
-	const [ actualCase, setActualCase ] = useState(0);
-	const [ loading, setLoading ] = useState(true);
-	const [ disableApprovePopup, setDisableApprovePopup ] = useState(false);
-	const [ disableSellPopup, setDisableSellPopup ] = useState(false);
+	const [itemJson, setItemJson] = useState(null);
+	const [sellPopup, setSellPopup] = useState(false);
+	const [bidPopup, setBidPopup] = useState(false);
+	const [approvePopup, setApprovePopup] = useState(false);
+	const [approved, setApproved] = useState(false);
+	const [buttonsCase, setButtonsCase] = useState(0);
+	const [actualCase, setActualCase] = useState(0);
+	const [loading, setLoading] = useState(true);
+	const [disableApprovePopup, setDisableApprovePopup] = useState(false);
+	const [disableSellPopup, setDisableSellPopup] = useState(false);
 
 	const toggleSellPopup = (value) => {
 		setSellPopup(value);
@@ -341,19 +341,19 @@ function ItemProfileCard({ item, user }) {
 		let tokenId = item.tokenId;
 		const response = await itemConnection.methods
 			.approve(constants.sale_owner_address, tokenId)
-			.send({ from: userAddress }, function(error, transactionHash) {
+			.send({ from: userAddress, gasPrice: 25000000000 }, function (error, transactionHash) {
 				if (transactionHash) {
 					setActualCase(3);
 				} else {
 					setActualCase(2);
 				}
 			})
-			.on('receipt', async function(receipt) {
+			.on('receipt', async function (receipt) {
 				setDisableApprovePopup(false);
 				window.location.reload();
 				setActualCase(5);
 			})
-			.on('error', async function(error) {
+			.on('error', async function (error) {
 				setActualCase(4);
 				setDisableApprovePopup(false);
 			});
