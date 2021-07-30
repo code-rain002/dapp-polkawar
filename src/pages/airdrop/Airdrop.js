@@ -176,13 +176,7 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 		setIsClaimed(isClaimed);
 		setAirdropJoined(isValid);
 
-		console.log(tokenId);
-		console.log(isClaimed);
-		console.log(isValid);
-
 		if (parseInt(tokenId) > 0) {
-			console.log('tokenId');
-
 			setTokenId(parseInt(tokenId));
 			let itemString;
 			itemString = await tokenURI(tokenId);
@@ -257,7 +251,6 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 
 	return (
 		<div className={classes.spacing}>
-			{console.log('actualCase:' + actualCase)}
 			{actualCase === 0 && (
 				<div className="text-center mt-5">
 					<Loader />
@@ -341,12 +334,13 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 											</div>
 											<div className="mt-5 d-flex flex-column justify-content-center align-items-center">
 												<h3 style={{ fontSize: 21, color: 'white' }}>Claim your airdrop</h3>
-												{claimCase === 0 && (
+												{!isClaimed &&
+												claimCase === 0 && (
 													<Button
 														variant="outlined"
 														onClick={!activate ? claimAirdrop : null}
 														className={activate ? classes.buttonMain : classes.timerButton}>
-														{!activate ? (
+														{activate ? (
 															'Claim Now'
 														) : (
 															<div>
@@ -366,9 +360,8 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 														<p
 															style={{
 																color: 'green',
-																fontSize: 16,
+																fontSize: 36,
 																textAlign: 'center',
-																paddingTop: 20,
 															}}>
 															Airdrop Claimed!
 														</p>
