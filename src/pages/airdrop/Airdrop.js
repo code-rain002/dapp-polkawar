@@ -123,40 +123,43 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 		asyncFn();
 	}, []);
 
-	useEffect(() => {
-		async function asyncFn() {
-			console.log('Started');
+	useEffect(
+		() => {
+			async function asyncFn() {
+				console.log('Started');
 
-			const walletAvailable = await checkWalletAvailable();
-			if (walletAvailable) {
-				console.log('wallet available');
-				const correctNetwork = checkCorrectNetwork();
-				if (correctNetwork) {
-					console.log('Correct Netwrk');
+				const walletAvailable = await checkWalletAvailable();
+				if (walletAvailable) {
+					console.log('wallet available');
+					const correctNetwork = checkCorrectNetwork();
+					if (correctNetwork) {
+						console.log('Correct Netwrk');
 
-					let accountAddress = await getUserAddress();
-					authenticateUser(accountAddress);
+						let accountAddress = await getUserAddress();
+						authenticateUser(accountAddress);
 
-					if (authenticated) {
-						console.log('Authenticated');
+						if (authenticated) {
+							console.log('Authenticated');
 
-						await getParticipantDetails();
-					} else {
-						if (typeof window.ethereum === 'undefined') {
-							setActualCase(3);
+							await getParticipantDetails();
+						} else {
+							if (typeof window.ethereum === 'undefined') {
+								setActualCase(3);
+							}
 						}
+					} else {
+						setActualCase(2);
+						setLoading(false);
 					}
 				} else {
-					setActualCase(2);
+					setActualCase(1);
 					setLoading(false);
 				}
-			} else {
-				setActualCase(1);
-				setLoading(false);
 			}
-		}
-		asyncFn();
-	}, []);
+			asyncFn();
+		},
+		[ authenticated ],
+	);
 
 	const getParticipantDetails = async () => {
 		//Check participants true of false
@@ -284,7 +287,7 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 						<div className="col-md-6">
 							{' '}
 							<h3 className="text-center " style={{ color: 'yellow' }}>
-								Claim Airdrop {isClaimed.toString()}
+								Claim Airdrop
 							</h3>
 						</div>
 						<div className="col-md-3">
