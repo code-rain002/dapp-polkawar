@@ -8,7 +8,7 @@ import CountdownTimer from './../../components/CountdownTimer';
 import ConnectButton from '../../components/ConnectButton';
 import imageBaseUrl from './../../actions/imageBaseUrl';
 import { checkCorrectNetwork, checkWalletAvailable, getUserAddress } from './../../actions/web3Actions';
-import { isJoinAirdrop, tokenURI } from './../../actions/smartActions/SmartActions';
+import { getParticipants, tokenURI } from './../../actions/smartActions/SmartActions';
 import { authenticateUser } from './../../actions/authActions';
 import { addUserItem } from './../../actions/itemActions';
 import airdropContract from '../../utils/airdropConnection';
@@ -104,15 +104,16 @@ const useStyles = makeStyles((theme) => ({
 function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 	const classes = useStyles();
 
-	const [actualCase, setActualCase] = useState(0);
-	const [loading, setLoading] = useState(true);
-	const [airdropJoined, setAirdropJoined] = useState(false);
-	const [airdropParticipants, setAirdropParticipants] = useState(0);
-	const [tokenId, setTokenId] = useState(null);
-	const [itemJson, setItemJson] = useState(null);
-	const [claimCase, setClaimCase] = useState(0);
+	const [ actualCase, setActualCase ] = useState(0);
+	const [ loading, setLoading ] = useState(true);
+	const [ airdropJoined, setAirdropJoined ] = useState(false);
+	const [ isClaimed, setIsClaimed ] = useState(false);
+	const [ participant, setParticipant ] = useState(null);
+	const [ tokenId, setTokenId ] = useState(null);
+	const [ itemJson, setItemJson ] = useState(null);
+	const [ claimCase, setClaimCase ] = useState(0);
 
-	const [activate, setActivate] = React.useState(false);
+	const [ activate, setActivate ] = React.useState(false);
 
 	useEffect(() => {
 		async function asyncFn() {
@@ -122,62 +123,74 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 		asyncFn();
 	}, []);
 
-	useEffect(
-		() => {
-			async function asyncFn() {
-				const walletAvailable = await checkWalletAvailable();
+	useEffect(() => {
+		async function asyncFn() {
+			const walletAvailable = await checkWalletAvailable();
+			if (walletAvailable) {
+				const correctNetwork = checkCorrectNetwork();
+				if (correctNetwork) {
+					let accountAddress = await getUserAddress();
+					authenticateUser(accountAddress);
 
-				if (walletAvailable) {
-					//Get all participants
-					getParticipants();
-
-					const correctNetwork = checkCorrectNetwork();
-					if (correctNetwork) {
-						let accountAddress = await getUserAddress();
-
-						authenticateUser(accountAddress);
-
-						if (authenticated) {
-							await checkIsJoined();
-						} else {
-							if (typeof window.ethereum === 'undefined') {
-								setActualCase(3);
-							}
-						}
+					if (authenticated) {
+						await getParticipantDetails();
 					} else {
-						setActualCase(2);
-						setLoading(false);
+						if (typeof window.ethereum === 'undefined') {
+							setActualCase(3);
+						}
 					}
 				} else {
-					setActualCase(1);
+					setActualCase(2);
 					setLoading(false);
 				}
+			} else {
+				setActualCase(1);
+				setLoading(false);
 			}
-			asyncFn();
-		},
-		[typeof window.ethereum, authenticated],
-	);
+		}
+		asyncFn();
+	}, []);
 
-	const getParticipants = async () => {
-		var f = 110 + 21323 + 328932;
-		setAirdropParticipants(f);
-	};
-
-	const checkIsJoined = async () => {
+	const getParticipantDetails = async () => {
 		//Check participants true of false
+		let accountAddress = await getUserAddress();
+		let participantData = await getParticipants(accountAddress);
 
-		var joined = await isJoinAirdrop(user.address);
+		let tokenId = participantData.tokenId;
+		let isClaimed = participantData.isClaimed;
+		let isValid = participantData.isValid;
 
-		if (parseInt(joined) > 0) {
-			setTokenId(parseInt(joined));
-			setAirdropJoined(true);
-			let itemString = await tokenURI(joined);
-			await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
-				setItemJson(res.data);
+		setParticipant(participantData);
+		setIsClaimed(isClaimed);
+		setAirdropJoined(isValid);
+
+		console.log(tokenId);
+		console.log(isClaimed);
+		console.log(isValid);
+
+		if (parseInt(tokenId) > 0) {
+			setTokenId(parseInt(tokenId));
+			let itemString;
+			itemString = await tokenURI(tokenId);
+			if (itemString) {
+				await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
+					setItemJson(res.data);
+					setLoading(false);
+					setActualCase(4);
+				});
+				return true;
+			} else {
+				let data = {
+					hashimage: 'QmYqV2jhYyZJBmvx5kU6KycFkTTG2F2MGCGtiMJrS8g4dE',
+					description: 'Sword',
+					level: '1',
+				};
+
+				setItemJson(data);
 				setLoading(false);
 				setActualCase(4);
-			});
-			return true;
+				return true;
+			}
 		} else {
 			setActualCase(5);
 			return false;
@@ -192,15 +205,16 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 
 		const response = await airdropContract.methods
 			.claimAirdrop()
-			.send({ from: userAddress, gasPrice: 25000000000 }, function (error, transactionHash) {
+			.send({ from: userAddress, gasPrice: 25000000000 }, function(error, transactionHash) {
 				if (transactionHash) {
 					setClaimCase(3);
 				} else {
 					setClaimCase(2);
 				}
 			})
-			.on('receipt', async function (receipt) {
+			.on('receipt', async function(receipt) {
 				console.log('4. Claim Success');
+				console.log(receipt);
 
 				let nftTokenId = tokenId;
 				const utcDateTimestamp = new Date();
@@ -215,19 +229,21 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 				};
 				let response = await addUserItem(userItemData);
 				if (response) {
-					setActualCase(6);
+					setClaimCase(6);
 					window.location.reload();
 				} else {
-					setActualCase(5);
+					setClaimCase(5);
 				}
 			})
-			.on('error', async function (error) {
+			.on('error', async function(error) {
 				setClaimCase(4);
 			});
+		console.log(response);
 	};
 
 	return (
 		<div className={classes.spacing}>
+			{console.log('actualCase:' + actualCase)}
 			{actualCase === 0 && (
 				<div className="text-center mt-5">
 					<Loader />
@@ -257,7 +273,7 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 						<div className="col-md-6">
 							{' '}
 							<h3 className="text-center " style={{ color: 'yellow' }}>
-								Claim Airdrop
+								Claim Airdrop {isClaimed.toString()}
 							</h3>
 						</div>
 						<div className="col-md-3">
@@ -327,12 +343,12 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 												)}
 												<div className="mt-3">
 													{claimCase !== 0 &&
-														claimCase !== 7 && (
-															<TransactionStatus actualCase={claimCase} color={'#ffc107'} />
-														)}
+													claimCase !== 7 && (
+														<TransactionStatus actualCase={claimCase} color={'#ffc107'} />
+													)}
 												</div>
 												<div>
-													{claimCase === 7 && (
+													{isClaimed && (
 														<p
 															style={{
 																color: 'green',
