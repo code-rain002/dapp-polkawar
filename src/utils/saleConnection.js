@@ -197,7 +197,7 @@ if (constants.net === 0) {
 	};
 } else {
 	saleConstant = {
-		rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+		rpcUrl: 'https://data-seed-prebsc-2-s1.binance.org:8545/',
 		chainId: 97, // Testnet
 		api: 'V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK',
 		contractAddress: '0xb8D9288D6D8E74fB2C09f5d24a0dF194EBb1F208',

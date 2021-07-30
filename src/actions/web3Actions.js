@@ -43,7 +43,11 @@ export const checkCorrectNetwork = async () => {
 
 //Get User Address from Web3
 export const getUserAddress = async () => {
+	console.log('Getting Address');
+
 	const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 	const accountAddress = accounts[0];
+	console.log(accountAddress);
+
 	return accountAddress;
 };

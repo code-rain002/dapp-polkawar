@@ -125,14 +125,21 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 
 	useEffect(() => {
 		async function asyncFn() {
+			console.log('Started');
+
 			const walletAvailable = await checkWalletAvailable();
 			if (walletAvailable) {
+				console.log('wallet available');
 				const correctNetwork = checkCorrectNetwork();
 				if (correctNetwork) {
+					console.log('Correct Netwrk');
+
 					let accountAddress = await getUserAddress();
 					authenticateUser(accountAddress);
 
 					if (authenticated) {
+						console.log('Authenticated');
+
 						await getParticipantDetails();
 					} else {
 						if (typeof window.ethereum === 'undefined') {
@@ -153,6 +160,8 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 
 	const getParticipantDetails = async () => {
 		//Check participants true of false
+		console.log('getParticipantDetails');
+
 		let accountAddress = await getUserAddress();
 		let participantData = await getParticipants(accountAddress);
 
@@ -169,6 +178,8 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 		console.log(isValid);
 
 		if (parseInt(tokenId) > 0) {
+			console.log('tokenId');
+
 			setTokenId(parseInt(tokenId));
 			let itemString;
 			itemString = await tokenURI(tokenId);

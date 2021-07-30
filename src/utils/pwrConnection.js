@@ -151,7 +151,7 @@ if (constants.net === 0) {
 	};
 } else {
 	pwrConstant = {
-		rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+		rpcUrl: 'https://data-seed-prebsc-2-s3.binance.org:8545/',
 		chainId: 97, // Smart Chain - Testnet chain id
 		api: 'V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK',
 		contractAddress: '0xAF70ab66F56e3BE8603c8acC1Af5c92F716aE9c7',

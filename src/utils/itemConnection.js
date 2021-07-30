@@ -201,7 +201,7 @@ if (constants.net === 0) {
 } else {
 	//For Testnet
 	itemConstant = {
-		rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+		rpcUrl: 'https://data-seed-prebsc-2-s3.binance.org:8545/',
 		chainId: 97,
 		api: 'V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK',
 		contractAddress: '0x44EeE203F8aD35dA2F8B30c74A3F291FaebF97b1',
