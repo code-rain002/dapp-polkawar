@@ -239,7 +239,12 @@ const useStyles = makeStyles((theme) => ({
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser,checkAuthenticated }) {
+function PrimaryAppbar({
+  authenticateUser,
+  authenticated,
+  signOutUser,
+  checkAuthenticated,
+}) {
   const classes = useStyles();
   const [navIndex, setNavIndex] = useState(0);
   const [userData, setUserData] = useState(null);
@@ -352,7 +357,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser,chec
                   <div>
                     <strong style={{ color: "#616161" }}>
                       {bnbBal !== null &&
-                        parseFloat(bnbBal).toFixed(4) + " BNB"}{" "}
+                        parseFloat(bnbBal).toFixed(3) + " BNB"}{" "}
                     </strong>
                   </div>
                 </Button>
@@ -372,15 +377,16 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser,chec
       let walletStatus = await checkWalletAvailable();
       if (walletStatus) {
         const networkStatus = await checkCorrectNetwork();
+
         if (networkStatus) {
           let authenticated = await checkAuthenticated();
-		 
+          console.log("1. Authenticated: " + authenticated.toString());
           if (authenticated) {
+            console.log("2. Hitting: setUserAdd");
             let userAddress = await getUserAddress();
-            setUserAdd(userAddress);
-            getBalance(userAddress);
+            getBalance();
           } else {
-            console.log("Not Authenticated.");
+            console.log("2. Not Authenticated");
           }
         } else {
           setAlert({ status: true, message: "Only support BSC network" });
@@ -391,9 +397,10 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser,chec
     }
 
     asyncFn();
-  }, [authenticated]);
+  }, []);
 
-  const getBalance = async (currentAddress) => {
+  const getBalance = async () => {
+    let currentAddress = await getUserAddress();
     let balance = await web3.eth.getBalance(currentAddress.toString());
     let mainBalance = balance ? balance.toString() : "0";
     let ethBalance = web3.utils.fromWei(mainBalance.toString());
@@ -409,10 +416,8 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser,chec
       const networkStatus = await checkCorrectNetwork();
       if (networkStatus) {
         let userAddress = await getUserAddress();
-
-        setUserAdd(userAddress);
-        authenticateUser(userAddress);
-        getBalance(userAddress);
+        authenticateUser();
+        getBalance();
       } else {
         setAlert({ status: true, message: "Only support BSC network" });
       }
@@ -422,34 +427,29 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser,chec
   };
 
   useEffect(() => {
-    //Events to detect changes in account or network.
-    if (window.ethereum !== undefined) {
-      window.ethereum.on("accountsChanged", function (accounts) {
-        web3.eth.requestAccounts().then((accounts) => {
-          const accountAddress = accounts[0];
-          setUserAdd(accountAddress);
-          authenticateUser(accountAddress);
+    async function asyncFn() {
+      //Events to detect changes in account or network.
+      if (window.ethereum !== undefined) {
+        window.ethereum.on("accountsChanged", async function (accounts) {
+          authenticateUser();
           window.location.reload();
         });
-      });
-      window.ethereum.on("networkChanged", async function (networkId) {
-        let networkStatus = await checkCorrectNetwork();
 
-        if (networkStatus) {
-          web3.eth.requestAccounts().then((accounts) => {
-            const accountAddress = accounts[0];
-            setUserAdd(accountAddress);
-            getBalance(accountAddress);
-            authenticateUser(accountAddress);
-          });
-        } else {
-          setAlert({ status: true, message: "Only support BSC network" });
-        
-          signOut(userAdd);
-        }
-      });
+        window.ethereum.on("networkChanged", async function (networkId) {
+          let networkStatus = await checkCorrectNetwork();
+          if (networkStatus) {
+            let userAddress = await getUserAddress();
+            authenticateUser();
+            getBalance();
+          } else {
+            setAlert({ status: true, message: "Only support BSC network" });
+            signOut(userAdd);
+          }
+        });
+      }
     }
-  }, [user]);
+    asyncFn();
+  }, []);
 
   return (
     <div className={classes.grow}>
@@ -528,7 +528,7 @@ function PrimaryAppbar({ authenticateUser, authenticated, user, signOutUser,chec
                     <div>
                       <strong style={{ color: "#e5e5e5" }}>
                         {bnbBal !== null &&
-                          parseFloat(bnbBal).toFixed(4) + " BNB"}{" "}
+                          parseFloat(bnbBal).toFixed(3) + " BNB"}{" "}
                       </strong>
                     </div>
                   </Button>
@@ -632,9 +632,12 @@ PrimaryAppbar.propTypes = {
 
 const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated,
-  user: state.auth.user,
 });
 
-const mapDispatchToProps = { authenticateUser, signOutUser,checkAuthenticated };
+const mapDispatchToProps = {
+  authenticateUser,
+  signOutUser,
+  checkAuthenticated,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(PrimaryAppbar);
