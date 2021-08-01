@@ -4,7 +4,7 @@ import { getAirdrop } from './../../actions/smartActions/SmartActions';
 import airdropContract from './../../utils/airdropConnection';
 
 import './index.css';
-import './../AnimatedText/AnimatedText.scss';
+
 
 export default class Wheel extends Component {
   constructor(props) {

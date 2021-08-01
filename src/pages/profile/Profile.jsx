@@ -13,7 +13,7 @@ import CreateCharacterForm from '../../components/CreateCharacterForm';
 import { tokenOfOwnerByIndex, tokenURICharacter } from './../../actions/smartActions/SmartActions';
 import axios from 'axios';
 import imageBaseUrl from './../../actions/imageBaseUrl';
-import { checkWalletAvailable, checkCorrectNetwork } from './../../actions/web3Actions';
+import { checkWalletAvailable, checkCorrectNetwork, getUserAddress } from './../../actions/web3Actions';
 import Loader from '../../components/Loader';
 import ConnectButton from '../../components/ConnectButton';
 import ItemProfileCard from '../../common/ItemProfileCard';
@@ -277,8 +277,9 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
   const [stopPopupClick, setStopPopupClick] = useState(false);
   const [characters, setCharacters] = useState([]);
   const [characterIndex, setCharacterIndex] = useState(0);
-  const [userData, setUserData] = useState(null);
+  const [userAddress, setUserAddress] = useState(null);
   const [error, setError] = useState('');
+ 
 
 
   const handleChange = (event, newValue) => {
@@ -294,19 +295,25 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
       let walletAvailable = await checkWalletAvailable();
       if (walletAvailable) {
         console.log('1. Wallet Available');
+        const account = await getUserAddress();
         let correctNetwork = await checkCorrectNetwork();
+        
         if (correctNetwork) {
           console.log('2. Correct Network');
           const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
           const accountAddress = accounts[0];
-          authenticateUser(accountAddress);
+          setUserAddress(accountAddress);
+          authenticateUser();
+         
           if (authenticated) {
+          
             console.log('3. Authenticated True');
             getCharacter();
             getUserItems(accountAddress);
             setActualCase(4);
          
           } else {
+           
             if (typeof window.ethereum === 'undefined') {
               console.log('3. Authenticated False');
               setActualCase(3);
@@ -346,13 +353,6 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
     });
   };
 
-  useEffect(() => {
-    if (user !== null) {
-    
-      setUserData(user);
-      //getCharacter();
-    }
-  }, [authenticated]);
 
   const characterData = [
     {
@@ -370,6 +370,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
   ];
   return (
     <div>
+      
       {actualCase === 0 && (
         <div className="text-center mt-5">
           <Loader />
@@ -397,17 +398,17 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
           <div>
             <div className="text-center mt-3">
               <img
-                src={user.avatar ? user.avatar : 'images/avatar.jpg'}
+                src={"images/avatar.jpg"}
                 height="100px"
                 alt="profile"
                 className={classes.avatarWrapper}
               />
             </div>
-            <h6 className={classes.titleAddress}>( {user.address} )</h6>
+            <h6 className={classes.titleAddress}>( {userAddress} )</h6>
             {characters.length !== 0 && (
               <div>
                 <div className="d-flex flex-row justify-content-center align-items-start">
-                  <div className={classes.title}>{user.username}</div>
+                  {/* <div className={classes.title}>{user.username}</div> */}
                   <div className="d-flex flex-row justify-content-center align-items-start" style={{ paddingLeft: 10 }}>
                     <div className="d-flex justify-content-center align-items-center ">
                       <h6 style={{ color: 'white', fontSize: 14, paddingTop: 10, paddingRight: 5 }}>( </h6>
@@ -523,10 +524,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                 </TabPanel>
 
                 <TabPanel value={value} index={1}>
-                  {user.onSale.length !== 0 ? (
-                    <div>Sale Items List</div>
-                  ) : (
-                    <div className="text-center">
+                <div className="text-center">
                       <div className="my-3">
                         <img src="./images/swords.png" height="100px" alt="sale" />
                       </div>
@@ -542,7 +540,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                         <CustomButton title="Put on sale" />
                       </div>
                     </div>
-                  )}
+                  
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                   {useritems.length !== 0 ? (
@@ -583,10 +581,7 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                   )}
                 </TabPanel>
                 <TabPanel value={value} index={3}>
-                  {user.battles.length !== 0 ? (
-                    <div>Battles List</div>
-                  ) : (
-                    <div className="text-center">
+                <div className="text-center">
                       <div className="my-3">
                         <img src="./images/swords.png" height="100px" alt="battle" />
                       </div>
@@ -602,13 +597,9 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                         <CustomButton title="Challenge players" alt="battle" />
                       </div>
                     </div>
-                  )}
                 </TabPanel>
                 <TabPanel value={value} index={4}>
-                  {user.activity.length !== 0 ? (
-                    <div>Activity List</div>
-                  ) : (
-                    <div className="text-center">
+                <div className="text-center">
                       <div className="my-3">
                         <img src="./images/swords.png" height="100px" alt="activity" />
                       </div>
@@ -624,7 +615,6 @@ function Profile({ authenticateUser, getUserItems, user, authenticated, useritem
                         <CustomButton title="Join battle" />
                       </div>
                     </div>
-                  )}
                 </TabPanel>
               </div>
             </div>

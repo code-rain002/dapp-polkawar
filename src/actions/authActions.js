@@ -1,34 +1,46 @@
-import axios from 'axios';
-import baseUrl from '../actions/baseUrl';
-import { GET_CURRENT_USER, REMOVE_CURRENT_USER, GET_ERRORS } from './types';
+import axios from "axios";
+import baseUrl from "../actions/baseUrl";
+import { getUserAddress } from "./web3Actions";
+import { GET_CURRENT_USER, REMOVE_CURRENT_USER, GET_ERRORS } from "./types";
 
 //GET user authenticated
-export const authenticateUser = (address) => (dispatch) => {
-  let userData = {
-    address: address,
-  };
-  axios
-    .post(`${baseUrl}/user`, userData)
-    .then((res) => {
-      dispatch({
-        type: GET_CURRENT_USER,
-        payload: res.data,
-      });
-      localStorage.setItem('userAddress', address);
-    })
-    .catch((err) => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response,
-      });
-    });
+export const authenticateUser = () => async(dispatch) => {
+  let user = localStorage.getItem("userAddress");
+
+  if (!user) {
+    let userAddress = await getUserAddress();
+    localStorage.setItem("userAddress", userAddress);
+  }
+  dispatch({
+    type: GET_CURRENT_USER,
+    payload: true,
+  });
+  return true;
 };
 
+//GET user authenticated
+export const checkAuthenticated = () => async(dispatch) => {
+  let user = localStorage.getItem("userAddress");
+
+  if (user) {
+    dispatch({
+      type: GET_CURRENT_USER,
+      payload: true,
+    });
+    return true;
+  } else {
+    dispatch({
+      type: GET_CURRENT_USER,
+      payload: false,
+    });
+    return false;
+  }
+};
 //User signout
 export const signOutUser = (address) => (dispatch) => {
   dispatch({
     type: REMOVE_CURRENT_USER,
     payload: address,
   });
-  localStorage.setItem('userAddress', '');
+  localStorage.setItem("userAddress", "");
 };

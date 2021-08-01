@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function HotCharacters({ characters, getCharacters }) {
+function HotCharacters({ characters, getCharacters,authenticated }) {
   const classes = useStyles();
   const [charactersList, setCharactersList] = useState([]);
 
@@ -72,10 +72,14 @@ function HotCharacters({ characters, getCharacters }) {
     <Fragment>
       <div>
         <h1 className="heading">Hot characters</h1>
+        <h4 style={{ color: 'yellow' }}>{authenticated.toString()}</h4>
+      
       </div>
 
       <div className={classes.characterScroll}>
         <div className={classes.scrollItemPositions}>
+        <h4 style={{ color: 'yellow' }}>{charactersList.length}</h4>
+
           {charactersList.map((character, index) => {
             return (
               <div style={{ paddingRight: 15, flexBasis: '25%' }} key={index}>
@@ -95,6 +99,7 @@ HotCharacters.propTypes = {
 
 const mapStateToProps = (state) => ({
   characters: state.characters.characters,
+  authenticated:state.auth.authenticated
 });
 
 const mapDispatchToProps = { getCharacters };
