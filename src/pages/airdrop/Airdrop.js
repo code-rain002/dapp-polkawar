@@ -341,7 +341,7 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 												claimCase === 0 && (
 													<Button
 														variant="outlined"
-														onClick={!activate ? claimAirdrop : null}
+														onClick={claimAirdrop}
 														className={activate ? classes.buttonMain : classes.timerButton}>
 														Claim Now
 													</Button>
