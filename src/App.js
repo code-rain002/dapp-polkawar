@@ -11,11 +11,12 @@ import Details from './pages/details/Details';
 import { Provider } from 'react-redux';
 import store from './store';
 import Airdrop from './pages/airdrop/Airdrop';
-import Home from './pages/Home/Home';
+
 import Sale from './pages/sale/Sale';
 import Bid from './pages/bid/Bid';
 import BidDetails from './pages/bid/BidDetails';
 import BidRewards from './components/BidRewards';
+import Home from './pages/Home/Home.jsx';
 
 export default function App() {
 	return (

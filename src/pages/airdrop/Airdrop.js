@@ -251,6 +251,7 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 
 	return (
 		<div className={classes.spacing}>
+				
 			{actualCase === 0 && (
 				<div className="text-center mt-5">
 					<Loader />
@@ -273,6 +274,7 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 					<ConnectButton />
 				</div>
 			)}
+		
 			{actualCase === 4 && (
 				<div className="text-center mt-1">
 					<div className="row g-0">
@@ -295,6 +297,7 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 					<div className={classes.root}>
 						<div className={classes.container}>
 							<Grow in={true} timeout={1000}>
+								
 								<div>
 									<div className="container">
 										<div>
@@ -343,6 +346,9 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 														Claim Now
 													</Button>
 												)}
+												
+												
+
 												<div className="mt-3">
 													{claimCase !== 0 &&
 													claimCase !== 7 && (
