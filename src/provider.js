@@ -7,4 +7,5 @@ const provider = new WalletConnectProvider({
 	},
 });
 
+//Let's commit
 export default provider;
