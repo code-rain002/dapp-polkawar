@@ -16,7 +16,7 @@ import Sale from './pages/sale/Sale';
 import Bid from './pages/bid/Bid';
 import BidDetails from './pages/bid/BidDetails';
 import BidRewards from './components/BidRewards';
-import Home from './pages/Home/Home.jsx';
+import Home from './pages/layout/Layout.jsx';
 
 export default function App() {
 	return (

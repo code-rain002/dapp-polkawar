@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import CharacterCard from '../../../components/CharacterCard';
-import { getCharacters } from './../../../actions/characterActions';
+import { getCharacters } from '../../../actions/characterActions';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
