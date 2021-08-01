@@ -340,13 +340,7 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 														variant="outlined"
 														onClick={!activate ? claimAirdrop : null}
 														className={activate ? classes.buttonMain : classes.timerButton}>
-														{activate ? (
-															'Claim Now'
-														) : (
-															<div>
-																<CountdownTimer enableClaim={setActivate} />
-															</div>
-														)}
+														Claim Now
 													</Button>
 												)}
 												<div className="mt-3">
