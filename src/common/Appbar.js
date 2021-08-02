@@ -384,6 +384,7 @@ function PrimaryAppbar({
           if (authenticated) {
             console.log("2. Hitting: setUserAdd");
             let userAddress = await getUserAddress();
+            setUserAdd(userAddress);
             getBalance();
           } else {
             console.log("2. Not Authenticated");
@@ -402,9 +403,9 @@ function PrimaryAppbar({
   const getBalance = async () => {
     let currentAddress = await getUserAddress();
     let balance = await web3.eth.getBalance(currentAddress.toString());
-    let mainBalance = balance ? balance.toString() : "0";
-    let ethBalance = web3.utils.fromWei(mainBalance.toString());
+    let ethBalance = web3.utils.fromWei(balance ? balance.toString() : "0");
     setBnbBal(ethBalance);
+
     let pwarBalance = await getPwarBalance(currentAddress);
     let pwarInEth = web3.utils.fromWei(pwarBalance.toString(), "ether");
     setPwarBal(pwarInEth);
@@ -615,7 +616,7 @@ function PrimaryAppbar({
         >
           <div style={{ backgroundColor: "black" }}>
             <BalancePopup
-              address={userData !== null && userData.address}
+              address={userAdd}
               pwar={pwarBal}
               togglePopup={() => togglePopup(false)}
               signOut={() => signOut(userAdd)}

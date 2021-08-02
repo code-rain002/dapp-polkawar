@@ -1,64 +1,70 @@
-import { useState } from 'react';
-import { Button, Divider, Input, MenuItem, Select, TextField } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { createCharacter } from './../actions/smartActions/SmartActions';
-import characterContract from './../utils/characterConnection';
-import { updateUsername } from './../actions/userActions';
-import Loader from './Loader';
-import propTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useState } from "react";
+import {
+  Button,
+  Divider,
+  Input,
+  MenuItem,
+  Select,
+  TextField,
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { createCharacter } from "./../actions/smartActions/SmartActions";
+import characterContract from "./../utils/characterConnection";
+import Loader from "./Loader";
+import propTypes from "prop-types";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   card: {
     width: 500,
-    border: '1px solid #e5e5e5',
+    border: "1px solid #e5e5e5",
     borderRadius: 14,
-    padding: '25px 10px 25px 10px',
-    backgroundColor: 'white',
-    [theme.breakpoints.down('md')]: {
+    padding: "25px 10px 25px 10px",
+    backgroundColor: "white",
+    [theme.breakpoints.down("md")]: {
       width: 350,
-      padding: '5px 2px 5px 2px',
+      padding: "5px 2px 5px 2px",
     },
   },
   title: {
-    verticalAlign: 'baseline',
-    textAlign: 'left',
-    color: 'black',
+    verticalAlign: "baseline",
+    textAlign: "left",
+    color: "black",
     fontWeight: 600,
     letterSpacing: 0.9,
     fontSize: 22,
-    lineHeight: '50px',
+    lineHeight: "50px",
   },
   label: {
-    verticalAlign: 'baseline',
-    textAlign: 'left',
+    verticalAlign: "baseline",
+    textAlign: "left",
     color: theme.palette.pbr.primary,
     fontWeight: 500,
     letterSpacing: 0.5,
     fontSize: 18,
   },
   menuItem: {
-    verticalAlign: 'baseline',
-    textAlign: 'left',
-    color: 'black',
-    fontFamily: 'Poppins',
+    verticalAlign: "baseline",
+    textAlign: "left",
+    color: "black",
+    fontFamily: "Poppins",
     fontWeight: 400,
     fontSize: 14,
   },
   icon: {
-    color: 'black',
+    color: "black",
   },
   iconWrapper: {
-    border: '1px solid #e5e5e5',
-    borderRadius: '50%',
+    border: "1px solid #e5e5e5",
+    borderRadius: "50%",
   },
   buttonProceed: {
-    color: 'white',
+    color: "white",
     marginTop: 20,
-    backgroundColor: 'white',
-    textTransform: 'none',
-    borderRadius: '100px',
-    padding: '12px 16px 12px 16px',
+    backgroundColor: "white",
+    textTransform: "none",
+    borderRadius: "100px",
+    padding: "12px 16px 12px 16px",
     fontWeight: 500,
     background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
     fontSize: 16,
@@ -67,12 +73,12 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     fontSize: 16,
     marginRight: 7,
-    color: '#ffffff',
+    color: "#ffffff",
   },
   textField: {
-    color: 'white',
-    border: '1px solid #ffffff',
-    textAlign: 'left',
+    color: "white",
+    border: "1px solid #ffffff",
+    textAlign: "left",
     paddingTop: 5,
     paddingBottom: 5,
     fontSize: 14,
@@ -80,17 +86,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, updateUsername }) {
+function CreateCharacterForm({
+  stopPopupClicking,
+  onClose,
+  user,
+  getCharacter,
+}) {
   const classes = useStyles();
 
   const [loading, setLoading] = useState(false);
   const [completed, setCompleted] = useState(false);
-  const [nameError, setNameError] = useState('');
+  const [nameError, setNameError] = useState("");
 
   const [failed, setFailed] = useState(false);
-  const [error, setError] = useState('');
-  const [characterName, setCharacterName] = useState('');
-  const [characterClass, setCharacterClass] = useState('Warrior');
+  const [error, setError] = useState("");
+  const [characterName, setCharacterName] = useState("");
+  const [characterClass, setCharacterClass] = useState("Warrior");
 
   const changeClass = async (e) => {
     setCharacterClass(e.target.value);
@@ -99,59 +110,61 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
   const submitForm = async () => {
     //Calling smart contract function.
     let level0Characters = {
-      Archer: 'QmX6PKEGDCtrdwSjxsJB4575dpYcv1sQoZMCADrCyCGJYC',
-      Magician: 'QmeCUJbbR9JPKnX2Tk9jFFHrvkNoYsVh8exwJbZ8M2pf3z',
-      Warrior: 'QmP9yV42APdrWfTPLA4KtQiVjVc2qNxdPsxS5YdFiXdbcU',
+      Archer: "QmX6PKEGDCtrdwSjxsJB4575dpYcv1sQoZMCADrCyCGJYC",
+      Magician: "QmeCUJbbR9JPKnX2Tk9jFFHrvkNoYsVh8exwJbZ8M2pf3z",
+      Warrior: "QmP9yV42APdrWfTPLA4KtQiVjVc2qNxdPsxS5YdFiXdbcU",
     };
     let characterURI = level0Characters[characterClass];
 
     if (characterName.length > 0) {
       stopPopupClicking(true);
       setLoading(true);
-      setError('Character is creating... please wait');
+      setError("Character is creating... please wait");
       const transaction = await new Promise((resolve, reject) => {
         characterContract.methods
           .createItem(user.address, characterURI)
-          .send({ from: user.address, gasPrice: 25000000000 }, function (error, transactionHash) {
-            if (transactionHash) {
-              resolve(transactionHash);
-            } else {
-              console.log('Rejected by user!');
-              setError('Transaction Rejected!');
-              setFailed(true);
-              setCompleted(true);
-              stopPopupClicking(false);
-              reject();
+          .send(
+            { from: user.address, gasPrice: 25000000000 },
+            function (error, transactionHash) {
+              if (transactionHash) {
+                resolve(transactionHash);
+              } else {
+                console.log("Rejected by user!");
+                setError("Transaction Rejected!");
+                setFailed(true);
+                setCompleted(true);
+                stopPopupClicking(false);
+                reject();
+              }
             }
-          })
-          .on('receipt', function (receipt) {
-            setError('Transaction Completed');
+          )
+          .on("receipt", function (receipt) {
+            setError("Transaction Completed");
             getCharacter();
             window.location.reload();
           });
       });
 
-      console.log('Response' + transaction);
+      console.log("Response" + transaction);
 
       if (transaction) {
-        setError('Please Wait!');
+        setError("Please Wait!");
         getCharacter();
-        console.log('Submitted');
+        console.log("Submitted");
         setCompleted(false);
         stopPopupClicking(true);
 
         //Integration of username update
-        updateUsername(characterName, user.address);
 
         //Integration of ownTokenID
       } else {
-        setError('Transaction Failed');
+        setError("Transaction Failed");
         setFailed(true);
         setCompleted(true);
         stopPopupClicking(false);
       }
     } else {
-      setNameError('Character name should be long enough!');
+      setNameError("Character name should be long enough!");
     }
   };
   return (
@@ -160,8 +173,8 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
         <div className="container text-center">
           <div>
             <h5 className={classes.title}>Create Character</h5>
-          </div>{' '}
-          <Divider style={{ backgroundColor: 'black' }} />
+          </div>{" "}
+          <Divider style={{ backgroundColor: "black" }} />
           <div className="p-2 mt-3 float-left">
             <TextField
               label={<p className={classes.label}>Character Name</p>}
@@ -172,7 +185,16 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
               fullWidth
             />
             <div className="float-left">
-              <p style={{ color: 'grey', textAlign: 'left', fontSize: 12, fontWeight: 300 }}>{nameError}</p>
+              <p
+                style={{
+                  color: "grey",
+                  textAlign: "left",
+                  fontSize: 12,
+                  fontWeight: 300,
+                }}
+              >
+                {nameError}
+              </p>
             </div>
           </div>
           <div className="p-2 mt-3 float-left">
@@ -182,20 +204,25 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
               value={characterClass}
               className={classes.textField}
               onChange={changeClass}
-              fullWidth>
-              <MenuItem value={'Warrior'} className={classes.menuItem}>
+              fullWidth
+            >
+              <MenuItem value={"Warrior"} className={classes.menuItem}>
                 Warrior
               </MenuItem>
-              <MenuItem value={'Magician'} className={classes.menuItem}>
+              <MenuItem value={"Magician"} className={classes.menuItem}>
                 Magician
               </MenuItem>
-              <MenuItem value={'Archer'} className={classes.menuItem}>
+              <MenuItem value={"Archer"} className={classes.menuItem}>
                 Archer
               </MenuItem>
             </TextField>
           </div>
           <div>
-            <Button variant="contained" className={classes.buttonProceed} onClick={submitForm}>
+            <Button
+              variant="contained"
+              className={classes.buttonProceed}
+              onClick={submitForm}
+            >
               Create Now
             </Button>
           </div>
@@ -204,15 +231,19 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
         <div className="container text-center">
           <div>
             <h5 className="text-center">Transaction Status</h5>
-            <Divider style={{ backgroundColor: 'black' }} />
+            <Divider style={{ backgroundColor: "black" }} />
             {completed ? (
               failed ? (
                 <div className="text-center my-5">
-                  <img src="./images/failed.png" height="100px" alt='error' />
+                  <img src="./images/failed.png" height="100px" alt="error" />
                 </div>
               ) : (
                 <div className="text-center my-5">
-                  <img src="./images/success.png" height="100px" alt='success' />
+                  <img
+                    src="./images/success.png"
+                    height="100px"
+                    alt="success"
+                  />
                 </div>
               )
             ) : (
@@ -227,20 +258,21 @@ function CreateCharacterForm({ stopPopupClicking, onClose, user, getCharacter, u
                 Close Now
               </Button>
             </div> */}
-          </div>{' '}
+          </div>{" "}
         </div>
       )}
     </div>
   );
 }
 
-
-
 const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated,
   user: state.auth.user,
 });
 
-const mapDispatchToProps = { updateUsername };
+const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateCharacterForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateCharacterForm);

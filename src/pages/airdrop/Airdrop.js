@@ -475,7 +475,7 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
               Thanks for the overwhelming response from our community. Airdrop
               participants has reached{" "}
               <strong style={{ color: "yellow" }}>3000 </strong>
-              participants. See you at PWAR listing day.
+              participants. You can buy more PWAR for future events.
             </h6>
           </div>
         </div>
