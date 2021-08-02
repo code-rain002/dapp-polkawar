@@ -3,7 +3,6 @@ import itemContract from "./../../utils/itemConnection";
 import characterContract from "./../../utils/characterConnection";
 import pwrContract from "./../../utils/pwrConnection";
 import flashsaleContract from "./../../utils/saleConnection";
-import constants from "./../../utils/constants";
 import bidContract from "../../utils/bidConnection";
 
 //Airdrop Functions
@@ -118,6 +117,7 @@ export const createCharacter = async (address, characterClass) => {
         }
       );
   });
+  return transaction;
 };
 
 //READ get Owner Token ID

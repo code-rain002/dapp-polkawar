@@ -105,7 +105,6 @@ function Categories({ getItems, getCategories, items, categories }) {
 
   useEffect(() => {
     getCategories();
-    // getItems(selectedCat.toLowerCase(), pageNo);
   }, []);
 
   useEffect(() => {
@@ -167,7 +166,7 @@ function Categories({ getItems, getCategories, items, categories }) {
               <h1 className="heading">
                 Explore{' '}
                 <span>
-                  <img src="images/thunder.png" height="30px" />
+                  <img src="images/thunder.png" height="30px"  alt='thunder'/>
                 </span>
               </h1>
             </div>
@@ -199,7 +198,7 @@ function Categories({ getItems, getCategories, items, categories }) {
             <h1 className="heading">
               Explore{' '}
               <span>
-                <img src="images/thunder.png" height="20px" />
+                <img src="images/thunder.png" height="20px" alt='thunder' />
               </span>
             </h1>
           </div>
@@ -233,9 +232,9 @@ function Categories({ getItems, getCategories, items, categories }) {
         <div className="row mt-3">
           {' '}
           {items.map((item, index) => (
-            <div className="col-12 col-md-3" key={index}>
+            <div className="col-12 col-md-3" key={item._id}>
               <div className="d-flex justify-content-center">
-                <ItemCard item={item} />
+                <ItemCard item={item} key={index}/>
               </div>
             </div>
           ))}

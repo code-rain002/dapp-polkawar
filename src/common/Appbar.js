@@ -30,7 +30,6 @@ import web3 from "./../web";
 import MuiAlert from "@material-ui/lab/Alert";
 import BalancePopup from "./BalancePopup";
 import { getPwarBalance } from "./../actions/smartActions/SmartActions";
-import constants from "./../utils/constants";
 import {
   checkCorrectNetwork,
   checkWalletAvailable,
@@ -247,7 +246,6 @@ function PrimaryAppbar({
 }) {
   const classes = useStyles();
   const [navIndex, setNavIndex] = useState(0);
-  const [userData, setUserData] = useState(null);
   const [bnbBal, setBnbBal] = useState(0);
   const [pwarBal, setPwarBal] = useState(10);
   const [userAdd, setUserAdd] = useState(null);
@@ -292,7 +290,7 @@ function PrimaryAppbar({
               { name: "My Home", link: "/profile" },
               { name: "Battle Room", link: "/profile" },
             ].map((tab, index) => (
-              <Link to={tab.link}>
+              <Link to={tab.link} key={index}>
                 <ListItem
                   button
                   onClick={toggleDrawer(anchor, false)}
@@ -312,7 +310,7 @@ function PrimaryAppbar({
               { name: "Landing Page", id: "https://polkawar.com" },
               { name: "Get Airdrop", id: "/airdrop" },
             ].map((tab, index) => (
-              <a href={tab.id} className={classes.mobileLink}>
+              <a href={tab.id} className={classes.mobileLink} key={index}>
                 <ListItem button key={tab.name}>
                   <ListItemText
                     primary={tab.name}
@@ -365,6 +363,7 @@ function PrimaryAppbar({
             </ListItem>
           </List>
         </div>
+
         <div style={{ color: "white", paddingTop: 10, paddingRight: 10 }}>
           <Close onClick={toggleDrawer(anchor, false)} />
         </div>
@@ -379,15 +378,13 @@ function PrimaryAppbar({
         const networkStatus = await checkCorrectNetwork();
 
         if (networkStatus) {
-          let authenticated = await checkAuthenticated();
-          console.log("1. Authenticated: " + authenticated.toString());
-          if (authenticated) {
-            console.log("2. Hitting: setUserAdd");
+          let authStatus = await checkAuthenticated();
+
+          if (authStatus) {
             let userAddress = await getUserAddress();
             setUserAdd(userAddress);
             getBalance();
           } else {
-            console.log("2. Not Authenticated");
           }
         } else {
           setAlert({ status: true, message: "Only support BSC network" });
@@ -398,11 +395,12 @@ function PrimaryAppbar({
     }
 
     asyncFn();
-  }, []);
+  }, [checkAuthenticated]);
 
   const getBalance = async () => {
     let currentAddress = await getUserAddress();
-    let balance = await web3.eth.getBalance(currentAddress.toString());
+    let balance = await web3.eth.getBalance(currentAddress);
+
     let ethBalance = web3.utils.fromWei(balance ? balance.toString() : "0");
     setBnbBal(ethBalance);
 
@@ -416,7 +414,6 @@ function PrimaryAppbar({
     if (walletStatus) {
       const networkStatus = await checkCorrectNetwork();
       if (networkStatus) {
-        let userAddress = await getUserAddress();
         authenticateUser();
         getBalance();
       } else {
@@ -439,7 +436,6 @@ function PrimaryAppbar({
         window.ethereum.on("networkChanged", async function (networkId) {
           let networkStatus = await checkCorrectNetwork();
           if (networkStatus) {
-            let userAddress = await getUserAddress();
             authenticateUser();
             getBalance();
           } else {
@@ -592,7 +588,7 @@ function PrimaryAppbar({
                   <SwipeableDrawer
                     anchor={anchor}
                     disableSwipeToOpen={false}
-                    open={state[anchor]}
+                    open={state[anchor] !== undefined ? state[anchor] : false}
                     onClose={toggleDrawer(anchor, false)}
                     onOpen={toggleDrawer(anchor, true)}
                   >

@@ -1,17 +1,8 @@
 import { useState } from "react";
-import {
-  Button,
-  Divider,
-  Input,
-  MenuItem,
-  Select,
-  TextField,
-} from "@material-ui/core";
+import { Button, Divider, MenuItem, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { createCharacter } from "./../actions/smartActions/SmartActions";
 import characterContract from "./../utils/characterConnection";
 import Loader from "./Loader";
-import propTypes from "prop-types";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -51,9 +42,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     fontSize: 14,
   },
-  icon: {
-    color: "black",
-  },
+
   iconWrapper: {
     border: "1px solid #e5e5e5",
     borderRadius: "50%",

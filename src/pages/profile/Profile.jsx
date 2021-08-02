@@ -301,8 +301,8 @@ function Profile({
   const [characters, setCharacters] = useState([]);
   const [characterIndex, setCharacterIndex] = useState(0);
   const [userAddress, setUserAddress] = useState(null);
-  const [error, setError] = useState("");
-  const [testing, setTesting] = useState("ddd");
+
+ 
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

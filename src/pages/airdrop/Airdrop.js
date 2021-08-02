@@ -112,10 +112,7 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
   const classes = useStyles();
 
   const [actualCase, setActualCase] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [airdropJoined, setAirdropJoined] = useState(false);
   const [isClaimed, setIsClaimed] = useState(false);
-  const [participant, setParticipant] = useState(null);
   const [tokenId, setTokenId] = useState(null);
   const [itemJson, setItemJson] = useState(null);
   const [claimCase, setClaimCase] = useState(0);
@@ -155,11 +152,9 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
           }
         } else {
           setActualCase(2);
-          setLoading(false);
         }
       } else {
         setActualCase(1);
-        setLoading(false);
       }
     }
     asyncFn();
@@ -174,11 +169,8 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
 
     let tokenId = participantData.tokenId;
     let isClaimed = participantData.isClaimed;
-    let isValid = participantData.isValid;
 
-    setParticipant(participantData);
     setIsClaimed(isClaimed);
-    setAirdropJoined(isValid);
 
     if (parseInt(tokenId) > 0) {
       setTokenId(parseInt(tokenId));
@@ -187,7 +179,6 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
       if (itemString) {
         await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
           setItemJson(res.data);
-          setLoading(false);
           setActualCase(4);
         });
         return true;
@@ -199,7 +190,7 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
         };
 
         setItemJson(data);
-        setLoading(false);
+
         setActualCase(4);
         return true;
       }

@@ -1,48 +1,48 @@
-import { createMuiTheme } from '@material-ui/core/styles';
-export const theme = createMuiTheme({
+import { createTheme } from "@material-ui/core/styles";
+export const theme = createTheme({
   palette: {
     common: {
-      black: '#000',
-      white: '#fff',
+      black: "#000",
+      white: "#fff",
     },
     background: {
-      paper: '#fff',
-      default: '#fafafa',
+      paper: "#fff",
+      default: "#fafafa",
     },
     primary: {
-      light: 'rgba(89, 210, 188, 1)',
-      main: '#C80C81',
+      light: "rgba(89, 210, 188, 1)",
+      main: "#C80C81",
     },
     secondary: {
-      light: 'rgba(89, 210, 188, 1)',
-      main: '#C80C81',
+      light: "rgba(89, 210, 188, 1)",
+      main: "#C80C81",
     },
     pbr: {
-      primary: '#C80C81',
-      secondary: '#f4c8dd',
-      textPrimary: '#ffffff',
-      textSecondary: '#bdbdbd',
-      textPrimaryOpp: '#000000',
-      textSecondaryOpp: '#757575',
+      primary: "#C80C81",
+      secondary: "#f4c8dd",
+      textPrimary: "#ffffff",
+      textSecondary: "#bdbdbd",
+      textPrimaryOpp: "#000000",
+      textSecondaryOpp: "#757575",
     },
   },
   typography: {
     fontFamily: [
-      'Carter One',
-      'Poppins',
-      'Balsamiq Sans',
-      'Work Sans',
-      '-apple-system',
-      'BlinkMacSystemFont',
+      "Carter One",
+      "Poppins",
+      "Balsamiq Sans",
+      "Work Sans",
+      "-apple-system",
+      "BlinkMacSystemFont",
       '"Segoe UI"',
-      'Roboto',
+      "Roboto",
       '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
+      "Arial",
+      "sans-serif",
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
-    ].join(','),
+    ].join(","),
   },
 });
 export default theme;

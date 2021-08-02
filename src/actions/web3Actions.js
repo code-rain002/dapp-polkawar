@@ -22,6 +22,7 @@ export const checkWalletAvailable = () => {
 //Returns boolean true or false
 export const checkCorrectNetwork = async () => {
   const account = await getUserAddress();
+  console.log(account);
   let chainID;
 
   if (window.ethereum) {
@@ -54,13 +55,10 @@ export const checkCorrectNetwork = async () => {
 
 //Get User Address from Web3
 export const getUserAddress = async () => {
-  
-
   const accounts = await window.ethereum.request({
     method: "eth_requestAccounts",
   });
   const accountAddress = accounts[0];
- 
 
   return accountAddress;
 };

@@ -1,7 +1,5 @@
-import axios from "axios";
-import baseUrl from "../actions/baseUrl";
 import { getUserAddress } from "./web3Actions";
-import { GET_CURRENT_USER, REMOVE_CURRENT_USER, GET_ERRORS } from "./types";
+import { GET_CURRENT_USER, REMOVE_CURRENT_USER } from "./types";
 
 //GET user authenticated
 export const authenticateUser = () => async (dispatch) => {

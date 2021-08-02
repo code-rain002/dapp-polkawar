@@ -261,19 +261,23 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
           />
         </div>
         {actualCase === 0 && (
-          <div className={classes.timerBox} for="sale starts in">
-            <h1 className={classes.ends}>Sale Starts in: </h1>
-            <h6 className={classes.timerTime}>
-              <Timer endTime={saleStartDate} />
-            </h6>
+          <div>
+            <div className={classes.timerBox} for="sale starts in">
+              <h1 className={classes.ends}>Sale Starts in: </h1>
+              <h6 className={classes.timerTime}>
+                <Timer endTime={saleStartDate} />
+              </h6>
+            </div>
           </div>
         )}
         {actualCase === 1 && (
-          <div className={classes.timerBox} for="sale ends in">
-            <h1 className={classes.ends}>Sale Ends in: </h1>
-            <h6 className={classes.timerTime}>
-              <Timer endTime={saleEndDate} />
-            </h6>
+          <div>
+            <div className={classes.timerBox} for="sale ends in">
+              <h1 className={classes.ends}>Sale Ends in: </h1>
+              <h6 className={classes.timerTime}>
+                <Timer endTime={saleEndDate} />
+              </h6>
+            </div>
           </div>
         )}
         <div className="mt-5" htmlFor="rules">
