@@ -1,95 +1,93 @@
-import { useState, useEffect } from 'react';
-import { Button, IconButton } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { Close } from '@material-ui/icons';
-import web3 from './../web';
+import { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import web3 from "./../web";
 
 const useStyles = makeStyles((theme) => ({
   card: {
     width: 400,
     height: 300,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    border: '1px solid #e5e5e5',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    border: "1px solid #e5e5e5",
     borderRadius: 14,
-    padding: '8px 16px 8px 16px',
-    backgroundColor: 'white',
+    padding: "8px 16px 8px 16px",
+    backgroundColor: "white",
   },
   title: {
-    verticalAlign: 'baseline',
-    textAlign: 'left',
-    color: 'black',
+    verticalAlign: "baseline",
+    textAlign: "left",
+    color: "black",
     fontWeight: 700,
     letterSpacing: 0.5,
     fontSize: 32,
-    lineHeight: '70px',
+    lineHeight: "70px",
   },
 
   description: {
-    verticalAlign: 'baseline',
-    textAlign: 'left',
-    color: 'black',
+    verticalAlign: "baseline",
+    textAlign: "left",
+    color: "black",
     fontWeight: 400,
     fontSize: 16,
-    lineHeight: '25.7px',
+    lineHeight: "25.7px",
   },
   quantity: {
-    verticalAlign: 'baseline',
-    textAlign: 'left',
-    color: '#757575',
+    verticalAlign: "baseline",
+    textAlign: "left",
+    color: "#757575",
     fontWeight: 500,
     fontSize: 16,
   },
   price: {
-    verticalAlign: 'baseline',
-    textAlign: 'left',
-    color: 'black',
+    verticalAlign: "baseline",
+    textAlign: "left",
+    color: "black",
     fontWeight: 700,
     fontSize: 16,
   },
   text: {
-    verticalAlign: 'baseline',
-    textAlign: 'left',
-    color: '#757575',
+    verticalAlign: "baseline",
+    textAlign: "left",
+    color: "#757575",
     fontWeight: 400,
     fontSize: 15,
-    letterSpacing: 'normal',
-    lineHeight: '15px',
+    letterSpacing: "normal",
+    lineHeight: "15px",
   },
   textValue: {
-    verticalAlign: 'baseline',
-    textAlign: 'left',
-    color: 'black',
+    verticalAlign: "baseline",
+    textAlign: "left",
+    color: "black",
     fontWeight: 700,
     fontSize: 16,
-    lineHeight: '15px',
+    lineHeight: "15px",
   },
   icon: {
-    color: 'black',
+    color: "black",
   },
   iconWrapper: {
-    border: '1px solid #e5e5e5',
-    borderRadius: '50%',
+    border: "1px solid #e5e5e5",
+    borderRadius: "50%",
   },
   buttonProceed: {
-    width: '100%',
-    color: 'white',
-    backgroundColor: 'white',
-    textTransform: 'none',
-    borderRadius: '100px',
-    padding: '12px 16px 12px 16px',
+    width: "100%",
+    color: "white",
+    backgroundColor: "white",
+    textTransform: "none",
+    borderRadius: "100px",
+    padding: "12px 16px 12px 16px",
     fontWeight: 600,
     background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
     fontSize: 16,
   },
   buttonCancel: {
-    width: '100%',
-    color: '#D9047C',
-    backgroundColor: 'white',
-    textTransform: 'none',
-    borderRadius: '100px',
-    padding: '12px 16px 12px 16px',
+    width: "100%",
+    color: "#D9047C",
+    backgroundColor: "white",
+    textTransform: "none",
+    borderRadius: "100px",
+    padding: "12px 16px 12px 16px",
     fontWeight: 600,
     background: `linear-gradient(to bottom,#fce3ee, #fce3ee)`,
     fontSize: 16,
@@ -110,7 +108,7 @@ export default function CheckoutModel({ value, onClose, item }) {
         });
       });
     }
-    return 'Error!';
+    return "Error!";
   };
   useEffect(() => {
     getBnbBalance();
