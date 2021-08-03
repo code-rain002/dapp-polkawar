@@ -4,7 +4,7 @@ import { getFlashItems, getUserItems } from "./../../actions/itemActions";
 import { checkIsPurchased } from "./../../actions/smartActions/SmartActions";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
-import ItemSaleCard from "../../components/ItemSaleCard";
+import ItemSaleCard from "../../components/ItemsComponents/ItemSaleCard";
 import Timer from "../../components/Timer";
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";

@@ -8,7 +8,7 @@ import {
   checkApproved,
 } from "./../actions/smartActions/SmartActions";
 import axios from "axios";
-import SellModal from "../components/SellModal";
+import SellModal from "../components/ItemsComponents/SellModal";
 import Loader from "../components/Loader";
 import { getUserAddress } from "./../actions/web3Actions";
 import constants from "./../utils/constants";

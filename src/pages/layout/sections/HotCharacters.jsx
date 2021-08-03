@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import CharacterCard from "../../../components/CharacterCard";
+import CharacterCard from "../../../components/CharacterComponets/CharacterCard";
 import { getCharacters } from "./../../../actions/characterActions";
 import {
   checkCorrectNetwork,

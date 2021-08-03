@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import imageBaseUrl from "./../actions/imageBaseUrl";
+import imageBaseUrl from "./../../actions/imageBaseUrl";
+
 export default function GallerySLider({ gallery }) {
   let width = 60;
   const getWidth = () => {

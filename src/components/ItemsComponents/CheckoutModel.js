@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import web3 from "./../web";
+import web3 from "./../../web";
 
 const useStyles = makeStyles((theme) => ({
   card: {

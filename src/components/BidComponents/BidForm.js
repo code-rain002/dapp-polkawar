@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Button, Divider, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { createNewBid } from "./../actions/bidActions";
-import Loader from "./Loader";
+import { createNewBid } from "../../actions/bidActions";
+import Loader from "../Loader";
 import { connect } from "react-redux";
 import axios from "axios";
-import baseUrl from "./../actions/baseUrl";
-import bidContract from "./../utils/bidConnection";
+import baseUrl from "../../actions/baseUrl";
+import bidContract from "../../utils/bidConnection";
 import { Refresh } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({

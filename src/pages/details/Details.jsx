@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Dialog, Backdrop, Slide } from '@material-ui/core';
 import CustomeTable from '../../components/CustomTable';
-import CheckoutModel from '../../components/CheckoutModel';
-import GallerySlider from '../../components/GallerySlider';
+import CheckoutModel from '../../components/ItemsComponents/CheckoutModel';
+import GallerySlider from '../../components/ItemsComponents/GallerySlider';
 import { getItem } from './../../actions/itemActions';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -148,7 +148,7 @@ function Details({ getItem, singleItem }) {
         <div className="row g-0 mt-5">
           <div className="col-12 col-md-7">
             <div className={classes.imageWrapper}>
-              <GallerySlider gallery={[item.image, ...item.gallery]} />
+              <GallerySlider gallery={[item.hashImage, ...item.gallery]} />
             </div>
           </div>
           <div className="col-12 col-md-5 p-3">

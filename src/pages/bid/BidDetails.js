@@ -10,7 +10,7 @@ import {
   isUserBid,
   isUserClaimed,
 } from "./../../actions/smartActions/SmartActions";
-import BidForm from "../../components/BidForm";
+import BidForm from "../../components/BidComponents/BidForm";
 import Moment from "react-moment";
 import { Link, useParams } from "react-router-dom";
 import { addUserItem } from "./../../actions/itemActions";

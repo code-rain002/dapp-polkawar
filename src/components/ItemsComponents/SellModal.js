@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Button, Divider } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { HomeWork, Store } from "@material-ui/icons";
-import { updateUserItemOwner } from "./../actions/itemActions";
+import { updateUserItemOwner } from "../../actions/itemActions";
 import { connect } from "react-redux";
-import saleContract from "./../utils/saleConnection";
-import Loader from "./Loader";
+import saleContract from "../../utils/saleConnection";
+import Loader from "../Loader";
 import Moment from "react-moment";
 
 const useStyles = makeStyles((theme) => ({

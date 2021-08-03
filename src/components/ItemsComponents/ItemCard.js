@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import { Link } from "react-router-dom";
-import imageBaseUrl from "./../actions/imageBaseUrl";
+import imageBaseUrl from "../../actions/imageBaseUrl";
 
 const useStyles = makeStyles((theme) => ({
   card1: {
@@ -176,7 +176,7 @@ export default function ItemCard({ item }) {
           <div className={classes.mediaWrapper1}>
             <img
               alt="item"
-              src={`${imageBaseUrl}/${item.image}`}
+              src={`${imageBaseUrl}/${item.hashImage}`}
               className={classes.media}
             />
           </div>

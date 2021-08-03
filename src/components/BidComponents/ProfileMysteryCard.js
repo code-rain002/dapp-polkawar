@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Dialog, Slide, Backdrop, Divider } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
-import Loader from "../components/Loader";
-import bidConnection from "./../utils/bidConnection";
+import Loader from "../Loader";
+import bidConnection from "../../utils/bidConnection";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
 import Moment from "react-moment";
-import { addUserItem } from "./../actions/itemActions";
-import { isBoxOpened } from "../actions/smartActions/SmartActions";
+import { addUserItem } from "../../actions/itemActions";
+import { isBoxOpened } from "../../actions/smartActions/SmartActions";
 import BidRewards from "./BidRewards";
 
 const Transition = React.forwardRef(function Transition(props, ref) {

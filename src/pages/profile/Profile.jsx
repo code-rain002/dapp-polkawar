@@ -19,7 +19,7 @@ import {
   checkAuthenticated,
 } from "./../../actions/authActions";
 import { getUserItems } from "./../../actions/itemActions";
-import CreateCharacterForm from "../../components/CreateCharacterForm";
+import CreateCharacterForm from "../../components/CharacterComponets/CreateCharacterForm";
 import {
   tokenOfOwnerByIndex,
   tokenURICharacter,
@@ -34,7 +34,7 @@ import {
 import Loader from "../../components/Loader";
 import ConnectButton from "../../components/ConnectButton";
 import ItemProfileCard from "../../common/ItemProfileCard";
-import ProfileMysteryCard from "../../components/ProfileMysteryCard";
+import ProfileMysteryCard from "../../components/BidComponents/ProfileMysteryCard";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

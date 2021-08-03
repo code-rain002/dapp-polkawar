@@ -14,7 +14,6 @@ import Sale from "./pages/sale/Sale";
 import Bid from "./pages/bid/Bid";
 import Home from "./pages/layout/Layout";
 import BidDetails from "./pages/bid/BidDetails";
-import BidRewards from "./components/BidRewards";
 import "./web";
 
 export default function App() {
@@ -41,9 +40,7 @@ export default function App() {
                 <Route exact path="/bid/:id">
                   <BidDetails />
                 </Route>
-                <Route exact path="/box-rewards/:pid">
-                  <BidRewards />
-                </Route>
+
                 <Route exact path="/item/:id">
                   <Details />
                 </Route>

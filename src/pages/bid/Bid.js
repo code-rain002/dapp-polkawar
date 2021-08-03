@@ -4,7 +4,7 @@ import propTypes from "prop-types";
 import { connect } from "react-redux";
 import { Button, Grow } from "@material-ui/core";
 import { getAllBidItems } from "./../../actions/bidActions";
-import BidCard from "../../components/BidCard";
+import BidCard from "../../components/BidComponents/BidCard";
 import { Close, MonetizationOn } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
