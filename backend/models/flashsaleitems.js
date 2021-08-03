@@ -1,6 +1,10 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 
 var FlashSaleModel = new mongoose.Schema({
+  itemId: {
+    type: Number,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
@@ -10,24 +14,24 @@ var FlashSaleModel = new mongoose.Schema({
     required: true,
     default: 3,
   },
-
   original_price: {
-    type: Number,
+    type: String,
     required: true,
     default: 0,
   },
   sell_price: {
-    type: Number,
+    type: String,
     required: true,
     default: 0,
   },
   currency: {
     type: String,
     required: true,
-    default: 'BNB',
+    default: "BNB",
   },
-  image: {
+  hashImage: {
     type: String,
+    required: true,
   },
   remaining_quantity: {
     type: Number,
@@ -40,15 +44,14 @@ var FlashSaleModel = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    default: 'none',
+    default: "none",
   },
-
   createdDate: {
     type: Date,
     required: true,
     default: new Date(),
   },
 });
-const FlashSale = mongoose.model('FlashSale', FlashSaleModel, 'FlashSale');
+const FlashSale = mongoose.model("FlashSale", FlashSaleModel, "FlashSale");
 
 module.exports = FlashSale;

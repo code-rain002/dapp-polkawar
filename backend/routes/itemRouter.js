@@ -674,7 +674,7 @@ router.post("/item", async (req, res, next) => {
   var knifeData = [
     {
       id: 32,
-      name: "Knife",
+      name: "Big Knife",
       price: "200",
       currency: "PWAR",
       description: "Base Damage: 8, Accuracy: +4, Bonus: +5%",
@@ -689,7 +689,7 @@ router.post("/item", async (req, res, next) => {
     },
     {
       id: 33,
-      name: "Knife",
+      name: "Big Knife",
       price: "500",
       currency: "PWAR",
       description: "Base Damage: 55, Accuracy: +36, Bonus: +8%",
@@ -704,7 +704,7 @@ router.post("/item", async (req, res, next) => {
     },
     {
       id: 34,
-      name: "Knife",
+      name: "Big Knife",
       price: "1000",
       currency: "PWAR",
       description: "Base Damage: 225, Accuracy: +125, Bonus: +13%",
@@ -808,7 +808,6 @@ router.post("/item", async (req, res, next) => {
     },
     {
       id: 40,
-
       name: "Bow",
       price: "1000",
       currency: "PWAR",
