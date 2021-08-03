@@ -2,17 +2,17 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Dialog, Slide, Backdrop, Divider } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
-import imageBaseUrl from "./../actions/imageBaseUrl";
+import imageBaseUrl from "../../actions/imageBaseUrl";
 import {
   tokenURI,
   checkApproved,
-} from "./../actions/smartActions/SmartActions";
+} from "../../actions/smartActions/SmartActions";
 import axios from "axios";
-import SellModal from "../components/ItemsComponents/SellModal";
-import Loader from "../components/Loader";
-import { getUserAddress } from "./../actions/web3Actions";
-import constants from "./../utils/constants";
-import itemConnection from "./../utils/itemConnection";
+import SellModal from "./SellModal";
+import Loader from "../Loader";
+import { getUserAddress } from "../../actions/web3Actions";
+import constants from "../../utils/constants";
+import itemConnection from "../../utils/itemConnection";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
 import { AccessAlarm } from "@material-ui/icons";

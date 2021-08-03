@@ -19,7 +19,7 @@ import {
   checkAuthenticated,
 } from "./../../actions/authActions";
 import { getUserItems } from "./../../actions/itemActions";
-import CreateCharacterForm from "../../components/CharacterComponets/CreateCharacterForm";
+import CreateCharacterForm from "../../components/CharacterComponents/CreateCharacterForm";
 import {
   tokenOfOwnerByIndex,
   tokenURICharacter,
@@ -33,8 +33,9 @@ import {
 } from "./../../actions/web3Actions";
 import Loader from "../../components/Loader";
 import ConnectButton from "../../components/ConnectButton";
-import ItemProfileCard from "../../common/ItemProfileCard";
+import ItemProfileCard from "../../components/ItemsComponents/ItemProfileCard";
 import ProfileMysteryCard from "../../components/BidComponents/ProfileMysteryCard";
+import CharacterSection from "../../components/CharacterComponents/CharacterSection";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -295,7 +296,7 @@ function Profile({
 
   const [actualCase, setActualCase] = useState(0);
   const [value, setValue] = useState(0);
-  const [selectedChar, setSelectedChar] = useState(false);
+  
   const [characterPopup, setCharacterPopup] = useState(false);
   const [stopPopupClick, setStopPopupClick] = useState(false);
   const [characters, setCharacters] = useState([]);
@@ -480,107 +481,7 @@ function Profile({
                 </Paper>
                 <div style={{ maxWidth: 1000 }}>
                   <TabPanel value={value} index={0}>
-                    <div>
-                      {characters.length !== 0 ? (
-                        <div>
-                          <Card className={classes.card} elevation={0}>
-                            <div
-                              classname="d-flex flex-column"
-                              style={{ paddingRight: 5 }}
-                            >
-                              <div>
-                                <h6 className={classes.title}>Items</h6>
-                                <Paper
-                                  className={
-                                    selectedChar
-                                      ? classes.itemMediaWrapperSelected
-                                      : classes.itemMediaWrapper
-                                  }
-                                  onClick={() => setSelectedChar(!selectedChar)}
-                                >
-                                  <img
-                                    src={`${imageBaseUrl}/${characterData[characterIndex].item}`}
-                                    className={classes.itemImage}
-                                    alt="character"
-                                  />
-                                </Paper>
-                              </div>
-                            </div>
-                            <div className="text-center">
-                              <div className={classes.mediaWrapper}>
-                                {selectedChar ? (
-                                  <img
-                                    src={`${imageBaseUrl}/${characterData[characterIndex].character}`}
-                                    className={classes.media}
-                                    alt="character"
-                                  />
-                                ) : (
-                                  <img
-                                    src={`${imageBaseUrl}/${characters[0].image}`}
-                                    className={classes.media}
-                                    alt="character"
-                                  />
-                                )}
-                              </div>
-                            </div>
-                            <div style={{ paddingLeft: 30 }}>
-                              <h6 className={classes.title}>Statistics</h6>
-                              <div className="d-flex flex-column justify-content-center">
-                                {characters[0].properties !== undefined && (
-                                  <div>
-                                    {Object.entries(
-                                      characters[0].properties
-                                    ).map(([key, value]) => {
-                                      return (
-                                        <div className="mb-2 d-flex flex-row justify-content-start align-items-center">
-                                          <h6 className={classes.propTitle}>
-                                            {key}:{" "}
-                                          </h6>
-                                          <h6 className={classes.propValue}>
-                                            {" "}
-                                            {value}
-                                          </h6>
-                                        </div>
-                                      );
-                                    })}
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </Card>
-                        </div>
-                      ) : (
-                        <div className="text-center">
-                          <div className="my-3">
-                            <img
-                              src="./images/swords.png"
-                              height="100px"
-                              alt="character"
-                            />
-                          </div>
-                          <div className="text-center">
-                            <h6 className={classes.title}>
-                              No character found
-                            </h6>
-                            <div className="d-flex justify-content-center">
-                              <p className={classes.subheading}>
-                                Create your character! <br />
-                                and personalise your gaming experience
-                              </p>
-                            </div>
-                          </div>
-                          <div className={classes.buttonWrapper}>
-                            <Button
-                              variant="contained"
-                              className={classes.button}
-                              onClick={toggleCharacterPopup}
-                            >
-                              Create Character
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                    <CharacterSection/>
                   </TabPanel>
 
                   <TabPanel value={value} index={1}>
@@ -697,28 +598,6 @@ function Profile({
                 </div>
               </div>
               <div></div>
-              <Dialog
-                className={classes.modal}
-                open={characterPopup}
-                TransitionComponent={Transition}
-                keepMounted
-                onClose={() => toggleCharacterPopup(false)}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                disableBackdropClick={stopPopupClick}
-                BackdropProps={{
-                  timeout: 500,
-                }}
-              >
-                <div style={{ backgroundColor: "black" }}>
-                  <CreateCharacterForm
-                    user={user}
-                    onClose={() => toggleCharacterPopup(false)}
-                    getCharacter={getCharacter}
-                    stopPopupClicking={setStopPopupClick}
-                  />
-                </div>
-              </Dialog>{" "}
             </div>
           </div>
         </div>

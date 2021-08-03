@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 
 var UserCharacterModel = new mongoose.Schema({
   tokenId: {
-    type: Number,
+    type: String,
     required: true,
   },
   properties: {
@@ -13,14 +13,17 @@ var UserCharacterModel = new mongoose.Schema({
     type: String,
     required: false,
   },
-
+  username: {
+    type: String,
+    required: false,
+  },
   owner: {
     type: String,
     required: true,
   },
 
   level: {
-    type: Number,
+    type: String,
     required: true,
   },
   description: {

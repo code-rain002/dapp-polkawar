@@ -4,6 +4,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import characterContract from "../../utils/characterConnection";
 import Loader from "../Loader";
 import { connect } from "react-redux";
+import { getUserAddress } from "../../actions/web3Actions";
+import TransactionStatus from "../TransactionStatus";
+import { createUserCharacter } from "./../../actions/characterActions";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -75,22 +78,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+let charactersInfo = [
+  {
+    character_id: 1,
+    name: "Warrior",
+    hashUrl: "QmP9yV42APdrWfTPLA4KtQiVjVc2qNxdPsxS5YdFiXdbcU",
+  },
+  {
+    character_id: 4,
+    name: "Magician",
+    hashUrl: "QmeCUJbbR9JPKnX2Tk9jFFHrvkNoYsVh8exwJbZ8M2pf3z",
+  },
+  {
+    character_id: 7,
+    name: "Archer",
+    hashUrl: "QmX6PKEGDCtrdwSjxsJB4575dpYcv1sQoZMCADrCyCGJYC",
+  },
+];
+
 function CreateCharacterForm({
   stopPopupClicking,
   onClose,
-  user,
-  getCharacter,
+  createUserCharacter,
 }) {
   const classes = useStyles();
 
-  const [loading, setLoading] = useState(false);
-  const [completed, setCompleted] = useState(false);
-  const [nameError, setNameError] = useState("");
-
-  const [failed, setFailed] = useState(false);
-  const [error, setError] = useState("");
+  const [actualCase, setActualCase] = useState(0);
   const [characterName, setCharacterName] = useState("");
-  const [characterClass, setCharacterClass] = useState("Warrior");
+  const [characterClass, setCharacterClass] = useState(0);
+  const [nameError, setNameError] = useState("");
 
   const changeClass = async (e) => {
     setCharacterClass(e.target.value);
@@ -98,67 +114,63 @@ function CreateCharacterForm({
 
   const submitForm = async () => {
     //Calling smart contract function.
-    let level0Characters = {
-      Archer: "QmX6PKEGDCtrdwSjxsJB4575dpYcv1sQoZMCADrCyCGJYC",
-      Magician: "QmeCUJbbR9JPKnX2Tk9jFFHrvkNoYsVh8exwJbZ8M2pf3z",
-      Warrior: "QmP9yV42APdrWfTPLA4KtQiVjVc2qNxdPsxS5YdFiXdbcU",
-    };
-    let characterURI = level0Characters[characterClass];
+
+    let singleCharacterHash = charactersInfo[characterClass];
+    let characterId = singleCharacterHash.character_id;
+    console.log(singleCharacterHash.character_id);
+    console.log(singleCharacterHash.hashUrl);
 
     if (characterName.length > 0) {
       stopPopupClicking(true);
-      setLoading(true);
-      setError("Character is creating... please wait");
-      const transaction = await new Promise((resolve, reject) => {
-        characterContract.methods
-          .createItem(user.address, characterURI)
-          .send(
-            { from: user.address, gasPrice: 25000000000 },
-            function (error, transactionHash) {
-              if (transactionHash) {
-                resolve(transactionHash);
-              } else {
-                console.log("Rejected by user!");
-                setError("Transaction Rejected!");
-                setFailed(true);
-                setCompleted(true);
-                stopPopupClicking(false);
-                reject();
-              }
+      setActualCase(1);
+      let userAddress = await getUserAddress();
+      const response = await characterContract.methods
+        .createItem(userAddress, singleCharacterHash.hashUrl)
+        .send(
+          { from: userAddress, gasPrice: 15000000000 },
+          function (error, transactionHash) {
+            if (transactionHash) {
+              console.log(transactionHash);
+              setActualCase(3);
+              return transactionHash;
+            } else {
+              console.log("Rejected by user!");
+              setActualCase(2);
+              stopPopupClicking(false);
             }
-          )
-          .on("receipt", function (receipt) {
-            setError("Transaction Completed");
-            getCharacter();
+          }
+        )
+        .on("receipt", async function (receipt) {
+          console.log(receipt);
+          setActualCase(4);
+          let contractTokenId = receipt.events.Transfer.returnValues.tokenId;
+
+          let newCharacterSaveStatus = await createUserCharacter(
+            contractTokenId,
+            characterId,
+            characterName
+          );
+          if (newCharacterSaveStatus) {
+            setActualCase(6);
             window.location.reload();
-          });
-      });
+          } else {
+            setActualCase(5);
+          }
+          //window.location.reload();
+          return receipt;
+        })
+        .on("error", async function (error) {
+          setActualCase(4);
+        });
 
-      console.log("Response" + transaction);
-
-      if (transaction) {
-        setError("Please Wait!");
-        getCharacter();
-        console.log("Submitted");
-        setCompleted(false);
-        stopPopupClicking(true);
-
-        //Integration of username update
-
-        //Integration of ownTokenID
-      } else {
-        setError("Transaction Failed");
-        setFailed(true);
-        setCompleted(true);
-        stopPopupClicking(false);
-      }
+      console.log(response);
     } else {
       setNameError("Character name should be long enough!");
     }
   };
   return (
     <div className={classes.card}>
-      {!loading ? (
+      {actualCase === 0 && (
         <div className="container text-center">
           <div>
             <h5 className={classes.title}>Create Character</h5>
@@ -195,13 +207,13 @@ function CreateCharacterForm({
               onChange={changeClass}
               fullWidth
             >
-              <MenuItem value={"Warrior"} className={classes.menuItem}>
+              <MenuItem value={0} className={classes.menuItem}>
                 Warrior
               </MenuItem>
-              <MenuItem value={"Magician"} className={classes.menuItem}>
+              <MenuItem value={1} className={classes.menuItem}>
                 Magician
               </MenuItem>
-              <MenuItem value={"Archer"} className={classes.menuItem}>
+              <MenuItem value={2} className={classes.menuItem}>
                 Archer
               </MenuItem>
             </TextField>
@@ -216,38 +228,10 @@ function CreateCharacterForm({
             </Button>
           </div>
         </div>
-      ) : (
-        <div className="container text-center">
-          <div>
-            <h5 className="text-center">Transaction Status</h5>
-            <Divider style={{ backgroundColor: "black" }} />
-            {completed ? (
-              failed ? (
-                <div className="text-center my-5">
-                  <img src="./images/failed.png" height="100px" alt="error" />
-                </div>
-              ) : (
-                <div className="text-center my-5">
-                  <img
-                    src="./images/success.png"
-                    height="100px"
-                    alt="success"
-                  />
-                </div>
-              )
-            ) : (
-              <div className="text-center">
-                <Loader />
-              </div>
-            )}
-
-            <h5 className="text-center">{error}</h5>
-            {/* <div>
-              <Button variant="contained" className={classes.buttonProceed} onClick={onClose}>
-                Close Now
-              </Button>
-            </div> */}
-          </div>{" "}
+      )}
+      {actualCase !== 0 && (
+        <div>
+          <TransactionStatus actualCase={actualCase} color={"white"} />
         </div>
       )}
     </div>
@@ -256,10 +240,9 @@ function CreateCharacterForm({
 
 const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated,
-  user: state.auth.user,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { createUserCharacter };
 
 export default connect(
   mapStateToProps,
