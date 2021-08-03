@@ -103,7 +103,7 @@ export default function CharacterCard({ item, index }) {
         </div>
         <div className={classes.mediaWrapper}>
           <img
-            src={`${imageBaseUrl}/${item.image}`}
+            src={`${imageBaseUrl}/${item.hashImage}`}
             className={classes.media}
             alt="character"
           />

@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 
 var CharacterModel = new mongoose.Schema({
   id: {
@@ -9,32 +9,19 @@ var CharacterModel = new mongoose.Schema({
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-  },
-
   level: {
     type: String,
     default: 0,
   },
   properties: {
     type: Object,
-    default: {
-      hp: 30,
-      mp: 21,
-      pAtk: 6,
-      mAtk: 0,
-      pDef: 7,
-      mDef: 7,
-      spd: 0.7,
-    },
   },
-  image: {
+  description: {
+    type: String,
+  },
+  hashImage: {
     type: String,
     required: true,
-  },
-  category: {
-    type: String,
   },
   createdDate: {
     type: Date,
@@ -42,6 +29,6 @@ var CharacterModel = new mongoose.Schema({
     default: new Date(),
   },
 });
-const Character = mongoose.model('Character', CharacterModel, 'Character');
+const Character = mongoose.model("Character", CharacterModel, "Character");
 
 module.exports = Character;

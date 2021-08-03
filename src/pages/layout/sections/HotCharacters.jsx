@@ -63,11 +63,11 @@ function HotCharacters({ characters, getCharacters, authenticated }) {
 
   const updateCharacters = () => {
     let names = [
-      "Paul Williams",
+      "Siddiqui Amir",
       "Nafa Jain",
       "Darren Jil",
       "Shubham Sharma",
-      "Jay",
+      "Javier John",
       "Akram",
       "Zin Loof",
       "Engitan Suc",
