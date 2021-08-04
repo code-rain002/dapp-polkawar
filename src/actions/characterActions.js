@@ -33,6 +33,7 @@ export const getCharacters = () => async (dispatch) => {
 //GET all characters of owner
 export const getUserCharacters = () => async (dispatch) => {
   let userAddress = await getUserAddress();
+
   let response = await axios
     .get(`${baseUrl}/usercharacters/${userAddress}`)
     .then((res) => {
@@ -49,7 +50,7 @@ export const getUserCharacters = () => async (dispatch) => {
       });
       return err;
     });
-
+  console.log(response);
   return response;
 };
 
@@ -67,10 +68,11 @@ export const createUserCharacter =
       username: username,
     };
 
-    axios
+    let response = axios
       .post(url, characterData)
       .then((res) => {
-        dispatch(getCharacters());
+        dispatch(getUserCharacters());
+        return true;
       })
       .catch((err) => {
         console.log(err);
@@ -79,5 +81,7 @@ export const createUserCharacter =
           type: GET_ERRORS,
           payload: err.response,
         });
+        return false;
       });
+    return response;
   };

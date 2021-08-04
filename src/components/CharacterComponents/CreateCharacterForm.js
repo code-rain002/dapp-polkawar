@@ -130,7 +130,6 @@ function CreateCharacterForm({
           { from: userAddress, gasPrice: 15000000000 },
           function (error, transactionHash) {
             if (transactionHash) {
-              console.log(transactionHash);
               setActualCase(3);
               return transactionHash;
             } else {
@@ -142,7 +141,6 @@ function CreateCharacterForm({
         )
         .on("receipt", async function (receipt) {
           console.log(receipt);
-          setActualCase(4);
           let contractTokenId = receipt.events.Transfer.returnValues.tokenId;
 
           let newCharacterSaveStatus = await createUserCharacter(
@@ -150,13 +148,14 @@ function CreateCharacterForm({
             characterId,
             characterName
           );
+          console.log(newCharacterSaveStatus);
           if (newCharacterSaveStatus) {
             setActualCase(6);
-            window.location.reload();
+            //window.location.reload();
           } else {
             setActualCase(5);
           }
-          //window.location.reload();
+
           return receipt;
         })
         .on("error", async function (error) {

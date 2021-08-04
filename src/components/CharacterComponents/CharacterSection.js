@@ -39,6 +39,13 @@ const useStyles = makeStyles((theme) => ({
       paddingTop: 0,
     },
   },
+  mediaWrapper: {
+    height: 300,
+
+    [theme.breakpoints.down("md")]: {
+      height: 200,
+    },
+  },
   media: {
     height: "100%",
     marginLeft: 10,
@@ -164,7 +171,7 @@ function CharacterSection({ getUserCharacters, characters }) {
           {characters.map((character, index) => {
             return (
               <Card className={classes.card} elevation={0}>
-                <div classname="d-flex flex-column" style={{ paddingRight: 5 }}>
+                <div className="d-flex flex-column" style={{ paddingRight: 5 }}>
                   <div>
                     <h6 className={classes.title}>Items</h6>
                   </div>

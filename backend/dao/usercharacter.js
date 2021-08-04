@@ -8,13 +8,11 @@ const userCharacterDao = {
 
   async getUserCharacters(owner) {
     let data = await UserCharacterModel.find({ owner: owner });
-    console.log(data);
     return data;
   },
 
   async getAllCharacters() {
     let data = await UserCharacterModel.find({});
-    console.log(data);
     return data;
   },
   async createCharacter(contractTokenId, characterId, owner, username) {
@@ -28,16 +26,15 @@ const userCharacterDao = {
       owner: owner,
       level: characterFromDB.level,
       description: characterFromDB.description,
+      hashImage: characterFromDB.hashImage,
     };
-
-    console.log(characterData);
     await UserCharacterModel.insertMany(characterData);
     return await UserCharacterModel.find({ owner: owner });
   },
 
   async deleteItem() {
-    // await UserCharacterModel.deleteMany({});
-    // return await UserCharacterModel.find({});
+    await UserCharacterModel.deleteMany({});
+    return await UserCharacterModel.find({});
   },
 };
 

@@ -29,7 +29,6 @@ router.get("/usercharacters", async (req, res, next) => {
 // GET All Characters based on user address
 router.get("/usercharacters/:owner", async (req, res, next) => {
   let userAddress = req.params.owner;
-  console.log(userAddress);
   try {
     const data = await UserCharacterDao.getUserCharacters(userAddress);
     return res.status(200).send(data);
