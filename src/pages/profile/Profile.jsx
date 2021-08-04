@@ -9,6 +9,7 @@ import {
   Slide,
   Card,
   Paper,
+  IconButton,
 } from "@material-ui/core";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -36,6 +37,13 @@ import ConnectButton from "../../components/ConnectButton";
 import ItemProfileCard from "../../components/ItemsComponents/ItemProfileCard";
 import ProfileMysteryCard from "../../components/BidComponents/ProfileMysteryCard";
 import CharacterSection from "../../components/CharacterComponents/CharacterSection";
+import ItemSection from "../../components/ItemsComponents/ItemSection";
+import StatsCard from "./profileComponents/CharacterOverview";
+import CharacterOverview from "./profileComponents/CharacterOverview";
+import CharacterStats from "./profileComponents/CharacterStats";
+import CharacterDisplay from "./profileComponents/CharacterDisplay";
+import CharacterItems from "./profileComponents/CharacterItems";
+import { FileCopy } from "@material-ui/icons";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -44,6 +52,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const useStyles = makeStyles((theme) => ({
   background: {
     minHeight: "100vh",
+    padding: 20,
   },
   heading: {
     color: theme.palette.pbr.textPrimary,
@@ -282,6 +291,54 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#212121",
     margin: 5,
   },
+  ranking: {
+    backgroundColor: "#4caf50",
+    borderRadius: 7,
+    fontSize: 16,
+    width: "fit-content",
+    padding: "3px 7px 3px 7px",
+    color: "white",
+    fontWeight: 400,
+    fontFamily: "Montserrat",
+  },
+  chracterType: {
+    fontSize: 60,
+    width: "fit-content",
+    padding: "2px 5px 2px 5px",
+    color: "white",
+    fontWeight: 800,
+    fontFamily: "Balsamiq Sans",
+    margin: 0,
+    padding: 0,
+  },
+  username: {
+    marginTop: 10,
+    fontSize: 18,
+    width: "fit-content",
+    padding: "2px 5px 2px 5px",
+    color: "white",
+    fontWeight: 500,
+    fontFamily: "Balsamiq Sans",
+    margin: 0,
+    padding: 0,
+  },
+  address: {
+    marginTop: 5,
+    fontSize: 12,
+    width: "fit-content",
+    padding: "2px 5px 2px 5px",
+    color: "white",
+    fontWeight: 400,
+    fontFamily: "Montserrat",
+    color:'#bdbdbd',
+    margin: 0,
+    padding: 0,
+  },
+  copyIcon:{
+    fontSize:14,
+    marginLeft:10,
+    color:'#dcedc8'
+  }
 }));
 
 function Profile({
@@ -296,21 +353,15 @@ function Profile({
 
   const [actualCase, setActualCase] = useState(0);
   const [value, setValue] = useState(0);
-  
+
   const [characterPopup, setCharacterPopup] = useState(false);
   const [stopPopupClick, setStopPopupClick] = useState(false);
   const [characters, setCharacters] = useState([]);
   const [characterIndex, setCharacterIndex] = useState(0);
   const [userAddress, setUserAddress] = useState(null);
 
- 
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
-
-  const toggleCharacterPopup = (value) => {
-    setCharacterPopup(value);
   };
 
   useEffect(() => {
@@ -327,9 +378,6 @@ function Profile({
 
           if (authenticated) {
             setUserAddress(accountAddress);
-
-            getCharacter();
-            getUserItems(accountAddress);
             setActualCase(4);
           } else {
             setActualCase(3);
@@ -344,46 +392,8 @@ function Profile({
     asyncFn();
   }, []);
 
-  const getCharacter = async () => {
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
-    const accountAddress = accounts[0];
-    let ownerTokenId = await tokenOfOwnerByIndex(accountAddress, 0);
-    let characterHash = await tokenURICharacter(ownerTokenId);
-    await axios.get(`${imageBaseUrl}${characterHash}`).then((res) => {
-      let tempObject = [res.data];
-      if (tempObject[0].name === "Archer") {
-        setCharacterIndex(0);
-      } else {
-        if (tempObject[0].name === "Magician") {
-          setCharacterIndex(1);
-        } else {
-          setCharacterIndex(2);
-        }
-      }
-
-      setCharacters(tempObject);
-    });
-  };
-
-  const characterData = [
-    {
-      item: "QmZFgypsvzHuWWPu6uT3x4SQmBRoqkhPNprp2j48Y3ydqZ",
-      character: "QmXmM8dqXctFKiXnhZiJJ7h2gHAo98qdcHzgdLVh4e9YZc",
-    },
-    {
-      item: "QmNjkDtdNCVwxi2qtFDyGMqbrytkYFRCC1dxHmRwyUEdCN",
-      character: "QmctJ1UuDfFtyyrFY4j31GK8qGgz9Qbk8996EiXGW6kqQR",
-    },
-    {
-      item: "QmWrWU25NMXKvXAjqW1aenzJUdtoD88GkLjP46GTYtFNtM",
-      character: "QmVF9Csz2JcGd2waLjHpjDdd2LE4WjCvWGcSXzfHuQ2FLc",
-    },
-  ];
   return (
     <div>
-     
       {actualCase === 0 && (
         <div className="text-center mt-5">
           <Loader />
@@ -408,8 +418,59 @@ function Profile({
       )}
       {actualCase === 4 && authenticated && (
         <div className={classes.background}>
-          {" "}
-          <div className="mt-5 text-center">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-6">
+                <div>
+                  <div>
+                    <h6 htmlFor="ranking" className={classes.ranking}>
+                      {" "}
+                      #436
+                    </h6>
+                    <h1
+                      htmlFor="characterType"
+                      className={classes.chracterType}
+                    >
+                      Warrior{" "}
+                      <img src="images/swords.png" height="30px" alt="level" />
+                    </h1>
+                  </div>
+
+                  <h6 htmlFor="username" className={classes.username}>
+                    Tahir Ahmad
+                  </h6>
+                  <h6 htmlFor="username" className={classes.address}>
+                  
+                  {[...'0xBE83D4d9F1e6ceF1224aF277f280a6afA46b8dCc'].splice(0, 7)} {"..."}
+                                      {[...'0xBE83D4d9F1e6ceF1224aF277f280a6afA46b8dCc'].splice(
+                                        [...'0xBE83D4d9F1e6ceF1224aF277f280a6afA46b8dCc'].length - 7,
+                                        7
+                                      )}
+                                    <IconButton style={{padding:0}}>  <FileCopy className={classes.copyIcon}/></IconButton>
+                  </h6>
+                  
+                  <div className="my-3">
+                    <CharacterDisplay />
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div>
+                  <div className="my-3">
+                    <CharacterOverview />
+                  </div>
+                  <div className="my-3">
+                    <CharacterStats />
+                  </div>
+                  <div className="my-3">
+                    <CharacterItems />
+                  </div>
+                 
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* <div className="mt-5 text-center">
             <div>
               <div className="text-center mt-3">
                 <img
@@ -423,7 +484,7 @@ function Profile({
               {characters.length !== 0 && (
                 <div>
                   <div className="d-flex flex-row justify-content-center align-items-start">
-                    {/* <div className={classes.title}>{user.username}</div> */}
+                    <div className={classes.title}>{user.username}</div>
                     <div
                       className="d-flex flex-row justify-content-center align-items-start"
                       style={{ paddingLeft: 10 }}
@@ -436,9 +497,7 @@ function Profile({
                             paddingTop: 10,
                             paddingRight: 5,
                           }}
-                        >
-                          ({" "}
-                        </h6>
+                        ></h6>
 
                         <div className={classes.iconWrapper}>
                           <img
@@ -481,7 +540,7 @@ function Profile({
                 </Paper>
                 <div style={{ maxWidth: 1000 }}>
                   <TabPanel value={value} index={0}>
-                    <CharacterSection/>
+                    <CharacterSection />
                   </TabPanel>
 
                   <TabPanel value={value} index={1}>
@@ -508,46 +567,7 @@ function Profile({
                     </div>
                   </TabPanel>
                   <TabPanel value={value} index={2}>
-                    {useritems.length !== 0 ? (
-                      <div className="row">
-                        {useritems.map((item, index) => {
-                          return (
-                            <div key={index} className="col-12 col-md-6">
-                              <div className="d-flex justify-content-center">
-                                {item.event === "auction" && (
-                                  <ProfileMysteryCard item={item} />
-                                )}
-                                {item.event !== "auction" && (
-                                  <ItemProfileCard item={item} />
-                                )}
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    ) : (
-                      <div className="text-center">
-                        <div className="my-3">
-                          <img
-                            src="images/dice.png"
-                            height="100px"
-                            alt="equipment"
-                          />
-                        </div>
-                        <div className="text-center">
-                          <h6 className={classes.title}>No items found</h6>
-                          <div className="d-flex justify-content-center">
-                            <p className={classes.subheading}>
-                              Come back soon! Or buy something from our
-                              marketplace
-                            </p>
-                          </div>
-                        </div>
-                        <div className={classes.buttonWrapper}>
-                          <CustomButton title="Browse marketplace" link={"/"} />
-                        </div>
-                      </div>
-                    )}
+                    <ItemSection />
                   </TabPanel>
                   <TabPanel value={value} index={3}>
                     <div className="text-center">
@@ -597,14 +617,9 @@ function Profile({
                   </TabPanel>
                 </div>
               </div>
-              <div></div>
             </div>
           </div>
-        </div>
-      )}
-      {actualCase === 4 && !authenticated && (
-        <div className="mt-5 text-center">
-          <ConnectButton />
+       */}
         </div>
       )}
     </div>

@@ -32,6 +32,7 @@ export const theme = createTheme({
       "Poppins",
       "Balsamiq Sans",
       "Work Sans",
+      "Montserrat",
       "-apple-system",
       "BlinkMacSystemFont",
       '"Segoe UI"',
