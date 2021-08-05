@@ -176,7 +176,7 @@ export default function ItemCard({ item }) {
           <div className={classes.mediaWrapper1}>
             <img
               alt="item"
-              src={`${imageBaseUrl}/${item.image}`}
+              src={`${imageBaseUrl}/${item.hashImage}`}
               className={classes.media}
             />
           </div>
