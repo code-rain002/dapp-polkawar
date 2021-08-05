@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { getPwarBalance } from "../../../actions/smartActions/SmartActions";
 
 const useStyles = makeStyles((theme) => ({
   balanceSection: {
@@ -61,10 +62,20 @@ const useStyles = makeStyles((theme) => ({
 export default function CharacterOverview({ character }) {
   const classes = useStyles();
 
+  const [balance, setBalance] = useState("loading...");
+
+  useEffect(() => {
+    async function asyncFn() {
+      let pwarBalance = await getPwarBalance();
+      setBalance(pwarBalance);
+    }
+    asyncFn();
+  }, []);
+
   return (
     <div className={classes.background}>
       <div className={classes.balanceSection}>
-        <h4 className={classes.balance}>3,991 PWAR</h4>
+        <h4 className={classes.balance}>{balance} PWAR</h4>
         <div className={classes.mediaWrapper}>
           <img src="/token.png" height="80px" alt="level" />
         </div>
@@ -91,7 +102,7 @@ export default function CharacterOverview({ character }) {
             Upgrade Date
           </h6>
           <h6 htmlFor="type" className={classes.categoryText}>
-            3 Days ago
+            ...
           </h6>
         </div>
       </div>

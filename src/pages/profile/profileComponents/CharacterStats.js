@@ -1,13 +1,15 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+import PowerStats from "./../../../components/PowerStats";
 
 const useStyles = makeStyles((theme) => ({
-  background: {},
   section: {
     height: "100%",
+    width: 300,
     padding: 20,
     display: "flex",
-    justifyContent: "space-between",
+    flexDirection: "column",
+    justifyContent: "flex-start",
   },
   title: {
     fontSize: 26,
@@ -21,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   category: {
-    fontSize: 16,
+    fontSize: 15,
     width: "fit-content",
     padding: "2px 5px 2px 5px",
     color: "white",
@@ -30,83 +32,63 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     padding: 0,
   },
-  categoryText: {
-    marginTop: 10,
-    fontSize: 18,
-    width: "fit-content",
-    padding: "2px 5px 2px 5px",
-    color: "white",
-    fontWeight: 500,
-    fontFamily: "Montserrat",
-    margin: 0,
-    padding: 0,
+
+  wrapper: {
+    paddingTop: 7,
+    paddingBottom: 7,
+  },
+  powerWrapper: {
+    paddingTop: 5,
+    paddingBottom: 5,
+    color: "grey",
+    fontSize: 12,
   },
 }));
 
-export default function CharacterStats() {
+export default function CharacterStats({ character }) {
   const classes = useStyles();
 
+  let properties = character.properties;
+
+  let colors1 = ["#ba68c8", "#9c27b0", "#7b1fa2", "#7b1fa2"];
+  let colors2 = ["#ffee58", "#fbc02d", "#f57f17"];
   return (
     <div className={classes.background}>
       <h3 htmlFor="category" className={classes.title}>
         STATS
       </h3>
-      <div className={classes.section}>
-        <div className="d-flex flex-column justify-content-center align-items-center">
-          <h6 htmlFor="category" className={classes.category}>
-            XP
-          </h6>
-          <h6 htmlFor="type" className={classes.categoryText}>
-            0
-          </h6>
+      <div className="row">
+        <div className="col-md-6">
+          {Object.entries(properties)
+            .splice(0, 4)
+            .map(([key, value], index) => {
+              return (
+                <div className={classes.wrapper}>
+                  <h6 htmlFor="category" className={classes.category}>
+                    {key.toUpperCase()}({value})
+                  </h6>
+                  <div htmlFor="power" className={classes.powerWrapper}>
+                    <PowerStats value={value} color={colors1[index]} />
+                  </div>
+                </div>
+              );
+            })}
         </div>
-        <div className="d-flex flex-column justify-content-center align-items-center">
-          <h6 htmlFor="category" className={classes.category}>
-            HP
-          </h6>
-          <h6 htmlFor="type" className={classes.categoryText}>
-            30
-          </h6>
-        </div>
-        <div className="d-flex flex-column justify-content-center align-items-center">
-          <h6 htmlFor="category" className={classes.category}>
-            MP
-          </h6>
-          <h6 htmlFor="type" className={classes.categoryText}>
-            30
-          </h6>
-        </div>
-        <div className="d-flex flex-column justify-content-center align-items-center">
-          <h6 htmlFor="category" className={classes.category}>
-            Patk
-          </h6>
-          <h6 htmlFor="type" className={classes.categoryText}>
-            6
-          </h6>
-        </div>
-        <div className="d-flex flex-column justify-content-center align-items-center">
-          <h6 htmlFor="category" className={classes.category}>
-            Pdef
-          </h6>
-          <h6 htmlFor="type" className={classes.categoryText}>
-            7
-          </h6>
-        </div>
-        <div className="d-flex flex-column justify-content-center align-items-center">
-          <h6 htmlFor="category" className={classes.category}>
-            Speed
-          </h6>
-          <h6 htmlFor="type" className={classes.categoryText}>
-            0.7
-          </h6>
-        </div>
-        <div className="d-flex flex-column justify-content-center align-items-center">
-          <h6 htmlFor="category" className={classes.category}>
-            Accuracy
-          </h6>
-          <h6 htmlFor="type" className={classes.categoryText}>
-            3
-          </h6>
+        <div className="col-md-6">
+          {Object.entries(properties)
+            .splice(4, 7)
+            .map(([key, value], index) => {
+              return (
+                <div className={classes.wrapper}>
+                  <h6 htmlFor="category" className={classes.category}>
+                    {key.toUpperCase()}({value})
+                  </h6>
+                  <div htmlFor="power" className={classes.powerWrapper}>
+                    <PowerStats value={value} color={colors2[index]} />
+                  </div>
+                </div>
+              );
+            })}
         </div>
       </div>
     </div>

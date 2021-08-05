@@ -171,16 +171,24 @@ function CharacterSection({ getUserCharacters, usercharacters }) {
   const [actualCase, setActualCase] = useState(0);
   const [characterPopup, setCharacterPopup] = useState(false);
   const [stopPopupClick, setStopPopupClick] = useState(false);
+  const [apiHit, setApiHit] = useState(false);
 
   useEffect(() => {
     async function asyncFn() {
-      await getUserCharacters();
+      let res = await getUserCharacters();
+      console.log(res);
+      if (res) {
+        setApiHit(true);
+      } else {
+        setApiHit(false);
+      }
     }
     asyncFn();
   }, []);
 
   useEffect(() => {
-    if (usercharacters !== null && usercharacters !== undefined) {
+    if (usercharacters !== null && usercharacters !== undefined && apiHit) {
+      console.log(apiHit);
       if (usercharacters.length === 0) {
         setActualCase(1);
       } else {
@@ -189,7 +197,7 @@ function CharacterSection({ getUserCharacters, usercharacters }) {
     } else {
       setActualCase(0);
     }
-  }, [usercharacters]);
+  }, [usercharacters, apiHit]);
 
   const toggleCharacterPopup = (value) => {
     setCharacterPopup(value);
@@ -256,19 +264,19 @@ function CharacterSection({ getUserCharacters, usercharacters }) {
                       {character.username}
                     </h6>
                     <h6 htmlFor="username" className={classes.address}>
-                      {[..."0xBE83D4d9F1e6ceF1224aF277f280a6afA46b8dCc"].splice(
-                        0,
-                        7
-                      )}{" "}
-                      {"..."}
-                      {[..."0xBE83D4d9F1e6ceF1224aF277f280a6afA46b8dCc"].splice(
-                        [..."0xBE83D4d9F1e6ceF1224aF277f280a6afA46b8dCc"]
-                          .length - 7,
+                      {[...character.owner].splice(0, 7)} {"..."}
+                      {[...character.owner].splice(
+                        [...character.owner].length - 7,
                         7
                       )}
                       <IconButton style={{ padding: 0 }}>
                         {" "}
-                        <FileCopy className={classes.copyIcon} />
+                        <FileCopy
+                          className={classes.copyIcon}
+                          onClick={() =>
+                            navigator.clipboard.writeText(character.owner)
+                          }
+                        />
                       </IconButton>
                     </h6>
 

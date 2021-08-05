@@ -41,16 +41,16 @@ export const getUserCharacters = () => async (dispatch) => {
         type: GET_USER_CHARACTERS,
         payload: res.data,
       });
-      return res.data;
+      return true;
     })
     .catch((err) => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response,
       });
-      return err;
+      return false;
     });
-  console.log(response);
+
   return response;
 };
 

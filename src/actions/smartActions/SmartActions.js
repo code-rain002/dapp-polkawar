@@ -4,6 +4,8 @@ import characterContract from "./../../utils/characterConnection";
 import pwrContract from "./../../utils/pwrConnection";
 import flashsaleContract from "./../../utils/saleConnection";
 import bidContract from "../../utils/bidConnection";
+import { getUserAddress } from "../web3Actions";
+import web3 from "../../web";
 
 //Airdrop Functions
 
@@ -144,9 +146,13 @@ export const tokenURICharacter = (tokenId) => {
 
 //READ
 //Returns PWR Balance of User
-export const getPwarBalance = async (userAddress) => {
+export const getPwarBalance = async () => {
+  let userAddress = await getUserAddress();
   let balance = await pwrContract.methods.balanceOf(userAddress).call();
-  return balance;
+
+  let pwarBalance = web3.utils.fromWei(balance.toString(), "ether");
+
+  return pwarBalance;
 };
 
 //Flash Sale Functions
