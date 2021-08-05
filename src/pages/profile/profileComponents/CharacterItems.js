@@ -4,6 +4,7 @@ import propTypes from "prop-types";
 import { connect } from "react-redux";
 import { getUserItems } from "../../../actions/itemActions";
 import ItemProfileCard from "./../../../components/ItemsComponents/ItemProfileCard";
+import ProfileMysteryCard from "../../../components/BidComponents/ProfileMysteryCard";
 
 const useStyles = makeStyles((theme) => ({
   background: {},
@@ -100,9 +101,20 @@ function CharacterItems({ getUserItems, useritems }) {
       <h3 htmlFor="category" className={classes.title}>
         ITEMS
       </h3>
-      {useritems.map((item) => {
-        return <ItemProfileCard item={item} />;
-      })}
+
+      <div className="row">
+        {useritems.map((item, index) => {
+          return (
+            <div key={index} className="col-12 col-md-6">
+              <div className="d-flex justify-content-center">
+                {item.event === "auction" && <ProfileMysteryCard item={item} />}
+                {item.event !== "auction" && <ItemProfileCard item={item} />}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
       {/* <div className={classes.sectionWrapper}>
         <h3 htmlFor="category" className={classes.subtitle}>
           Weapons

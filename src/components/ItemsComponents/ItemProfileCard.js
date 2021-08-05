@@ -30,9 +30,9 @@ const useStyles = makeStyles((theme) => ({
     border: "4px solid #e5e5e5",
     marginBottom: 30,
     backgroundColor: theme.palette.pbr.textPrimaryOpp,
-    [theme.breakpoints.down("sm")]: {
-      width: 150,
-      height: 200,
+    [theme.breakpoints.down("md")]: {
+      width: 160,
+      height: 220,
     },
   },
   cardHeader: {
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     height: 120,
     textAlign: "center",
     [theme.breakpoints.down("md")]: {
-      height: 70,
+      height: 50,
     },
   },
   media: {
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 5,
     marginRight: 5,
     [theme.breakpoints.down("md")]: {
-      height: 60,
+      height: 40,
     },
   },
 
@@ -100,16 +100,16 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Balsamiq Sans",
     textAlign: "center",
     background: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1))`,
-    padding: "2px 10px 2px 10px",
-    borderRadius: 50,
+    padding: "5px 10px 2px 10px",
+    borderRadius: 7,
     height: "100%",
     width: "fit-content",
     [theme.breakpoints.down("md")]: {
       marginTop: 0,
       textAlign: "center",
       background: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1))`,
-      padding: "5px 20px 5px 20px",
-      borderRadius: 50,
+      padding: "2px 10px 2px 10px",
+      borderRadius: 7,
       height: "100%",
       lineHeight: "16px",
       width: "fit-content",
@@ -373,13 +373,13 @@ function ItemProfileCard({ item, user }) {
                 </div>
                 <div className="d-flex justify-content-center">
                   <div className={classes.priceBadgeWrapper}>
-                    <h6 style={{ color: "white" }}>
+                    <h6 style={{ color: "white", fontSize: 12 }}>
                       <strong> Price :</strong>{" "}
                       <span className={classes.pricingText}>
                         {item.price ? item.price : "0.5    "} BNB
                       </span>
                     </h6>
-                    <h6 style={{ color: "white" }}>
+                    <h6 style={{ color: "white", fontSize: 12 }}>
                       {" "}
                       <strong> Date : </strong>
                       <span className={classes.pricingText}>

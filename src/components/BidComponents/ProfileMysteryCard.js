@@ -17,15 +17,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const useStyles = makeStyles((theme) => ({
   card1: {
-    width: 300,
-    height: 420,
+    width: 200,
+    height: 300,
     borderRadius: 20,
     border: "4px solid #e5e5e5",
     marginBottom: 30,
     backgroundColor: theme.palette.pbr.textPrimaryOpp,
-    [theme.breakpoints.down("sm")]: {
-      width: 200,
-      height: 290,
+    [theme.breakpoints.down("md")]: {
+      width: 160,
+      height: 220,
     },
   },
   cardHeader: {
@@ -36,155 +36,77 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: "baseline",
     textAlign: "center",
     color: theme.palette.pbr.textPrimary,
-    fontWeight: 700,
+    fontWeight: 400,
     letterSpacing: 1,
-    fontSize: 20,
-
+    fontSize: 14,
     [theme.breakpoints.down("sm")]: {
-      fontWeight: 700,
-      fontSize: 14,
+      fontWeight: 400,
+      fontSize: 12,
     },
   },
-  mediaWrapper1: {
-    height: 180,
-    textAlign: "center",
-    [theme.breakpoints.down("md")]: {
-      height: 90,
-    },
-  },
+
   mysteryboxWrapper1: {
-    height: 220,
+    height: 150,
     textAlign: "center",
     [theme.breakpoints.down("md")]: {
-      height: 150,
+      height: 80,
     },
   },
   mysterybox: {
     height: "100%",
     marginLeft: 5,
     marginRight: 5,
-    borderRadius: 10,
     [theme.breakpoints.down("md")]: {
-      height: 130,
+      height: 70,
     },
   },
-  media: {
-    height: "100%",
-    marginLeft: 5,
-    marginRight: 5,
-    borderRadius: 10,
-    [theme.breakpoints.down("md")]: {
-      height: 80,
-    },
-  },
+
   icon: {
     color: "orange",
     fontSize: 30,
   },
-  levelImage: {
-    height: "16px",
-    [theme.breakpoints.down("sm")]: {
-      height: "12px",
-    },
-  },
-  levelText: {
-    color: "white",
-    fontWeight: 600,
-    fontSize: 15,
-    paddingTop: 10,
-    paddingRight: 10,
-    display: "block",
 
-    [theme.breakpoints.down("sm")]: {
-      fontSize: 12,
-      paddingTop: 10,
-      paddingRight: 5,
-    },
-  },
   iconWrapper: {
     paddingRight: 7,
   },
   priceBadgeWrapper: {
-    marginTop: 5,
     fontFamily: "Balsamiq Sans",
     textAlign: "center",
     background: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1))`,
-    padding: "5px 40px 5px 40px",
-    borderRadius: 50,
+    padding: "5px 10px 2px 10px",
+    borderRadius: 7,
     height: "100%",
     width: "fit-content",
     [theme.breakpoints.down("md")]: {
       marginTop: 0,
       textAlign: "center",
       background: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1))`,
-      padding: "5px 20px 5px 20px",
-      borderRadius: 50,
+      padding: "2px 5px 2px 5px",
+      borderRadius: 7,
       height: "100%",
-      lineHeight: "16px",
       width: "fit-content",
     },
   },
 
-  pricingTextStrike: {
-    fontFamily: "Balsamiq Sans",
-    color: "yellow",
-    fontSize: 13,
-    fontWeight: 400,
-
-    [theme.breakpoints.down("sm")]: {
-      fontSize: 10,
-      fontWeight: 600,
-    },
-  },
   pricingText: {
     fontFamily: "Balsamiq Sans",
-
     color: "white",
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: 400,
-
     [theme.breakpoints.down("sm")]: {
       fontSize: 10,
-      fontWeight: 600,
+      fontWeight: 400,
     },
   },
-  sellButton: {
-    textAlign: "center",
-    background: `linear-gradient(to right,#AF2C59, #C43262)`,
-    padding: "8px 16px 8px 16px",
-    marginRight: 10,
-    borderRadius: 50,
-    color: "white",
-    fontSize: 14,
-    fontWeight: 500,
-    textTransform: "none",
-    [theme.breakpoints.down("sm")]: {
-      padding: "4px 8px 4px 8px",
-      fontSize: 12,
-    },
-  },
-  bidButton: {
-    textAlign: "center",
-    background: `linear-gradient(to right,#6F2F9B, #8D37A9)`,
-    padding: "8px 16px 8px 16px",
-    borderRadius: 50,
-    color: "white",
-    fontSize: 14,
-    fontWeight: 500,
-    textTransform: "none",
-    [theme.breakpoints.down("sm")]: {
-      padding: "4px 8px 4px 8px",
-      fontSize: 12,
-    },
-  },
+
   openButton: {
     textAlign: "center",
     background: `linear-gradient(to right,green, #1b5e20)`,
     padding: "8px 16px 8px 16px",
     borderRadius: 50,
     color: "white",
-    fontSize: 14,
-    fontWeight: 500,
+    fontSize: 12,
+    fontWeight: 400,
     textTransform: "none",
 
     [theme.breakpoints.down("sm")]: {
@@ -218,6 +140,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   rewardBackground: {
+    border: "1px solid yellow",
     height: "100%",
     padding: 20,
     width: 600,
@@ -225,8 +148,8 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 10,
     paddingBottom: 50,
     [theme.breakpoints.down("md")]: {
+      width: "100%",
       paddingBottom: 50,
-
       padding: 5,
     },
   },
@@ -402,13 +325,13 @@ function ProfileMysteryCard({ item, addUserItem, useritems }) {
               <div className="d-flex justify-content-center">
                 <div className={classes.priceBadgeWrapper}>
                   {item.price && (
-                    <h6 style={{ color: "white" }}>
+                    <h6 style={{ color: "white", fontSize: 12 }}>
                       {" "}
                       <strong> Price : </strong>
                       <span className={classes.pricingText}> {item.price}</span>
                     </h6>
                   )}
-                  <h6 style={{ color: "white" }}>
+                  <h6 style={{ color: "white", fontSize: 12 }}>
                     {" "}
                     <strong> Date : </strong>
                     <span className={classes.pricingText}>
@@ -418,7 +341,7 @@ function ProfileMysteryCard({ item, addUserItem, useritems }) {
                   </h6>
                 </div>
               </div>
-              <div className="text-center mt-4">
+              <div className="text-center mt-2">
                 <div>
                   {!isOpened && (
                     <Button

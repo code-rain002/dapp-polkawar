@@ -29,32 +29,36 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     textAlign: "center",
     [theme.breakpoints.down("md")]: {
-      fontSize: 15,
-    },
-  },
-  spacing: {
-    overflowX: "hidden",
-    padding: 30,
-
-    [theme.breakpoints.down("md")]: {
-      padding: 10,
+      fontSize: 13,
     },
   },
 
   imageWrapper: {
-    height: 150,
+    height: 90,
     display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-end",
-
+    alignItems: "center",
     [theme.breakpoints.down("md")]: {
-      height: 90,
+      height: 60,
+    },
+  },
+  pwarWrapper: {
+    height: 90,
+    display: "flex",
+    alignItems: "center",
+    [theme.breakpoints.down("md")]: {
+      height: 60,
     },
   },
   bnbImage: {
     height: 70,
     [theme.breakpoints.down("md")]: {
-      height: 60,
+      height: 50,
+    },
+  },
+  pwarImage: {
+    height: 80,
+    [theme.breakpoints.down("md")]: {
+      height: 70,
     },
   },
   itemImage: {
@@ -63,38 +67,25 @@ const useStyles = makeStyles((theme) => ({
       height: 50,
     },
   },
-  itemImagePwar: {
-    height: 80,
-    [theme.breakpoints.down("md")]: {
-      height: 60,
-    },
-  },
-  pwarWrapper: {
-    height: 150,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-end",
 
-    [theme.breakpoints.down("md")]: {
-      height: 90,
-    },
-  },
   itemName: {
     paddingTop: 10,
     color: "white",
-    fontSize: 24,
+    fontSize: 20,
+    fontWeight: 300,
     [theme.breakpoints.down("md")]: {
       fontSize: 18,
     },
   },
   plusSign: {
+    paddingTop: 20,
     textAlign: "center",
     color: "white",
-    fontSize: 60,
-    height: 200,
-    width: 200,
+    fontSize: 40,
+    height: 120,
+    width: 150,
     [theme.breakpoints.down("md")]: {
-      fontSize: 40,
+      fontSize: 30,
       height: 120,
       width: 100,
     },
@@ -238,10 +229,14 @@ function BidRewards({ programId, useritems, closepopup }) {
           )}
           {!loading && (
             <div className="container">
+              <div className="d-flex justify-content-end">
+                <IconButton>
+                  <Close onClick={closepopup} style={{ color: "white" }} />
+                </IconButton>
+              </div>
               <div>
-                <div className="d-flex justify-content-between">
-                  <div />
-                  <div className="text-center mt-3">
+                <div className="d-flex justify-content-center">
+                  <div className="text-center">
                     <h1 className={classes.title}>
                       Auction Rewards
                       <img
@@ -255,13 +250,10 @@ function BidRewards({ programId, useritems, closepopup }) {
                       box.
                     </h6>
                   </div>
-                  <div>
-                    <IconButton>
-                      <Close onClick={closepopup} style={{ color: "white" }} />
-                    </IconButton>
-                  </div>
                 </div>
-                <div className="d-flex justify-content-center align-items-end">
+              </div>
+              <div className="mt-5">
+                <div className="d-flex justify-content-center">
                   <div>
                     <div className="mt-1">
                       <div className={classes.imageWrapper}>
@@ -282,19 +274,19 @@ function BidRewards({ programId, useritems, closepopup }) {
                   </div>
 
                   <div className={classes.plusSign}>+</div>
-                  <div style={{ paddingLeft: 20 }}>
+                  <div style={{ paddingLeft: 10 }}>
                     {" "}
-                    <div className="mt-5">
+                    <div className="mt-1">
                       <div className={classes.pwarWrapper}>
                         <div className="text-center">
                           <img
                             src={`/token.png`}
-                            className={classes.itemImagePwar}
+                            className={classes.pwarImage}
                             alt="pwar"
                           />
                         </div>
                       </div>
-                      <div className="mt-3 text-center">
+                      <div className="text-center">
                         {comboId !== -1 && (
                           <h5 className={classes.itemName}>
                             {mysteryRewards[comboId].rewards["pwar"]} PWAR
@@ -304,22 +296,21 @@ function BidRewards({ programId, useritems, closepopup }) {
                     </div>
                   </div>
                   <div className={classes.plusSign}>+</div>
-                  <div style={{ paddingLeft: 20 }}>
-                    {" "}
-                    <div className="mt-5">
+                  <div style={{ paddingLeft: 10 }}>
+                    <div className="mt-1">
                       <div className={classes.imageWrapper}>
                         {item !== null && (
                           <div className="text-center">
                             <img
                               src={`${imageBaseUrl}/${item.image}`}
-                              className={classes.itemImagePwar}
+                              className={classes.itemImage}
                               alt="pwar"
                             />
                           </div>
                         )}
                       </div>
 
-                      <div className="mt-3">
+                      <div>
                         <h5 className={classes.itemName}>{item.name}</h5>
                       </div>
                     </div>
