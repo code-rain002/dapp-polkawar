@@ -418,7 +418,7 @@ function ItemSaleCard({
             <div className="d-flex justify-content-center align-items-center">
               <img
                 alt="item"
-                src={`${imageBaseUrl}/${item.hashImage}`}
+                src={`${imageBaseUrl}/${item.image}`}
                 className={classes.media}
               />
             </div>
