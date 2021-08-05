@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CharacterOverview() {
+export default function CharacterOverview({ character }) {
   const classes = useStyles();
 
   return (
@@ -75,7 +75,7 @@ export default function CharacterOverview() {
             Class
           </h6>
           <h6 htmlFor="type" className={classes.categoryText}>
-            <img src="images/swords.png" height="24px" alt="level" /> Warrior
+            {character.name}
           </h6>
         </div>
         <div className="d-flex flex-column justify-content-center align-items-center">
@@ -83,7 +83,7 @@ export default function CharacterOverview() {
             Level
           </h6>
           <h6 htmlFor="type" className={classes.categoryText}>
-            <img src="images/level.png" height="24px" alt="level" />
+            {character.level}{" "}
           </h6>
         </div>
         <div className="d-flex flex-column justify-content-center align-items-center">
@@ -91,7 +91,7 @@ export default function CharacterOverview() {
             Upgrade Date
           </h6>
           <h6 htmlFor="type" className={classes.categoryText}>
-            <img src="images/swords.png" height="24px" alt="level" /> 3 Days ago
+            3 Days ago
           </h6>
         </div>
       </div>

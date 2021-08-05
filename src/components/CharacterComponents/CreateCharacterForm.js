@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Button, Divider, MenuItem, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import characterContract from "../../utils/characterConnection";
-import Loader from "../Loader";
 import { connect } from "react-redux";
 import { getUserAddress } from "../../actions/web3Actions";
 import TransactionStatus from "../TransactionStatus";

@@ -24,15 +24,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const useStyles = makeStyles((theme) => ({
   card1: {
-    width: 300,
-    height: 420,
+    width: 200,
+    height: 300,
     borderRadius: 20,
     border: "4px solid #e5e5e5",
     marginBottom: 30,
     backgroundColor: theme.palette.pbr.textPrimaryOpp,
     [theme.breakpoints.down("sm")]: {
-      width: 200,
-      height: 290,
+      width: 150,
+      height: 200,
     },
   },
   cardHeader: {
@@ -43,80 +43,64 @@ const useStyles = makeStyles((theme) => ({
     verticalAlign: "baseline",
     textAlign: "center",
     color: theme.palette.pbr.textPrimary,
-    fontWeight: 700,
+    fontWeight: 400,
     letterSpacing: 1,
-    fontSize: 20,
-
+    fontSize: 14,
     [theme.breakpoints.down("sm")]: {
-      fontWeight: 700,
-      fontSize: 14,
+      fontWeight: 400,
+      fontSize: 12,
     },
   },
   mediaWrapper1: {
-    height: 180,
+    height: 120,
     textAlign: "center",
     [theme.breakpoints.down("md")]: {
-      height: 90,
-    },
-  },
-  mysteryboxWrapper1: {
-    height: 220,
-    textAlign: "center",
-    [theme.breakpoints.down("md")]: {
-      height: 150,
-    },
-  },
-  mysterybox: {
-    height: "100%",
-    marginLeft: 5,
-    marginRight: 5,
-    borderRadius: 10,
-    [theme.breakpoints.down("md")]: {
-      height: 120,
+      height: 70,
     },
   },
   media: {
     height: "100%",
     marginLeft: 5,
     marginRight: 5,
-    borderRadius: 10,
     [theme.breakpoints.down("md")]: {
-      height: 80,
+      height: 60,
     },
   },
+
   icon: {
     color: "orange",
     fontSize: 30,
   },
   levelImage: {
-    height: "16px",
+    height: "14px",
     [theme.breakpoints.down("sm")]: {
-      height: "12px",
+      height: "10px",
     },
   },
   levelText: {
     color: "white",
-    fontWeight: 600,
-    fontSize: 15,
-    paddingTop: 10,
-    paddingRight: 10,
+    fontWeight: 300,
+    fontSize: 12,
+    paddingTop: 5,
+    paddingRight: 5,
     display: "block",
-
     [theme.breakpoints.down("sm")]: {
       fontSize: 12,
       paddingTop: 10,
       paddingRight: 5,
     },
   },
-  iconWrapper: {
+  levelWrapper: {
     paddingRight: 7,
+    color: "white",
+    fontWeight: 300,
+    fontSize: 11,
   },
   priceBadgeWrapper: {
-    marginTop: 5,
     fontFamily: "Balsamiq Sans",
     textAlign: "center",
     background: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1))`,
-    padding: "5px 40px 5px 40px",
+    padding: "2px 10px 2px 10px",
     borderRadius: 50,
     height: "100%",
     width: "fit-content",
@@ -132,26 +116,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
-  pricingTextStrike: {
-    fontFamily: "Balsamiq Sans",
-    color: "yellow",
-    fontSize: 13,
-    fontWeight: 400,
-    [theme.breakpoints.down("sm")]: {
-      fontSize: 10,
-      fontWeight: 600,
-    },
-  },
   pricingText: {
     fontFamily: "Balsamiq Sans",
-
     color: "white",
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: 400,
-
     [theme.breakpoints.down("sm")]: {
       fontSize: 10,
-      fontWeight: 600,
+      fontWeight: 400,
     },
   },
   sellButton: {
@@ -161,8 +133,8 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 10,
     borderRadius: 50,
     color: "white",
-    fontSize: 14,
-    fontWeight: 500,
+    fontSize: 12,
+    fontWeight: 400,
     textTransform: "none",
     [theme.breakpoints.down("sm")]: {
       padding: "4px 8px 4px 8px",
@@ -175,8 +147,8 @@ const useStyles = makeStyles((theme) => ({
     padding: "8px 16px 8px 16px",
     borderRadius: 50,
     color: "white",
-    fontSize: 14,
-    fontWeight: 500,
+    fontSize: 12,
+    fontWeight: 400,
     textTransform: "none",
     [theme.breakpoints.down("sm")]: {
       padding: "4px 8px 4px 8px",
@@ -380,19 +352,8 @@ function ItemProfileCard({ item, user }) {
                 <div className="d-flex justify-content-center mt-2">
                   <div className="d-flex justify-content-center align-items-center">
                     <h6 className={classes.levelText}>Level : </h6>
-                    <div className={classes.iconWrapper}>
-                      {Array.from(Array(parseInt(itemJson.level))).map(
-                        (character, index) => {
-                          return (
-                            <img
-                              alt="level"
-                              src="https://pngimg.com/uploads/star/star_PNG1597.png"
-                              className={classes.levelImage}
-                              key={index}
-                            />
-                          );
-                        }
-                      )}
+                    <div className={classes.levelWrapper}>
+                      {itemJson.level ? itemJson.level : "0"}
                     </div>
                   </div>
                 </div>
@@ -428,7 +389,7 @@ function ItemProfileCard({ item, user }) {
                     </h6>
                   </div>
                 </div>
-                <div className="text-center mt-4">
+                <div className="text-center mt-2">
                   {buttonsCase === 1 && (
                     <Button
                       variant="contained"
