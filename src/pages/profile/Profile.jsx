@@ -2,13 +2,10 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
-import { Slide } from "@material-ui/core";
-
 import {
   authenticateUser,
   checkAuthenticated,
 } from "./../../actions/authActions";
-
 import {
   checkWalletAvailable,
   checkCorrectNetwork,

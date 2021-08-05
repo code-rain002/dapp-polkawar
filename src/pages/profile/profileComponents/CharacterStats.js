@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import PowerStats from "./../../../components/PowerStats";
+import PowerStats from "../../../components/PowerStatsBar";
 
 const useStyles = makeStyles((theme) => ({
   section: {
