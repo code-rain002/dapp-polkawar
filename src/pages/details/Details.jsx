@@ -148,7 +148,7 @@ function Details({ getItem, singleItem }) {
         <div className="row g-0 mt-5">
           <div className="col-12 col-md-7">
             <div className={classes.imageWrapper}>
-              <GallerySlider gallery={[item.image, ...item.gallery]} />
+              <GallerySlider gallery={[item.hashImage, ...item.gallery]} />
             </div>
           </div>
           <div className="col-12 col-md-5 p-3">
