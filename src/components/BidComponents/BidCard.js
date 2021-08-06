@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
     width: 500,
     height: "100%",
     borderRadius: 20,
+    background: `linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(3, 3, 3, 0.72) ),url("./images/cardbg.jpeg")`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
     border: "4px solid #e5e5e5",
     marginBottom: 30,
     backgroundColor: theme.palette.pbr.textPrimaryOpp,
@@ -53,19 +56,16 @@ const useStyles = makeStyles((theme) => ({
   },
 
   priceBadgeWrapper: {
-    marginTop: 5,
     fontFamily: "Balsamiq Sans",
     textAlign: "center",
-
-    padding: "10px 40px 10px 40px",
+    paddingTop: 10,
     borderRadius: 30,
     height: "100%",
     width: "fit-content",
     [theme.breakpoints.down("md")]: {
       marginTop: 0,
       textAlign: "center",
-
-      padding: "5px 20px 5px 20px",
+      paddingTop: 5,
       borderRadius: 50,
       height: "100%",
       lineHeight: "16px",
@@ -79,18 +79,18 @@ const useStyles = makeStyles((theme) => ({
     lineHeight: "24px",
     verticalAlign: "baseline",
     letterSpacing: "-1px",
-    margin: 0,
+
     marginTop: 5,
-    marginLeft: 10,
+
     color: "black",
-    padding: "18px 50px 18px 50px",
+    padding: "14px 50px 14px 50px",
     fontWeight: 400,
-    fontSize: 20,
+    fontSize: 18,
     textTransform: "none",
     textDecoration: "none",
     [theme.breakpoints.down("md")]: {
       padding: "12px 20px 12px 20px",
-      fontSize: 18,
+      fontSize: 17,
     },
   },
 }));

@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { getUserItems } from "../../../actions/itemActions";
 import ItemProfileCard from "./../../../components/ItemsComponents/ItemProfileCard";
 import ProfileMysteryCard from "../../../components/BidComponents/ProfileMysteryCard";
+import Loader from "../../../components/Loader";
 
 const useStyles = makeStyles((theme) => ({
   background: {},
@@ -70,6 +71,15 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     padding: 0,
   },
+  notFound: {
+    verticalAlign: "baseline",
+    textAlign: "left",
+    color: theme.palette.pbr.textSecondary,
+    fontWeight: 500,
+    fontSize: 14,
+    width: "300px",
+    fontFamily: "Balsamiq Sans",
+  },
 }));
 
 function CharacterItems({ getUserItems, useritems }) {
@@ -101,7 +111,18 @@ function CharacterItems({ getUserItems, useritems }) {
       <h3 htmlFor="category" className={classes.title}>
         ITEMS
       </h3>
-
+      {actualCase === 0 && (
+        <div>
+          <Loader />
+        </div>
+      )}
+      {actualCase === 1 && (
+        <div>
+          <div>
+            <p className={classes.notFound}>Items not found.</p>
+          </div>
+        </div>
+      )}
       <div className="row">
         {useritems.map((item, index) => {
           return (

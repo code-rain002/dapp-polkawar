@@ -25,6 +25,20 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const useStyles = makeStyles((theme) => ({
+  pageTitle: {
+    verticalAlign: "baseline",
+    color: "yellow",
+    fontWeight: 800,
+    letterSpacing: 0.5,
+    fontSize: "2.08vw",
+    lineHeight: "40.7px",
+    textAlign: "center",
+    paddingTop: 20,
+    [theme.breakpoints.down("md")]: {
+      fontSize: 20,
+      lineHeight: "30.7px",
+    },
+  },
   characterScroll: {
     whiteSpace: "noWrap",
     overflowX: "auto",
@@ -62,8 +76,8 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.pbr.textPrimary,
     fontWeight: 900,
-    letterSpacing: 1,
-    fontSize: 16,
+    letterSpacing: 0.5,
+    fontSize: 20,
     lineHeight: "35.7px",
     fontFamily: "Carter One",
     overflowWrap: "break-word",
@@ -79,6 +93,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 500,
     fontSize: 14,
     width: "300px",
+    fontFamily: "Balsamiq Sans",
   },
   propTitle: {
     fontSize: 16,
@@ -211,27 +226,34 @@ function CharacterSection({ getUserCharacters, usercharacters }) {
         </div>
       )}
       {actualCase === 1 && (
-        <div className="text-center mt-5">
-          <div className="my-3">
-            <img src="./images/swords.png" height="100px" alt="character" />
-          </div>
-          <div className="text-center">
-            <h6 className={classes.titleHeading}>No character found</h6>
-            <div className="d-flex justify-content-center">
-              <p className={classes.subheading}>
-                Create your character! <br />
-                and personalise your gaming experience
-              </p>
+        <div>
+          <h1 className={classes.pageTitle}>
+            My Home <img src="images/thunder.png" height="20px" alt="thunder" />
+          </h1>
+          <div className="text-center mt-5">
+            <div className="my-3">
+              <img src="./images/char.png" height="100px" alt="character" />
             </div>
-          </div>
-          <div className={classes.buttonWrapper}>
-            <Button
-              variant="contained"
-              className={classes.button}
-              onClick={toggleCharacterPopup}
-            >
-              Create Character
-            </Button>
+            <div className="text-center">
+              <h6 className={classes.titleHeading}>
+                Character not yet created
+              </h6>
+              <div className="d-flex justify-content-center">
+                <p className={classes.subheading}>
+                  Create your character now! <br />& personalise your gaming
+                  experience.
+                </p>
+              </div>
+            </div>
+            <div className={classes.buttonWrapper}>
+              <Button
+                variant="contained"
+                className={classes.button}
+                onClick={toggleCharacterPopup}
+              >
+                Create Character
+              </Button>
+            </div>
           </div>
         </div>
       )}
