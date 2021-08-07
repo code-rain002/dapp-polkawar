@@ -33,6 +33,10 @@ var ItemModel = new mongoose.Schema({
     type: Object,
     required: false,
   },
+  hashItem: {
+    type: String,
+    required: false,
+  },
   hashImage: {
     type: String,
     required: true,

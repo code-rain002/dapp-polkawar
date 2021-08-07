@@ -13,6 +13,7 @@ import axios from "axios";
 import baseUrl from "../../actions/baseUrl";
 import Loader from "../Loader";
 import { getFlashItems } from "../../actions/itemActions";
+import { getUserAddress } from "../../actions/web3Actions";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -332,10 +333,8 @@ function ItemSaleCard({
   const buyItem = async () => {
     setPopup(true);
     setActualCase(1);
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
-    const userAddress = accounts[0];
+    let userAddress = await getUserAddress();
+
     let nftHashJson = nftHashList[item.name];
 
     let signResponse = await signTransaction(nftHashJson, userAddress);
@@ -347,63 +346,60 @@ function ItemSaleCard({
     console.log(slotsAvailable);
 
     if (parseInt(slotsAvailable) > 0) {
-      const response = await new Promise((resolve, reject) => {
-        saleContract.methods
-          .purchaseItem(
-            nftHashJson,
-            signResponse.v,
-            signResponse.r,
-            signResponse.s,
-            signResponse.messageHash
-          )
-          .send(
-            {
-              from: userAddress,
-              value: 1000000000000000000,
-              gasPrice: 25000000000,
-            },
-            function (error, transactionHash) {
-              console.log("purchaseItem Called");
-              if (transactionHash) {
-                setActualCase(3);
-                resolve(transactionHash);
-              } else {
-                console.log("Rejected by user!");
-                setActualCase(2);
-                reject();
-              }
-            }
-          )
-          .on("receipt", async function (receipt) {
-            console.log("4. Purchase Success");
-
-            let events = receipt.events;
-            let returnValues = events.purchaseEvent.returnValues;
-            let tokenId = parseInt(returnValues[1]);
-            const utcDateTimestamp = new Date();
-            let utcDate = utcDateTimestamp.toUTCString();
-            let userItemData = {
-              _id: item._id,
-              token_id: tokenId,
-              price: "1.0",
-              token_type: 2,
-              event: "flashsale",
-              owner: user.address,
-              buydate: utcDate,
-            };
-            let response = await addUserItem(userItemData);
-            if (response) {
-              setActualCase(5);
-              //window.location.reload();
+      const response = await saleContract.methods
+        .purchaseItem(
+          item.itemId,
+          nftHashJson,
+          signResponse.v,
+          signResponse.r,
+          signResponse.s,
+          signResponse.messageHash
+        )
+        .send(
+          {
+            from: userAddress,
+            value: 1000000000000000000,
+            gasPrice: 25000000000,
+          },
+          function (error, transactionHash) {
+            console.log("purchaseItem Called");
+            if (transactionHash) {
+              setActualCase(3);
             } else {
-              setActualCase(4);
+              console.log("Rejected by user!");
+              setActualCase(2);
             }
-          })
-          .on("error", async function (error) {
+          }
+        )
+        .on("receipt", async function (receipt) {
+          console.log("4. Purchase Success");
+          let events = receipt.events;
+          let returnValues = events.purchaseEvent.returnValues;
+          let tokenId = parseInt(returnValues[1]);
+          const utcDateTimestamp = new Date();
+          let utcDate = utcDateTimestamp.toUTCString();
+          let userItemData = {
+            fs_item_id: item._id,
+            token_id: tokenId,
+            price: "1.0",
+            token_type: 2,
+            event: "flashsale",
+            owner: userAddress,
+            buydate: utcDate,
+            item_id: item.itemId,
+          };
+          let response = await addUserItem(userItemData);
+          if (response) {
+            setActualCase(5);
+            //window.location.reload();
+          } else {
             setActualCase(4);
-            setDisablePopup(false);
-          });
-      });
+          }
+        })
+        .on("error", async function (error) {
+          setActualCase(4);
+          setDisablePopup(false);
+        });
     } else {
       // SET Popup
       setActualCase(6);

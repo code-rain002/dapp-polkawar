@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 
 var UserItemModel = new mongoose.Schema({
+  //tokenId smart contract returned data
   tokenId: {
     type: String,
     required: true,
@@ -12,6 +13,11 @@ var UserItemModel = new mongoose.Schema({
   comboId: {
     type: Number,
     required: false,
+  },
+  //itemId to fetch details from items collection
+  itemId: {
+    type: String,
+    required: true,
   },
   tokenType: {
     type: Number,
@@ -30,6 +36,7 @@ var UserItemModel = new mongoose.Schema({
     type: String,
     required: true,
   },
+
   buyDate: {
     type: Date,
     required: true,

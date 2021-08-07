@@ -29,6 +29,10 @@ var FlashSaleModel = new mongoose.Schema({
     required: true,
     default: "BNB",
   },
+  hashItem: {
+    type: String,
+    required: true,
+  },
   hashImage: {
     type: String,
     required: true,
@@ -45,6 +49,10 @@ var FlashSaleModel = new mongoose.Schema({
     type: String,
     required: true,
     default: "none",
+  },
+  properties: {
+    type: Object,
+    required: true,
   },
   createdDate: {
     type: Date,
