@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Montserrat",
     margin: 0,
     padding: 0,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 18,
+    },
   },
   category: {
     fontSize: 15,
@@ -31,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Montserrat",
     margin: 0,
     padding: 0,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 12,
+    },
   },
 
   wrapper: {

@@ -18,14 +18,25 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     padding: 0,
     display: "flex",
-
     alignItems: "center",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 16,
+    },
   },
   mediaWrapper: {
     height: 80,
     display: "flex",
     justifyContent: "flex-start",
     alignItems: "center",
+  },
+  media: {
+    height: 80,
+    marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 10,
+    [theme.breakpoints.down("sm")]: {
+      height: 50,
+    },
   },
   overview: {
     borderRadius: 20,
@@ -45,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Montserrat",
     margin: 0,
     padding: 0,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 12,
+    },
   },
   categoryText: {
     marginTop: 10,
@@ -56,6 +70,9 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Montserrat",
     margin: 0,
     padding: 0,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 14,
+    },
   },
 }));
 
@@ -77,7 +94,7 @@ export default function CharacterOverview({ character }) {
       <div className={classes.balanceSection}>
         <h4 className={classes.balance}>{balance} PWAR</h4>
         <div className={classes.mediaWrapper}>
-          <img src="/token.png" height="80px" alt="level" />
+          <img src="/token.png" className={classes.media} alt="logo-pwar" />
         </div>
       </div>
       <div className={classes.overview}>

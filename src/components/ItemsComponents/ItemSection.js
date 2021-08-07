@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "left",
     paddingTop: 20,
     [theme.breakpoints.down("md")]: {
-      fontSize: 20,
+      fontSize: 18,
       lineHeight: "30.7px",
     },
   },
@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
     overflowWrap: "break-word",
     [theme.breakpoints.down("sm")]: {
       fontWeight: 700,
-      fontSize: 14,
+      fontSize: 13,
     },
   },
   subheading: {
@@ -95,6 +95,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 500,
     fontSize: 14,
     width: "300px",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 12,
+    },
   },
   propTitle: {
     fontSize: 16,
@@ -139,6 +142,9 @@ function ItemSection({ getUserItems, useritems }) {
 
   return (
     <div>
+      <h3 htmlFor="category" className={classes.sectionTitle}>
+        ITEMS BAG
+      </h3>
       {actualCase === 0 && (
         <div>
           <Loader />
@@ -148,13 +154,14 @@ function ItemSection({ getUserItems, useritems }) {
         <div>
           <div className="text-center">
             <div className="my-3">
-              <img src="images/dice.png" height="100px" alt="equipment" />
+              <img src="images/dice.png" height="70px" alt="equipment" />
             </div>
             <div className="text-center">
               <h6 className={classes.title}>No items found</h6>
               <div className="d-flex justify-content-center">
                 <p className={classes.subheading}>
-                  Come back soon! Or buy something from our marketplace
+                  Come back again! <br />
+                  Or buy items from our marketplace.
                 </p>
               </div>
             </div>
@@ -166,9 +173,6 @@ function ItemSection({ getUserItems, useritems }) {
       )}
       {actualCase === 2 && (
         <div>
-          <h3 htmlFor="category" className={classes.sectionTitle}>
-            Items Bag
-          </h3>
           <div className="row mt-4">
             {useritems.map((item, index) => {
               return (

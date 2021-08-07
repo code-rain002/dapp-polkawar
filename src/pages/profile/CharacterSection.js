@@ -50,9 +50,8 @@ const useStyles = makeStyles((theme) => ({
   },
   mediaWrapper: {
     height: 300,
-
     [theme.breakpoints.down("md")]: {
-      height: 200,
+      height: 240,
     },
   },
   media: {
@@ -116,6 +115,9 @@ const useStyles = makeStyles((theme) => ({
     padding: 20,
     display: "flex",
     justifyContent: "space-between",
+    [theme.breakpoints.down("sm")]: {
+      padding: 2,
+    },
   },
   title: {
     fontSize: 26,
@@ -128,9 +130,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     padding: 0,
   },
-  media: {
-    height: 500,
-  },
+
   ranking: {
     backgroundColor: "#4caf50",
     borderRadius: 7,
@@ -140,6 +140,9 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     fontWeight: 400,
     fontFamily: "Montserrat",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 12,
+    },
   },
   chracterType: {
     fontSize: 60,
@@ -150,6 +153,9 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Balsamiq Sans",
     margin: 0,
     padding: 0,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 35,
+    },
   },
   username: {
     marginTop: 10,
@@ -161,6 +167,9 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Balsamiq Sans",
     margin: 0,
     padding: 0,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 14,
+    },
   },
   address: {
     marginTop: 5,
@@ -173,11 +182,17 @@ const useStyles = makeStyles((theme) => ({
     color: "#bdbdbd",
     margin: 0,
     padding: 0,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 10,
+    },
   },
   copyIcon: {
     fontSize: 14,
     marginLeft: 10,
     color: "#dcedc8",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 12,
+    },
   },
 }));
 
@@ -303,15 +318,16 @@ function CharacterSection({ getUserCharacters, usercharacters }) {
                       </IconButton>
                     </h6>
 
-                    <div className={classes.background}>
-                      <div className={classes.section}>
-                        <div>
-                          <img
-                            src={`${imageBaseUrl}/${character.hashImage}`}
-                            className={classes.media}
-                            alt="character"
-                          />
-                        </div>
+                    <div className={classes.section}>
+                      <div>
+                        <img
+                          src={`${imageBaseUrl}/${character.hashImage}`}
+                          className={classes.media}
+                          alt="character"
+                        />
+                      </div>
+                      <div>
+                        <CharacterItems character={usercharacters[0]} />
                       </div>
                     </div>
                   </div>
@@ -325,9 +341,6 @@ function CharacterSection({ getUserCharacters, usercharacters }) {
                 </div>
                 <div className="my-3">
                   <CharacterStats character={usercharacters[0]} />
-                </div>
-                <div className="my-3">
-                  <CharacterItems character={usercharacters[0]} />
                 </div>
               </div>
             </div>
