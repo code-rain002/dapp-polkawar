@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+const { string } = require("prop-types");
 
 var UserCharacterModel = new mongoose.Schema({
   tokenId: {
@@ -7,6 +8,10 @@ var UserCharacterModel = new mongoose.Schema({
   },
   properties: {
     type: Object,
+    required: false,
+  },
+  nextxp: {
+    type: String,
     required: false,
   },
   name: {

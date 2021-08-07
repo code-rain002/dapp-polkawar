@@ -39,20 +39,18 @@ const useStyles = makeStyles((theme) => ({
 function HotCharacters({ characters, getCharacters, authenticated }) {
   const classes = useStyles();
   const [charactersList, setCharactersList] = useState([]);
-  
 
-  useEffect( () => {
-    async function asyncFn(){
+  useEffect(() => {
+    async function asyncFn() {
       let walletStatus = await checkWalletAvailable();
-    if (walletStatus) {
-      let networkStatus = await checkCorrectNetwork();
-      if (networkStatus) {
-        await getCharacters();
-      
-      } 
+      if (walletStatus) {
+        let networkStatus = await checkCorrectNetwork();
+        if (networkStatus) {
+          await getCharacters();
+        }
+      }
     }
-    }
-    asyncFn()
+    asyncFn();
   }, [authenticated]);
 
   useEffect(() => {
@@ -85,12 +83,10 @@ function HotCharacters({ characters, getCharacters, authenticated }) {
   };
   return (
     <Fragment>
-      <h1 className="heading">Hot characters</h1>
-      
+      <h1 className="heading">Top characters</h1>
+
       <div className={classes.characterScroll}>
         <div className={classes.scrollItemPositions}>
-  
-
           {charactersList.map((character, index) => {
             return (
               <div style={{ paddingRight: 15, flexBasis: "25%" }} key={index}>

@@ -56,32 +56,22 @@ export const getUserCharacters = () => async (dispatch) => {
 
 //POST character created from user
 //Arguments (tokenId,type);
-export const createUserCharacter =
-  (contract_token_id, character_id, username) => async (dispatch) => {
-    let url = `${baseUrl}/usercharacter`;
+export const createUserCharacter = (characterData) => async (dispatch) => {
+  let url = `${baseUrl}/usercharacter`;
+  let response = axios
+    .post(url, characterData)
+    .then((res) => {
+      dispatch(getUserCharacters());
+      return true;
+    })
+    .catch((err) => {
+      console.log(err);
 
-    let owner = await getUserAddress();
-    let characterData = {
-      token_id: contract_token_id,
-      character_id: character_id,
-      owner: owner,
-      username: username,
-    };
-
-    let response = axios
-      .post(url, characterData)
-      .then((res) => {
-        dispatch(getUserCharacters());
-        return true;
-      })
-      .catch((err) => {
-        console.log(err);
-
-        dispatch({
-          type: GET_ERRORS,
-          payload: err.response,
-        });
-        return false;
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response,
       });
-    return response;
-  };
+      return false;
+    });
+  return response;
+};

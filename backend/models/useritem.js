@@ -5,14 +5,6 @@ var UserItemModel = new mongoose.Schema({
     type: String,
     required: true,
   },
-  tokenType: {
-    type: Number,
-    required: true,
-  },
-  price: {
-    type: String,
-    required: false,
-  },
   pId: {
     type: String,
     required: false,
@@ -21,6 +13,15 @@ var UserItemModel = new mongoose.Schema({
     type: Number,
     required: false,
   },
+  tokenType: {
+    type: Number,
+    required: true,
+  },
+  price: {
+    type: String,
+    required: false,
+  },
+
   event: {
     type: String,
     required: true,

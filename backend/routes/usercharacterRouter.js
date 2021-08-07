@@ -40,18 +40,8 @@ router.get("/usercharacters/:owner", async (req, res, next) => {
 // Public
 // POST Add new character into user's list
 router.post("/usercharacter", async (req, res, next) => {
-  let tokenId = req.body.token_id;
-  let characterId = req.body.character_id;
-  let owner = req.body.owner;
-  let username = req.body.username;
-
   try {
-    const data = await UserCharacterDao.createCharacter(
-      tokenId,
-      characterId,
-      owner,
-      username
-    );
+    const data = await UserCharacterDao.createCharacter(req.body);
     return res.status(200).send(data);
   } catch (error) {
     return res.status(400).send(error);
@@ -59,9 +49,11 @@ router.post("/usercharacter", async (req, res, next) => {
 });
 
 // DELETE items based on category
-router.delete("/usercharacter", async (req, res, next) => {
+router.delete("/usercharacter/:owner", async (req, res, next) => {
   try {
-    const data = await UserCharacterDao.deleteItem();
+    let owner = req.params.owner;
+
+    const data = await UserCharacterDao.deleteItem(owner);
     return res.status(200).send(data);
   } catch (error) {
     return res.status(400).send("error");

@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   sectionWrapper: {},
   section: {
     height: "100%",
-    padding: 10,
+    marginBottom: 15,
     display: "flex",
     justifyContent: "flex-start",
   },
@@ -123,20 +123,8 @@ function CharacterItems({ getUserItems, useritems }) {
           </div>
         </div>
       )}
-      <div className="row">
-        {useritems.map((item, index) => {
-          return (
-            <div key={index} className="col-12 col-md-6">
-              <div className="d-flex justify-content-center">
-                {item.event === "auction" && <ProfileMysteryCard item={item} />}
-                {item.event !== "auction" && <ItemProfileCard item={item} />}
-              </div>
-            </div>
-          );
-        })}
-      </div>
 
-      {/* <div className={classes.sectionWrapper}>
+      <div className={classes.sectionWrapper}>
         <h3 htmlFor="category" className={classes.subtitle}>
           Weapons
         </h3>
@@ -175,7 +163,7 @@ function CharacterItems({ getUserItems, useritems }) {
           </div>
         </div>
       </div>
-      <div className={classes.sectionWrapper}>
+      {/* <div className={classes.sectionWrapper}>
         <h3 htmlFor="category" className={classes.subtitle}>
           Wings
         </h3>
@@ -258,11 +246,15 @@ function CharacterItems({ getUserItems, useritems }) {
             style={{ paddingRight: 40 }}
           >
             <div htmlFor="item" className={classes.itemWrapper}>
-              <img src="items/mount.png" alt="item" className={classes.media} />
+              <img
+                src="items/helmet.png"
+                alt="item"
+                className={classes.media}
+              />
             </div>
             <div className={classes.detailsWrapper}>
               <h6 htmlFor="type" className={classes.itemName}>
-                Gun
+                Mount
               </h6>
               <h6 htmlFor="type" className={classes.itemLevel}>
                 Level : 1

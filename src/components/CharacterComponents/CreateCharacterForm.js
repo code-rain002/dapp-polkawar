@@ -82,16 +82,70 @@ let charactersInfo = [
     character_id: 1,
     name: "Warrior",
     hashUrl: "QmP9yV42APdrWfTPLA4KtQiVjVc2qNxdPsxS5YdFiXdbcU",
+    characterInfo: {
+      id: 1,
+      name: "Warrior",
+      level: 0,
+      properties: {
+        xp: 0,
+        hp: 30,
+        mp: 23,
+        Patk: 6,
+        Pdef: 7,
+        speed: 0.7,
+        accuracy: 3,
+      },
+      nextxp: 50,
+      description:
+        "The Warrior is a character with high strength and the most powerful one in PolkaWar.",
+      hashImage: "QmYn3SNyCXenSbwE4QYSVUK1RTJudxY2VfucUfwodwKQRz",
+    },
   },
   {
     character_id: 4,
     name: "Magician",
     hashUrl: "QmeCUJbbR9JPKnX2Tk9jFFHrvkNoYsVh8exwJbZ8M2pf3z",
+    characterInfo: {
+      id: 4,
+      name: "Magician",
+      level: 0,
+      properties: {
+        xp: 0,
+        hp: 27,
+        mp: 29,
+        Patk: 4,
+        Pdef: 9,
+        speed: 0.5,
+        accuracy: 3,
+      },
+      nextxp: 50,
+      description:
+        "The magician is the character who has mysterious magic, supernatural tricks and inherits the power of the evil darkness",
+      hashImage: "QmZBND1fxvHfCEnA5fRTdFiR8ucufFv7oQCR2sPKon8rXT",
+    },
   },
   {
     character_id: 7,
     name: "Archer",
     hashUrl: "QmX6PKEGDCtrdwSjxsJB4575dpYcv1sQoZMCADrCyCGJYC",
+    characterInfo: {
+      id: 7,
+      name: "Archer",
+      level: 0,
+      properties: {
+        xp: 0,
+        hp: 25,
+        mp: 25,
+        Patk: 9,
+        Pdef: 5,
+        speed: 1,
+        accuracy: 2,
+      },
+      nextxp: 50,
+      description:
+        "The archer is the character with fast attack speed and angelic beauty.",
+      hashImage: "QmchE9x6ggMAZPyZZ49Q2QKJ3bcAHNnSSHtooR7s3ZWmtE",
+    },
   },
 ];
 
@@ -142,11 +196,20 @@ function CreateCharacterForm({
           console.log(receipt);
           let contractTokenId = receipt.events.Transfer.returnValues.tokenId;
 
-          let newCharacterSaveStatus = await createUserCharacter(
-            contractTokenId,
-            characterId,
-            characterName
-          );
+          let rawData = singleCharacterHash.characterInfo;
+          let owner = await getUserAddress();
+          let characterData = {
+            tokenId: contractTokenId,
+            properties: rawData.properties,
+            nextxp: rawData.nextxp,
+            name: rawData.name,
+            username: characterName,
+            owner: owner,
+            hashImage: rawData.hashImage,
+            level: rawData.level,
+            description: rawData.description,
+          };
+          let newCharacterSaveStatus = await createUserCharacter(characterData);
           console.log(newCharacterSaveStatus);
           if (newCharacterSaveStatus) {
             setActualCase(6);

@@ -2,14 +2,7 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
-import {
-  Button,
-  Dialog,
-  Backdrop,
-  Slide,
-  Card,
-  Paper,
-} from "@material-ui/core";
+import { Slide } from "@material-ui/core";
 import { getUserItems } from "./../../actions/itemActions";
 import Loader from "../Loader";
 import imageBaseUrl from "../../actions/imageBaseUrl";
@@ -31,6 +24,21 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       minHeight: "300px",
       marginBottom: 10,
+    },
+  },
+  sectionTitle: {
+    verticalAlign: "baseline",
+    color: "white",
+    fontFamily: "Montserrat",
+    fontWeight: 800,
+    letterSpacing: 0.5,
+    fontSize: 32,
+    lineHeight: "40.7px",
+    textAlign: "left",
+    paddingTop: 20,
+    [theme.breakpoints.down("md")]: {
+      fontSize: 20,
+      lineHeight: "30.7px",
     },
   },
   characterScroll: {
@@ -109,9 +117,6 @@ function ItemSection({ getUserItems, useritems }) {
   const classes = useStyles();
 
   const [actualCase, setActualCase] = useState(0);
-  const [selectedChar, setSelectedChar] = useState(false);
-  const [characterPopup, setCharacterPopup] = useState(false);
-  const [stopPopupClick, setStopPopupClick] = useState(false);
 
   useEffect(() => {
     async function asyncFn() {
@@ -161,10 +166,13 @@ function ItemSection({ getUserItems, useritems }) {
       )}
       {actualCase === 2 && (
         <div>
-          <div className="row">
+          <h3 htmlFor="category" className={classes.sectionTitle}>
+            Items Bag
+          </h3>
+          <div className="row mt-4">
             {useritems.map((item, index) => {
               return (
-                <div key={index} className="col-12 col-md-6">
+                <div key={index} className="col-12 col-md-3">
                   <div className="d-flex justify-content-center">
                     {item.event === "auction" && (
                       <ProfileMysteryCard item={item} />

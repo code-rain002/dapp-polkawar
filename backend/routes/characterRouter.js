@@ -46,6 +46,7 @@ router.post("/character", async (req, res, next) => {
         speed: 0.7,
         accuracy: 3,
       },
+      nextxp: 50,
       description:
         "The Warrior is a character with high strength and the most powerful one in PolkaWar.",
       hashImage: "QmYn3SNyCXenSbwE4QYSVUK1RTJudxY2VfucUfwodwKQRz",
@@ -63,6 +64,7 @@ router.post("/character", async (req, res, next) => {
         speed: 0.75,
         accuracy: 4,
       },
+      nextxp: 200,
       description:
         "The Warrior is a character with high strength and the most powerful one in PolkaWar.",
       hashImage: "QmSh7mFxLGG2rC582MwKNTobWs6YSJ4KEr2uWHWNU8fq9k",
@@ -79,6 +81,7 @@ router.post("/character", async (req, res, next) => {
         speed: 0.85,
         accuracy: 6,
       },
+      nextxp: 300,
       level: 2,
       description:
         "The Warrior is a character with high strength and the most powerful one in PolkaWar.",
@@ -97,6 +100,7 @@ router.post("/character", async (req, res, next) => {
         speed: 0.5,
         accuracy: 3,
       },
+      nextxp: 50,
       description:
         "The magician is the character who has mysterious magic, supernatural tricks and inherits the power of the evil darkness",
       hashImage: "QmZBND1fxvHfCEnA5fRTdFiR8ucufFv7oQCR2sPKon8rXT",
@@ -114,6 +118,7 @@ router.post("/character", async (req, res, next) => {
         speed: 0.55,
         accuracy: 4,
       },
+      nextxp: 200,
       description:
         "The magician is the character who has mysterious magic, supernatural tricks and inherits the power of the evil darkness",
       hashImage: "QmUshnhGZHJbSdKonBe2VYewcGzSPZ7RphG4GU4wAX2x77",
@@ -131,6 +136,7 @@ router.post("/character", async (req, res, next) => {
         speed: 0.65,
         accuracy: 6,
       },
+      nextxp: 500,
       description:
         "The magician is the character who has mysterious magic, supernatural tricks and inherits the power of the evil darkness",
       hashImage: "QmYcRZbhRYXtbJuYuGFK5gCcSyoQtFkajvBJwv61pcEDfT",
@@ -148,6 +154,7 @@ router.post("/character", async (req, res, next) => {
         speed: 1,
         accuracy: 2,
       },
+      nextxp: 50,
       description:
         "The archer is the character with fast attack speed and angelic beauty.",
       hashImage: "QmchE9x6ggMAZPyZZ49Q2QKJ3bcAHNnSSHtooR7s3ZWmtE",
@@ -165,6 +172,7 @@ router.post("/character", async (req, res, next) => {
         speed: 1.05,
         accuracy: 3,
       },
+      nextxp: 200,
       description:
         "The archer is the character with fast attack speed and angelic beauty.",
       hashImage: "QmchzUzRYoqpe5XrNhsFSaEVrQrJwr5PniPvyWvnx7SaJz",
@@ -182,6 +190,7 @@ router.post("/character", async (req, res, next) => {
         speed: 1.15,
         accuracy: 5,
       },
+      nextxp: 500,
       description:
         "The archer is the character with fast attack speed and angelic beauty.",
       hashImage: "Qmac8LX5WASVJZAmMpuNSEtpW5985yuoGxNR8nkJk5AYxR",

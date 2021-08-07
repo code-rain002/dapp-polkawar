@@ -19,6 +19,7 @@ import { FileCopy } from "@material-ui/icons";
 import CharacterOverview from "./profileComponents/CharacterOverview";
 import CharacterStats from "./profileComponents/CharacterStats";
 import CharacterItems from "./profileComponents/CharacterItems";
+import ItemSection from "../../components/ItemsComponents/ItemSection";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -330,6 +331,9 @@ function CharacterSection({ getUserCharacters, usercharacters }) {
                 </div>
               </div>
             </div>
+          </div>
+          <div>
+            <ItemSection />
           </div>
         </div>
       )}

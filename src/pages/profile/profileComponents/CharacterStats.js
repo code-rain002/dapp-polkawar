@@ -49,6 +49,7 @@ export default function CharacterStats({ character }) {
   const classes = useStyles();
 
   let properties = character.properties;
+  let nextxp = character.nextxp;
 
   let colors1 = ["#ba68c8", "#9c27b0", "#7b1fa2", "#7b1fa2"];
   let colors2 = ["#ffee58", "#fbc02d", "#f57f17"];
@@ -64,9 +65,28 @@ export default function CharacterStats({ character }) {
             .map(([key, value], index) => {
               return (
                 <div className={classes.wrapper}>
-                  <h6 htmlFor="category" className={classes.category}>
-                    {key.toUpperCase()}({value})
-                  </h6>
+                  {index === 0 && (
+                    <div className="d-flex justify-content-between">
+                      {" "}
+                      <h6 htmlFor="category" className={classes.category}>
+                        {key.toUpperCase()}({value})
+                      </h6>
+                      <h6
+                        htmlFor="category"
+                        className={classes.category}
+                        style={{ color: "green" }}
+                      >
+                        Next level: {nextxp}
+                      </h6>
+                    </div>
+                  )}
+                  {index !== 0 && (
+                    <div>
+                      <h6 htmlFor="category" className={classes.category}>
+                        {key.toUpperCase()}({value})
+                      </h6>
+                    </div>
+                  )}
                   <div htmlFor="power" className={classes.powerWrapper}>
                     <PowerStats value={value} color={colors1[index]} />
                   </div>
