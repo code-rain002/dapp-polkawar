@@ -290,7 +290,7 @@ function Profile({ checkAuthenticated, authenticated }) {
       }
     }
     asyncFn();
-  }, []);
+  }, [authenticated]);
 
   return (
     <div>
