@@ -5,6 +5,7 @@ import { HomeWork, Store } from "@material-ui/icons";
 import { updateUserItemOwner } from "../../actions/itemActions";
 import { connect } from "react-redux";
 import saleContract from "../../utils/saleConnection";
+import { getUserAddress } from "./../../actions/web3Actions";
 import Loader from "../Loader";
 import Moment from "react-moment";
 
@@ -109,13 +110,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 18,
   },
 }));
-function SellModal({
-  closePopup,
-  item,
-  updateUserItemOwner,
-  user,
-  setDisableSellPopup,
-}) {
+function SellModal({ item, updateUserItemOwner, setDisableSellPopup }) {
   const classes = useStyles();
   const [actualCase, setActualCase] = useState(0);
   const [marketPlaceMessage, setMarketPlaceMessage] = useState(false);
@@ -148,41 +143,37 @@ function SellModal({
     setActualCase(1);
     setResellStarted(true);
 
-    let userAddress = user.address;
-    const response = await new Promise((resolve, reject) => {
-      saleContract.methods
-        .resellItemForSystem()
-        .send(
-          { from: userAddress, gasPrice: 25000000000 },
-          function (error, transactionHash) {
-            if (transactionHash) {
-              setActualCase(2);
-              resolve(transactionHash);
-            } else {
-              //console.log('Rejected by user!');
-              setActualCase(1);
-              reject();
-            }
+    let userAddress = await getUserAddress();
+    const response = await saleContract.methods
+      .resellItemForSystem()
+      .send(
+        { from: userAddress, gasPrice: 25000000000 },
+        function (error, transactionHash) {
+          if (transactionHash) {
+            setActualCase(2);
+          } else {
+            //console.log('Rejected by user!');
+            setActualCase(1);
           }
-        )
-        .on("receipt", async function (receipt) {
-          //Now time to update owner details
-          console.log("receipt:" + receipt);
-          let response = await updateUserItemOwner(item._id);
-          console.log(response);
-          setActualCase(4);
-          setDisableSellPopup(false);
+        }
+      )
+      .on("receipt", async function (receipt) {
+        //Now time to update owner details
+        console.log("receipt:" + receipt);
+        let response = await updateUserItemOwner(item._id);
+        console.log(response);
+        setActualCase(4);
+        setDisableSellPopup(false);
 
-          window.location.reload();
-        })
-        .on("error", async function (error) {
-          setActualCase(3);
-          setDisableSellPopup(false);
-          window.location.reload();
+        window.location.reload();
+      })
+      .on("error", async function (error) {
+        setActualCase(3);
+        setDisableSellPopup(false);
+        //window.location.reload();
 
-          console.log(error);
-        });
-    });
+        console.log(error);
+      });
     console.log(response);
   };
 
@@ -337,7 +328,7 @@ function SellModal({
               <p className={classes.para}>
                 If you resell to the system, you will get 1.2 BNB and your NFT
                 item will be lost. And you will not receive receive reward of
-                1500 PWAR on 20th of August,2021.
+                2500 PWAR on 31st of August,2021.
               </p>
               <div className="mt-3">
                 <Button
@@ -358,7 +349,6 @@ function SellModal({
 
 const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated,
-  user: state.auth.user,
 });
 
 const mapDispatchToProps = { updateUserItemOwner };
