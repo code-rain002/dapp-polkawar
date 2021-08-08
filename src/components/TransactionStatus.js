@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "25px 10px 25px 10px",
     backgroundColor: "transparent",
     [theme.breakpoints.down("md")]: {
-      width: 350,
+      width: 300,
       padding: "5px 2px 5px 2px",
     },
   },

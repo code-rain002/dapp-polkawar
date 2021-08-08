@@ -173,7 +173,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-var saleStartDate = "August 05, 2021 14:00:00 UTC";
+var saleStartDate = process.env.REACT_APP_SALE_START_DATE;
 var saleEndDate = process.env.REACT_APP_SALE_END_DATE;
 
 var resaleStartDate = process.env.REACT_APP_START_RESELL;
@@ -319,7 +319,7 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
                 <li className={classes.listItem}>
                   If you don't want to resell, you can hold the item upto{" "}
                   <span style={{ color: "yellow" }}>31st Aug,2021</span> and you
-                  will receive 2000 PWAR tokens as a reward.
+                  will receive 2500 PWAR tokens as a reward.
                 </li>
               </ol>
             </div>

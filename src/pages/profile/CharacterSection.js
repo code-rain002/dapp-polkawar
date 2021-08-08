@@ -2,15 +2,7 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
-import {
-  Button,
-  Dialog,
-  Backdrop,
-  Slide,
-  Card,
-  Paper,
-  IconButton,
-} from "@material-ui/core";
+import { Button, Dialog, Backdrop, Slide, IconButton } from "@material-ui/core";
 import { getUserCharacters } from "../../actions/characterActions";
 import Loader from "../../components/Loader";
 import CreateCharacterForm from "../../components/CharacterComponents/CreateCharacterForm";
@@ -236,6 +228,13 @@ function CharacterSection({ getUserCharacters, usercharacters }) {
 
   return (
     <div>
+      {(actualCase === 0 || actualCase === 1) && (
+        <div>
+          <h1 className={classes.pageTitle}>
+            My Home <img src="images/thunder.png" height="20px" alt="thunder" />
+          </h1>
+        </div>
+      )}
       {actualCase === 0 && (
         <div>
           <Loader />
@@ -243,9 +242,7 @@ function CharacterSection({ getUserCharacters, usercharacters }) {
       )}
       {actualCase === 1 && (
         <div>
-          <h1 className={classes.pageTitle}>
-            My Home <img src="images/thunder.png" height="20px" alt="thunder" />
-          </h1>
+          {" "}
           <div className="text-center mt-5">
             <div className="my-3">
               <img src="./images/char.png" height="100px" alt="character" />
@@ -273,68 +270,72 @@ function CharacterSection({ getUserCharacters, usercharacters }) {
           </div>
         </div>
       )}
-      {actualCase === 2 && (
-        <div>
-          <div className="row">
-            <div className="col-md-6">
-              {usercharacters.map((character, index) => {
-                return (
-                  <div>
+      <div>
+        <div className="row">
+          <div className="col-md-6">
+            {actualCase === 2 && (
+              <div>
+                {usercharacters.map((character, index) => {
+                  return (
                     <div>
-                      <h6 htmlFor="ranking" className={classes.ranking}>
-                        {" "}
-                        # {character.tokenId}
+                      <div>
+                        <h6 htmlFor="ranking" className={classes.ranking}>
+                          {" "}
+                          # {character.tokenId}
+                        </h6>
+                        <h1
+                          htmlFor="characterType"
+                          className={classes.chracterType}
+                        >
+                          {character.name}{" "}
+                          <img
+                            src="images/swords.png"
+                            height="30px"
+                            alt="level"
+                          />
+                        </h1>
+                      </div>
+
+                      <h6 htmlFor="username" className={classes.username}>
+                        {character.username}
                       </h6>
-                      <h1
-                        htmlFor="characterType"
-                        className={classes.chracterType}
-                      >
-                        {character.name}{" "}
-                        <img
-                          src="images/swords.png"
-                          height="30px"
-                          alt="level"
-                        />
-                      </h1>
-                    </div>
+                      <h6 htmlFor="username" className={classes.address}>
+                        {[...character.owner].splice(0, 7)} {"..."}
+                        {[...character.owner].splice(
+                          [...character.owner].length - 7,
+                          7
+                        )}
+                        <IconButton style={{ padding: 0 }}>
+                          {" "}
+                          <FileCopy
+                            className={classes.copyIcon}
+                            onClick={() =>
+                              navigator.clipboard.writeText(character.owner)
+                            }
+                          />
+                        </IconButton>
+                      </h6>
 
-                    <h6 htmlFor="username" className={classes.username}>
-                      {character.username}
-                    </h6>
-                    <h6 htmlFor="username" className={classes.address}>
-                      {[...character.owner].splice(0, 7)} {"..."}
-                      {[...character.owner].splice(
-                        [...character.owner].length - 7,
-                        7
-                      )}
-                      <IconButton style={{ padding: 0 }}>
-                        {" "}
-                        <FileCopy
-                          className={classes.copyIcon}
-                          onClick={() =>
-                            navigator.clipboard.writeText(character.owner)
-                          }
-                        />
-                      </IconButton>
-                    </h6>
-
-                    <div className={classes.section}>
-                      <div>
-                        <img
-                          src={`${imageBaseUrl}/${character.hashImage}`}
-                          className={classes.media}
-                          alt="character"
-                        />
-                      </div>
-                      <div>
-                        <CharacterItems character={usercharacters[0]} />
+                      <div className={classes.section}>
+                        <div>
+                          <img
+                            src={`${imageBaseUrl}/${character.hashImage}`}
+                            className={classes.media}
+                            alt="character"
+                          />
+                        </div>
+                        <div>
+                          <CharacterItems character={usercharacters[0]} />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="col-md-6">
+                  );
+                })}
+              </div>
+            )}
+          </div>
+          <div className="col-md-6">
+            {actualCase === 2 && (
               <div>
                 <div className="my-3">
                   <CharacterOverview character={usercharacters[0]} />
@@ -343,15 +344,14 @@ function CharacterSection({ getUserCharacters, usercharacters }) {
                   <CharacterStats character={usercharacters[0]} />
                 </div>
               </div>
-            </div>
-          </div>
-          <div>
-            <ItemSection />
+            )}
           </div>
         </div>
-      )}
+        <div>
+          <ItemSection />
+        </div>
+      </div>
       <Dialog
-        className={classes.modal}
         open={characterPopup}
         TransitionComponent={Transition}
         keepMounted

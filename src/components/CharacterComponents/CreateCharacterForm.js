@@ -9,14 +9,12 @@ import { createUserCharacter } from "./../../actions/characterActions";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    width: 550,
+    width: "100%",
     border: "1px solid #e5e5e5",
     borderRadius: 14,
-    padding: "25px 10px 25px 10px",
     backgroundColor: "white",
     [theme.breakpoints.down("md")]: {
-      width: 350,
-      padding: "5px 2px 5px 2px",
+      width: "100%",
     },
   },
   title: {
@@ -27,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: 0.9,
     fontSize: 22,
     lineHeight: "50px",
+    [theme.breakpoints.down("md")]: {
+      fontSize: 18,
+    },
   },
   label: {
     verticalAlign: "baseline",
