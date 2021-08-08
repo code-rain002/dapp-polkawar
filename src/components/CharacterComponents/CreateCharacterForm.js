@@ -9,8 +9,9 @@ import { createUserCharacter } from "./../../actions/characterActions";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    width: "100%",
+    width: 500,
     border: "1px solid #e5e5e5",
+    padding: 20,
     borderRadius: 14,
     backgroundColor: "white",
     [theme.breakpoints.down("md")]: {
