@@ -363,6 +363,8 @@ function ItemProfileCard({ item, user }) {
                     src={
                       itemJson.hashImage
                         ? `${imageBaseUrl}/${itemJson.hashImage}`
+                        : itemJson.hashimage
+                        ? `${imageBaseUrl}/${itemJson.hashimage}`
                         : `${imageBaseUrl}/${itemJson.image}`
                     }
                     className={classes.media}

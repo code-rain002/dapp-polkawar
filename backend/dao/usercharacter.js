@@ -19,7 +19,6 @@ const userCharacterDao = {
     let characterData = {
       tokenId: characterInfo.tokenId,
       properties: characterInfo.properties,
-      nextxp: characterInfo.nextxp,
       name: characterInfo.name,
       username: characterInfo.username,
       owner: characterInfo.owner,

@@ -237,7 +237,7 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
   };
 
   let nftHashList = {
-    Bow: "QmUJCjhmpDUguCffVrVSLBtyrxjQMUgmut4ZynA4wKHiZp",
+    "Bow & Arrow": "QmUJCjhmpDUguCffVrVSLBtyrxjQMUgmut4ZynA4wKHiZp",
     Gun: "QmRKLbQsoMpr7G1du8MRXJjSa3NRHnG6WGY3q3h3RbxJzb",
     "Big Knife": "Qmes4i6DuXr2MXmXfcxXv27wqJyG3pqdH66KZEJapdADxd",
     Sword: "QmagDhU9HF2euDvKv7P6siysPWBevhiGaiNZLLn3QKZi4c",

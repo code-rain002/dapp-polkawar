@@ -10,10 +10,7 @@ var UserCharacterModel = new mongoose.Schema({
     type: Object,
     required: false,
   },
-  nextxp: {
-    type: String,
-    required: false,
-  },
+
   name: {
     type: String,
     required: false,

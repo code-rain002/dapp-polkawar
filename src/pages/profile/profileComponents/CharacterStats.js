@@ -55,10 +55,17 @@ export default function CharacterStats({ character }) {
   const classes = useStyles();
 
   let properties = character.properties;
-  let nextxp = character.nextxp;
 
   let colors1 = ["#ba68c8", "#9c27b0", "#7b1fa2", "#7b1fa2"];
   let colors2 = ["#ffee58", "#fbc02d", "#f57f17"];
+
+  const nextXp = (currentXp) => {
+    let characterLevel = character.level;
+    let nextLevel = characterLevel + 1;
+    let a = (nextLevel * nextLevel) / 0.02 - currentXp;
+
+    return a;
+  };
   return (
     <div className={classes.background}>
       <h3 htmlFor="category" className={classes.title}>
@@ -80,9 +87,9 @@ export default function CharacterStats({ character }) {
                       <h6
                         htmlFor="category"
                         className={classes.category}
-                        style={{ color: "green" }}
+                        style={{ color: "yellow" }}
                       >
-                        Next level: {nextxp}
+                        <small> Upgrade requires: {nextXp(value)} XP</small>
                       </h6>
                     </div>
                   )}

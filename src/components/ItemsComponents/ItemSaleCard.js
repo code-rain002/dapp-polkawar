@@ -279,7 +279,6 @@ const useStyles = makeStyles((theme) => ({
 function ItemSaleCard({
   item,
   addUserItem,
-  user,
   nftHashList,
   saleEnds,
   getFlashItems,
@@ -334,7 +333,7 @@ function ItemSaleCard({
     setPopup(true);
     setActualCase(1);
     let userAddress = await getUserAddress();
-
+    console.log(item.name);
     let nftHashJson = nftHashList[item.name];
 
     let signResponse = await signTransaction(nftHashJson, userAddress);
@@ -671,7 +670,6 @@ ItemSaleCard.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  user: state.auth.user,
   items: state.items.items,
   useritems: state.items.useritems,
 });
