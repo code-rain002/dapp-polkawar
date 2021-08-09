@@ -13,24 +13,17 @@ import {
 import { getUserAddress } from "./web3Actions";
 
 //get item details based on ID
-export const getItem =
-  (id = 1000) =>
-  (dispatch) => {
-    axios
-      .get(`${baseUrl}/item/${id}`)
-      .then((res) => {
-        dispatch({
-          type: GET_ITEM,
-          payload: res.data,
-        });
-      })
-      .catch((err) => {
-        dispatch({
-          type: GET_ERRORS,
-          payload: err.response.data,
-        });
-      });
-  };
+export const getItemDetails = (id) => (dispatch) => {
+  let response = axios
+    .get(`${baseUrl}/useritem/${id}`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return err;
+    });
+  return response;
+};
 
 //get items based on category and pagination
 export const getItems =

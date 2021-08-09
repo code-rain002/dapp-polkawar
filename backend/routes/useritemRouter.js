@@ -7,6 +7,7 @@ var UserItemDao = require("../dao/useritem");
 // GET Single item based on ID
 router.get("/useritem/:id", async (req, res, next) => {
   const itemid = req.params.id;
+
   try {
     const data = await UserItemDao.getItemById(itemid);
     return res.status(200).send(data);

@@ -17,6 +17,7 @@ import propTypes from "prop-types";
 import { connect } from "react-redux";
 import { AccessAlarm } from "@material-ui/icons";
 import Moment from "react-moment";
+import { getItemDetails } from "./../../actions/itemActions";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -231,7 +232,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-function ItemProfileCard({ item, user }) {
+function ItemProfileCard({ item, getItemDetails }) {
   const classes = useStyles();
   const [itemJson, setItemJson] = useState(null);
   const [sellPopup, setSellPopup] = useState(false);
@@ -258,14 +259,24 @@ function ItemProfileCard({ item, user }) {
   useEffect(() => {
     async function asyncFn() {
       //To load Item JSON Information
+
       let tokenId = item.tokenId;
-      let itemString = await tokenURI(tokenId);
-      await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
-        setItemJson(res.data);
-        isApproved();
-      });
+      let itemId = item.itemId;
+      let itemData = await getItemDetails(itemId);
+      setItemJson(itemData);
+      isApproved();
       checkApproveButtonConditions();
       setLoading(false);
+
+      // console.log(itemData);
+
+      // let itemString = await tokenURI(tokenId);
+      // await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
+      //   setItemJson(itemData);
+      //   isApproved();
+      // });
+      // checkApproveButtonConditions();
+      // setLoading(false);
     }
 
     asyncFn();
@@ -619,9 +630,8 @@ ItemProfileCard.propTypes = {
 
 const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated,
-  user: state.auth.user,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { getItemDetails };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItemProfileCard);

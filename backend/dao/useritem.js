@@ -1,11 +1,12 @@
 var UserItemModel = require("../models/useritem");
+var ItemModel = require("../models/item");
 var FlashSaleModel = require("../models/flashsaleitems");
 
 const limit = 15;
 
 const userItemDao = {
-  async getItemById(id) {
-    return await UserItemModel.findOne({ _id: id });
+  async getItemById(itemid) {
+    return await ItemModel.findOne({ id: itemid });
   },
 
   async getItems(owner) {
@@ -15,7 +16,7 @@ const userItemDao = {
   },
 
   async getAllItems() {
-    let data = await UserItemModel.find({ event: "auction-reward" });
+    let data = await UserItemModel.find({});
     return data;
   },
   async createItem(itemData, ownerAddress, JsonId) {
