@@ -6,6 +6,8 @@ export const REMOVE_CURRENT_USER = "REMOVE_CURRENT_USER";
 
 //Character reducers
 export const GET_CHARACTERS = "GET_CHARACTERS";
+export const GET_USER_CHARACTERS = "GET_USER_CHARACTERS";
+export const CREATE_CHARACTER = "CREATE_CHARACTER";
 
 //Bids Reducers
 export const GET_BID_ITEM_BY_ID = "GET_BID_ITEM_BY_ID";

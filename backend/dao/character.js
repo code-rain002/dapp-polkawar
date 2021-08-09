@@ -1,6 +1,6 @@
-const { request, json } = require('express');
-const { RequestTimeout } = require('http-errors');
-var CharacterModel = require('../models/character');
+const { request, json } = require("express");
+const { RequestTimeout } = require("http-errors");
+var CharacterModel = require("../models/character");
 
 const limit = 15;
 
@@ -13,7 +13,7 @@ const characterDao = {
     return await CharacterModel.find({});
   },
 
-  async createCharacter(characterData) {
+  async createCharacters(characterData) {
     await CharacterModel.insertMany(characterData);
     return await CharacterModel.find({});
   },

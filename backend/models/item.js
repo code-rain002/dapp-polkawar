@@ -1,42 +1,23 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 
 var ItemModel = new mongoose.Schema({
+  id: {
+    type: Number,
+    required: true,
+  },
   name: {
     type: String,
-    required: true,
+    required: false,
   },
   category: {
     type: String,
     required: true,
-    default: 'none',
-  },
-  description: {
-    type: String,
-  },
-  tradeHistory: {
-    type: Array,
-  },
-  gallery: {
-    type: Array,
-  },
-  owner: {
-    type: Array,
-  },
-  upgradeHistory: {
-    type: Array,
+    default: "none",
   },
   level: {
     type: Number,
     required: true,
     default: 0,
-  },
-  image: {
-    type: String,
-  },
-  createdDate: {
-    type: Date,
-    required: true,
-    default: new Date(),
   },
   price: {
     type: Number,
@@ -46,20 +27,38 @@ var ItemModel = new mongoose.Schema({
   currency: {
     type: String,
     required: true,
-    default: 'ETH',
+    default: "PWAR",
+  },
+  properties: {
+    type: Object,
+    required: false,
+  },
+  hashItem: {
+    type: String,
+    required: false,
+  },
+  hashImage: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
   },
 
-  isActived: {
-    type: Number,
-    required: true,
-    default: 0,
+  gallery: {
+    type: Array,
   },
-  isDeleted: {
-    type: Number,
+  owner: {
+    type: Array,
+    required: false,
+  },
+
+  createdDate: {
+    type: Date,
     required: true,
-    default: 0,
+    default: new Date(),
   },
 });
-const Item = mongoose.model('Item', ItemModel, 'Item');
+const Item = mongoose.model("Item", ItemModel, "Item");
 
 module.exports = Item;

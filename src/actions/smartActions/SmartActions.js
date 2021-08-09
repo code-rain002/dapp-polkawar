@@ -4,7 +4,9 @@ import characterContract from "./../../utils/characterConnection";
 import pwrContract from "./../../utils/pwrConnection";
 import flashsaleContract from "./../../utils/saleConnection";
 import bidContract from "../../utils/bidConnection";
-
+import { getUserAddress } from "../web3Actions";
+import web3 from "../../web";
+import axios from "axios";
 //Airdrop Functions
 
 //READ is user joined airdrop
@@ -144,9 +146,13 @@ export const tokenURICharacter = (tokenId) => {
 
 //READ
 //Returns PWR Balance of User
-export const getPwarBalance = async (userAddress) => {
+export const getPwarBalance = async () => {
+  let userAddress = await getUserAddress();
   let balance = await pwrContract.methods.balanceOf(userAddress).call();
-  return balance;
+
+  let pwarBalance = web3.utils.fromWei(balance.toString(), "ether");
+
+  return pwarBalance;
 };
 
 //Flash Sale Functions
@@ -204,4 +210,31 @@ export const boxRewards = (programId) => {
   return bidContract.methods.programs(programId).call(async (err, response) => {
     return response;
   });
+};
+
+//PINATA Cloud api post and return hash
+export const postToPinata = async (jsonData) => {
+  const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
+
+  let response = await axios
+    .post(url, jsonData, {
+      headers: {
+        pinata_api_key: "af57e38fb541317c6578",
+        pinata_secret_api_key:
+          "8c203a0e66b83f9affe82caa41abc5d10329e40c5bade139e30fa97b5b4ad0a0",
+      },
+    })
+    .then(function (res) {
+      console.log(response.data);
+      return res.data;
+    })
+    .catch(function (error) {
+      console.log(error);
+      return error;
+    });
+  if (response.IpfsHash) {
+    return response;
+  } else {
+    return false;
+  }
 };

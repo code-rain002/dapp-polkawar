@@ -4,7 +4,7 @@ import { getFlashItems, getUserItems } from "./../../actions/itemActions";
 import { checkIsPurchased } from "./../../actions/smartActions/SmartActions";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
-import ItemSaleCard from "../../components/ItemSaleCard";
+import ItemSaleCard from "../../components/ItemsComponents/ItemSaleCard";
 import Timer from "../../components/Timer";
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -237,11 +237,11 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
   };
 
   let nftHashList = {
-    Sword: "Qma1PHjHqtf8BgMUKwLw2jpWpPdxJwMbPzmPXttApTWGes",
-    Gun: "QmctTBBWEpCSvcW5UqESPKxpnRq2YFSNujsxin6jcw6Vp3",
-    "Big Knife": "QmSeaVVXmWdpgK8UbNNKRxyCLjRQHQL54V4d1ejMHP1jSr",
-    Tessen: "QmQKCSr4r2oR9HwfDt9KZ3uGDRdMJFTZHEXEyiTWhPLN7a",
-    Bow: "QmZ1sRwD8H56Y5Szaor78vemhfrihNAmCtPuEipK4wRqJK",
+    "Bow & Arrow": "QmUJCjhmpDUguCffVrVSLBtyrxjQMUgmut4ZynA4wKHiZp",
+    Gun: "QmRKLbQsoMpr7G1du8MRXJjSa3NRHnG6WGY3q3h3RbxJzb",
+    "Big Knife": "Qmes4i6DuXr2MXmXfcxXv27wqJyG3pqdH66KZEJapdADxd",
+    Sword: "QmagDhU9HF2euDvKv7P6siysPWBevhiGaiNZLLn3QKZi4c",
+    Tessen: "QmNtwL2LPh2nsH1WRa6TzBqH4DFWQgFSdoQSH5UdbNwb8Y",
   };
   return (
     <div className={classes.background}>
@@ -318,8 +318,8 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
                 </li>
                 <li className={classes.listItem}>
                   If you don't want to resell, you can hold the item upto{" "}
-                  <span style={{ color: "yellow" }}>20th Aug</span> and you will
-                  receive 1500 PWAR tokens as a reward.
+                  <span style={{ color: "yellow" }}>31st Aug,2021</span> and you
+                  will receive 2500 PWAR tokens as a reward.
                 </li>
               </ol>
             </div>

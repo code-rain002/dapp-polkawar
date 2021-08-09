@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import ItemCard from '../../../components/ItemCard';
+import ItemCard from '../../../components/ItemsComponents/ItemCard';
 import CustomizedMenus from '../../../common/CustomizedMenus';
 import { getItems, getCategories } from './../../../actions/itemActions';
 import propTypes from 'prop-types';

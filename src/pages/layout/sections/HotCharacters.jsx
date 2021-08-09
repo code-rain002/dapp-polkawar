@@ -2,8 +2,8 @@ import React, { Fragment, useEffect, useState } from "react";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import CharacterCard from "../../../components/CharacterCard";
-import { getCharacters } from "./../../../actions/characterActions";
+import CharacterCard from "../../../components/CharacterComponents/CharacterCard";
+import { getTopCharacters } from "./../../../actions/characterActions";
 import {
   checkCorrectNetwork,
   checkWalletAvailable,
@@ -36,70 +36,75 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function HotCharacters({ characters, getCharacters, authenticated }) {
+function HotCharacters({ characters, getTopCharacters, authenticated }) {
   const classes = useStyles();
   const [charactersList, setCharactersList] = useState([]);
-  
-
-  useEffect( () => {
-    async function asyncFn(){
-      let walletStatus = await checkWalletAvailable();
-    if (walletStatus) {
-      let networkStatus = await checkCorrectNetwork();
-      if (networkStatus) {
-        await getCharacters();
-      
-      } 
-    }
-    }
-    asyncFn()
-  }, [authenticated]);
 
   useEffect(() => {
-    if (characters !== null) {
-      updateCharacters();
+    async function asyncFn() {
+      let walletStatus = await checkWalletAvailable();
+      if (walletStatus) {
+        let networkStatus = await checkCorrectNetwork();
+        if (networkStatus) {
+          await getTopCharacters();
+        }
+      }
     }
-  }, [characters]);
+    asyncFn();
+  }, [authenticated]);
 
-  const updateCharacters = () => {
-    let names = [
-      "Paul Williams",
-      "Nafa Jain",
-      "Darren Jil",
-      "Shubham Sharma",
-      "Jay",
-      "Akram",
-      "Zin Loof",
-      "Engitan Suc",
-      "Crypto Boss",
-      "Devil King",
-    ];
-    let updatedData = characters.map((character, index) => {
-      character.name = names[index];
-      return character;
-    });
-    let filteredData = updatedData.filter((character) => {
-      return character.level !== "0";
-    });
-    setCharactersList(filteredData);
-  };
+  // useEffect(() => {
+  //   if (characters !== null) {
+  //     updateCharacters();
+  //   }
+  // }, [characters]);
+
+  // const updateCharacters = () => {
+  //   let names = [
+  //     "Siddiqui Amir",
+  //     "Nafa Jain",
+  //     "Darren Jil",
+  //     "Shubham Sharma",
+  //     "Javier John",
+  //     "Akram",
+  //     "Zin Loof",
+  //     "Engitan Suc",
+  //     "Crypto Boss",
+  //     "Devil King",
+  //   ];
+  //   let updatedData = characters.map((character, index) => {
+  //     character.username = names[index];
+  //     return character;
+  //   });
+  //   let filteredData = updatedData.filter((character) => {
+  //     return character.level !== "0";
+  //   });
+  //   console.log(filteredData);
+  //   setCharactersList(updatedData);
+  // };
   return (
     <Fragment>
-      <h1 className="heading">Hot characters</h1>
-      
-      <div className={classes.characterScroll}>
-        <div className={classes.scrollItemPositions}>
-  
+      <h1 className="heading">Top characters</h1>
 
-          {charactersList.map((character, index) => {
-            return (
-              <div style={{ paddingRight: 15, flexBasis: "25%" }} key={index}>
-                <CharacterCard item={character} />
-              </div>
-            );
-          })}
+      {characters !== null && characters !== undefined && (
+        <div>
+          <div className={classes.characterScroll}>
+            <div className={classes.scrollItemPositions}>
+              {console.log(charactersList)}
+              {characters.map((character, index) => {
+                return (
+                  <div
+                    style={{ paddingRight: 15, flexBasis: "25%" }}
+                    key={index}
+                  >
+                    <CharacterCard item={character} />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </Fragment>
   );
 }
@@ -113,6 +118,6 @@ const mapStateToProps = (state) => ({
   characters: state.characters.characters,
 });
 
-const mapDispatchToProps = { getCharacters };
+const mapDispatchToProps = { getTopCharacters };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HotCharacters);
