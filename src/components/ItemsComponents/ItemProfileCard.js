@@ -291,20 +291,25 @@ function ItemProfileCard({ item, getItemDetails }) {
           +new Date(process.env.REACT_APP_END_RESELL) - +new Date();
         console.log(resellEnd);
         // if positive => Resell Not Ended
-        if (resellEnd >= 0) {
-          if (resellStarted >= 0) {
-            setButtonsCase(4);
-          } else {
-            setButtonsCase(2);
-          }
-          //  Resell Not Ended
+
+        if (resellStarted >= 0) {
+          // if positive => Resell Not Started
+          setButtonsCase(3);
         } else {
-          //  Resell Ended
-          setButtonsCase(1);
+          // if negative => Resell start time passed
+          if (resellEnd >= 0) {
+            // if positive => Resell End time not passed
+            //Show approve buttons
+            setButtonsCase(2);
+          } else {
+            //Don't show approve buttons
+            setButtonsCase(1);
+
+            // Resell process ended
+          }
         }
       } else {
         //  Not flash sale
-
         setButtonsCase(3);
       }
     }
@@ -357,6 +362,7 @@ function ItemProfileCard({ item, getItemDetails }) {
 
   return (
     <div>
+      {buttonsCase}
       {itemJson !== null && (
         <Card className={classes.card1} elevation={0}>
           {loading && (
