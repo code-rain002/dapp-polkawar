@@ -199,6 +199,20 @@ function SellModal({ item, updateUserItemOwner, setDisableSellPopup }) {
     }
   };
 
+  const isToday = (date) => {
+    // Create date from input value
+    var inputDate = new Date(date);
+
+    // Get today's date
+    var todaysDate = new Date();
+
+    // call setHours to take the time out of the comparison
+    if (inputDate.setHours(0, 0, 0, 0) == todaysDate.setHours(0, 0, 0, 0)) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   return (
     <div className={classes.background}>
       <div className="container text-center">
@@ -239,7 +253,7 @@ function SellModal({ item, updateUserItemOwner, setDisableSellPopup }) {
               <div>
                 {item !== null && item !== undefined && (
                   <div>
-                    {item.event === "flashsale" && (
+                    {item.event === "flashsale" && isToday(item.buyDate) && (
                       <Button
                         variant="contained"
                         className={classes.buttonSystem}
