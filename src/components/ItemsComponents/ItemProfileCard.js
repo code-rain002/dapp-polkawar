@@ -285,12 +285,19 @@ function ItemProfileCard({ item, getItemDetails }) {
   const checkApproveButtonConditions = async () => {
     if (item !== null && item !== undefined) {
       if (item.event === "flashsale") {
+        const resellStarted =
+          +new Date(process.env.REACT_APP_START_RESELL) - +new Date();
         const resellEnd =
           +new Date(process.env.REACT_APP_END_RESELL) - +new Date();
+        console.log(resellEnd);
         // if positive => Resell Not Ended
         if (resellEnd >= 0) {
+          if (resellStarted >= 0) {
+            setButtonsCase(4);
+          } else {
+            setButtonsCase(2);
+          }
           //  Resell Not Ended
-          setButtonsCase(2);
         } else {
           //  Resell Ended
           setButtonsCase(1);

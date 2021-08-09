@@ -408,7 +408,7 @@ function PrimaryAppbar({
       Math.floor(pwarBalance).toString(),
       "ether"
     );
-    setPwarBal(pwarInEth);
+    setPwarBal(pwarBalance);
   };
 
   const connectWallet = async () => {
