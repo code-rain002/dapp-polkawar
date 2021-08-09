@@ -108,7 +108,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
+function Airdrop({ authenticated, authenticateUser, addUserItem }) {
   const classes = useStyles();
 
   const [actualCase, setActualCase] = useState(0);
@@ -116,8 +116,28 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
   const [tokenId, setTokenId] = useState(null);
   const [itemJson, setItemJson] = useState(null);
   const [claimCase, setClaimCase] = useState(0);
-
+  const [itemId, setItemId] = useState(null);
   const [activate, setActivate] = React.useState(false);
+
+  let mapping = {
+    "Armor for Archers": "1",
+    "Armor for Magician": "2",
+    "Armor for warriors": "3",
+    "Helmet for Archers": "10",
+    "Helmet for Magician": "11",
+    "Helmet for Warriors": "12",
+    "Wing for Archers": "19",
+    "Wing for Magician": "20",
+    "Wing Warrior": "21",
+    Mount: "28",
+    "The Sword": "29",
+    "The Big Knife": "32",
+    "The Tessen": "35",
+    "The Bow for Archer": "38",
+    "The Gun": "41",
+    "The Sceptre Vase of Magician": "44",
+    "The Magic Vase of Magician": "47",
+  };
 
   useEffect(() => {
     async function asyncFn() {
@@ -179,6 +199,11 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
       if (itemString) {
         await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
           setItemJson(res.data);
+
+          let pinataJson = res.data;
+          let itemName = pinataJson.description;
+          let compatibleId = mapping[itemName];
+          setItemId(compatibleId);
           setActualCase(4);
         });
         return true;
@@ -225,6 +250,7 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
         let nftTokenId = tokenId;
         const utcDateTimestamp = new Date();
         let utcDate = utcDateTimestamp.toUTCString();
+
         let userItemData = {
           token_id: nftTokenId,
           price: "0.0",
@@ -232,6 +258,7 @@ function Airdrop({ authenticated, user, authenticateUser, addUserItem }) {
           event: "airdrop",
           owner: userAddress,
           buydate: utcDate,
+          item_id: itemId,
         };
         let response = await addUserItem(userItemData);
         if (response) {
