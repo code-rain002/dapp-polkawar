@@ -66,11 +66,6 @@ export const getAirdrop = async (userAddress) => {
 //RETURNS Item json string
 export const tokenURI = (tokenId) => {
   return itemContract.methods.tokenURI(tokenId).call(async (err, response) => {
-    if (err) {
-      console.log("tokenURI: " + err);
-    } else {
-      console.log("tokenURI: " + response);
-    }
     return response;
   });
 };

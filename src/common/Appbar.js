@@ -405,7 +405,10 @@ function PrimaryAppbar({
     setBnbBal(ethBalance);
 
     let pwarBalance = await getPwarBalance(currentAddress);
-    let pwarInEth = web3.utils.fromWei(pwarBalance.toString(), "ether");
+    let pwarInEth = web3.utils.fromWei(
+      Math.floor(pwarBalance).toString(),
+      "ether"
+    );
     setPwarBal(pwarInEth);
   };
 

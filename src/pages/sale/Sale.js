@@ -210,6 +210,8 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
     const differenceStart = +new Date(saleStartDate) - +new Date();
     const differenceEnd = +new Date(saleEndDate) - +new Date();
 
+    console.log(new Date());
+    console.log(saleStartDate);
     if (differenceEnd <= 0) {
       setSaleEnds(true);
     } else {
@@ -308,13 +310,9 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
 
                 <li className={classes.listItem}>
                   Reselling of the NFT Item will start from{" "}
-                  <span style={{ color: "yellow" }}>
-                    <Moment format="DD-MM-YYYY HH:mm">{resaleStartDate}</Moment>
-                  </span>{" "}
-                  and will end{" "}
-                  <span style={{ color: "yellow" }}>
-                    <Moment format="DD-MM-YYYY HH:mm">{resaleEndDate}</Moment> .
-                  </span>
+                  <span style={{ color: "yellow" }}>{resaleStartDate}</span> and
+                  will end{" "}
+                  <span style={{ color: "yellow" }}>{resaleEndDate}.</span>
                 </li>
                 <li className={classes.listItem}>
                   If you don't want to resell, you can hold the item upto{" "}

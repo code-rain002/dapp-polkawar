@@ -15,8 +15,7 @@ const userItemDao = {
   },
 
   async getAllItems() {
-    let data = await UserItemModel.find({});
-    console.log(data);
+    let data = await UserItemModel.find({ event: "auction-reward" });
     return data;
   },
   async createItem(itemData, ownerAddress, JsonId) {
@@ -38,6 +37,13 @@ const userItemDao = {
       { owner: process.env.OWNER_ADDRESS }
     );
     // return await UserItemModel.findOneAndUpdate({ _id: itemId }, { tokenId: 0 });
+  },
+  async updateData(tokenId, compatibleId) {
+    await UserItemModel.findOneAndUpdate(
+      { tokenId: tokenId },
+      { itemId: compatibleId }
+    );
+    return await UserItemModel.find({ tokenId: tokenId });
   },
 
   async deleteItem() {

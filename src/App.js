@@ -15,6 +15,7 @@ import Bid from "./pages/bid/Bid";
 import Home from "./pages/layout/Layout";
 import BidDetails from "./pages/bid/BidDetails";
 import "./web";
+import Test from "./pages/test/Test";
 
 export default function App() {
   return (
@@ -46,6 +47,9 @@ export default function App() {
                 </Route>
                 <Route exact path="/airdrop">
                   <Airdrop />
+                </Route>
+                <Route exact path="/test">
+                  <Test />
                 </Route>
               </Switch>
               <div>
