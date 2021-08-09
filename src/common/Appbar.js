@@ -51,19 +51,16 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    display: "none",
-    color: theme.palette.pbr.textPrimary,
-    [theme.breakpoints.up("md")]: {
-      display: "block",
+    display: "block",
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+      color: theme.palette.pbr.textPrimary,
     },
   },
 
   tabs: {
     color: theme.palette.pbr.textSecondary,
-    display: "none",
-    [theme.breakpoints.up("md")]: {
-      display: "block",
-    },
+    display: "block",
     cursor: "pointer",
     padding: "15px 14px 15px",
     lineHeight: "20.7px",
@@ -74,13 +71,14 @@ const useStyles = makeStyles((theme) => ({
     fontStyle: "normal",
     letterSpacing: 0.1,
     textAlign: "start",
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
   },
   tabsActive: {
     color: theme.palette.pbr.textPrimary,
-    display: "none",
-    [theme.breakpoints.up("md")]: {
-      display: "block",
-    },
+    display: "block",
+
     cursor: "pointer",
     padding: "15px 14px 15px",
     lineHeight: "20.7px",
@@ -91,6 +89,9 @@ const useStyles = makeStyles((theme) => ({
     fontStyle: "normal",
     letterSpacing: 0.1,
     textAlign: "start",
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
   },
   balanceButton: {
     display: "flex",
@@ -98,8 +99,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     border: "1px solid #616161",
     background: "transparent",
-    // background: 'linear-gradient(73.28deg,#D9047C 6.51%,#BF1088 88.45%)',
-    // background: 'linear-gradient(73.28deg,#49b1fc 6.51%,#821aeb 88.45%)',
     borderRadius: "20px",
     position: "relative",
     padding: "0 12px 0 40px",
@@ -123,20 +122,20 @@ const useStyles = makeStyles((theme) => ({
     color: "#616161",
   },
   sectionDesktop: {
-    display: "none",
-    [theme.breakpoints.up("md")]: {
-      display: "flex",
+    display: "flex",
+    [theme.breakpoints.down("md")]: {
+      display: "none",
     },
   },
   sectionMobile: {
-    width: "100vw",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    [theme.breakpoints.up("md")]: {
-      display: "none",
-    },
+    display: "none",
     backgroundColor: "transparent",
+    [theme.breakpoints.down("md")]: {
+      width: "100vw",
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
   },
   menuIcon: {
     color: "#212121",

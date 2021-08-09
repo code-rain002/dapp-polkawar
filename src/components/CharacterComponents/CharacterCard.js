@@ -2,18 +2,54 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card } from "@material-ui/core";
 import imageBaseUrl from "../../actions/imageBaseUrl";
+import moment from "moment";
+import Moment from "react-moment";
 
 const useStyles = makeStyles((theme) => ({
+  mediaWrapper: {
+    height: 200,
+    textAlign: "center",
+    [theme.breakpoints.down("md")]: {
+      height: 110,
+    },
+  },
   media: {
     height: "100%",
     marginLeft: 10,
     marginRight: 10,
     borderRadius: 10,
-    [theme.breakpoints.down("sm")]: {
-      height: "150px",
+    [theme.breakpoints.down("md")]: {
+      height: 100,
     },
   },
-
+  title: {
+    verticalAlign: "baseline",
+    textAlign: "center",
+    color: theme.palette.pbr.textPrimary,
+    fontWeight: 900,
+    letterSpacing: 1,
+    fontSize: 20,
+    paddingTop: 10,
+    fontFamily: "Carter One",
+    [theme.breakpoints.down("md")]: {
+      paddingTop: 5,
+      fontWeight: 700,
+      fontSize: 14,
+    },
+  },
+  daysAgo: {
+    verticalAlign: "baseline",
+    textAlign: "center",
+    color: "#bdbdbd",
+    fontWeight: 400,
+    letterSpacing: 1,
+    fontSize: 12,
+    fontFamily: "Balsamiq Sans",
+    [theme.breakpoints.down("md")]: {
+      fontWeight: 300,
+      fontSize: 10,
+    },
+  },
   icon: {
     color: "orange",
     fontSize: 30,
@@ -25,16 +61,16 @@ const useStyles = makeStyles((theme) => ({
   levelText: {
     color: "white",
     fontWeight: 700,
-    fontSize: 16,
+    fontSize: 14,
     paddingTop: 10,
     paddingLeft: 5,
-    [theme.breakpoints.down("sm")]: {
-      fontSize: 14,
+    [theme.breakpoints.down("md")]: {
+      fontSize: 12,
     },
   },
   card: {
     width: 280,
-    height: 420,
+    height: 400,
     borderRadius: 16,
     border: "4px solid #e5e5e5",
     marginBottom: 30,
@@ -42,28 +78,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       width: 180,
       height: 250,
-    },
-  },
-
-  title: {
-    verticalAlign: "baseline",
-    textAlign: "center",
-    color: theme.palette.pbr.textPrimary,
-    fontWeight: 900,
-    letterSpacing: 1,
-    fontSize: 26,
-    lineHeight: "35.7px",
-    fontFamily: "Carter One",
-    [theme.breakpoints.down("sm")]: {
-      fontWeight: 700,
-      fontSize: 16,
-    },
-  },
-  mediaWrapper: {
-    height: 240,
-    textAlign: "center",
-    [theme.breakpoints.down("sm")]: {
-      height: 120,
     },
   },
 }));
@@ -96,8 +110,8 @@ export default function CharacterCard({ item, index }) {
           </div>
           <div className="text-center">
             {" "}
-            <h6 style={{ color: "yellow", fontSize: 14 }}>
-              {item.category}
+            <h6 style={{ color: "yellow", fontSize: 12 }}>
+              XP: {item.properties["xp"]}
             </h6>{" "}
           </div>
         </div>
@@ -108,8 +122,13 @@ export default function CharacterCard({ item, index }) {
             alt="character"
           />
         </div>
-        <div className="mt-5">
+        <div>
           <h4 className={classes.title}>{item.username}</h4>
+          <p className="text-center">
+            <Moment fromNow className={classes.daysAgo}>
+              {item.createdDate}
+            </Moment>
+          </p>
         </div>
       </Card>
     </div>

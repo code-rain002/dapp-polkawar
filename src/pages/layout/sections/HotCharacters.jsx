@@ -94,7 +94,7 @@ function HotCharacters({ characters, getTopCharacters, authenticated }) {
               {characters.map((character, index) => {
                 return (
                   <div
-                    style={{ paddingRight: 15, flexBasis: "25%" }}
+                    style={{ paddingRight: 15, flexBasis: "50%" }}
                     key={index}
                   >
                     <CharacterCard item={character} />

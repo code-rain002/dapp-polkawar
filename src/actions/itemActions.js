@@ -43,6 +43,7 @@ export const getItems =
       .then((res) => {
         let response = {
           category: smallCategory,
+          pageNo: pageNo,
           data: res.data,
         };
         dispatch({

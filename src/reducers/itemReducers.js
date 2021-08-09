@@ -6,7 +6,7 @@ import {
   ADD_USER_ITEM,
   GET_USER_ITEMS,
   UPDATE_USER_ITEM_OWNER,
-} from '../actions/types';
+} from "../actions/types";
 
 const initalState = {
   categories: [],
@@ -27,7 +27,12 @@ export default function (state = initalState, action) {
     case GET_ITEMS:
       return {
         ...state,
-        items: action.payload.category === 'all' ? [...state.items, ...action.payload.data] : action.payload.data,
+        items:
+          action.payload.category === "all"
+            ? action.payload.pageNo === 0
+              ? [...action.payload.data]
+              : [...state.items, ...action.payload.data]
+            : action.payload.data,
       };
     case GET_FLASH_ITEMS:
       return {

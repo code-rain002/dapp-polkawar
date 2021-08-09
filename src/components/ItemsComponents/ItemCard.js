@@ -7,21 +7,18 @@ import imageBaseUrl from "../../actions/imageBaseUrl";
 
 const useStyles = makeStyles((theme) => ({
   card1: {
-    width: 300,
-    height: 450,
+    width: 260,
+    height: 380,
     borderRadius: 20,
     border: "4px solid #e5e5e5",
     marginBottom: 30,
     backgroundColor: theme.palette.pbr.textPrimaryOpp,
-    [theme.breakpoints.down("sm")]: {
-      width: 200,
-      height: 290,
+    [theme.breakpoints.down("md")]: {
+      width: 160,
+      height: 260,
     },
   },
-  cardHeader: {
-    height: 60,
-    backgroundColor: theme.palette.pbr.primary,
-  },
+
   title1: {
     verticalAlign: "baseline",
     textAlign: "center",
@@ -31,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 22,
     lineHeight: "35.7px",
     fontFamily: "Carter One",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       fontWeight: 700,
       fontSize: 12,
     },
@@ -39,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   mediaWrapper1: {
     height: 200,
     textAlign: "center",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       height: 100,
     },
   },
@@ -48,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 5,
     marginRight: 5,
     borderRadius: 10,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       height: 100,
     },
   },
@@ -58,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
   levelImage: {
     height: "16px",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       height: "12px",
     },
   },
@@ -70,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 10,
     display: "block",
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       fontSize: 12,
       paddingTop: 10,
       paddingRight: 5,
@@ -82,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
   priceBadgeWrapper: {
     display: "inline-block",
     paddingTop: 20,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       paddingTop: 5,
     },
   },
@@ -93,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
     borderTopRightRadius: 50,
     borderBottomRightRadius: 50,
     height: 36,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       textAlign: "left",
       background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
       padding: "2px 7px 2px 7px",
