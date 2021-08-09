@@ -109,7 +109,7 @@ export default function CharacterCard({ item, index }) {
           />
         </div>
         <div className="mt-5">
-          <h4 className={classes.title}>{item.name}</h4>
+          <h4 className={classes.title}>{item.username}</h4>
         </div>
       </Card>
     </div>

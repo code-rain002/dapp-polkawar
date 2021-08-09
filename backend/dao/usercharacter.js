@@ -6,6 +6,13 @@ const userCharacterDao = {
     return await UserCharacterModel.findOne({ _id: id });
   },
 
+  async getTopCharacters() {
+    return await UserCharacterModel.find({})
+      .sort({ level: 1 })
+      .sort({ createdDate: 1 })
+      .limit(5);
+  },
+
   async getUserCharacters(owner) {
     let data = await UserCharacterModel.find({ owner: owner });
     return data;

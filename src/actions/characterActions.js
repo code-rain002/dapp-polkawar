@@ -9,9 +9,9 @@ import {
 import { getUserAddress } from "./web3Actions";
 
 //GET all characters
-export const getCharacters = () => async (dispatch) => {
+export const getTopCharacters = () => async (dispatch) => {
   let response = await axios
-    .get(`${baseUrl}/characters`)
+    .get(`${baseUrl}/usercharacter-top`)
     .then((res) => {
       dispatch({
         type: GET_CHARACTERS,
