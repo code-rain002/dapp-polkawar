@@ -10,8 +10,10 @@ const userItemDao = {
   },
 
   async getItems(owner) {
-    let data = await UserItemModel.find({ owner: owner });
-    console.log(data);
+    let data = await UserItemModel.find({
+      owner: { $regex: `^${owner}$`, $options: "i" },
+    });
+
     return data;
   },
 
