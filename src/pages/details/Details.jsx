@@ -15,10 +15,25 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const useStyles = makeStyles((theme) => ({
+  background: {
+    overflowX: "hidden",
+    background: `linear-gradient(0deg, rgba(26, 35, 126, 0.31), rgba(28,22, 86, 0.1))`,
+    padding: 30,
+    marginTop: 50,
+    marginLeft: 50,
+    marginRight: 50,
+    borderRadius: 10,
+    [theme.breakpoints.down("md")]: {
+      margin: 0,
+      marginTop: 10,
+      borderRadius: 0,
+      padding: 0,
+    },
+  },
   title: {
     verticalAlign: "baseline",
     textAlign: "left",
-    color: theme.palette.pbr.textPrimary,
+    color: "#fdd835",
     fontWeight: 800,
     letterSpacing: 0.5,
     fontSize: 32,
@@ -31,8 +46,8 @@ const useStyles = makeStyles((theme) => ({
   price: {
     verticalAlign: "baseline",
     textAlign: "left",
-    color: theme.palette.pbr.textPrimary,
-    fontWeight: 700,
+    color: "#ffffff",
+    fontWeight: 300,
     fontSize: 20,
     lineHeight: "30.7px",
   },
@@ -42,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.pbr.textSecondary,
     fontWeight: 500,
     fontSize: 16,
-    lineHeight: "25.7px",
+    lineHeight: "35.7px",
     maxWidth: 500,
     [theme.breakpoints.down("md")]: {
       fontSize: 14,
@@ -50,7 +65,8 @@ const useStyles = makeStyles((theme) => ({
   },
   categoryTab: {
     display: "inline-block",
-    border: "1px solid #616161",
+    border: "1px solid #73309C",
+
     borderRadius: "20px",
     fontSize: 16,
     fontWeight: 500,
@@ -92,28 +108,45 @@ const useStyles = makeStyles((theme) => ({
       padding: 0,
     },
   },
-  button: {
-    color: "#D9047C",
-    backgroundColor: "white",
-    textTransform: "none",
+  laterButton: {
     borderRadius: "50px",
-    padding: "8px 16px 8px 16px",
-    fontWeight: 400,
-    background: `linear-gradient(to bottom,#fce3ee, #fce3ee)`,
-    fontSize: 14,
-  },
-  buttonMain: {
-    borderRadius: "50px",
-    background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
+    background: `linear-gradient(to bottom,#fff9c4, #fff59d)`,
     lineHeight: "24px",
     verticalAlign: "baseline",
     letterSpacing: "-1px",
     margin: 0,
-    color: "#ffffff",
-    padding: "8px 16px 8px 16px",
+    marginTop: 5,
+    marginLeft: 10,
+    color: "black",
+    padding: "14px 30px 14px 30px",
     fontWeight: 400,
-    fontSize: 14,
+    fontSize: 20,
     textTransform: "none",
+    textDecoration: "none",
+
+    [theme.breakpoints.down("md")]: {
+      padding: "12px 20px 12px 20px",
+      fontSize: 18,
+    },
+  },
+  buyButton: {
+    borderRadius: "50px",
+    background: `linear-gradient(to bottom,yellow, orange)`,
+    lineHeight: "24px",
+    verticalAlign: "baseline",
+    letterSpacing: "-1px",
+    margin: 0,
+    marginTop: 5,
+    color: "black",
+    padding: "14px 30px 14px 30px",
+    fontWeight: 400,
+    fontSize: 20,
+    textTransform: "none",
+    textDecoration: "none",
+    [theme.breakpoints.down("md")]: {
+      padding: "12px 20px 12px 20px",
+      fontSize: 18,
+    },
   },
   modal: {
     display: "flex",
@@ -121,6 +154,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     textDecoration: "none",
     outline: "none",
+  },
+
+  media: {
+    height: 35,
+    marginLeft: 5,
+
+    [theme.breakpoints.down("sm")]: {
+      height: 30,
+    },
   },
 }));
 
@@ -130,6 +172,7 @@ function Details({ getItemDetails, singleItem }) {
 
   const [open, setOpen] = React.useState(false);
   const [item, setItem] = useState();
+  const [actualCase, setActualCase] = useState(0);
 
   const handleModal = (value) => {
     setOpen(value);
@@ -137,22 +180,25 @@ function Details({ getItemDetails, singleItem }) {
 
   useEffect(() => {
     async function asyncFn() {
+      // Getting item information from Database
       let itemJson = await getItemDetails(id);
-
-      setItem(itemJson);
+      if (itemJson !== null && itemJson !== undefined) {
+        setItem(itemJson);
+        setActualCase(1);
+      }
     }
     asyncFn();
-  }, []);
-
-  useEffect(() => {
-    setItem(singleItem);
   }, [singleItem]);
 
   return (
-    <div style={{ overflowX: "hidden" }}>
-      {console.log(item)}
-      {item ? (
-        <div className="row g-0 mt-5">
+    <div className={classes.background}>
+      {actualCase === 0 && (
+        <div className="text-center">
+          <Loader />
+        </div>
+      )}
+      {actualCase === 1 && (
+        <div className="container row g-0 ">
           <div className="col-12 col-md-7">
             <div className={classes.imageWrapper}>
               <GallerySlider gallery={[item.hashImage, ...item.gallery]} />
@@ -162,7 +208,13 @@ function Details({ getItemDetails, singleItem }) {
             <h5 className={classes.title}>{item.name}</h5>
             <h6 className={classes.price}>
               {item.price} {item.currency}{" "}
-              <span style={{ color: "#bdbdbd", paddingLeft: 10 }}></span>
+              <span>
+                <img
+                  src="/token.png"
+                  className={classes.media}
+                  alt="logo-pwar"
+                />
+              </span>
             </h6>
             <div className={classes.categoryTab}>{item.category}</div>
             <div>
@@ -172,11 +224,7 @@ function Details({ getItemDetails, singleItem }) {
                 <div className={classes.iconWrapper}>
                   {Array.from(Array(item.level)).map((character) => {
                     return (
-                      <img
-                        src="https://pngimg.com/uploads/star/star_PNG1597.png"
-                        height="16px"
-                        alt="level"
-                      />
+                      <img src="/images/level.png" height="18px" alt="level" />
                     );
                   })}
                 </div>
@@ -187,20 +235,20 @@ function Details({ getItemDetails, singleItem }) {
               <div style={{ paddingRight: 10 }}>
                 <Button
                   variant="contained"
-                  className={classes.buttonMain}
+                  className={classes.buyButton}
                   onClick={() => handleModal(true)}
                 >
-                  Purchase
+                  Purchase Item
                 </Button>
               </div>
               <div>
-                <Button variant="contained" className={classes.button}>
+                <Button variant="contained" className={classes.laterButton}>
                   Save for later
                 </Button>
               </div>
             </div>
-            <div>
-              <h6 className={classes.buyHistory}>Buy History</h6>
+            <div className="mt-4">
+              <h6 className={classes.buyHistory}>Purchase History</h6>
               <hr style={{ color: "yellow" }} />
               <CustomeTable owner={item.owner} />
             </div>
@@ -221,11 +269,6 @@ function Details({ getItemDetails, singleItem }) {
               <CheckoutModel value={open} onClose={handleModal} item={item} />
             </div>
           </Dialog>{" "}
-        </div>
-      ) : (
-        <div className="text-center">
-          {" "}
-          <Loader />
         </div>
       )}
     </div>
