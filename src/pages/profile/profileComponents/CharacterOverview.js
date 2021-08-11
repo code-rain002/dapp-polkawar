@@ -84,7 +84,9 @@ export default function CharacterOverview({ character }) {
   useEffect(() => {
     async function asyncFn() {
       let pwarBalance = await getPwarBalance();
-      setBalance(pwarBalance);
+      if (pwarBalance) {
+        setBalance(parseFloat(pwarBalance).toFixed(2));
+      }
     }
     asyncFn();
   }, []);

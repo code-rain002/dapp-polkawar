@@ -25,9 +25,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   card: {
-    width: 400,
+    width: "100%",
     height: 300,
-    border: "1px solid yellow",
     borderRadius: 14,
     padding: "25px 10px 25px 10px",
     backgroundColor: "transparent",
