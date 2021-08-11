@@ -185,7 +185,6 @@ const useStyles = makeStyles((theme) => ({
   },
   airdropButton: {
     borderRadius: "50px",
-    background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
     lineHeight: "24px",
     verticalAlign: "baseline",
     letterSpacing: "-1px",
@@ -198,6 +197,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     textTransform: "none",
     textDecoration: "none",
+    background: "linear-gradient(-30deg, #ad1457 0%,#e91e63 100%,#000000 100%)",
+    [theme.breakpoints.down("md")]: {
+      padding: "8px 20px 8px 20px",
+    },
   },
 
   saleButton: {
@@ -215,10 +218,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     textTransform: "none",
     textDecoration: "none",
+    [theme.breakpoints.down("md")]: {
+      padding: "8px 26px 8px 26px",
+    },
   },
   bidButton: {
     borderRadius: "50px",
-    background: `linear-gradient(to right,#6F2F9B, #8D37A9)`,
+    background: `linear-gradient(to bottom,#7b1fa2, #6a1b9a)`,
     lineHeight: "24px",
     verticalAlign: "baseline",
     letterSpacing: "-1px",
@@ -231,6 +237,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     textTransform: "none",
     textDecoration: "none",
+    [theme.breakpoints.down("md")]: {
+      padding: "8px 23px 8px 23px",
+    },
   },
 }));
 
@@ -302,52 +311,49 @@ function PrimaryAppbar({
                 </ListItem>
               </Link>
             ))}
+            {[{ name: "Landing Page", id: "https://polkawar.com" }].map(
+              (tab, index) => (
+                <a href={tab.id} className={classes.mobileLink} key={index}>
+                  <ListItem button key={tab.name}>
+                    <ListItemText
+                      primary={tab.name}
+                      className={classes.menuTitle}
+                    />
+                  </ListItem>
+                </a>
+              )
+            )}
           </List>
           <Divider />
-          <List>
-            {[
-              { name: "Landing Page", id: "https://polkawar.com" },
-              { name: "Get Airdrop", id: "/airdrop" },
-            ].map((tab, index) => (
-              <a href={tab.id} className={classes.mobileLink} key={index}>
-                <ListItem button key={tab.name}>
-                  <ListItemText
-                    primary={tab.name}
-                    className={classes.menuTitle}
-                  />
-                </ListItem>
-              </a>
-            ))}
+          <List style={{ paddingLeft: 10 }}>
             <Link to={"/sale"}>
               <ListItem button onClick={toggleDrawer(anchor, false)} key={39}>
-                <ListItemText
-                  primary={"Flash Sale"}
-                  className={classes.menuTitle}
-                  style={{ color: "yellow" }}
-                />
+                <Button variant="contained" className={classes.saleButton}>
+                  Flash Sale
+                </Button>
               </ListItem>
             </Link>
             <Link to={"/bid"}>
               <ListItem button onClick={toggleDrawer(anchor, false)} key={39}>
-                <ListItemText
-                  primary={
-                    <div>
-                      Auction{" "}
-                      <img
-                        src="/images/thunder.png"
-                        height="18px"
-                        alt="thunder"
-                      />
-                    </div>
-                  }
-                  className={classes.menuTitle}
-                  style={{ color: "orange" }}
-                />
+                <Button variant="contained" className={classes.bidButton}>
+                  Auction{" "}
+                  <img src="/images/thunder.png" height="18px" alt="thunder" />
+                </Button>
+              </ListItem>
+            </Link>
+            <Link to={"/airdrop"}>
+              <ListItem button onClick={toggleDrawer(anchor, false)} key={39}>
+                <Button variant="contained" className={classes.airdropButton}>
+                  Get Airdrop
+                </Button>
               </ListItem>
             </Link>
             <ListItem button>
               <div>
-                <Button className={classes.balanceButton}>
+                <Button
+                  className={classes.balanceButton}
+                  onClick={() => togglePopup(true)}
+                >
                   <div className={classes.buttonIcon}>
                     <AccountBalanceWallet className={classes.icon} />
                   </div>
@@ -544,11 +550,7 @@ function PrimaryAppbar({
                   </Button>
                 </div>
               )}
-              <div>
-                <Link to={"/airdrop"}>
-                  <Button className={classes.airdropButton}>Get Airdrop</Button>
-                </Link>
-              </div>
+
               <div>
                 <Link to={"/sale"}>
                   <Button className={classes.saleButton}>Flash Sale</Button>
@@ -564,6 +566,11 @@ function PrimaryAppbar({
                       alt="thunder"
                     />
                   </Button>
+                </Link>
+              </div>
+              <div>
+                <Link to={"/airdrop"}>
+                  <Button className={classes.airdropButton}>Get Airdrop</Button>
                 </Link>
               </div>
             </div>
