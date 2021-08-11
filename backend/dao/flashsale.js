@@ -1,6 +1,6 @@
-const { request, json } = require('express');
-const { RequestTimeout } = require('http-errors');
-var FlashSaleModel = require('../models/flashsaleitems');
+const { request, json } = require("express");
+const { RequestTimeout } = require("http-errors");
+var FlashSaleModel = require("../models/flashsaleitems");
 
 const limit = 15;
 
@@ -14,10 +14,8 @@ const flashsaleDao = {
   },
 
   async getItemRemainingSlot(itemId) {
-
-    let data = await FlashSaleModel.findOne({ _id: itemId });
-    let slots = data["remaining_quantity"]
-    console.log(slots);
+    let data = await FlashSaleModel.findOne({ itemId: itemId });
+    let slots = data["remaining_quantity"];
     return slots;
   },
 

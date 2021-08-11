@@ -60,8 +60,7 @@ router.post("/useritem", async (req, res, next) => {
     owner: req.body.owner,
     buyDate: req.body.buydate,
   };
-  console.log(req.body);
-  console.log(soldItem);
+
   try {
     const data = await UserItemDao.createItem(
       soldItem,

@@ -238,13 +238,6 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
     }
   };
 
-  let nftHashList = {
-    "Bow & Arrow": "QmUJCjhmpDUguCffVrVSLBtyrxjQMUgmut4ZynA4wKHiZp",
-    Gun: "QmRKLbQsoMpr7G1du8MRXJjSa3NRHnG6WGY3q3h3RbxJzb",
-    "Big Knife": "Qmes4i6DuXr2MXmXfcxXv27wqJyG3pqdH66KZEJapdADxd",
-    Sword: "QmagDhU9HF2euDvKv7P6siysPWBevhiGaiNZLLn3QKZi4c",
-    Tessen: "QmNtwL2LPh2nsH1WRa6TzBqH4DFWQgFSdoQSH5UdbNwb8Y",
-  };
   return (
     <div className={classes.background}>
       <div className="text-center">
@@ -349,8 +342,6 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
                   <div>
                     <ItemSaleCard
                       item={singleItem}
-                      nftHashList={nftHashList}
-                      userItemsLength={useritems.length}
                       saleEnds={saleEnds}
                       saleCase={actualCase}
                     />

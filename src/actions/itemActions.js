@@ -127,8 +127,6 @@ export const getUserItems = () => async (dispatch) => {
 export const addUserItem = (useritemData) => (dispatch) => {
   let url = `${baseUrl}/useritem`;
 
-  console.log("addUserItem");
-  console.log(useritemData);
   let data = axios
     .post(url, useritemData)
     .then((res) => {

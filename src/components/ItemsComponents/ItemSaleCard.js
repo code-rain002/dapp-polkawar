@@ -278,16 +278,23 @@ const useStyles = makeStyles((theme) => ({
 
 function ItemSaleCard({
   item,
-  addUserItem,
-  nftHashList,
   saleEnds,
-  getFlashItems,
   saleCase,
+  addUserItem,
+  getFlashItems,
 }) {
   const classes = useStyles();
   const [actualCase, setActualCase] = useState(0);
   const [popup, setPopup] = useState(false);
   const [disablePopup, setDisablePopup] = useState(false);
+
+  let nftHashList = {
+    "Bow & Arrow": "QmUJCjhmpDUguCffVrVSLBtyrxjQMUgmut4ZynA4wKHiZp",
+    Gun: "QmRKLbQsoMpr7G1du8MRXJjSa3NRHnG6WGY3q3h3RbxJzb",
+    "Big Knife": "Qmes4i6DuXr2MXmXfcxXv27wqJyG3pqdH66KZEJapdADxd",
+    Sword: "QmagDhU9HF2euDvKv7P6siysPWBevhiGaiNZLLn3QKZi4c",
+    Tessen: "QmNtwL2LPh2nsH1WRa6TzBqH4DFWQgFSdoQSH5UdbNwb8Y",
+  };
 
   useEffect(() => {
     async function asyncFn() {
@@ -307,7 +314,7 @@ function ItemSaleCard({
 
   const signTransaction = (nfthash, userAddress) => {
     let url = `${baseUrl}/flashsale-sign`;
-    console.log(url);
+
     let body = {
       nft: nfthash,
       address: userAddress,
@@ -332,17 +339,19 @@ function ItemSaleCard({
   const buyItem = async () => {
     setPopup(true);
     setActualCase(1);
+    //1. Getting user address
     let userAddress = await getUserAddress();
-    console.log(item.name);
+
+    //2. Getting NFT Hash Information
     let nftHashJson = nftHashList[item.name];
 
+    //3. Signing the transaction
     let signResponse = await signTransaction(nftHashJson, userAddress);
-    console.log(signResponse);
     setDisablePopup(true);
 
-    let apiResponse = await checkSlotsAvailable(item._id);
+    //4. Checking available slots
+    let apiResponse = await checkSlotsAvailable(item.itemId);
     let slotsAvailable = apiResponse.data;
-    console.log(slotsAvailable);
 
     if (parseInt(slotsAvailable) > 0) {
       const response = await saleContract.methods
@@ -361,11 +370,9 @@ function ItemSaleCard({
             gasPrice: 25000000000,
           },
           function (error, transactionHash) {
-            console.log("purchaseItem Called");
             if (transactionHash) {
               setActualCase(3);
             } else {
-              console.log("Rejected by user!");
               setActualCase(2);
             }
           }
@@ -671,7 +678,6 @@ ItemSaleCard.propTypes = {
 
 const mapStateToProps = (state) => ({
   items: state.items.items,
-  useritems: state.items.useritems,
 });
 
 const mapDispatchToProps = { addUserItem, getFlashItems };

@@ -343,7 +343,6 @@ function ItemProfileCard({ item, getItemDetails }) {
 
   return (
     <div>
-      {buttonsCase}
       {itemJson !== null && (
         <Card className={classes.card1} elevation={0}>
           {loading && (
