@@ -258,31 +258,23 @@ function ItemProfileCard({ item, getItemDetails }) {
 
   useEffect(() => {
     async function asyncFn() {
-      //To load Item JSON Information
-
-      let tokenId = item.tokenId;
+      //To load Item information from Database
       let itemId = item.itemId;
       let itemData = await getItemDetails(itemId);
       setItemJson(itemData);
       isApproved();
       checkApproveButtonConditions();
       setLoading(false);
-
-      // console.log(itemData);
-
-      // let itemString = await tokenURI(tokenId);
-      // await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
-      //   setItemJson(itemData);
-      //   isApproved();
-      // });
-      // checkApproveButtonConditions();
-      // setLoading(false);
     }
 
     asyncFn();
   }, []);
 
   const checkApproveButtonConditions = async () => {
+    // 1. Show Sell and Bid Buttons if approved || Flash Sale
+    // 2. Show Bid buttons
+    // 3. Show Sell and Bid Buttons
+
     if (item !== null && item !== undefined) {
       if (item.event === "flashsale") {
         const resellStarted =
@@ -290,26 +282,15 @@ function ItemProfileCard({ item, getItemDetails }) {
         const resellEnd =
           +new Date(process.env.REACT_APP_END_RESELL) - +new Date();
         console.log(resellEnd);
-        // if positive => Resell Not Ended
 
-        if (resellStarted >= 0) {
-          // if positive => Resell Not Started
-          setButtonsCase(3);
+        if (resellStarted <= 0 && resellEnd >= 0) {
+          //Time of resell
+          setButtonsCase(1);
         } else {
-          // if negative => Resell start time passed
-          if (resellEnd >= 0) {
-            // if positive => Resell End time not passed
-            //Show approve buttons
-            setButtonsCase(2);
-          } else {
-            //Don't show approve buttons
-            setButtonsCase(1);
-
-            // Resell process ended
-          }
+          setButtonsCase(2);
         }
       } else {
-        //  Not flash sale
+        //  Not a flash sale item
         setButtonsCase(3);
       }
     }
@@ -417,16 +398,6 @@ function ItemProfileCard({ item, getItemDetails }) {
                 </div>
                 <div className="text-center mt-2">
                   {buttonsCase === 1 && (
-                    <Button
-                      variant="contained"
-                      className={classes.bidButton}
-                      onClick={() => toggleBidPopup(true)}
-                    >
-                      <span>Bid</span>
-                    </Button>
-                  )}
-
-                  {buttonsCase === 2 && (
                     <div>
                       {approved && (
                         <div>
@@ -460,6 +431,16 @@ function ItemProfileCard({ item, getItemDetails }) {
                       )}
                     </div>
                   )}
+                  {buttonsCase === 2 && (
+                    <Button
+                      variant="contained"
+                      className={classes.bidButton}
+                      onClick={() => toggleBidPopup(true)}
+                    >
+                      <span>Bid</span>
+                    </Button>
+                  )}
+
                   {buttonsCase === 3 && (
                     <div>
                       <Button

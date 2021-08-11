@@ -140,6 +140,12 @@ function ItemSection({ getUserItems, useritems }) {
     }
   }, [useritems]);
 
+  const sortedArray = () => {
+    let sorted = useritems.sort((a, b) => {
+      return new Date(a.buyDate) - new Date(b.buyDate);
+    });
+    return sorted;
+  };
   return (
     <div>
       <h3 htmlFor="category" className={classes.sectionTitle}>
@@ -174,7 +180,7 @@ function ItemSection({ getUserItems, useritems }) {
       {actualCase === 2 && (
         <div>
           <div className="row mt-4">
-            {useritems.map((item, index) => {
+            {sortedArray().map((item, index) => {
               return (
                 <div key={index} className="col-12 col-md-3">
                   <div className="d-flex justify-content-center">
