@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import PowerStats from "../../../components/PowerStatsBar";
+import { Button, Dialog, Slide, Backdrop } from "@material-ui/core";
+import DailyRewards from "./DailyRewards";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const useStyles = makeStyles((theme) => ({
   section: {
@@ -49,10 +55,32 @@ const useStyles = makeStyles((theme) => ({
     color: "grey",
     fontSize: 12,
   },
+  claimXpButton: {
+    borderRadius: "50px",
+    background: `linear-gradient(to bottom,yellow, orange)`,
+    lineHeight: "24px",
+    verticalAlign: "baseline",
+    letterSpacing: "-1px",
+    margin: 0,
+    marginTop: 5,
+    marginLeft: 10,
+    color: "black",
+    padding: "18px 50px 18px 50px",
+    fontWeight: 400,
+    fontSize: 20,
+    textTransform: "none",
+    textDecoration: "none",
+    [theme.breakpoints.down("md")]: {
+      padding: "12px 20px 12px 20px",
+      fontSize: 18,
+    },
+  },
 }));
 
 export default function CharacterStats({ character }) {
   const classes = useStyles();
+
+  const [claimXpPopup, setClaimXpPopup] = useState(false);
 
   let properties = character.properties;
 
@@ -124,6 +152,31 @@ export default function CharacterStats({ character }) {
             })}
         </div>
       </div>
+      <div className="text-center mt-3">
+        <Button
+          variant="contained"
+          className={classes.claimXpButton}
+          onClick={() => setClaimXpPopup(true)}
+        >
+          Claim XP
+        </Button>
+      </div>
+      <Dialog
+        className={classes.modal}
+        open={claimXpPopup}
+        TransitionComponent={Transition}
+        keepMounted={false}
+        onClose={() => setClaimXpPopup(false)}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <div style={{ backgroundColor: "black" }}>
+          <DailyRewards />
+        </div>
+      </Dialog>{" "}
     </div>
   );
 }

@@ -8,6 +8,12 @@ import {
   checkCorrectNetwork,
   checkWalletAvailable,
 } from "../../../actions/web3Actions";
+import { Dialog, Divider, Slide, Backdrop } from "@material-ui/core";
+import BuildCharacter from "../../../components/CharacterComponents/BuildCharacter";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -38,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 function HotCharacters({ characters, getTopCharacters, authenticated }) {
   const classes = useStyles();
-  const [charactersList, setCharactersList] = useState([]);
+  const [claimPopup, setClaimPopup] = useState(false);
 
   useEffect(() => {
     async function asyncFn() {
@@ -53,44 +59,16 @@ function HotCharacters({ characters, getTopCharacters, authenticated }) {
     asyncFn();
   }, [authenticated]);
 
-  // useEffect(() => {
-  //   if (characters !== null) {
-  //     updateCharacters();
-  //   }
-  // }, [characters]);
-
-  // const updateCharacters = () => {
-  //   let names = [
-  //     "Siddiqui Amir",
-  //     "Nafa Jain",
-  //     "Darren Jil",
-  //     "Shubham Sharma",
-  //     "Javier John",
-  //     "Akram",
-  //     "Zin Loof",
-  //     "Engitan Suc",
-  //     "Crypto Boss",
-  //     "Devil King",
-  //   ];
-  //   let updatedData = characters.map((character, index) => {
-  //     character.username = names[index];
-  //     return character;
-  //   });
-  //   let filteredData = updatedData.filter((character) => {
-  //     return character.level !== "0";
-  //   });
-  //   console.log(filteredData);
-  //   setCharactersList(updatedData);
-  // };
+  useEffect(() => {
+    setClaimPopup(true);
+  }, [authenticated]);
   return (
     <Fragment>
       <h1 className="heading">Top characters</h1>
-
       {characters !== null && characters !== undefined && (
         <div>
           <div className={classes.characterScroll}>
             <div className={classes.scrollItemPositions}>
-              {console.log(charactersList)}
               {characters.map((character, index) => {
                 return (
                   <div
@@ -105,6 +83,22 @@ function HotCharacters({ characters, getTopCharacters, authenticated }) {
           </div>
         </div>
       )}
+      <Dialog
+        className={classes.modal}
+        open={claimPopup}
+        TransitionComponent={Transition}
+        keepMounted={false}
+        onClose={() => setClaimPopup(false)}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <div style={{ backgroundColor: "black" }}>
+          <BuildCharacter />
+        </div>
+      </Dialog>{" "}
     </Fragment>
   );
 }
