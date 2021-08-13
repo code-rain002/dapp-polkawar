@@ -15,6 +15,7 @@ var flashsaleRouter = require("./routes/flashsaleRouter");
 var bidRouter = require("./routes/bidRouter");
 var useritemRouter = require("./routes/useritemRouter");
 var usercharacterRouter = require("./routes/usercharacterRouter");
+var xpRouter = require("./routes/xpRouter");
 
 var app = express();
 // view engine setup
@@ -46,6 +47,7 @@ app.use("/", flashsaleRouter);
 app.use("/", useritemRouter);
 app.use("/", usercharacterRouter);
 app.use("/", bidRouter);
+app.use("/", xpRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,6 +1,5 @@
 var currentLocation = window.location.href;
 
-console.log(currentLocation);
 export const addDataIntoCache = () => {
   var url = currentLocation;
   let cacheName = "rewards";
