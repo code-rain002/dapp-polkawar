@@ -16,6 +16,7 @@ router.get("/xp", async (req, res, next) => {
 // POST create or update new users xp
 router.post("/xp", async (req, res, next) => {
   let ownerAddress = req.body.owner;
+
   try {
     const data = await XpDao.updateXp(ownerAddress);
     return res.status(200).send(data);
@@ -24,7 +25,6 @@ router.post("/xp", async (req, res, next) => {
   }
 });
 
-// DELETE create new user based on details
 router.delete("/xp", async (req, res, next) => {
   try {
     const data = await XpDao.deleteXp();

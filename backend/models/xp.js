@@ -7,7 +7,7 @@ var XpModel = new mongoose.Schema({
   },
 
   claimNo: {
-    type: String,
+    type: Number,
     required: true,
     default: 0,
   },
@@ -16,10 +16,9 @@ var XpModel = new mongoose.Schema({
     required: true,
     default: [],
   },
-  LastClaim: {
+  lastClaim: {
     type: String,
     required: true,
-    default: new Date(),
   },
 });
 
