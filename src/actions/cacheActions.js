@@ -1,5 +1,8 @@
+var currentLocation = window.location.href;
+
+console.log(currentLocation);
 export const addDataIntoCache = () => {
-  var url = "https://localhost:3000";
+  var url = currentLocation;
   let cacheName = "rewards";
   var date = Date.now();
 
@@ -12,13 +15,20 @@ export const addDataIntoCache = () => {
 };
 
 export const readCache = async () => {
-  var url = "https://localhost:3000";
+  var url = currentLocation;
   let cacheName = "rewards";
   const cacheStorage = await caches.open(cacheName);
 
   const cachedResponse = await cacheStorage.match(url);
-  var data = await cachedResponse.json();
-  console.log(data);
-
-  return parseInt(data);
+  if (cachedResponse) {
+    var data = await cachedResponse.json();
+    console.log(data);
+    if (data) {
+      return parseInt(data);
+    } else {
+      return 0;
+    }
+  } else {
+    return 0;
+  }
 };
