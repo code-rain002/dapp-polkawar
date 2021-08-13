@@ -10,6 +10,7 @@ import {
 } from "../../../actions/web3Actions";
 import { Dialog, Divider, Slide, Backdrop } from "@material-ui/core";
 import BuildCharacter from "../../../components/CharacterComponents/BuildCharacter";
+import { readCache, addDataIntoCache } from "./../../../actions/cacheActions";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -60,8 +61,22 @@ function HotCharacters({ characters, getTopCharacters, authenticated }) {
   }, [authenticated]);
 
   useEffect(() => {
-    setClaimPopup(true);
+    async function asyncFn() {
+      let popupDisplayTime = await readCache();
+
+      //Wait for Next 24 hours for popup to appear
+      let nextPopupTime = popupDisplayTime + 86400000;
+      let currentTime = parseInt(Date.now());
+
+      //If next popup is less than current time means enable popup
+      if (nextPopupTime <= currentTime) {
+        setClaimPopup(true);
+        addDataIntoCache();
+      }
+    }
+    asyncFn();
   }, [authenticated]);
+
   return (
     <Fragment>
       <h1 className="heading">Top characters</h1>

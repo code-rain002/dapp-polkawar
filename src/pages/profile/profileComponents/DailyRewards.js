@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Close } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -26,6 +25,17 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "Montserrat",
     [theme.breakpoints.down("md")]: {
       fontSize: 25,
+    },
+  },
+  subtitle: {
+    verticalAlign: "baseline",
+    textAlign: "center",
+    color: "white",
+    fontWeight: 500,
+    fontSize: 18,
+    fontFamily: "Montserrat",
+    [theme.breakpoints.down("md")]: {
+      fontSize: 18,
     },
   },
 
@@ -108,6 +118,14 @@ const useStyles = makeStyles((theme) => ({
   claimedImage: {
     textAlign: "center",
   },
+  scroll: {
+    height: 440,
+    overflowY: "scroll",
+
+    [theme.breakpoints.down("sm")]: {
+      height: 300,
+    },
+  },
 }));
 export default function DailyRewards() {
   const classes = useStyles();
@@ -128,35 +146,40 @@ export default function DailyRewards() {
     <div className={classes.card}>
       <div>
         <h5 className={classes.title}>Claim XP</h5>
+        <p className={classes.subtitle}>
+          Build your character and get ready for the battle
+        </p>
       </div>{" "}
       <div className="d-flex justify-content-center">
         <div className={classes.rewardBlockWrapper}>
-          <div className="row">
-            {Array.from(Array(8)).map((element, index) => {
-              return (
-                <div className="col-md-3">
-                  <div className={rewardCardConditionClass(index)}>
-                    <div className="text-center">
-                      <img
-                        src="https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/1024/Experience-Points-XP-icon.png"
-                        className={classes.media}
-                      />
-                    </div>
-                    <div>
-                      <h6 className={classes.pwar}>{10 * (index + 1)} XP</h6>
-                    </div>
-                    <div>
-                      <h6 className={classes.day}>Day {index + 1}</h6>
-                    </div>
-                    {index < 2 && (
+          <div className={classes.scroll}>
+            <div className="row">
+              {Array.from(Array(60)).map((element, index) => {
+                return (
+                  <div className="col-md-3">
+                    <div className={rewardCardConditionClass(index)}>
                       <div className="text-center">
-                        <Close style={{ color: "red", fontSize: 22 }} />
+                        <img src="./images/xp.png" className={classes.media} />
                       </div>
-                    )}
+                      <div>
+                        <h6 className={classes.pwar}>{10 * (index + 1)} XP</h6>
+                      </div>
+                      <div>
+                        <h6 className={classes.day}>Day {index + 1}</h6>
+                      </div>
+                      {index < 2 && (
+                        <div
+                          className="text-center"
+                          style={{ color: "#81c784", fontSize: 16 }}
+                        >
+                          claimed
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
