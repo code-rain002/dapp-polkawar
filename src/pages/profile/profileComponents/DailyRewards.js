@@ -1,8 +1,5 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import { element } from "prop-types";
 import { Close } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({

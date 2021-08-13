@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import imageBaseUrl from "../../../actions/imageBaseUrl";
-import { tokenURI } from "../../../actions/smartActions/SmartActions";
-import axios from "axios";
-import Loader from "../../../components/Loader";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -104,61 +101,27 @@ const useStyles = makeStyles((theme) => ({
 function SingleCharacterItem({ item }) {
   const classes = useStyles();
 
-  const [itemJson, setItemJson] = useState(null);
-  const [actualCase, setActualCase] = useState(0);
-
-  useEffect(() => {
-    async function asyncFn() {
-      //To load Item JSON Information
-      let tokenId = item.tokenId;
-      let itemString = await tokenURI(tokenId);
-      await axios.get(`${imageBaseUrl}${itemString}`).then((res) => {
-        let response = res.data;
-
-        if (response.level !== null && response.level !== undefined) {
-          if (response.level === 1) {
-            setItemJson(res.data);
-            console.log(res.data);
-            setActualCase(2);
-          }
-        } else {
-          setActualCase(1);
-        }
-      });
-    }
-    asyncFn();
-  }, []);
-
   return (
     <div>
-      {itemJson !== null && (
-        <div>
-          {actualCase === 0 && (
-            <div>
-              <Loader />
+      {item !== null && item !== undefined && (
+        <div className={classes.section}>
+          <div className="d-flex justify-content-start ">
+            <div htmlFor="item" className={classes.itemWrapper}>
+              <img
+                src={`${imageBaseUrl}/${item.hashImage}`}
+                alt="item"
+                className={classes.media}
+              />
             </div>
-          )}
-          {actualCase === 2 && (
-            <div className={classes.section}>
-              <div className="d-flex justify-content-start ">
-                <div htmlFor="item" className={classes.itemWrapper}>
-                  <img
-                    src="items/gun.png"
-                    alt="item"
-                    className={classes.media}
-                  />
-                </div>
-                <div className={classes.detailsWrapper}>
-                  <h6 htmlFor="type" className={classes.itemName}>
-                    Gun
-                  </h6>
-                  <h6 htmlFor="type" className={classes.itemLevel}>
-                    Level : 1
-                  </h6>
-                </div>
-              </div>
+            <div className={classes.detailsWrapper}>
+              <h6 htmlFor="type" className={classes.itemName}>
+                {item.name}
+              </h6>
+              <h6 htmlFor="type" className={classes.itemLevel}>
+                Level : {item.level}
+              </h6>
             </div>
-          )}
+          </div>
         </div>
       )}
     </div>

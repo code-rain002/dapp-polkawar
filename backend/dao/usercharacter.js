@@ -13,8 +13,8 @@ const userCharacterDao = {
       .limit(5);
   },
 
-  async getUserCharacters(owner) {
-    let data = await UserCharacterModel.find({ owner: owner });
+  async getUserCharacter(owner) {
+    let data = await UserCharacterModel.findOne({ owner: owner });
     return data;
   },
 

@@ -2,7 +2,7 @@ import { GET_CHARACTERS, GET_USER_CHARACTERS } from "../actions/types";
 
 const initalState = {
   characters: [],
-  usercharacters: [],
+  usercharacter: [],
 };
 
 export default function (state = initalState, action) {
@@ -15,7 +15,7 @@ export default function (state = initalState, action) {
     case GET_USER_CHARACTERS:
       return {
         ...state,
-        usercharacters: action.payload,
+        usercharacter: action.payload,
       };
     default:
       return state;

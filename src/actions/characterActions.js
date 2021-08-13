@@ -31,11 +31,11 @@ export const getTopCharacters = () => async (dispatch) => {
 };
 
 //GET all characters of owner
-export const getUserCharacters = () => async (dispatch) => {
+export const getUserCharacter = () => async (dispatch) => {
   let userAddress = await getUserAddress();
 
   let response = await axios
-    .get(`${baseUrl}/usercharacters/${userAddress}`)
+    .get(`${baseUrl}/usercharacter/${userAddress}`)
     .then((res) => {
       dispatch({
         type: GET_USER_CHARACTERS,
@@ -61,7 +61,7 @@ export const createUserCharacter = (characterData) => async (dispatch) => {
   let response = axios
     .post(url, characterData)
     .then((res) => {
-      dispatch(getUserCharacters());
+      dispatch(getUserCharacter());
       return true;
     })
     .catch((err) => {

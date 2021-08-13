@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import PowerStats from "../../../components/PowerStatsBar";
 import { Button, Dialog, Slide, Backdrop } from "@material-ui/core";
 import DailyRewards from "./DailyRewards";
@@ -77,12 +77,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CharacterStats({ character }) {
+export default function CharacterStats({ character, characterProperties }) {
   const classes = useStyles();
 
   const [claimXpPopup, setClaimXpPopup] = useState(false);
-
-  let properties = character.properties;
 
   let colors1 = ["#ba68c8", "#9c27b0", "#7b1fa2", "#7b1fa2"];
   let colors2 = ["#ffee58", "#fbc02d", "#f57f17"];
@@ -99,59 +97,80 @@ export default function CharacterStats({ character }) {
       <h3 htmlFor="category" className={classes.title}>
         STATS
       </h3>
-      <div className="row">
-        <div className="col-md-6">
-          {Object.entries(properties)
-            .splice(0, 4)
-            .map(([key, value], index) => {
-              return (
-                <div className={classes.wrapper}>
-                  {index === 0 && (
-                    <div className="d-flex justify-content-between">
-                      {" "}
-                      <h6 htmlFor="category" className={classes.category}>
-                        {key.toUpperCase()}({value})
-                      </h6>
-                      <h6
-                        htmlFor="category"
-                        className={classes.category}
-                        style={{ color: "yellow" }}
-                      >
-                        <small> Upgrade requires: {nextXp(value)} XP</small>
-                      </h6>
+      {characterProperties !== null && characterProperties !== undefined && (
+        <div className="row">
+          <div className="col-md-6">
+            {Object.entries(characterProperties)
+              .splice(0, 4)
+              .map(([key, value], index) => {
+                return (
+                  <div className={classes.wrapper}>
+                    {index === 0 && (
+                      <div className="d-flex justify-content-between">
+                        <h6 htmlFor="category" className={classes.category}>
+                          {key.toUpperCase()}({value})
+                        </h6>
+                        <h6
+                          htmlFor="category"
+                          className={classes.category}
+                          style={{ color: "yellow" }}
+                        >
+                          <small> Upgrade requires: {nextXp(value)} XP</small>
+                        </h6>
+                      </div>
+                    )}
+                    {index !== 0 && (
+                      <div>
+                        <h6 htmlFor="category" className={classes.category}>
+                          {key.toUpperCase()}({value})
+                        </h6>
+                      </div>
+                    )}
+                    <div htmlFor="power" className={classes.powerWrapper}>
+                      <PowerStats value={value % 100} color={colors1[index]} />
                     </div>
-                  )}
-                  {index !== 0 && (
-                    <div>
-                      <h6 htmlFor="category" className={classes.category}>
-                        {key.toUpperCase()}({value})
-                      </h6>
-                    </div>
-                  )}
-                  <div htmlFor="power" className={classes.powerWrapper}>
-                    <PowerStats value={value} color={colors1[index]} />
                   </div>
-                </div>
-              );
-            })}
-        </div>
-        <div className="col-md-6">
-          {Object.entries(properties)
-            .splice(4, 7)
-            .map(([key, value], index) => {
-              return (
-                <div className={classes.wrapper}>
-                  <h6 htmlFor="category" className={classes.category}>
-                    {key.toUpperCase()}({value})
-                  </h6>
-                  <div htmlFor="power" className={classes.powerWrapper}>
-                    <PowerStats value={value} color={colors2[index]} />
+                );
+              })}
+          </div>
+          <div className="col-md-6">
+            {Object.entries(characterProperties)
+              .splice(4, 7)
+              .map(([key, value], index) => {
+                return (
+                  <div>
+                    {key === "speed" && (
+                      <div className={classes.wrapper}>
+                        <h6 htmlFor="category" className={classes.category}>
+                          {key.toUpperCase()}({value})
+                        </h6>
+                        <div htmlFor="power" className={classes.powerWrapper}>
+                          <PowerStats
+                            value={(value * 86) % 100}
+                            color={colors2[index]}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    {key !== "speed" && (
+                      <div className={classes.wrapper}>
+                        <h6 htmlFor="category" className={classes.category}>
+                          {key.toUpperCase()}({value})
+                        </h6>
+                        <div htmlFor="power" className={classes.powerWrapper}>
+                          <PowerStats
+                            value={value % 100}
+                            color={colors2[index]}
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+          </div>
         </div>
-      </div>
+      )}
       <div className="text-center mt-3">
         <Button
           variant="contained"

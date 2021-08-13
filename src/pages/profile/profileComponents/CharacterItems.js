@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import propTypes from "prop-types";
 import { connect } from "react-redux";
-import { getUserItems } from "../../../actions/itemActions";
-import ItemProfileCard from "./../../../components/ItemsComponents/ItemProfileCard";
-import ProfileMysteryCard from "../../../components/BidComponents/ProfileMysteryCard";
+import { getItemDetails, getUserItems } from "../../../actions/itemActions";
 import Loader from "../../../components/Loader";
 import SingleCharacterItem from "./SingleCharacterItem";
 
@@ -14,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
   scroll: {
     height: 440,
     overflowY: "scroll",
+
     [theme.breakpoints.down("sm")]: {
       height: 300,
     },
@@ -32,12 +30,34 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 18,
     },
   },
+  notFound: {
+    fontSize: 14,
+    width: "fit-content",
+    paddingBottom: 10,
+    paddingTop: 10,
+    color: "white",
+    fontWeight: 500,
+    fontFamily: "Montserrat",
+    margin: 0,
+    padding: 0,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 14,
+    },
+  },
 }));
 
-function CharacterItems({ getUserItems, useritems }) {
+function CharacterItems({
+  getUserItems,
+  getItemDetails,
+  useritems,
+  character,
+  characterProperties,
+  setCharacterProperties,
+}) {
   const classes = useStyles();
 
   const [actualCase, setActualCase] = useState(0);
+  const [validItems, setValidItems] = useState([]);
 
   useEffect(() => {
     async function asyncFn() {
@@ -47,17 +67,58 @@ function CharacterItems({ getUserItems, useritems }) {
   }, []);
 
   useEffect(() => {
-    if (useritems !== null && useritems !== undefined) {
-      if (useritems.length === 0) {
-        setActualCase(1);
+    async function asyncFn() {
+      let characterLevel = parseInt(character.level);
+      let compatibleItems = [];
+      if (useritems !== null && useritems !== undefined) {
+        if (useritems.length === 0) {
+          setActualCase(1);
+        } else {
+          useritems.map(async (element) => {
+            let item = await getItemDetails(element.itemId);
+            if (
+              parseInt(item.level) === characterLevel ||
+              (parseInt(item.level) === 1 && characterLevel === 0)
+            ) {
+              compatibleItems.push(item);
+              setValidItems(compatibleItems);
+            }
+          });
+
+          setActualCase(2);
+        }
       } else {
-        setActualCase(2);
+        setActualCase(0);
       }
-    } else {
-      setActualCase(0);
     }
+    asyncFn();
   }, [useritems]);
 
+  const updateCharacterProperties = (index) => {
+    let itemProperties = validItems[index].properties;
+
+    //Bdam to PAtk
+    //
+    let tempObject = {
+      xp: character.properties.xp + (itemProperties.xp ? itemProperties.xp : 0),
+      hp: character.properties.hp + (itemProperties.hp ? itemProperties.hp : 0),
+      mp: character.properties.mp + (itemProperties.mp ? itemProperties.mp : 0),
+      Patk:
+        character.properties.Patk +
+        (itemProperties.bDam ? itemProperties.bDam : 0),
+      Pdef:
+        character.properties.Pdef +
+        (itemProperties.Pdef ? itemProperties.Pdef : 0),
+      speed:
+        character.properties.speed +
+        (itemProperties.speed ? itemProperties.speed : 0),
+      accuracy:
+        character.properties.accuracy +
+        (itemProperties.accuracy ? itemProperties.accuracy : 0),
+    };
+
+    setCharacterProperties(tempObject);
+  };
   return (
     <div className={classes.background}>
       <h3 htmlFor="category" className={classes.title}>
@@ -68,163 +129,25 @@ function CharacterItems({ getUserItems, useritems }) {
           <Loader />
         </div>
       )}
-      {/* {actualCase === 1 && (
+      {validItems.length === 0 && (
         <div>
           <div>
-            <p className={classes.notFound}>Items not found.</p>
+            <p className={classes.notFound}>No Item</p>
           </div>
         </div>
-      )} */}
+      )}
       {actualCase === 2 && (
         <div className={classes.scroll}>
-          {useritems.map((item) => {
+          {validItems.map((item, index) => {
             return (
-              <div className={classes.sectionWrapper}>
-                {/* <h3 htmlFor="category" className={classes.subtitle}>
-                  Weapons
-                </h3> */}
+              <div
+                className={classes.sectionWrapper}
+                onClick={() => updateCharacterProperties(index)}
+              >
                 <SingleCharacterItem item={item} />
               </div>
             );
           })}
-          {/* <div className={classes.sectionWrapper}>
-            <h3 htmlFor="category" className={classes.subtitle}>
-              Weapons
-            </h3>
-            <div className={classes.section}>
-              <div className="d-flex justify-content-start ">
-                <div htmlFor="item" className={classes.itemWrapper}>
-                  <img
-                    src="items/gun.png"
-                    alt="item"
-                    className={classes.media}
-                  />
-                </div>
-                <div className={classes.detailsWrapper}>
-                  <h6 htmlFor="type" className={classes.itemName}>
-                    Gun
-                  </h6>
-                  <h6 htmlFor="type" className={classes.itemLevel}>
-                    Level : 1
-                  </h6>
-                </div>
-              </div>
-              <div className="d-flex justify-content-start mt-3">
-                <div htmlFor="item" className={classes.itemWrapper}>
-                  <img
-                    src="items/sword.png"
-                    alt="item"
-                    className={classes.media}
-                  />
-                </div>
-                <div className={classes.detailsWrapper}>
-                  <h6 htmlFor="type" className={classes.itemName}>
-                    Sword
-                  </h6>
-                  <h6 htmlFor="type" className={classes.itemLevel}>
-                    Level : 1
-                  </h6>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={classes.sectionWrapper}>
-            <h3 htmlFor="category" className={classes.subtitle}>
-              Wings
-            </h3>
-            <div className={classes.section}>
-              <div className="d-flex justify-content-start">
-                <div htmlFor="item" className={classes.itemWrapper}>
-                  <img
-                    src="items/wing.png"
-                    alt="item"
-                    className={classes.media}
-                  />
-                </div>
-                <div className={classes.detailsWrapper}>
-                  <h6 htmlFor="type" className={classes.itemName}>
-                    Wing
-                  </h6>
-                  <h6 htmlFor="type" className={classes.itemLevel}>
-                    Level : 1
-                  </h6>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={classes.sectionWrapper}>
-            <h3 htmlFor="category" className={classes.subtitle}>
-              Armor
-            </h3>
-            <div className={classes.section}>
-              <div className="d-flex justify-content-start">
-                <div htmlFor="item" className={classes.itemWrapper}>
-                  <img
-                    src="items/armor.png"
-                    alt="item"
-                    className={classes.media}
-                  />
-                </div>
-                <div className={classes.detailsWrapper}>
-                  <h6 htmlFor="type" className={classes.itemName}>
-                    Armor
-                  </h6>
-                  <h6 htmlFor="type" className={classes.itemLevel}>
-                    Level : 1
-                  </h6>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={classes.sectionWrapper}>
-            <h3 htmlFor="category" className={classes.subtitle}>
-              Helmet
-            </h3>
-            <div className={classes.section}>
-              <div className="d-flex justify-content-start">
-                <div htmlFor="item" className={classes.itemWrapper}>
-                  <img
-                    src="items/helmet.png"
-                    alt="item"
-                    className={classes.media}
-                  />
-                </div>
-                <div className={classes.detailsWrapper}>
-                  <h6 htmlFor="type" className={classes.itemName}>
-                    Helmet
-                  </h6>
-                  <h6 htmlFor="type" className={classes.itemLevel}>
-                    Level : 1
-                  </h6>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className={classes.sectionWrapper}>
-            <h3 htmlFor="category" className={classes.subtitle}>
-              Mount
-            </h3>
-            <div className={classes.section}>
-              <div className="d-flex justify-content-start">
-                <div htmlFor="item" className={classes.itemWrapper}>
-                  <img
-                    src="items/helmet.png"
-                    alt="item"
-                    className={classes.media}
-                  />
-                </div>
-                <div className={classes.detailsWrapper}>
-                  <h6 htmlFor="type" className={classes.itemName}>
-                    Mount
-                  </h6>
-                  <h6 htmlFor="type" className={classes.itemLevel}>
-                    Level : 1
-                  </h6>
-                </div>
-              </div>
-            </div>
-          </div>
-        */}
         </div>
       )}
     </div>
@@ -236,6 +159,6 @@ const mapStateToProps = (state) => ({
   useritems: state.items.useritems,
 });
 
-const mapDispatchToProps = { getUserItems };
+const mapDispatchToProps = { getUserItems, getItemDetails };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CharacterItems);

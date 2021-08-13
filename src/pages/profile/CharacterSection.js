@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import propTypes from "prop-types";
 import { connect } from "react-redux";
-import { Button, Dialog, Backdrop, Slide, IconButton } from "@material-ui/core";
-import { getUserCharacters } from "../../actions/characterActions";
+import {
+  Button,
+  Dialog,
+  Backdrop,
+  Slide,
+  IconButton,
+  Grow,
+} from "@material-ui/core";
+import { getUserCharacter } from "../../actions/characterActions";
 import Loader from "../../components/Loader";
 import CreateCharacterForm from "../../components/CharacterComponents/CreateCharacterForm";
 import imageBaseUrl from "../../actions/imageBaseUrl";
@@ -188,17 +194,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CharacterSection({ getUserCharacters, usercharacters }) {
+function CharacterSection({ getUserCharacter, usercharacter }) {
   const classes = useStyles();
 
   const [actualCase, setActualCase] = useState(0);
   const [characterPopup, setCharacterPopup] = useState(false);
   const [stopPopupClick, setStopPopupClick] = useState(false);
+  const [characterProperties, setCharacterProperties] = useState(null);
   const [apiHit, setApiHit] = useState(false);
 
   useEffect(() => {
     async function asyncFn() {
-      let res = await getUserCharacters();
+      let res = await getUserCharacter();
       console.log(res);
       if (res) {
         setApiHit(true);
@@ -210,17 +217,17 @@ function CharacterSection({ getUserCharacters, usercharacters }) {
   }, []);
 
   useEffect(() => {
-    if (usercharacters !== null && usercharacters !== undefined && apiHit) {
-      console.log(apiHit);
-      if (usercharacters.length === 0) {
+    if (usercharacter !== null && usercharacter !== undefined && apiHit) {
+      if (usercharacter.length === 0) {
         setActualCase(1);
       } else {
+        setCharacterProperties(usercharacter.properties);
         setActualCase(2);
       }
     } else {
       setActualCase(0);
     }
-  }, [usercharacters, apiHit]);
+  }, [usercharacter, apiHit]);
 
   const toggleCharacterPopup = (value) => {
     setCharacterPopup(value);
@@ -274,20 +281,20 @@ function CharacterSection({ getUserCharacters, usercharacters }) {
         <div className="row">
           <div className="col-md-6">
             {actualCase === 2 && (
-              <div>
-                {usercharacters.map((character, index) => {
-                  return (
+              <Grow in={true} timeout={500}>
+                <div>
+                  {usercharacter !== null && usercharacter !== undefined && (
                     <div>
                       <div>
                         <h6 htmlFor="ranking" className={classes.ranking}>
                           {" "}
-                          # {character.tokenId}
+                          # {usercharacter.tokenId}
                         </h6>
                         <h1
-                          htmlFor="characterType"
+                          htmlFor="usercharacterType"
                           className={classes.chracterType}
                         >
-                          {character.name}{" "}
+                          {usercharacter.name}{" "}
                           <img
                             src="images/swords.png"
                             height="30px"
@@ -297,12 +304,12 @@ function CharacterSection({ getUserCharacters, usercharacters }) {
                       </div>
 
                       <h6 htmlFor="username" className={classes.username}>
-                        {character.username}
+                        {usercharacter.username}
                       </h6>
                       <h6 htmlFor="username" className={classes.address}>
-                        {[...character.owner].splice(0, 7)} {"..."}
-                        {[...character.owner].splice(
-                          [...character.owner].length - 7,
+                        {[...usercharacter.owner].splice(0, 7)} {"..."}
+                        {[...usercharacter.owner].splice(
+                          [...usercharacter.owner].length - 7,
                           7
                         )}
                         <IconButton style={{ padding: 0 }}>
@@ -310,7 +317,7 @@ function CharacterSection({ getUserCharacters, usercharacters }) {
                           <FileCopy
                             className={classes.copyIcon}
                             onClick={() =>
-                              navigator.clipboard.writeText(character.owner)
+                              navigator.clipboard.writeText(usercharacter.owner)
                             }
                           />
                         </IconButton>
@@ -319,30 +326,41 @@ function CharacterSection({ getUserCharacters, usercharacters }) {
                       <div className={classes.section}>
                         <div>
                           <img
-                            src={`${imageBaseUrl}/${character.hashImage}`}
+                            src={`${imageBaseUrl}/${usercharacter.hashImage}`}
                             className={classes.media}
                             alt="character"
                           />
                         </div>
                         <div>
-                          <CharacterItems character={usercharacters[0]} />
+                          <CharacterItems
+                            character={usercharacter}
+                            characterProperties={characterProperties}
+                            setCharacterProperties={setCharacterProperties}
+                          />
                         </div>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
+                  )}
+                </div>
+              </Grow>
             )}
           </div>
           <div className="col-md-6">
             {actualCase === 2 && (
               <div>
-                <div className="my-3">
-                  <CharacterOverview character={usercharacters[0]} />
-                </div>
-                <div className="my-3">
-                  <CharacterStats character={usercharacters[0]} />
-                </div>
+                <Grow in={true} timeout={1000}>
+                  <div className="my-3">
+                    <CharacterOverview character={usercharacter} />
+                  </div>
+                </Grow>
+                <Grow in={true} timeout={1500}>
+                  <div className="my-3">
+                    <CharacterStats
+                      character={usercharacter}
+                      characterProperties={characterProperties}
+                    />
+                  </div>
+                </Grow>
               </div>
             )}
           </div>
@@ -376,9 +394,9 @@ function CharacterSection({ getUserCharacters, usercharacters }) {
 
 const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated,
-  usercharacters: state.characters.usercharacters,
+  usercharacter: state.characters.usercharacter,
 });
 
-const mapDispatchToProps = { getUserCharacters };
+const mapDispatchToProps = { getUserCharacter };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CharacterSection);
