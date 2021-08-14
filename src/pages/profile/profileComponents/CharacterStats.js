@@ -193,7 +193,7 @@ export default function CharacterStats({ character, characterProperties }) {
         }}
       >
         <div style={{ backgroundColor: "black" }}>
-          <DailyRewards />
+          <DailyRewards togglePopup={() => setClaimXpPopup(false)} />
         </div>
       </Dialog>{" "}
     </div>

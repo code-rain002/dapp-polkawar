@@ -81,7 +81,7 @@ export default function BuildCharacter() {
             <Link to="/profile">
               {" "}
               <Button variant="contained" className={classes.buttonProceed}>
-                Visit Home
+                Claim XP
               </Button>
             </Link>
           </div>
