@@ -138,6 +138,7 @@ function CharacterItems({
       )}
       {actualCase === 2 && (
         <div className={classes.scroll}>
+          {validItems.length}
           {validItems.map((item, index) => {
             return (
               <div

@@ -5,6 +5,12 @@ const xpDao = {
     return await XpModel.find({});
   },
 
+  async getXpById(owner) {
+    return await XpModel.findOne({
+      owner: { $regex: `^${owner}$`, $options: "i" },
+    });
+  },
+
   async updateXp(owner) {
     let xpDetails = await XpModel.findOne({ owner: owner });
 

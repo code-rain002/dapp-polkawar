@@ -13,6 +13,16 @@ router.get("/xp", async (req, res, next) => {
   }
 });
 
+// GET all xp by owner
+router.get("/xp/:owner", async (req, res, next) => {
+  try {
+    const data = await XpDao.getXpById(req.params.owner);
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+});
+
 // POST create or update new users xp
 router.post("/xp", async (req, res, next) => {
   let ownerAddress = req.body.owner;

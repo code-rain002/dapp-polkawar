@@ -139,7 +139,6 @@ export const tokenURICharacter = (tokenId) => {
 
 //PWAR Functions
 
-//READ
 //Returns PWR Balance of User
 export const getPwarBalance = async () => {
   let userAddress = await getUserAddress();
@@ -148,6 +147,19 @@ export const getPwarBalance = async () => {
   let pwarBalance = web3.utils.fromWei(balance.toString(), "ether");
 
   return pwarBalance;
+};
+
+//Returns Amount approved
+export const checkPwarApproved = async (contractAddress) => {
+  let userAddress = await getUserAddress();
+  let allowance = await pwrContract.methods
+    .allowance(
+      "0xebb825f034519927d2c54171d36b4801def2a6b1",
+      "0xeF1c7E71850a550E92B635fc701F2Fa276AB19f5"
+    )
+    .call();
+  console.log(allowance);
+  return allowance;
 };
 
 //Flash Sale Functions

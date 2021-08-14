@@ -22,7 +22,7 @@ export const checkWalletAvailable = () => {
 //Returns boolean true or false
 export const checkCorrectNetwork = async () => {
   const account = await getUserAddress();
-  console.log(account);
+
   let chainID;
 
   if (window.ethereum) {

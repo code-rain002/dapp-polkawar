@@ -1,7 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { connect } from "react-redux";
 import { Close } from "@material-ui/icons";
 import { Button, IconButton } from "@material-ui/core";
+import { checkPwarApproved } from "../../../actions/smartActions/SmartActions";
+import pwarConnection from "../../../utils/pwrConnection";
+import xpConnection from "../../../utils/xpConnection";
+import constants from "../../../utils/constants";
+import { getUserAddress } from "../../../actions/web3Actions";
+import { getXpByOwner } from "../../../actions/xpActions";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -158,22 +165,87 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
   },
 }));
-export default function DailyRewards({ togglePopup }) {
+function DailyRewards({ togglePopup, getXpByOwner }) {
   const classes = useStyles();
 
   const [actualCase, setActualCase] = useState(0);
   const [approved, setApproved] = useState(false);
+  const [approveCase, setApproveCase] = useState(0);
+  const [claimCase, setClaimCase] = useState(0);
+  const [dayOfClaim, setDayOfClaim] = useState(0);
 
-  let dayOfClaim = 2;
-  const rewardCardConditionClass = (index) => {
-    if (index <= 2) {
-      if (index === 2) {
-        return classes.rewardCardToday;
-      } else {
-        return classes.rewardCardClaimed;
+  let xpContractAddress = constants.xp_owner_address;
+
+  useEffect(() => {
+    async function asyncFn() {
+      await isApproved();
+      let xpDetails = await getXpByOwner();
+      if (xpDetails.claimNo) {
+        setDayOfClaim(xpDetails.claimNo);
       }
+
+      console.log(xpDetails);
     }
-    return classes.rewardCardUnclaimed;
+    asyncFn();
+  }, []);
+
+  const isApproved = async () => {
+    let allowance = await checkPwarApproved(xpContractAddress);
+    console.log(allowance);
+    //Suppose approve
+    if (parseInt(allowance) === 0) {
+      setApproved(true);
+    } else {
+      setApproved(false);
+    }
+  };
+
+  const approveFn = async () => {
+    let userAddress = await getUserAddress();
+    const response = await pwarConnection.methods
+      .approve(xpContractAddress, "100000000000000000000000000")
+      .send(
+        { from: userAddress, gasPrice: 25000000000 },
+        function (error, transactionHash) {
+          if (transactionHash) {
+            setApproveCase(1);
+          } else {
+            setApproveCase(2);
+          }
+        }
+      )
+      .on("receipt", async function (receipt) {
+        setApproveCase(3);
+        window.location.reload();
+      })
+      .on("error", async function (error) {
+        setApproveCase(2);
+      });
+  };
+
+  const claimXp = async () => {
+    let userAddress = await getUserAddress();
+
+    const response = await xpConnection.methods
+      .claimXP(0)
+      .send(
+        { from: userAddress, gasPrice: 25000000000 },
+        function (error, transactionHash) {
+          if (transactionHash) {
+            setClaimCase(1);
+          } else {
+            setClaimCase(2);
+          }
+        }
+      )
+      .on("receipt", async function (receipt) {
+        setClaimCase(3);
+
+        //window.location.reload();
+      })
+      .on("error", async function (error) {
+        setClaimCase(2);
+      });
   };
   return (
     <div className={classes.card}>
@@ -222,13 +294,38 @@ export default function DailyRewards({ togglePopup }) {
                           <h6 className={classes.day}>Day {index + 1}</h6>
                         </div>
                         <div className="text-center">
-                          <Button
-                            variant="contained"
-                            className={classes.approveButton}
-                          >
-                            {" "}
-                            Approve
-                          </Button>
+                          {approveCase === 0 && (
+                            <Button
+                              variant="contained"
+                              className={classes.approveButton}
+                              onClick={approveFn}
+                            >
+                              {" "}
+                              Approve
+                            </Button>
+                          )}
+                          {approveCase === 1 && (
+                            <small className={classes.costPwar}>
+                              Processing...
+                            </small>
+                          )}
+                          {approveCase === 2 && (
+                            <small
+                              className={classes.costPwar}
+                              style={{ color: "red" }}
+                            >
+                              Failed
+                            </small>
+                          )}
+
+                          {approveCase === 3 && (
+                            <small
+                              className={classes.costPwar}
+                              style={{ color: "green" }}
+                            >
+                              Approved
+                            </small>
+                          )}
                         </div>
                       </div>
                     )}
@@ -283,13 +380,38 @@ export default function DailyRewards({ togglePopup }) {
                                 <h6 className={classes.day}>Day {index + 1}</h6>
                               </div>
                               <div className="text-center">
-                                <Button
-                                  variant="contained"
-                                  className={classes.showMeButton}
-                                >
-                                  {" "}
-                                  Show Me
-                                </Button>
+                                {claimCase === 0 && (
+                                  <Button
+                                    variant="contained"
+                                    className={classes.showMeButton}
+                                    onClick={claimXp}
+                                  >
+                                    {" "}
+                                    Show Me
+                                  </Button>
+                                )}
+                                {claimCase === 1 && (
+                                  <small className={classes.costPwar}>
+                                    Processing...
+                                  </small>
+                                )}
+                                {claimCase === 2 && (
+                                  <small
+                                    className={classes.costPwar}
+                                    style={{ color: "red" }}
+                                  >
+                                    Failed
+                                  </small>
+                                )}
+
+                                {claimCase === 3 && (
+                                  <small
+                                    className={classes.costPwar}
+                                    style={{ color: "green" }}
+                                  >
+                                    Claimed
+                                  </small>
+                                )}
                               </div>
                             </div>
                           )}
@@ -327,3 +449,11 @@ export default function DailyRewards({ togglePopup }) {
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  authenticated: state.auth.authenticated,
+});
+
+const mapDispatchToProps = { getXpByOwner };
+
+export default connect(mapStateToProps, mapDispatchToProps)(DailyRewards);

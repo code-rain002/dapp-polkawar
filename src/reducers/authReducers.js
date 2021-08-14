@@ -6,11 +6,8 @@ const initalState = {
 };
 
 export default function (state = initalState, action) {
-  
   switch (action.type) {
-    
     case GET_CURRENT_USER:
-      console.log(action.payload);
       return {
         ...state,
         authenticated: true,

@@ -24,3 +24,6 @@ export const ADD_USER_ITEM = "ADD_USER_ITEM";
 export const GET_USER_ITEMS = "GET_USER_ITEMS";
 export const UPDATE_USER_ITEM_OWNER = "UPDATE_USER_ITEM_OWNER";
 export const GET_ITEM = "GET_ITEM";
+
+//XP Reducers
+export const GET_XP_BY_ID = "GET_XP_BY_ID";
