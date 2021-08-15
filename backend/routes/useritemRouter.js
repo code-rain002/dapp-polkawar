@@ -97,11 +97,8 @@ router.delete("/useritem", async (req, res, next) => {
 });
 
 router.post("/update-item", async (req, res, next) => {
-  let tokenId = req.body.tokenId;
-  let compatibleId = req.body.itemId;
-
   try {
-    const data = await UserItemDao.updateData(tokenId, compatibleId);
+    const data = await UserItemDao.updateData(req.body.tokenId);
     return res.status(200).send(data);
   } catch (error) {
     return res.status(400).send("error");

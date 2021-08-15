@@ -8,7 +8,10 @@ import pwarConnection from "../../../utils/pwrConnection";
 import xpConnection from "../../../utils/xpConnection";
 import constants from "../../../utils/constants";
 import { getUserAddress } from "../../../actions/web3Actions";
-import { getXpByOwner } from "../../../actions/xpActions";
+import {
+  getXpByOwner,
+  updateXpOfOwner,
+} from "../../../actions/characterActions";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -165,7 +168,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
   },
 }));
-function DailyRewards({ togglePopup, getXpByOwner }) {
+function DailyRewards({ togglePopup, getXpByOwner, updateXpOfOwner }) {
   const classes = useStyles();
 
   const [actualCase, setActualCase] = useState(0);
@@ -192,8 +195,8 @@ function DailyRewards({ togglePopup, getXpByOwner }) {
   const isApproved = async () => {
     let allowance = await checkPwarApproved(xpContractAddress);
     console.log(allowance);
-    //Suppose approve
-    if (parseInt(allowance) === 0) {
+
+    if (parseInt(allowance) > 0) {
       setApproved(true);
     } else {
       setApproved(false);
@@ -225,7 +228,7 @@ function DailyRewards({ togglePopup, getXpByOwner }) {
 
   const claimXp = async () => {
     let userAddress = await getUserAddress();
-
+    let blockNo;
     const response = await xpConnection.methods
       .claimXP(0)
       .send(
@@ -239,8 +242,13 @@ function DailyRewards({ togglePopup, getXpByOwner }) {
         }
       )
       .on("receipt", async function (receipt) {
-        setClaimCase(3);
-
+        blockNo = receipt;
+        let backendResponse = await updateXpOfOwner(blockNo);
+        if (backendResponse) {
+          setClaimCase(3);
+        } else {
+          setClaimCase(4);
+        }
         //window.location.reload();
       })
       .on("error", async function (error) {
@@ -454,6 +462,6 @@ const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated,
 });
 
-const mapDispatchToProps = { getXpByOwner };
+const mapDispatchToProps = { getXpByOwner, updateXpOfOwner };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DailyRewards);

@@ -18,7 +18,7 @@ const userItemDao = {
   },
 
   async getAllItems() {
-    let data = await UserItemModel.find({});
+    let data = await UserItemModel.find({ event: "airdrop" });
     return data;
   },
   async createItem(itemData, ownerAddress, JsonId) {
@@ -41,12 +41,11 @@ const userItemDao = {
     );
     // return await UserItemModel.findOneAndUpdate({ _id: itemId }, { tokenId: 0 });
   },
-  async updateData(tokenId, compatibleId) {
-    await UserItemModel.findOneAndUpdate(
-      { tokenId: tokenId },
-      { itemId: compatibleId }
+  async updateData(tokenId) {
+    return await UserItemModel.findOneAndUpdate(
+      { tokenId: tokenId, event: "airdrop" },
+      { itemId: 29 }
     );
-    return await UserItemModel.find({ tokenId: tokenId });
   },
 
   async deleteItem() {

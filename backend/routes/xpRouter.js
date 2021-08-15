@@ -26,9 +26,12 @@ router.get("/xp/:owner", async (req, res, next) => {
 // POST create or update new users xp
 router.post("/xp", async (req, res, next) => {
   let ownerAddress = req.body.owner;
+  let blockNo = req.body.blockNo;
+  console.log(req.body.owner);
+  console.log(req.body.blockNo);
 
   try {
-    const data = await XpDao.updateXp(ownerAddress);
+    const data = await XpDao.updateXp(ownerAddress, blockNo);
     return res.status(200).send(data);
   } catch (error) {
     return res.status(400).send("error");

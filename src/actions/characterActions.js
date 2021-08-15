@@ -75,3 +75,38 @@ export const createUserCharacter = (characterData) => async (dispatch) => {
     });
   return response;
 };
+
+// GET User character XP
+export const getXpByOwner = () => async (dispatch) => {
+  let userAddress = await getUserAddress();
+
+  let response = await axios
+    .get(`${baseUrl}/xp/${userAddress}`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+      return false;
+    });
+  return response;
+};
+
+// POST Update User character XP
+export const updateXpOfOwner = (txHash) => async (dispatch) => {
+  let userAddress = await getUserAddress();
+  let data = {
+    txHash,
+    owner: userAddress,
+  };
+  let response = await axios
+    .post(`${baseUrl}/xp`, data)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+      return false;
+    });
+  return response;
+};

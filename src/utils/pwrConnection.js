@@ -368,5 +368,4 @@ var pwrContract = new web3.eth.Contract(
   pwrConstant.abi,
   pwrConstant.contractAddress
 );
-
 export default pwrContract;

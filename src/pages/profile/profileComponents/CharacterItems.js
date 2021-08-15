@@ -77,8 +77,12 @@ function CharacterItems({
           useritems.map(async (element) => {
             let item = await getItemDetails(element.itemId);
             if (
-              parseInt(item.level) === characterLevel ||
-              (parseInt(item.level) === 1 && characterLevel === 0)
+              (parseInt(item.level) === 2 &&
+                characterLevel >= 11 &&
+                characterLevel <= 20) ||
+              (parseInt(item.level) === 1 &&
+                characterLevel >= 0 &&
+                characterLevel <= 10)
             ) {
               compatibleItems.push(item);
               setValidItems(compatibleItems);
