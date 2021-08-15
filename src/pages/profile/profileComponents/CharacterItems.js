@@ -6,7 +6,9 @@ import Loader from "../../../components/Loader";
 import SingleCharacterItem from "./SingleCharacterItem";
 
 const useStyles = makeStyles((theme) => ({
-  background: {},
+  background: {
+    minWidth: 280,
+  },
   sectionWrapper: { paddingRight: 20 },
   scroll: {
     height: 440,
@@ -58,6 +60,7 @@ function CharacterItems({
 
   const [actualCase, setActualCase] = useState(0);
   const [validItems, setValidItems] = useState([]);
+  const [itemClickedIndex, setItemClickIndex] = useState(-1);
 
   useEffect(() => {
     async function asyncFn() {
@@ -100,28 +103,36 @@ function CharacterItems({
 
   const updateCharacterProperties = (index) => {
     let itemProperties = validItems[index].properties;
+    if (itemClickedIndex === index) {
+      setCharacterProperties(character.properties);
+      setItemClickIndex(-1);
+    } else {
+      //Bdam to PAtk
+      //
+      let tempObject = {
+        xp:
+          character.properties.xp + (itemProperties.xp ? itemProperties.xp : 0),
+        hp:
+          character.properties.hp + (itemProperties.hp ? itemProperties.hp : 0),
+        mp:
+          character.properties.mp + (itemProperties.mp ? itemProperties.mp : 0),
+        Patk:
+          character.properties.Patk +
+          (itemProperties.bDam ? itemProperties.bDam : 0),
+        Pdef:
+          character.properties.Pdef +
+          (itemProperties.Pdef ? itemProperties.Pdef : 0),
+        speed:
+          character.properties.speed +
+          (itemProperties.speed ? itemProperties.speed : 0),
+        accuracy:
+          character.properties.accuracy +
+          (itemProperties.accuracy ? itemProperties.accuracy : 0),
+      };
+      setItemClickIndex(index);
 
-    //Bdam to PAtk
-    //
-    let tempObject = {
-      xp: character.properties.xp + (itemProperties.xp ? itemProperties.xp : 0),
-      hp: character.properties.hp + (itemProperties.hp ? itemProperties.hp : 0),
-      mp: character.properties.mp + (itemProperties.mp ? itemProperties.mp : 0),
-      Patk:
-        character.properties.Patk +
-        (itemProperties.bDam ? itemProperties.bDam : 0),
-      Pdef:
-        character.properties.Pdef +
-        (itemProperties.Pdef ? itemProperties.Pdef : 0),
-      speed:
-        character.properties.speed +
-        (itemProperties.speed ? itemProperties.speed : 0),
-      accuracy:
-        character.properties.accuracy +
-        (itemProperties.accuracy ? itemProperties.accuracy : 0),
-    };
-
-    setCharacterProperties(tempObject);
+      setCharacterProperties(tempObject);
+    }
   };
   return (
     <div className={classes.background}>
@@ -142,14 +153,17 @@ function CharacterItems({
       )}
       {actualCase === 2 && (
         <div className={classes.scroll}>
-          {validItems.length}
           {validItems.map((item, index) => {
             return (
               <div
                 className={classes.sectionWrapper}
                 onClick={() => updateCharacterProperties(index)}
               >
-                <SingleCharacterItem item={item} />
+                <SingleCharacterItem
+                  item={item}
+                  clickedIndex={itemClickedIndex}
+                  itemIndex={index}
+                />
               </div>
             );
           })}

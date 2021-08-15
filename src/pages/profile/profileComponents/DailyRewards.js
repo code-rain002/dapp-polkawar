@@ -394,7 +394,7 @@ function DailyRewards({ togglePopup, getXpByOwner, updateXpOfOwner }) {
                                     onClick={claimXp}
                                   >
                                     {" "}
-                                    Show Me
+                                    Claim
                                   </Button>
                                 )}
                                 {claimCase === 1 && (

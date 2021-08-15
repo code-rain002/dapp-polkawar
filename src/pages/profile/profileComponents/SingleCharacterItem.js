@@ -51,7 +51,12 @@ const useStyles = makeStyles((theme) => ({
     padding: 5,
     marginLeft: 10,
   },
-
+  itemWrapperClicked: {
+    borderRadius: 10,
+    border: "2px solid yellow",
+    padding: 5,
+    marginLeft: 10,
+  },
   detailsWrapper: {
     padding: 10,
     [theme.breakpoints.down("sm")]: {
@@ -98,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-function SingleCharacterItem({ item }) {
+function SingleCharacterItem({ item, clickedIndex, itemIndex }) {
   const classes = useStyles();
 
   return (
@@ -106,7 +111,14 @@ function SingleCharacterItem({ item }) {
       {item !== null && item !== undefined && (
         <div className={classes.section}>
           <div className="d-flex justify-content-start ">
-            <div htmlFor="item" className={classes.itemWrapper}>
+            <div
+              htmlFor="item"
+              className={
+                clickedIndex === itemIndex
+                  ? classes.itemWrapperClicked
+                  : classes.itemWrapper
+              }
+            >
               <img
                 src={`${imageBaseUrl}/${item.hashImage}`}
                 alt="item"
