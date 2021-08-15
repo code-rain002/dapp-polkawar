@@ -293,7 +293,7 @@ function DailyRewards({ togglePopup, getXpByOwner, updateXpOfOwner }) {
                             {10 * (index + 1)} XP
                             <br />{" "}
                             <small className={classes.costPwar}>
-                              (cost 30 PWAR)
+                              ({10 * (index + 1)} PWAR)
                             </small>
                           </h6>
                         </div>
@@ -352,7 +352,7 @@ function DailyRewards({ togglePopup, getXpByOwner, updateXpOfOwner }) {
                                   {10 * (index + 1)} XP
                                   <br />{" "}
                                   <small className={classes.costPwar}>
-                                    (cost 30 PWAR)
+                                    ({10 * (index + 1)} PWAR)
                                   </small>
                                 </h6>
                               </div>
@@ -379,7 +379,7 @@ function DailyRewards({ togglePopup, getXpByOwner, updateXpOfOwner }) {
                                 <h6 className={classes.xp}>
                                   {10 * (index + 1)} XP <br />{" "}
                                   <small className={classes.costPwar}>
-                                    (cost 30 PWAR)
+                                    ({10 * (index + 1)} PWAR)
                                   </small>
                                 </h6>
                               </div>
@@ -434,7 +434,7 @@ function DailyRewards({ togglePopup, getXpByOwner, updateXpOfOwner }) {
                                 <h6 className={classes.xp}>
                                   {10 * (index + 1)} XP <br />{" "}
                                   <small className={classes.costPwar}>
-                                    (cost 30 PWAR)
+                                    ({10 * (index + 1)} PWAR)
                                   </small>
                                 </h6>
                               </div>

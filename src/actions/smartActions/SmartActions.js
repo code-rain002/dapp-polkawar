@@ -155,6 +155,7 @@ export const checkPwarApproved = async (contractAddress) => {
   let allowance = await pwrContract.methods
     .allowance(userAddress, contractAddress)
     .call((err, res) => {
+      console.log(res);
       return res;
     });
 
