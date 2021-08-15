@@ -79,7 +79,7 @@ function CharacterItems({
             if (
               (parseInt(item.level) === 2 &&
                 characterLevel >= 11 &&
-                characterLevel <= 20) ||
+                characterLevel <= 29) ||
               (parseInt(item.level) === 1 &&
                 characterLevel >= 0 &&
                 characterLevel <= 10)
