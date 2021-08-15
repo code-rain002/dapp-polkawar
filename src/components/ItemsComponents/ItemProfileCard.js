@@ -281,7 +281,6 @@ function ItemProfileCard({ item, getItemDetails }) {
           +new Date(process.env.REACT_APP_START_RESELL) - +new Date();
         const resellEnd =
           +new Date(process.env.REACT_APP_END_RESELL) - +new Date();
-        console.log(resellEnd);
 
         if (resellStarted <= 0 && resellEnd >= 0) {
           //Time of resell

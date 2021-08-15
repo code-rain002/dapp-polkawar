@@ -194,7 +194,6 @@ function DailyRewards({ togglePopup, getXpByOwner, updateXpOfOwner }) {
 
   const isApproved = async () => {
     let allowance = await checkPwarApproved(xpContractAddress);
-    console.log(allowance);
 
     if (parseInt(allowance) > 0) {
       setApproved(true);
