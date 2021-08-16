@@ -191,16 +191,18 @@ function DailyRewards({
     async function asyncFn() {
       await isApproved();
       let xpDetails = await getXpByOwner();
+
       if (xpDetails) {
         console.log("hello");
-        let nexClaimTime = parseInt(xpDetails.lastClaim) + 86400000;
-        if (nexClaimTime < Date.now()) {
+        let nextClaimTime = parseInt(xpDetails.lastClaim) + 86400000;
+        if (nextClaimTime < Date.now()) {
           setEnableTodayClaim(true);
         } else {
           setEnableTodayClaim(false);
         }
         setDayOfClaim(xpDetails.claimNo);
       } else {
+        setEnableTodayClaim(true);
         setDayOfClaim(0);
       }
       setLoading(false);
