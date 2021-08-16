@@ -12,6 +12,7 @@ import {
   getXpByOwner,
   updateXpOfOwner,
 } from "../../../actions/characterActions";
+import Loader from "../../../components/Loader";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -173,14 +174,16 @@ function DailyRewards({
   togglePopup,
   getXpByOwner,
   updateXpOfOwner,
+  setFreezePopup,
 }) {
   const classes = useStyles();
 
-  const [actualCase, setActualCase] = useState(0);
+  const [loading, setLoading] = useState(true);
   const [approved, setApproved] = useState(false);
   const [approveCase, setApproveCase] = useState(0);
   const [claimCase, setClaimCase] = useState(0);
   const [dayOfClaim, setDayOfClaim] = useState(0);
+  const [enableTodayClaim, setEnableTodayClaim] = useState(false);
 
   let xpContractAddress = constants.xp_owner_address;
 
@@ -189,18 +192,26 @@ function DailyRewards({
       await isApproved();
       let xpDetails = await getXpByOwner();
       if (xpDetails) {
+        console.log("hello");
+        let nexClaimTime = parseInt(xpDetails.lastClaim) + 86400000;
+        if (nexClaimTime < Date.now()) {
+          setEnableTodayClaim(true);
+        } else {
+          setEnableTodayClaim(false);
+        }
         setDayOfClaim(xpDetails.claimNo);
       } else {
         setDayOfClaim(0);
       }
-      console.log(xpDetails);
+      setLoading(false);
     }
     asyncFn();
+
+    console.log(loading);
   }, []);
 
   const isApproved = async () => {
     let allowance = await checkPwarApproved(xpContractAddress);
-
     if (parseInt(allowance) > 0) {
       setApproved(true);
     } else {
@@ -232,6 +243,7 @@ function DailyRewards({
   };
 
   const claimXp = async () => {
+    setFreezePopup(true);
     let characterLevel = parseInt(character.level);
     console.log(characterLevel);
     let userAddress = await getUserAddress();
@@ -254,215 +266,250 @@ function DailyRewards({
         let backendResponse = await updateXpOfOwner(blockNo);
         if (backendResponse) {
           setClaimCase(3);
-
+          setFreezePopup(false);
           window.location.reload();
         } else {
+          setFreezePopup(false);
           setClaimCase(4);
         }
       })
       .on("error", async function (error) {
+        setFreezePopup(false);
         setClaimCase(2);
       });
   };
   return (
-    <div className={classes.card}>
-      <div>
-        <div className="d-flex justify-content-between">
-          <div></div>
-          <div>
-            <h5 className={classes.title}>Claim XP</h5>
-            <p className={classes.subtitle}>
-              Build your character and get ready for the battle
-            </p>
-          </div>
-          <div>
-            {" "}
-            <IconButton onClick={togglePopup}>
-              <Close />
-            </IconButton>
+    <div>
+      {loading && (
+        <div className={classes.card}>
+          <div className="text-center">
+            <Loader />
           </div>
         </div>
-      </div>{" "}
-      <div className="d-flex justify-content-center">
-        <div className={classes.rewardBlockWrapper}>
-          <div className={classes.scroll}>
-            <div className="row">
-              {Array.from(Array(60)).map((element, index) => {
-                return (
-                  <div className="col-md-3">
-                    {!approved && (
-                      <div className={classes.rewardCardClaimed}>
-                        <div className="text-center">
-                          <img
-                            src="./images/xp.png"
-                            className={classes.media}
-                          />
-                        </div>
-                        <div>
-                          <h6 className={classes.xp}>
-                            {10 * (index + 1)} XP
-                            <br />{" "}
-                            <small className={classes.costPwar}>
-                              ({10 * (index + 1)} PWAR)
-                            </small>
-                          </h6>
-                        </div>
-                        <div>
-                          <h6 className={classes.day}>Day {index + 1}</h6>
-                        </div>
-                        <div className="text-center">
-                          {approveCase === 0 && (
-                            <Button
-                              variant="contained"
-                              className={classes.approveButton}
-                              onClick={approveFn}
-                            >
-                              {" "}
-                              Approve
-                            </Button>
-                          )}
-                          {approveCase === 1 && (
-                            <small className={classes.costPwar}>
-                              Processing...
-                            </small>
-                          )}
-                          {approveCase === 2 && (
-                            <small
-                              className={classes.costPwar}
-                              style={{ color: "red" }}
-                            >
-                              Failed
-                            </small>
-                          )}
+      )}
+      {!loading && (
+        <div className={classes.card}>
+          <div>
+            <div className="d-flex justify-content-between">
+              <div></div>
+              <div>
+                <h5 className={classes.title}>Claim XP</h5>
+                <p className={classes.subtitle}>
+                  Build your character and get ready for the battle
+                </p>
+              </div>
+              <div>
+                {" "}
+                <IconButton onClick={togglePopup}>
+                  <Close />
+                </IconButton>
+              </div>
+            </div>
+          </div>{" "}
+          <div className="d-flex justify-content-center">
+            <div className={classes.rewardBlockWrapper}>
+              <div className={classes.scroll}>
+                <div className="row">
+                  {Array.from(Array(60)).map((element, index) => {
+                    return (
+                      <div className="col-md-3">
+                        {!approved && (
+                          <div className={classes.rewardCardClaimed}>
+                            <div className="text-center">
+                              <img
+                                src="./images/xp.png"
+                                className={classes.media}
+                              />
+                            </div>
+                            <div>
+                              <h6 className={classes.xp}>
+                                {10 * (index + 1)} XP
+                                <br />{" "}
+                                <small className={classes.costPwar}>
+                                  ({10 * (index + 1)} PWAR)
+                                </small>
+                              </h6>
+                            </div>
+                            <div>
+                              <h6 className={classes.day}>Day {index + 1}</h6>
+                            </div>
+                            <div className="text-center">
+                              {approveCase === 0 && (
+                                <Button
+                                  variant="contained"
+                                  className={classes.approveButton}
+                                  onClick={approveFn}
+                                >
+                                  {" "}
+                                  Approve
+                                </Button>
+                              )}
+                              {approveCase === 1 && (
+                                <small className={classes.costPwar}>
+                                  Processing...
+                                </small>
+                              )}
+                              {approveCase === 2 && (
+                                <small
+                                  className={classes.costPwar}
+                                  style={{ color: "red" }}
+                                >
+                                  Failed
+                                </small>
+                              )}
 
-                          {approveCase === 3 && (
-                            <small
-                              className={classes.costPwar}
-                              style={{ color: "green" }}
-                            >
-                              Approved
-                            </small>
+                              {approveCase === 3 && (
+                                <small
+                                  className={classes.costPwar}
+                                  style={{ color: "green" }}
+                                >
+                                  Approved
+                                </small>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                        <div>
+                          {approved && (
+                            <div>
+                              {index < dayOfClaim && (
+                                <div className={classes.rewardCardClaimed}>
+                                  <div className="text-center">
+                                    <img
+                                      src="./images/xp.png"
+                                      className={classes.media}
+                                    />
+                                  </div>
+                                  <div>
+                                    <h6 className={classes.xp}>
+                                      {10 * (index + 1)} XP
+                                      <br />{" "}
+                                      <small className={classes.costPwar}>
+                                        ({10 * (index + 1)} PWAR)
+                                      </small>
+                                    </h6>
+                                  </div>
+                                  <div>
+                                    <h6 className={classes.day}>
+                                      Day {index + 1}
+                                    </h6>
+                                  </div>
+                                  <div
+                                    className="text-center"
+                                    style={{ color: "red", fontSize: 16 }}
+                                  >
+                                    <Close />
+                                  </div>
+                                </div>
+                              )}
+                              {index === dayOfClaim && (
+                                <div className={classes.rewardCardToday}>
+                                  <div className="text-center">
+                                    <img
+                                      src="./images/xp.png"
+                                      className={classes.media}
+                                    />
+                                  </div>
+                                  <div>
+                                    <h6 className={classes.xp}>
+                                      {10 * (index + 1)} XP <br />{" "}
+                                      <small className={classes.costPwar}>
+                                        ({10 * (index + 1)} PWAR)
+                                      </small>
+                                    </h6>
+                                  </div>
+                                  <div>
+                                    <h6 className={classes.day}>
+                                      Day {index + 1}
+                                    </h6>
+                                  </div>
+                                  <div className="text-center">
+                                    {claimCase === 0 && (
+                                      <div>
+                                        {!enableTodayClaim && (
+                                          <div>
+                                            <Button
+                                              variant="contained"
+                                              disabled
+                                              className={classes.showMeButton}
+                                            >
+                                              {" "}
+                                              Claim
+                                            </Button>
+                                          </div>
+                                        )}
+                                        {enableTodayClaim && (
+                                          <Button
+                                            variant="contained"
+                                            className={classes.showMeButton}
+                                            onClick={claimXp}
+                                          >
+                                            {" "}
+                                            Claim
+                                          </Button>
+                                        )}
+                                      </div>
+                                    )}
+                                    {claimCase === 1 && (
+                                      <small className={classes.costPwar}>
+                                        Processing...
+                                      </small>
+                                    )}
+                                    {claimCase === 2 && (
+                                      <small
+                                        className={classes.costPwar}
+                                        style={{ color: "red" }}
+                                      >
+                                        Failed
+                                      </small>
+                                    )}
+
+                                    {claimCase === 3 && (
+                                      <small
+                                        className={classes.costPwar}
+                                        style={{ color: "green" }}
+                                      >
+                                        Claimed
+                                      </small>
+                                    )}
+                                  </div>
+                                </div>
+                              )}
+                              {index > dayOfClaim && (
+                                <div className={classes.rewardCardUnclaimed}>
+                                  <div className="text-center">
+                                    <img
+                                      src="./images/xp.png"
+                                      className={classes.media}
+                                    />
+                                  </div>
+                                  <div>
+                                    <h6 className={classes.xp}>
+                                      {10 * (index + 1)} XP <br />{" "}
+                                      <small className={classes.costPwar}>
+                                        ({10 * (index + 1)} PWAR)
+                                      </small>
+                                    </h6>
+                                  </div>
+                                  <div>
+                                    <h6 className={classes.day}>
+                                      Day {index + 1}
+                                    </h6>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
                           )}
                         </div>
                       </div>
-                    )}
-                    <div>
-                      {approved && (
-                        <div>
-                          {index < dayOfClaim && (
-                            <div className={classes.rewardCardClaimed}>
-                              <div className="text-center">
-                                <img
-                                  src="./images/xp.png"
-                                  className={classes.media}
-                                />
-                              </div>
-                              <div>
-                                <h6 className={classes.xp}>
-                                  {10 * (index + 1)} XP
-                                  <br />{" "}
-                                  <small className={classes.costPwar}>
-                                    ({10 * (index + 1)} PWAR)
-                                  </small>
-                                </h6>
-                              </div>
-                              <div>
-                                <h6 className={classes.day}>Day {index + 1}</h6>
-                              </div>
-                              <div
-                                className="text-center"
-                                style={{ color: "red", fontSize: 16 }}
-                              >
-                                <Close />
-                              </div>
-                            </div>
-                          )}
-                          {index === dayOfClaim && (
-                            <div className={classes.rewardCardToday}>
-                              <div className="text-center">
-                                <img
-                                  src="./images/xp.png"
-                                  className={classes.media}
-                                />
-                              </div>
-                              <div>
-                                <h6 className={classes.xp}>
-                                  {10 * (index + 1)} XP <br />{" "}
-                                  <small className={classes.costPwar}>
-                                    ({10 * (index + 1)} PWAR)
-                                  </small>
-                                </h6>
-                              </div>
-                              <div>
-                                <h6 className={classes.day}>Day {index + 1}</h6>
-                              </div>
-                              <div className="text-center">
-                                {claimCase === 0 && (
-                                  <Button
-                                    variant="contained"
-                                    className={classes.showMeButton}
-                                    onClick={claimXp}
-                                  >
-                                    {" "}
-                                    Claim
-                                  </Button>
-                                )}
-                                {claimCase === 1 && (
-                                  <small className={classes.costPwar}>
-                                    Processing...
-                                  </small>
-                                )}
-                                {claimCase === 2 && (
-                                  <small
-                                    className={classes.costPwar}
-                                    style={{ color: "red" }}
-                                  >
-                                    Failed
-                                  </small>
-                                )}
-
-                                {claimCase === 3 && (
-                                  <small
-                                    className={classes.costPwar}
-                                    style={{ color: "green" }}
-                                  >
-                                    Claimed
-                                  </small>
-                                )}
-                              </div>
-                            </div>
-                          )}
-                          {index > dayOfClaim && (
-                            <div className={classes.rewardCardUnclaimed}>
-                              <div className="text-center">
-                                <img
-                                  src="./images/xp.png"
-                                  className={classes.media}
-                                />
-                              </div>
-                              <div>
-                                <h6 className={classes.xp}>
-                                  {10 * (index + 1)} XP <br />{" "}
-                                  <small className={classes.costPwar}>
-                                    ({10 * (index + 1)} PWAR)
-                                  </small>
-                                </h6>
-                              </div>
-                              <div>
-                                <h6 className={classes.day}>Day {index + 1}</h6>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

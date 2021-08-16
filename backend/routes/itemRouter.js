@@ -67,6 +67,7 @@ router.post("/item", async (req, res, next) => {
         "QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz",
         "QmehQyAK2zcuVeuJgY9GWTo4GP2hcXaaHGoehXQZD9XV55",
       ],
+      forCharacter: "Archer",
     },
     {
       id: 2,
@@ -87,6 +88,7 @@ router.post("/item", async (req, res, next) => {
         "QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz",
         "QmehQyAK2zcuVeuJgY9GWTo4GP2hcXaaHGoehXQZD9XV55",
       ],
+      forCharacter: "Magician",
     },
     {
       id: 3,
@@ -107,6 +109,7 @@ router.post("/item", async (req, res, next) => {
         "QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz",
         "QmehQyAK2zcuVeuJgY9GWTo4GP2hcXaaHGoehXQZD9XV55",
       ],
+      forCharacter: "Warrior",
     },
     {
       id: 4,
@@ -127,6 +130,7 @@ router.post("/item", async (req, res, next) => {
         "QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz",
         "QmehQyAK2zcuVeuJgY9GWTo4GP2hcXaaHGoehXQZD9XV55",
       ],
+      forCharacter: "Archer",
     },
     {
       id: 5,
@@ -147,6 +151,7 @@ router.post("/item", async (req, res, next) => {
         "QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz",
         "QmehQyAK2zcuVeuJgY9GWTo4GP2hcXaaHGoehXQZD9XV55",
       ],
+      forCharacter: "Magician",
     },
     {
       id: 6,
@@ -167,6 +172,7 @@ router.post("/item", async (req, res, next) => {
         "QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz",
         "QmehQyAK2zcuVeuJgY9GWTo4GP2hcXaaHGoehXQZD9XV55",
       ],
+      forCharacter: "Warrior",
     },
     {
       id: 7,
@@ -188,6 +194,7 @@ router.post("/item", async (req, res, next) => {
         "QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz",
         "QmehQyAK2zcuVeuJgY9GWTo4GP2hcXaaHGoehXQZD9XV55",
       ],
+      forCharacter: "Archer",
     },
     {
       id: 8,
@@ -208,6 +215,7 @@ router.post("/item", async (req, res, next) => {
         "QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz",
         "QmehQyAK2zcuVeuJgY9GWTo4GP2hcXaaHGoehXQZD9XV55",
       ],
+      forCharacter: "Magician",
     },
     {
       id: 9,
@@ -228,6 +236,7 @@ router.post("/item", async (req, res, next) => {
         "QmaPoAP9dwpUZ43pSxrzhjhcENzb17DSNqVdaVsKYpTFZz",
         "QmehQyAK2zcuVeuJgY9GWTo4GP2hcXaaHGoehXQZD9XV55",
       ],
+      forCharacter: "Warrior",
     },
     // {
     //   name: 'Armor',
@@ -278,6 +287,7 @@ router.post("/item", async (req, res, next) => {
         "QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4",
         "QmT2rjE1hhmiNJuoUY4Zc4tAty49sK5wv9tfxgKQqbibWf",
       ],
+      forCharacter: "Archer",
     },
     {
       id: 11,
@@ -303,6 +313,7 @@ router.post("/item", async (req, res, next) => {
         "QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4",
         "QmT2rjE1hhmiNJuoUY4Zc4tAty49sK5wv9tfxgKQqbibWf",
       ],
+      forCharacter: "Magician",
     },
     {
       id: 12,
@@ -328,6 +339,7 @@ router.post("/item", async (req, res, next) => {
         "QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4",
         "QmT2rjE1hhmiNJuoUY4Zc4tAty49sK5wv9tfxgKQqbibWf",
       ],
+      forCharacter: "Warrior",
     },
     {
       id: 13,
@@ -348,6 +360,7 @@ router.post("/item", async (req, res, next) => {
         "QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4",
         "QmT2rjE1hhmiNJuoUY4Zc4tAty49sK5wv9tfxgKQqbibWf",
       ],
+      forCharacter: "Archer",
     },
     {
       id: 14,
@@ -368,6 +381,7 @@ router.post("/item", async (req, res, next) => {
         "QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4",
         "QmT2rjE1hhmiNJuoUY4Zc4tAty49sK5wv9tfxgKQqbibWf",
       ],
+      forCharacter: "Magician",
     },
     {
       id: 15,
@@ -388,6 +402,7 @@ router.post("/item", async (req, res, next) => {
         "QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4",
         "QmT2rjE1hhmiNJuoUY4Zc4tAty49sK5wv9tfxgKQqbibWf",
       ],
+      forCharacter: "Warrior",
     },
     {
       id: 16,
@@ -408,6 +423,7 @@ router.post("/item", async (req, res, next) => {
         "QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4",
         "QmT2rjE1hhmiNJuoUY4Zc4tAty49sK5wv9tfxgKQqbibWf",
       ],
+      forCharacter: "Archer",
     },
     {
       id: 17,
@@ -428,6 +444,7 @@ router.post("/item", async (req, res, next) => {
         "QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4",
         "QmT2rjE1hhmiNJuoUY4Zc4tAty49sK5wv9tfxgKQqbibWf",
       ],
+      forCharacter: "Magician",
     },
     {
       id: 18,
@@ -448,6 +465,7 @@ router.post("/item", async (req, res, next) => {
         "QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4",
         "QmT2rjE1hhmiNJuoUY4Zc4tAty49sK5wv9tfxgKQqbibWf",
       ],
+      forCharacter: "Warrior",
     },
   ];
   var wingData = [
@@ -465,6 +483,7 @@ router.post("/item", async (req, res, next) => {
       },
       hashImage: "QmSE1fRkifzczAYwNk3cZBvhrFgzefjxjWyjt7qguktKhX",
       category: "wing",
+      forCharacter: "Archer",
     },
     {
       id: 20,
@@ -481,6 +500,7 @@ router.post("/item", async (req, res, next) => {
 
       hashImage: "QmSwZWV1fbUUPmHPidAkxqNbxtsXi6jPMdN4AeV3euDdVE",
       category: "wing",
+      forCharacter: "Magician",
     },
     {
       id: 21,
@@ -497,6 +517,7 @@ router.post("/item", async (req, res, next) => {
       level: 1,
       hashImage: "QmbqwfPekXBqC3CCwt5nAiAcEV5ku6ASk7wnRuQfV8kWua",
       category: "wing",
+      forCharacter: "Warrior",
     },
     {
       id: 22,
@@ -512,6 +533,7 @@ router.post("/item", async (req, res, next) => {
       level: 2,
       hashImage: "QmWUC8UvoWprjdiEzjE8hMpsdTYVHo9NSvWSmwNcUTiyit",
       category: "wing",
+      forCharacter: "Archer",
     },
     {
       id: 23,
@@ -527,6 +549,7 @@ router.post("/item", async (req, res, next) => {
       level: 2,
       hashImage: "QmPd33F1dPDXAdto7qJkNg1WqoQYNfVF1SHb7z9bwuejWU",
       category: "wing",
+      forCharacter: "Magician",
     },
     {
       id: 24,
@@ -542,6 +565,7 @@ router.post("/item", async (req, res, next) => {
       level: 2,
       hashImage: "QmbfLPK8tLzAgBMsN5oeFj8N16tD8D7r9bSmA4LMUtBQDr",
       category: "wing",
+      forCharacter: "Warrior",
     },
     {
       id: 25,
@@ -557,6 +581,7 @@ router.post("/item", async (req, res, next) => {
       level: 3,
       hashImage: "QmThgWZpEiXvyatNk6ALXwR7emCApuDKgBaefFsYtbQZwF",
       category: "wing",
+      forCharacter: "Archer",
     },
     {
       id: 26,
@@ -572,6 +597,7 @@ router.post("/item", async (req, res, next) => {
       level: 3,
       hashImage: "QmUZ3NNE4TANsGnCgv8rFMTGU9A1npV3odLDki8HBdAfSR",
       category: "wing",
+      forCharacter: "Magician",
     },
     {
       id: 27,
@@ -587,6 +613,7 @@ router.post("/item", async (req, res, next) => {
       level: 3,
       hashImage: "QmXcHaJGDKYR7NneL8vhNuLAfqBgzqek3ug1F2HREFm5zv",
       category: "wing",
+      forCharacter: "Warrior",
     },
   ];
   var mountData = [
@@ -607,6 +634,7 @@ router.post("/item", async (req, res, next) => {
       },
       hashImage: "QmZx9cXWSCt1s2tPvdyjvM1YVTHin2po1DuWQWwQMwupwc",
       category: "magic vase",
+      forCharacter: "All",
     },
   ];
   var swordData = [
@@ -629,6 +657,7 @@ router.post("/item", async (req, res, next) => {
         "QmWo1CTuCVie2N8EKhFaBXA5FUP9Luj1sjJBZLUyy8ssb4",
         "QmeeG3xVTnGt19hVcZcfruw15aWSGohPudebX8U7nNez9X",
       ],
+      forCharacter: "Warrior",
     },
     {
       id: 30,
@@ -649,6 +678,7 @@ router.post("/item", async (req, res, next) => {
         "QmWo1CTuCVie2N8EKhFaBXA5FUP9Luj1sjJBZLUyy8ssb4",
         "QmeeG3xVTnGt19hVcZcfruw15aWSGohPudebX8U7nNez9X",
       ],
+      forCharacter: "Warrior",
     },
     {
       id: 31,
@@ -670,6 +700,7 @@ router.post("/item", async (req, res, next) => {
         "QmWo1CTuCVie2N8EKhFaBXA5FUP9Luj1sjJBZLUyy8ssb4",
         "QmeeG3xVTnGt19hVcZcfruw15aWSGohPudebX8U7nNez9X",
       ],
+      forCharacter: "Warrior",
     },
   ];
   var knifeData = [
@@ -687,6 +718,7 @@ router.post("/item", async (req, res, next) => {
       level: 1,
       hashImage: "QmYBRqwjCu95NpTbkwRmseUEKd1wNS4ZvyuQZWPDZaZjNs",
       category: "big knife",
+      forCharacter: "Warrior",
     },
     {
       id: 33,
@@ -702,6 +734,7 @@ router.post("/item", async (req, res, next) => {
       level: 2,
       hashImage: "QmW7xTbUrhhoCQtzNhp3SUMrp7s8sEfvuoyq2ASNbrhWQ3",
       category: "big knife",
+      forCharacter: "Warrior",
     },
     {
       id: 34,
@@ -718,6 +751,7 @@ router.post("/item", async (req, res, next) => {
       level: 3,
       hashImage: "Qmb69r56kXY4Z6w3ZJUuu7qSyNZYhdfLVPjckzhmKgQihB",
       category: "big knife",
+      forCharacter: "Warrior",
     },
   ];
   var tessenData = [
@@ -735,6 +769,7 @@ router.post("/item", async (req, res, next) => {
       level: 1,
       hashImage: "QmTyG1N1d5XaS28EvuH4nvaFC6S38NgYt87BeySvsoS98n",
       category: "tessen",
+      forCharacter: "Warrior",
     },
     {
       id: 36,
@@ -750,6 +785,7 @@ router.post("/item", async (req, res, next) => {
       level: 2,
       hashImage: "Qma4sijb9J3FE4aLUhog5N697TMzTzUXV7EMECjgbg2oTZ",
       category: "tessen",
+      forCharacter: "Warrior",
     },
     {
       id: 37,
@@ -766,6 +802,7 @@ router.post("/item", async (req, res, next) => {
       level: 3,
       hashImage: "Qmd8HcuLGaJ8t2v77hhYNFpVgPHniDKiwTE6FwZzyjEURm",
       category: "tessen",
+      forCharacter: "Warrior",
     },
   ];
   var bowData = [
@@ -788,6 +825,7 @@ router.post("/item", async (req, res, next) => {
         "QmYu9frvTRuySJYupkYthz77fMH9dg1ugiri4fHUuuGRTX",
         "QmPQwFLd5YukQUqF7RGxTvaJQUGemqKqH9mYVea5uETmNR",
       ],
+      forCharacter: "Archer",
     },
     {
       id: 39,
@@ -808,6 +846,7 @@ router.post("/item", async (req, res, next) => {
         "QmYu9frvTRuySJYupkYthz77fMH9dg1ugiri4fHUuuGRTX",
         "QmPQwFLd5YukQUqF7RGxTvaJQUGemqKqH9mYVea5uETmNR",
       ],
+      forCharacter: "Archer",
     },
     {
       id: 40,
@@ -829,6 +868,7 @@ router.post("/item", async (req, res, next) => {
         "QmYu9frvTRuySJYupkYthz77fMH9dg1ugiri4fHUuuGRTX",
         "QmPQwFLd5YukQUqF7RGxTvaJQUGemqKqH9mYVea5uETmNR",
       ],
+      forCharacter: "Archer",
     },
   ];
   var gunData = [
@@ -846,6 +886,7 @@ router.post("/item", async (req, res, next) => {
       level: 1,
       hashImage: "QmWAdCmcPVhryxHMcgSKcHa88B5S8rhNCYLTDmKKg33iU4",
       category: "gun",
+      forCharacter: "Archer",
     },
     {
       id: 42,
@@ -861,6 +902,7 @@ router.post("/item", async (req, res, next) => {
       level: 2,
       hashImage: "QmfZSKVadAmSonNyvDvkLNTb2nL35GJ82CRqDUFhGQ8CgQ",
       category: "gun",
+      forCharacter: "Archer",
     },
     {
       id: 43,
@@ -877,6 +919,7 @@ router.post("/item", async (req, res, next) => {
       level: 3,
       hashImage: "QmPgyQnuzXdLzWHJ9J21HSPF3oBjtAZXtS7jLvVRu7NBGv",
       category: "gun",
+      forCharacter: "Archer",
     },
   ];
 
@@ -900,6 +943,7 @@ router.post("/item", async (req, res, next) => {
         "QmfRkN8ZqNRgVqugfNvHhBEfznzAhKkYDwnrKuXMRcTjyV",
         "QmYLW8udGSi1q6S2oFTnq8giiCcELDQoED8JmJUURyazav",
       ],
+      forCharacter: "Magician",
     },
     {
       id: 45,
@@ -920,6 +964,7 @@ router.post("/item", async (req, res, next) => {
         "QmfRkN8ZqNRgVqugfNvHhBEfznzAhKkYDwnrKuXMRcTjyV",
         "QmYLW8udGSi1q6S2oFTnq8giiCcELDQoED8JmJUURyazav",
       ],
+      forCharacter: "Magician",
     },
 
     {
@@ -941,6 +986,7 @@ router.post("/item", async (req, res, next) => {
         "QmfRkN8ZqNRgVqugfNvHhBEfznzAhKkYDwnrKuXMRcTjyV",
         "QmYLW8udGSi1q6S2oFTnq8giiCcELDQoED8JmJUURyazav",
       ],
+      forCharacter: "Magician",
     },
   ];
   var magicvaseData = [
@@ -964,6 +1010,7 @@ router.post("/item", async (req, res, next) => {
         "QmapZSPXv5vzbvjNa1T191SPzA9Zo2ufZ4JEQtVi3pCSS3",
         "QmNc3mNzvHoxd12XK4pXtRqZARJrrNPouSfhRMyX5Cief8",
       ],
+      forCharacter: "Magician",
     },
     {
       id: 48,
@@ -985,6 +1032,7 @@ router.post("/item", async (req, res, next) => {
         "QmapZSPXv5vzbvjNa1T191SPzA9Zo2ufZ4JEQtVi3pCSS3",
         "QmNc3mNzvHoxd12XK4pXtRqZARJrrNPouSfhRMyX5Cief8",
       ],
+      forCharacter: "Magician",
     },
     {
       id: 49,
@@ -1006,6 +1054,7 @@ router.post("/item", async (req, res, next) => {
         "QmapZSPXv5vzbvjNa1T191SPzA9Zo2ufZ4JEQtVi3pCSS3",
         "QmNc3mNzvHoxd12XK4pXtRqZARJrrNPouSfhRMyX5Cief8",
       ],
+      forCharacter: "Magician",
     },
   ];
   try {

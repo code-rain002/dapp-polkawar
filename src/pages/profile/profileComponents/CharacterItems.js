@@ -87,8 +87,11 @@ function CharacterItems({
                 characterLevel >= 0 &&
                 characterLevel <= 10)
             ) {
-              compatibleItems.push(item);
-              setValidItems(compatibleItems);
+              console.log(item);
+              if (item.forCharacter === character.name) {
+                compatibleItems.push(item);
+                setValidItems(compatibleItems);
+              }
             }
           });
 

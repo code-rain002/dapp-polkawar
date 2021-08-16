@@ -48,6 +48,10 @@ var ItemModel = new mongoose.Schema({
   gallery: {
     type: Array,
   },
+  forCharacter: {
+    type: String,
+    required: true,
+  },
   owner: {
     type: Array,
     required: false,
