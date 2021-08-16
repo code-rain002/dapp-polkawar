@@ -168,7 +168,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
   },
 }));
-function DailyRewards({ togglePopup, getXpByOwner, updateXpOfOwner }) {
+function DailyRewards({
+  character,
+  togglePopup,
+  getXpByOwner,
+  updateXpOfOwner,
+}) {
   const classes = useStyles();
 
   const [actualCase, setActualCase] = useState(0);
@@ -183,10 +188,11 @@ function DailyRewards({ togglePopup, getXpByOwner, updateXpOfOwner }) {
     async function asyncFn() {
       await isApproved();
       let xpDetails = await getXpByOwner();
-      if (xpDetails.claimNo) {
+      if (xpDetails) {
         setDayOfClaim(xpDetails.claimNo);
+      } else {
+        setDayOfClaim(0);
       }
-
       console.log(xpDetails);
     }
     asyncFn();
@@ -207,7 +213,7 @@ function DailyRewards({ togglePopup, getXpByOwner, updateXpOfOwner }) {
     const response = await pwarConnection.methods
       .approve(xpContractAddress, "100000000000000000000000000")
       .send(
-        { from: userAddress, gasPrice: 25000000000 },
+        { from: userAddress, gasPrice: 10000000000 },
         function (error, transactionHash) {
           if (transactionHash) {
             setApproveCase(1);
@@ -226,12 +232,14 @@ function DailyRewards({ togglePopup, getXpByOwner, updateXpOfOwner }) {
   };
 
   const claimXp = async () => {
+    let characterLevel = parseInt(character.level);
+    console.log(characterLevel);
     let userAddress = await getUserAddress();
     let blockNo;
     const response = await xpConnection.methods
-      .claimXP(0)
+      .claimXP(characterLevel)
       .send(
-        { from: userAddress, gasPrice: 25000000000 },
+        { from: userAddress, gasPrice: 10000000000 },
         function (error, transactionHash) {
           if (transactionHash) {
             setClaimCase(1);
@@ -241,14 +249,16 @@ function DailyRewards({ togglePopup, getXpByOwner, updateXpOfOwner }) {
         }
       )
       .on("receipt", async function (receipt) {
-        blockNo = receipt;
+        blockNo = receipt.blockNumber;
+        console.log(receipt.blockNumber);
         let backendResponse = await updateXpOfOwner(blockNo);
         if (backendResponse) {
           setClaimCase(3);
+
+          window.location.reload();
         } else {
           setClaimCase(4);
         }
-        //window.location.reload();
       })
       .on("error", async function (error) {
         setClaimCase(2);

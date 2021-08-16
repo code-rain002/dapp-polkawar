@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import PowerStats from "../../../components/PowerStatsBar";
 import { Button, Dialog, Slide, Backdrop } from "@material-ui/core";
 import DailyRewards from "./DailyRewards";
+import { getXpByOwner } from "./../../../actions/characterActions";
+import { connect } from "react-redux";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -77,10 +79,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CharacterStats({ character, characterProperties }) {
+function CharacterStats({ character, getXpByOwner, characterProperties }) {
   const classes = useStyles();
 
   const [claimXpPopup, setClaimXpPopup] = useState(false);
+  const [enableClaimXp, setEnableClaimXp] = useState(false);
 
   let colors1 = ["#ba68c8", "#9c27b0", "#7b1fa2", "#7b1fa2"];
   let colors2 = ["#ffee58", "#fbc02d", "#f57f17"];
@@ -92,6 +95,25 @@ export default function CharacterStats({ character, characterProperties }) {
 
     return a;
   };
+
+  useEffect(() => {
+    async function asyncFn() {
+      let xpDetail = await getXpByOwner();
+      console.log(xpDetail);
+      if (xpDetail) {
+        let newClaimTime = parseInt(xpDetail.lastClaim) + 86400000;
+
+        if (newClaimTime < Date.now()) {
+          setEnableClaimXp(true);
+        } else {
+          setEnableClaimXp(false);
+        }
+      } else {
+        setEnableClaimXp(true);
+      }
+    }
+    asyncFn();
+  }, []);
   return (
     <div className={classes.background}>
       <h3 htmlFor="category" className={classes.title}>
@@ -172,13 +194,15 @@ export default function CharacterStats({ character, characterProperties }) {
         </div>
       )}
       <div className="text-center mt-3">
-        <Button
-          variant="contained"
-          className={classes.claimXpButton}
-          onClick={() => setClaimXpPopup(true)}
-        >
-          Claim XP
-        </Button>
+        {enableClaimXp && (
+          <Button
+            variant="contained"
+            className={classes.claimXpButton}
+            onClick={() => setClaimXpPopup(true)}
+          >
+            Claim XP
+          </Button>
+        )}
       </div>
       <Dialog
         className={classes.modal}
@@ -193,9 +217,19 @@ export default function CharacterStats({ character, characterProperties }) {
         }}
       >
         <div style={{ backgroundColor: "black" }}>
-          <DailyRewards togglePopup={() => setClaimXpPopup(false)} />
+          <DailyRewards
+            togglePopup={() => setClaimXpPopup(false)}
+            character={character}
+          />
         </div>
       </Dialog>{" "}
     </div>
   );
 }
+const mapStateToProps = (state) => ({
+  authenticated: state.auth.authenticated,
+});
+
+const mapDispatchToProps = { getXpByOwner };
+
+export default connect(mapStateToProps, mapDispatchToProps)(CharacterStats);

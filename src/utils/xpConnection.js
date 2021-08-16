@@ -249,7 +249,7 @@ if (constants.net === 0) {
     rpcUrl: "https://data-seed-prebsc-2-s3.binance.org:8545/",
     chainId: 97, //Testnet
     api: "V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK",
-    contractAddress: "0xeF1c7E71850a550E92B635fc701F2Fa276AB19f5",
+    contractAddress: "0x5AAa220472ED1CCd1C84c82f25eca7B794226316",
     abi: [
       {
         inputs: [
@@ -266,6 +266,11 @@ if (constants.net === 0) {
           {
             internalType: "address payable",
             name: "_fundOwner",
+            type: "address",
+          },
+          {
+            internalType: "address payable",
+            name: "_marketingFund",
             type: "address",
           },
         ],
@@ -344,6 +349,13 @@ if (constants.net === 0) {
         type: "function",
       },
       {
+        inputs: [],
+        name: "burnPercent",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
         inputs: [
           { internalType: "uint256", name: "_beginDate", type: "uint256" },
           { internalType: "uint256", name: "_endDate", type: "uint256" },
@@ -351,6 +363,13 @@ if (constants.net === 0) {
           { internalType: "uint256", name: "_baseAmount", type: "uint256" },
           { internalType: "uint256", name: "_maxClaimNumber", type: "uint256" },
           { internalType: "uint256", name: "_baseXP", type: "uint256" },
+          { internalType: "uint256", name: "_devPercent", type: "uint256" },
+          {
+            internalType: "uint256",
+            name: "_marketingPercent",
+            type: "uint256",
+          },
+          { internalType: "uint256", name: "_burnPercent", type: "uint256" },
         ],
         name: "changeConstant",
         outputs: [],
@@ -364,6 +383,13 @@ if (constants.net === 0) {
         name: "claimXP",
         outputs: [],
         stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "devPercent",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
         type: "function",
       },
       {
@@ -415,6 +441,13 @@ if (constants.net === 0) {
         inputs: [],
         name: "isOwner",
         outputs: [{ internalType: "bool", name: "", type: "bool" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "marketingPercent",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
         stateMutability: "view",
         type: "function",
       },

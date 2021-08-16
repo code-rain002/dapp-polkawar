@@ -93,10 +93,10 @@ export const getXpByOwner = () => async (dispatch) => {
 };
 
 // POST Update User character XP
-export const updateXpOfOwner = (txHash) => async (dispatch) => {
+export const updateXpOfOwner = (blockNo) => async (dispatch) => {
   let userAddress = await getUserAddress();
   let data = {
-    txHash,
+    blockNo,
     owner: userAddress,
   };
   let response = await axios
