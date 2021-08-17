@@ -96,8 +96,6 @@ function CharacterStats({ character, characterProperties }) {
     let characterLevel = parseInt(character.level);
     let nextLevel = characterLevel + 1;
     let a = (nextLevel * nextLevel) / 0.02 - currentXp;
-    console.log("nextLevel: " + nextLevel);
-    console.log(a);
 
     return a;
   };

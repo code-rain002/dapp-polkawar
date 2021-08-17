@@ -274,7 +274,6 @@ function Profile({ checkAuthenticated, authenticated }) {
         let networkStatus = await checkCorrectNetwork();
 
         if (networkStatus) {
-          console.log("2. Correct Network");
           let authenticated = await checkAuthenticated();
 
           if (authenticated) {

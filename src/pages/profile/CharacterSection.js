@@ -206,7 +206,7 @@ function CharacterSection({ getUserCharacter, usercharacter }) {
   useEffect(() => {
     async function asyncFn() {
       let res = await getUserCharacter();
-      console.log(res);
+
       if (res) {
         setApiHit(true);
       } else {
