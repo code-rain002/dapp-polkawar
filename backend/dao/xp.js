@@ -97,9 +97,9 @@ const xpDao = {
         let levelwiseXp = ((level + 1) * (level + 1)) / 0.02;
         let updatedXp = parseInt(properties["xp"]) + parseInt(increaseInXp);
 
-        if (updatedXp > levelwiseXp) {
+        if (updatedXp >= levelwiseXp) {
           let updatedLevel = level + 1;
-          let newXp = ((updatedLevel + 1) * (updatedLevel + 1)) / 0.02;
+          let newXp = (updatedLevel * updatedLevel) / 0.02;
           let newHp = properties.hp + updatedLevel * 10;
           let newMp = properties.mp + updatedLevel * 7;
           let newPatk = Math.floor(properties.Patk + updatedLevel * 1.1);

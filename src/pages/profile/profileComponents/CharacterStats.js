@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   modal: {
-    width: "fit-content",
+    width: "100%",
     margin: 0,
     padding: 0,
   },
@@ -93,9 +93,11 @@ function CharacterStats({ character, characterProperties }) {
   let colors2 = ["#ffee58", "#fbc02d", "#f57f17"];
 
   const nextXp = (currentXp) => {
-    let characterLevel = character.level;
+    let characterLevel = parseInt(character.level);
     let nextLevel = characterLevel + 1;
     let a = (nextLevel * nextLevel) / 0.02 - currentXp;
+    console.log("nextLevel: " + nextLevel);
+    console.log(a);
 
     return a;
   };
