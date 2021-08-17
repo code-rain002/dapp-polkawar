@@ -8,6 +8,9 @@ import SingleCharacterItem from "./SingleCharacterItem";
 const useStyles = makeStyles((theme) => ({
   background: {
     minWidth: 280,
+    [theme.breakpoints.down("sm")]: {
+      minWidth: 100,
+    },
   },
   sectionWrapper: { paddingRight: 20 },
   scroll: {

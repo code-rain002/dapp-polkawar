@@ -76,6 +76,11 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 18,
     },
   },
+  modal: {
+    width: "fit-content",
+    margin: 0,
+    padding: 0,
+  },
 }));
 
 function CharacterStats({ character, characterProperties }) {

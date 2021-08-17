@@ -25,7 +25,11 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #ffffff",
     borderRadius: 14,
     [theme.breakpoints.down("md")]: {
-      width: "100%",
+      width: "fit-content",
+      height: 500,
+      padding: 0,
+      paddingLeft: 3,
+      paddingRight: 3,
     },
   },
 
@@ -37,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 36,
     fontFamily: "Montserrat",
     [theme.breakpoints.down("md")]: {
-      fontSize: 25,
+      fontSize: 18,
     },
   },
   subtitle: {
@@ -48,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 18,
     fontFamily: "Montserrat",
     [theme.breakpoints.down("md")]: {
-      fontSize: 18,
+      fontSize: 12,
     },
   },
 
@@ -61,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 40,
     fontFamily: "Balsamiq Sans",
     [theme.breakpoints.down("md")]: {
-      fontSize: 14,
+      fontSize: 12,
     },
   },
   xp: {
@@ -102,27 +106,39 @@ const useStyles = makeStyles((theme) => ({
   rewardBlockWrapper: {
     width: 1200,
     marginTop: 20,
+    [theme.breakpoints.down("md")]: {
+      width: 190,
+    },
   },
   rewardCardClaimed: {
     width: "100%",
     height: 175,
-    border: "1px solid #ffffff",
+    border: "3px solid #81c784",
     borderRadius: 10,
     backgroundColor: `#68605A`,
     background: `linear-gradient(0deg, rgba(104,96,90, 0.95), rgba(40,40,40, 0.95) )`,
     padding: 10,
     marginBottom: 10,
+    [theme.breakpoints.down("md")]: {
+      width: 180,
+      padding: 5,
+      height: 170,
+    },
   },
   rewardCardToday: {
     width: "100%",
     height: 175,
-
     border: "5px solid yellow",
     borderRadius: 10,
     backgroundColor: `#68605A`,
     background: `linear-gradient(0deg, rgba(104,96,90, 0.95), rgba(40,40,40, 0.95) )`,
     padding: 10,
     marginBottom: 10,
+    [theme.breakpoints.down("md")]: {
+      width: 180,
+      padding: 5,
+      height: 170,
+    },
   },
   rewardCardUnclaimed: {
     width: "100%",
@@ -134,6 +150,11 @@ const useStyles = makeStyles((theme) => ({
     padding: 10,
     marginBottom: 10,
     opacity: 0.5,
+    [theme.breakpoints.down("md")]: {
+      width: 180,
+      padding: 5,
+      height: 170,
+    },
   },
   media: {
     height: 50,
@@ -147,7 +168,8 @@ const useStyles = makeStyles((theme) => ({
     overflowY: "scroll",
 
     [theme.breakpoints.down("sm")]: {
-      height: 300,
+      height: 340,
+      overflowX: "hidden",
     },
   },
   showMeButton: {
@@ -167,6 +189,12 @@ const useStyles = makeStyles((theme) => ({
     padding: "3px 10px 3px 10px",
     background: `linear-gradient(to bottom,#7b1fa2, #6a1b9a)`,
     fontSize: 12,
+  },
+  icon: {
+    fontSize: 18,
+    [theme.breakpoints.down("md")]: {
+      fontSize: 16,
+    },
   },
 }));
 function DailyRewards({
@@ -222,6 +250,7 @@ function DailyRewards({
   };
 
   const approveFn = async () => {
+    setFreezePopup(true);
     let userAddress = await getUserAddress();
     const response = await pwarConnection.methods
       .approve(xpContractAddress, "100000000000000000000000000")
@@ -237,9 +266,11 @@ function DailyRewards({
       )
       .on("receipt", async function (receipt) {
         setApproveCase(3);
+        setFreezePopup(false);
         window.location.reload();
       })
       .on("error", async function (error) {
+        setFreezePopup(false);
         setApproveCase(2);
       });
   };
@@ -292,19 +323,17 @@ function DailyRewards({
       {!loading && (
         <div className={classes.card}>
           <div>
-            <div className="d-flex justify-content-between">
-              <div></div>
+            <div className="d-flex justify-content-end">
+              <IconButton onClick={togglePopup}>
+                <Close className={classes.icon} />
+              </IconButton>
+            </div>
+            <div className="d-flex justify-content-center">
               <div>
                 <h5 className={classes.title}>Claim XP</h5>
                 <p className={classes.subtitle}>
                   Build your character and get ready for the battle
                 </p>
-              </div>
-              <div>
-                {" "}
-                <IconButton onClick={togglePopup}>
-                  <Close />
-                </IconButton>
               </div>
             </div>
           </div>{" "}
@@ -398,9 +427,9 @@ function DailyRewards({
                                   </div>
                                   <div
                                     className="text-center"
-                                    style={{ color: "red", fontSize: 16 }}
+                                    style={{ color: "#81c784", fontSize: 16 }}
                                   >
-                                    <Close />
+                                    Claimed
                                   </div>
                                 </div>
                               )}

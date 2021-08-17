@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core";
+import { Button, Divider } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
+    [theme.breakpoints.down("md")]: {
+      height: 300,
+    },
   },
   title: {
     verticalAlign: "baseline",
@@ -31,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
     letterSpacing: 0.9,
     fontSize: 26,
-    lineHeight: "50px",
+    lineHeight: "40px",
     [theme.breakpoints.down("md")]: {
       fontSize: 18,
     },
@@ -41,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: "white",
     fontWeight: 500,
-    fontSize: 18,
+    fontSize: 17,
     fontFamily: "Balsamiq Sans",
     [theme.breakpoints.down("md")]: {
       fontSize: 14,
@@ -58,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 500,
     background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
     fontSize: 16,
+    [theme.breakpoints.down("md")]: {
+      padding: "8px 16px 8px 16px",
+    },
   },
 }));
 export default function BuildCharacter() {
@@ -70,6 +76,10 @@ export default function BuildCharacter() {
       <div className={classes.wrapper}>
         <div>
           <h5 className={classes.title}>Daily XP</h5>
+          {/* <Divider
+            style={{ height: 2, backgroundColor: "white", marginBottom: 10 }}
+          />
+          <h6 className={classes.subtitle}>Claim XP, Build Character</h6> */}
         </div>{" "}
         <div>
           <div>

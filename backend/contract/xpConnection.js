@@ -1,5 +1,6 @@
 var Web3 = require("web3");
 
+// testnet =1 main net =0;
 let net = 1;
 
 let xpConstant;
