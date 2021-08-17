@@ -287,17 +287,17 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
             <div style={{ maxWidth: 600 }}>
               <ol>
                 <li className={classes.listItem}>
-                  You must HODL or STAKE 3000 PWAR Tokens.
+                  You must HODL or STAKE 2000 PWAR Tokens.
                 </li>
                 <li className={classes.listItem}>
                   You can only purchase item once during the flash sale.
                 </li>
                 <li className={classes.listItem}>
-                  Only 100 items will be on sale at discounted price.
+                  Only 120 items will be on sale at discounted price.
                 </li>
                 <li className={classes.listItem}>
-                  Each NFT will cost 1 BNB. After the Flash Sale event ends, you
-                  can resell to the system for 1.2 BNB and your NFT item will be
+                  Each NFT will cost 0.5 BNB. After the Flash Sale event ends, you
+                  can resell to the system for 0.7 BNB and your NFT item will be
                   lost.
                 </li>
 
@@ -309,8 +309,8 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
                 </li>
                 <li className={classes.listItem}>
                   If you don't want to resell, you can hold the item upto{" "}
-                  <span style={{ color: "yellow" }}>31st Aug,2021</span> and you
-                  will receive 2500 PWAR tokens as a reward.
+                  <span style={{ color: "yellow" }}>20th Sep,2021</span> and you
+                  will receive 1000 PWAR tokens as a reward.
                 </li>
               </ol>
             </div>
