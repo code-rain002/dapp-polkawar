@@ -78,6 +78,7 @@ function CharacterItems({
   character,
   characterProperties,
   setCharacterProperties,
+  setItems,
 }) {
   const classes = useStyles();
 
@@ -177,17 +178,25 @@ function CharacterItems({
                 mount = [...mount, item];
                 totalItems = totalItems + 1;
               }
-              setValidItems({
-                weapon: weapons,
-                armor: armors,
-                mount: mount,
-                helmet: helmets,
-                wing: wings,
-              });
+
               setValidLength(totalItems);
             }
           });
           setTimeout(() => {
+            setValidItems({
+              weapon: weapons,
+              armor: armors,
+              mount: mount,
+              helmet: helmets,
+              wing: wings,
+            });
+            setItems({
+              weapon: weapons,
+              armor: armors,
+              mount: mount,
+              helmet: helmets,
+              wing: wings,
+            });
             setActualCase(2);
           }, 1000);
         }

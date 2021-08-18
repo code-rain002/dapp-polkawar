@@ -114,29 +114,45 @@ function CharacterStats({ character, characterProperties }) {
                 return (
                   <div className={classes.wrapper}>
                     {index === 0 && (
-                      <div className="d-flex justify-content-between">
-                        <h6 htmlFor="category" className={classes.category}>
-                          {key.toUpperCase()}({value})
-                        </h6>
-                        <h6
-                          htmlFor="category"
-                          className={classes.category}
-                          style={{ color: "yellow" }}
-                        >
-                          <small> Upgrade requires: {nextXp(value)} XP</small>
-                        </h6>
+                      <div>
+                        <div className="d-flex justify-content-between">
+                          <h6 htmlFor="category" className={classes.category}>
+                            {key.toUpperCase()}({value})
+                          </h6>
+                          <h6
+                            htmlFor="category"
+                            className={classes.category}
+                            style={{ color: "yellow" }}
+                          >
+                            <small> Upgrade requires: {nextXp(value)} XP</small>
+                          </h6>
+                        </div>
+                        <div htmlFor="power" className={classes.powerWrapper}>
+                          <PowerStats
+                            value={value}
+                            color={colors1[index]}
+                            maxValue={value + nextXp(value)}
+                          />
+                        </div>
                       </div>
                     )}
                     {index !== 0 && (
                       <div>
-                        <h6 htmlFor="category" className={classes.category}>
-                          {key.toUpperCase()}({value})
-                        </h6>
+                        {" "}
+                        <div>
+                          <h6 htmlFor="category" className={classes.category}>
+                            {key.toUpperCase()}({value})
+                          </h6>
+                        </div>
+                        <div htmlFor="power" className={classes.powerWrapper}>
+                          <PowerStats
+                            value={value}
+                            color={colors1[index]}
+                            maxValue={value + nextXp(value)}
+                          />
+                        </div>
                       </div>
                     )}
-                    <div htmlFor="power" className={classes.powerWrapper}>
-                      <PowerStats value={value % 100} color={colors1[index]} />
-                    </div>
                   </div>
                 );
               })}

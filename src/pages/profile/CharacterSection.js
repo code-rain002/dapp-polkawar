@@ -201,6 +201,23 @@ function CharacterSection({ getUserCharacter, usercharacter }) {
   const [characterPopup, setCharacterPopup] = useState(false);
   const [stopPopupClick, setStopPopupClick] = useState(false);
   const [characterProperties, setCharacterProperties] = useState(null);
+  // Need to optimise this code when get time
+  const [maxPossibleStats, setMaxPossibleStats] = useState({
+    xp: 0,
+    hp: 0,
+    mp: 0,
+    Patk: 0,
+    Pdef: 8,
+    speed: 0,
+    accuracy: 0,
+  });
+  const [items, setItems] = useState({
+    weapon: [],
+    armor: [],
+    mount: [],
+    helmet: [],
+    wing: [],
+  });
   const [apiHit, setApiHit] = useState(false);
 
   useEffect(() => {
@@ -229,6 +246,58 @@ function CharacterSection({ getUserCharacter, usercharacter }) {
     }
   }, [usercharacter, apiHit]);
 
+  // useEffect(() => {
+  //   let maxWeaponProp;
+  //   let maxHelmetProp;
+  //   let maxWingProp;
+  //   let maxArmorProp;
+  //   let maxMountProp;
+  //   if (items["weapon"].length > 0) {
+  //     if (items["weapon"].length === 1) {
+  //       maxWeaponProp = items["weapon"][0].properties;
+  //     } else {
+  //       // for (let i = 0; i < items["weapon"].length - 2; i++) {
+  //       //   let object1 = items["weapon"][i];
+  //       //   let object2 = items["weapon"][i + 1];
+  //       //   let response = findMaxProperties(a.properties, b.properties);
+  //       // }
+  //       const sum = items["weapon"].reduce((acc, currentValue) => {
+  //         console.log(currentValue);
+  //         if (
+  //           acc.properties !== undefined &&
+  //           currentValue.properties !== undefined
+  //         ) {
+  //           return findMaxProperties(acc.properties, currentValue.properties);
+  //         }
+  //       });
+  //       console.log(sum);
+  //       // console.log(res);
+  //     }
+  //   }
+  // }, [items]);
+
+  // const findMaxProperties = (obj1, obj2) => {
+  //   console.log(obj1);
+  //   console.log(obj2);
+  //   // let maxXp = obj1.xp > obj2.xp ? obj1.xp : obj2.xp;
+  //   // let maxHp = obj1.hp > obj2.hp ? obj1.hp : obj2.hp;
+  //   // let maxMp = obj1.mp > obj2.mp ? obj1.mp : obj2.mp;
+  //   // let maxPatk = obj1.Patk > obj2.Patk ? obj1.Patk : obj2.Patk;
+  //   // let maxPdef = obj1.Pdef > obj2.Pdef ? obj1.Pdef : obj2.Pdef;
+  //   // let maxSpeed = obj1.speed > obj2.speed ? obj1.speed : obj2.speed;
+  //   // let maxAccuracy = obj1.xp > obj2.xp ? obj1.xp : obj2.xp;
+
+  //   // let maxValues = {
+  //   //   xp: maxXp,
+  //   //   hp: maxHp,
+  //   //   mp: maxMp,
+  //   //   Patk: maxPatk,
+  //   //   Pdef: maxPdef,
+  //   //   speed: maxSpeed,
+  //   //   accuracy: maxAccuracy,
+  //   // };
+  //   // return maxValues;
+  // };
   const toggleCharacterPopup = (value) => {
     setCharacterPopup(value);
   };
@@ -334,6 +403,7 @@ function CharacterSection({ getUserCharacter, usercharacter }) {
                         <div>
                           <CharacterItems
                             character={usercharacter}
+                            setItems={setItems}
                             characterProperties={characterProperties}
                             setCharacterProperties={setCharacterProperties}
                           />

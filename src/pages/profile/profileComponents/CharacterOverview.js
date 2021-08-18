@@ -113,15 +113,10 @@ export default function CharacterOverview({ character }) {
             Level
           </h6>
           <h6 htmlFor="type" className={classes.categoryText}>
-            {character.level}{" "}
-          </h6>
-        </div>
-        <div className="d-flex flex-column justify-content-center align-items-center">
-          <h6 htmlFor="category" className={classes.category}>
-            Upgrade Date
-          </h6>
-          <h6 htmlFor="type" className={classes.categoryText}>
-            ...
+            <strong style={{ color: "yellow", fontSize: 22 }}>
+              {" "}
+              {character.level}{" "}
+            </strong>
           </h6>
         </div>
       </div>

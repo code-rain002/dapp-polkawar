@@ -7,7 +7,7 @@ if (constants.net === 0) {
     rpcUrl: "https://bsc-dataseed.binance.org/",
     chainId: 56, // Smart Chain - Mainnet chain id
     api: "V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK",
-    contractAddress: "0x24cE10cB696eB0004957D7C1c7e511F14d996970",
+    contractAddress: "0x61812836aEe8E78B1E90003291864d845758ACA5",
     abi: [
       {
         inputs: [

@@ -4,7 +4,7 @@ import { LinearProgress } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({}));
 
-export default function CharacterStats({ color, value }) {
+export default function CharacterStats({ color, value, maxValue }) {
   const classes = useStyles();
 
   const BorderLinearProgress = withStyles((theme) => ({
@@ -22,9 +22,10 @@ export default function CharacterStats({ color, value }) {
     },
   }))(LinearProgress);
 
+  let statsValue = (value * 100) / maxValue;
   return (
     <div>
-      <BorderLinearProgress variant="determinate" value={value} />
+      <BorderLinearProgress variant="determinate" value={statsValue} />
     </div>
   );
 }
