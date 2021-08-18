@@ -100,7 +100,7 @@ export const getFlashItems = () => (dispatch) => {
 //GET User Item
 //Getting NFTs from userItem Collection
 export const getUserItems = () => async (dispatch) => {
-  let userAddress = "0x82c5c4fcd9189ee0160343203d52f97d0b7cabb6";
+  let userAddress = await getUserAddress();
 
   let url = `${baseUrl}/useritems/${userAddress}`;
 

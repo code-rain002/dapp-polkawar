@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { getItemDetails, getUserItems } from "../../../actions/itemActions";
 import Loader from "../../../components/Loader";
 import SingleCharacterItem from "./SingleCharacterItem";
-import { IconButton } from "@material-ui/core";
+import { Grow, IconButton, Slide, Zoom } from "@material-ui/core";
 import {
   ArrowLeft,
   KeyboardArrowLeft,
@@ -13,16 +13,16 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   background: {
-    minWidth: 200,
+    width: 260,
     [theme.breakpoints.down("sm")]: {
       minWidth: 100,
     },
   },
-  sectionWrapper: { paddingRight: 20 },
+
+  sectionWrapper: {},
   scroll: {
     height: 440,
     overflowY: "scroll",
-
     [theme.breakpoints.down("sm")]: {
       height: 300,
     },
@@ -82,6 +82,12 @@ function CharacterItems({
   const classes = useStyles();
 
   const [actualCase, setActualCase] = useState(0);
+  const [validLength, setValidLength] = useState(0);
+  const [weaponIndex, setWeaponIndex] = useState(0);
+  const [helmetIndex, setHelmetIndex] = useState(0);
+  const [wingIndex, setWingIndex] = useState(0);
+  const [armorIndex, setArmorIndex] = useState(0);
+  const [mountIndex, setMountIndex] = useState(0);
 
   const [validItems, setValidItems] = useState({
     weapon: [],
@@ -127,6 +133,7 @@ function CharacterItems({
         if (useritems.length === 0) {
           setActualCase(1);
         } else {
+          let totalItems = 0;
           useritems.map(async (element) => {
             let item = await getItemDetails(element.itemId);
 
@@ -152,18 +159,23 @@ function CharacterItems({
                 item.category === "magic vase"
               ) {
                 weapons = [...weapons, item];
+                totalItems = totalItems + 1;
               }
               if (item.category === "helmet") {
                 helmets = [...helmets, item];
+                totalItems = totalItems + 1;
               }
               if (item.category === "wing") {
                 wings = [...wings, item];
+                totalItems = totalItems + 1;
               }
               if (item.category === "armor") {
                 armors = [...armors, item];
+                totalItems = totalItems + 1;
               }
               if (item.category === "mount") {
                 mount = [...mount, item];
+                totalItems = totalItems + 1;
               }
               setValidItems({
                 weapon: weapons,
@@ -172,10 +184,12 @@ function CharacterItems({
                 helmet: helmets,
                 wing: wings,
               });
+              setValidLength(totalItems);
             }
           });
-
-          setActualCase(2);
+          setTimeout(() => {
+            setActualCase(2);
+          }, 1000);
         }
       } else {
         setActualCase(0);
@@ -261,7 +275,6 @@ function CharacterItems({
           ? validItems[category][clickIndex[category]].properties.accuracy
           : 0;
       }
-      console.log(oldPatk);
 
       //Bdam to PAtk
       //prot to Pdef
@@ -297,11 +310,11 @@ function CharacterItems({
             ? selectedItemProperties.accuracy
             : 0),
       };
-      console.log(tempObject.xp);
+
       setCharacterProperties(tempObject);
 
-      console.log(characterProperties);
-      console.log(selectedItemProperties);
+      // console.log(characterProperties);
+      // console.log(selectedItemProperties);
 
       // 2. Updating clicked item index
       let tempClickIndex = clickIndex;
@@ -320,7 +333,7 @@ function CharacterItems({
           <Loader />
         </div>
       )}
-      {validItems.length === 0 && (
+      {actualCase !== 0 && validLength === 0 && (
         <div>
           <div>
             <p className={classes.notFound}>No Item</p>
@@ -331,141 +344,268 @@ function CharacterItems({
         <div className={classes.scroll}>
           <div htmlFor="weapon">
             {validItems["weapon"].length !== 0 && (
-              <h3 htmlFor="category" className={classes.subtitle}>
-                Weapon
-              </h3>
-            )}
-
-            {validItems["weapon"].map((item, index) => {
-              return (
-                <div className="d-flex justify-content-between align-items-center">
+              <div>
+                {" "}
+                <h3 htmlFor="category" className={classes.subtitle}>
+                  Weapon
+                </h3>
+                <div className="d-flex justify-content-start align-items-center">
                   <div>
                     <IconButton style={{ margin: 0, padding: 0 }}>
                       <KeyboardArrowLeft
+                        onClick={
+                          weaponIndex === 0
+                            ? null
+                            : () => setWeaponIndex(weaponIndex - 1)
+                        }
                         style={{ color: "white", fontSize: 40 }}
                       />
                     </IconButton>
                   </div>
-                  <div
-                    className={classes.sectionWrapper}
-                    onClick={() => updateCharacterProperties(index, "weapon")}
-                  >
-                    <SingleCharacterItem
-                      item={item}
-                      clickedIndex={clickIndex["weapon"]}
-                      itemIndex={index}
-                    />
-                  </div>
+
+                  <Zoom in={true} timeout={500}>
+                    <div
+                      className={classes.sectionWrapper}
+                      onClick={() =>
+                        updateCharacterProperties(weaponIndex, "weapon")
+                      }
+                    >
+                      <SingleCharacterItem
+                        item={validItems["weapon"][weaponIndex]}
+                        clickedIndex={clickIndex["weapon"]}
+                        itemIndex={weaponIndex}
+                      />
+                    </div>
+                  </Zoom>
+
                   <div>
                     {" "}
                     <IconButton style={{ margin: 0, padding: 0 }}>
                       <KeyboardArrowRight
+                        onClick={
+                          weaponIndex === validItems["weapon"].length - 1
+                            ? null
+                            : () => setWeaponIndex(weaponIndex + 1)
+                        }
                         style={{ color: "white", fontSize: 40 }}
                       />
                     </IconButton>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            )}
           </div>
           <div htmlFor="helmet">
             {validItems["helmet"].length !== 0 && (
-              <h3 htmlFor="category" className={classes.subtitle}>
-                Helmet
-              </h3>
-            )}
+              <div>
+                {" "}
+                <h3 htmlFor="category" className={classes.subtitle}>
+                  Helmet
+                </h3>
+                <div className="d-flex justify-content-start align-items-center">
+                  <div>
+                    <IconButton style={{ margin: 0, padding: 0 }}>
+                      <KeyboardArrowLeft
+                        onClick={
+                          helmetIndex === 0
+                            ? null
+                            : () => setHelmetIndex(helmetIndex - 1)
+                        }
+                        style={{ color: "white", fontSize: 40 }}
+                      />
+                    </IconButton>
+                  </div>
 
-            {validItems["helmet"].map((item, index) => {
-              return (
-                <div>
-                  <div
-                    className={classes.sectionWrapper}
-                    onClick={() => updateCharacterProperties(index, "helmet")}
-                  >
-                    <SingleCharacterItem
-                      item={item}
-                      clickedIndex={clickIndex["helmet"]}
-                      itemIndex={index}
-                    />
+                  <Zoom in={true} timeout={500}>
+                    <div
+                      className={classes.sectionWrapper}
+                      onClick={() =>
+                        updateCharacterProperties(helmetIndex, "helmet")
+                      }
+                    >
+                      <SingleCharacterItem
+                        item={validItems["helmet"][helmetIndex]}
+                        clickedIndex={clickIndex["helmet"]}
+                        itemIndex={helmetIndex}
+                      />
+                    </div>
+                  </Zoom>
+
+                  <div>
+                    {" "}
+                    <IconButton style={{ margin: 0, padding: 0 }}>
+                      <KeyboardArrowRight
+                        onClick={
+                          helmetIndex === validItems["helmet"].length - 1
+                            ? null
+                            : () => setHelmetIndex(helmetIndex + 1)
+                        }
+                        style={{ color: "white", fontSize: 40 }}
+                      />
+                    </IconButton>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            )}
           </div>
-
           <div htmlFor="wing">
             {validItems["wing"].length !== 0 && (
-              <h3 htmlFor="category" className={classes.subtitle}>
-                Wing
-              </h3>
-            )}
+              <div>
+                {" "}
+                <h3 htmlFor="category" className={classes.subtitle}>
+                  Wing
+                </h3>
+                <div className="d-flex justify-content-start align-items-center">
+                  <div>
+                    <IconButton style={{ margin: 0, padding: 0 }}>
+                      <KeyboardArrowLeft
+                        onClick={
+                          wingIndex === 0
+                            ? null
+                            : () => setWingIndex(wingIndex - 1)
+                        }
+                        style={{ color: "white", fontSize: 40 }}
+                      />
+                    </IconButton>
+                  </div>
 
-            {validItems["wing"].map((item, index) => {
-              return (
-                <div>
-                  <div
-                    className={classes.sectionWrapper}
-                    onClick={() => updateCharacterProperties(index, "wing")}
-                  >
-                    <SingleCharacterItem
-                      item={item}
-                      clickedIndex={clickIndex["wing"]}
-                      itemIndex={index}
-                    />
+                  <Zoom in={true} timeout={500}>
+                    <div
+                      className={classes.sectionWrapper}
+                      onClick={() =>
+                        updateCharacterProperties(wingIndex, "wing")
+                      }
+                    >
+                      <SingleCharacterItem
+                        item={validItems["wing"][wingIndex]}
+                        clickedIndex={clickIndex["wing"]}
+                        itemIndex={wingIndex}
+                      />
+                    </div>
+                  </Zoom>
+
+                  <div>
+                    {" "}
+                    <IconButton style={{ margin: 0, padding: 0 }}>
+                      <KeyboardArrowRight
+                        onClick={
+                          wingIndex === validItems["wing"].length - 1
+                            ? null
+                            : () => setWingIndex(wingIndex + 1)
+                        }
+                        style={{ color: "white", fontSize: 40 }}
+                      />
+                    </IconButton>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            )}
           </div>
-
           <div htmlFor="armor">
             {validItems["armor"].length !== 0 && (
-              <h3 htmlFor="category" className={classes.subtitle}>
-                Armor
-              </h3>
-            )}
+              <div>
+                {" "}
+                <h3 htmlFor="category" className={classes.subtitle}>
+                  Armor
+                </h3>
+                <div className="d-flex justify-content-start align-items-center">
+                  <div>
+                    <IconButton style={{ margin: 0, padding: 0 }}>
+                      <KeyboardArrowLeft
+                        onClick={
+                          armorIndex === 0
+                            ? null
+                            : () => setArmorIndex(armorIndex - 1)
+                        }
+                        style={{ color: "white", fontSize: 40 }}
+                      />
+                    </IconButton>
+                  </div>
 
-            {validItems["armor"].map((item, index) => {
-              return (
-                <div>
-                  <div
-                    className={classes.sectionWrapper}
-                    onClick={() => updateCharacterProperties(index, "armor")}
-                  >
-                    <SingleCharacterItem
-                      item={item}
-                      clickedIndex={clickIndex["armor"]}
-                      itemIndex={index}
-                    />
+                  <Zoom in={true} timeout={500}>
+                    <div
+                      className={classes.sectionWrapper}
+                      onClick={() =>
+                        updateCharacterProperties(armorIndex, "armor")
+                      }
+                    >
+                      <SingleCharacterItem
+                        item={validItems["armor"][armorIndex]}
+                        clickedIndex={clickIndex["armor"]}
+                        itemIndex={armorIndex}
+                      />
+                    </div>
+                  </Zoom>
+
+                  <div>
+                    {" "}
+                    <IconButton style={{ margin: 0, padding: 0 }}>
+                      <KeyboardArrowRight
+                        onClick={
+                          armorIndex === validItems["armor"].length - 1
+                            ? null
+                            : () => setArmorIndex(armorIndex + 1)
+                        }
+                        style={{ color: "white", fontSize: 40 }}
+                      />
+                    </IconButton>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            )}
           </div>
-
           <div htmlFor="mount">
             {validItems["mount"].length !== 0 && (
-              <h3 htmlFor="category" className={classes.subtitle}>
-                Mount
-              </h3>
-            )}
+              <div>
+                {" "}
+                <h3 htmlFor="category" className={classes.subtitle}>
+                  Mount
+                </h3>
+                <div className="d-flex justify-content-start align-items-center">
+                  <div>
+                    <IconButton style={{ margin: 0, padding: 0 }}>
+                      <KeyboardArrowLeft
+                        onClick={
+                          mountIndex === 0
+                            ? null
+                            : () => setMountIndex(mountIndex - 1)
+                        }
+                        style={{ color: "white", fontSize: 40 }}
+                      />
+                    </IconButton>
+                  </div>
 
-            {validItems["mount"].map((item, index) => {
-              return (
-                <div>
-                  <div
-                    className={classes.sectionWrapper}
-                    onClick={() => updateCharacterProperties(index, "mount")}
-                  >
-                    <SingleCharacterItem
-                      item={item}
-                      clickedIndex={clickIndex["mount"]}
-                      itemIndex={index}
-                    />
+                  <Zoom in={true} timeout={500}>
+                    <div
+                      className={classes.sectionWrapper}
+                      onClick={() =>
+                        updateCharacterProperties(mountIndex, "mount")
+                      }
+                    >
+                      <SingleCharacterItem
+                        item={validItems["mount"][mountIndex]}
+                        clickedIndex={clickIndex["mount"]}
+                        itemIndex={mountIndex}
+                      />
+                    </div>
+                  </Zoom>
+
+                  <div>
+                    {" "}
+                    <IconButton style={{ margin: 0, padding: 0 }}>
+                      <KeyboardArrowRight
+                        onClick={
+                          mountIndex === validItems["mount"].length - 1
+                            ? null
+                            : () => setMountIndex(mountIndex + 1)
+                        }
+                        style={{ color: "white", fontSize: 40 }}
+                      />
+                    </IconButton>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            )}
           </div>
         </div>
       )}
