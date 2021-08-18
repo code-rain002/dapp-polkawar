@@ -46,6 +46,10 @@ router.get("/items/:pageIndex/:pageSize", async (req, res, next) => {
 
 // Public
 // POST items based on category
+{
+  /* <character>_<weapon1id>_<weapon2id>_<armorid>_<helmetdid>_<wingid>_<mountid>.jpg */
+}
+
 router.post("/item", async (req, res, next) => {
   var armorData = [
     {

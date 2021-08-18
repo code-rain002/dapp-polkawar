@@ -79,6 +79,8 @@ function CharacterItems({
   characterProperties,
   setCharacterProperties,
   setItems,
+  characterString,
+  setCharacterString,
 }) {
   const classes = useStyles();
 
@@ -248,6 +250,10 @@ function CharacterItems({
       let tempClickIndex = clickIndex;
       tempClickIndex[category] = -1;
       setClickIndex(tempClickIndex);
+
+      let tempCharacterString = characterString;
+      tempCharacterString[category] = -1;
+      setCharacterString(tempCharacterString);
     } else {
       let oldXp = 0;
       let oldHp = 0;
@@ -329,6 +335,13 @@ function CharacterItems({
       let tempClickIndex = clickIndex;
       tempClickIndex[category] = index;
       setClickIndex(tempClickIndex);
+
+      console.log("Hitting2");
+      let selectedItemId = validItems[category][index].id;
+      console.log(validItems[category][index]);
+      let tempCharacterString = characterString;
+      tempCharacterString[category] = selectedItemId;
+      setCharacterString(tempCharacterString);
     }
   };
 

@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     height: "100%",
+
     marginLeft: 10,
     marginRight: 10,
     borderRadius: 10,
@@ -219,6 +220,13 @@ function CharacterSection({ getUserCharacter, usercharacter }) {
     wing: [],
   });
   const [apiHit, setApiHit] = useState(false);
+  const [characterString, setCharacterString] = useState({
+    weapon: -1,
+    helmet: -1,
+    armor: -1,
+    wing: -1,
+    mount: -1,
+  });
 
   useEffect(() => {
     async function asyncFn() {
@@ -302,6 +310,34 @@ function CharacterSection({ getUserCharacter, usercharacter }) {
     setCharacterPopup(value);
   };
 
+  const getCharacterImage = () => {
+    let sumOfValues = Object.keys(characterString).reduce(
+      (sum, key) => sum + parseFloat(characterString[key] || 0),
+      0
+    );
+    console.log(sumOfValues);
+    if (sumOfValues === -5 || characterString["weapon"] === -1) {
+      return `${imageBaseUrl}/${usercharacter.hashImage}`;
+    } else {
+      if (
+        characterString["helmet"] === -1 &&
+        characterString["armor"] === -1 &&
+        characterString["wing"] === -1 &&
+        characterString["mount"] === -1
+      ) {
+        return `${imageBaseUrl}/${usercharacter.hashImage}`;
+      } else {
+        let characterImage;
+        if (usercharacter.name === "magician") {
+          characterImage = `./characterWithItems_lv1/${usercharacter.name}_${characterString["weapon"]}_47_${characterString["helmet"]}_${characterString["armor"]}_${characterString["wing"]}_${characterString["mount"]}.png`;
+        } else {
+          characterImage = `./characterWithItems_lv1/${usercharacter.name}_${characterString["weapon"]}_-1_${characterString["helmet"]}_${characterString["armor"]}_${characterString["wing"]}_${characterString["mount"]}.png`;
+        }
+        console.log(characterImage);
+        return characterImage;
+      }
+    }
+  };
   return (
     <div>
       {(actualCase === 0 || actualCase === 1) && (
@@ -348,7 +384,7 @@ function CharacterSection({ getUserCharacter, usercharacter }) {
       )}
       <div>
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-7">
             {actualCase === 2 && (
               <Grow in={true} timeout={500}>
                 <div>
@@ -393,9 +429,9 @@ function CharacterSection({ getUserCharacter, usercharacter }) {
                       </h6>
 
                       <div className={classes.section}>
-                        <div>
+                        <div style={{ width: "100%" }}>
                           <img
-                            src={`${imageBaseUrl}/${usercharacter.hashImage}`}
+                            src={getCharacterImage()}
                             className={classes.media}
                             alt="character"
                           />
@@ -406,6 +442,8 @@ function CharacterSection({ getUserCharacter, usercharacter }) {
                             setItems={setItems}
                             characterProperties={characterProperties}
                             setCharacterProperties={setCharacterProperties}
+                            characterString={characterString}
+                            setCharacterString={setCharacterString}
                           />
                         </div>
                       </div>
@@ -415,7 +453,7 @@ function CharacterSection({ getUserCharacter, usercharacter }) {
               </Grow>
             )}
           </div>
-          <div className="col-md-6">
+          <div className="col-md-5">
             {actualCase === 2 && (
               <div>
                 <Grow in={true} timeout={1000}>
