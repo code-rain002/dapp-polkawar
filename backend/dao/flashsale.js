@@ -14,6 +14,7 @@ const flashsaleDao = {
   },
 
   async getItemRemainingSlot(itemId) {
+
     let data = await FlashSaleModel.findOne({ itemId: itemId });
     let slots = data["remaining_quantity"];
     return slots;

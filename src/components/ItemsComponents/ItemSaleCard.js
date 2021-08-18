@@ -353,7 +353,7 @@ function ItemSaleCard({
     setDisablePopup(true);
 
     //4. Checking available slots
-    let apiResponse = await checkSlotsAvailable(item.itemId);
+    let apiResponse = await checkSlotsAvailable(item._id);
     let slotsAvailable = apiResponse.data;
 
     if (parseInt(slotsAvailable) > 0) {
