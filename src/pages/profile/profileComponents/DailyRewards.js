@@ -202,6 +202,7 @@ function DailyRewards({
   togglePopup,
   getXpByOwner,
   updateXpOfOwner,
+  freezePopup,
   setFreezePopup,
 }) {
   const classes = useStyles();
@@ -324,7 +325,7 @@ function DailyRewards({
         <div className={classes.card}>
           <div>
             <div className="d-flex justify-content-end">
-              <IconButton onClick={togglePopup}>
+              <IconButton onClick={freezePopup ? null : togglePopup}>
                 <Close className={classes.icon} />
               </IconButton>
             </div>

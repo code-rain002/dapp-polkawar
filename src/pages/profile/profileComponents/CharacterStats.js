@@ -205,6 +205,7 @@ function CharacterStats({ character, characterProperties }) {
           <DailyRewards
             togglePopup={() => setClaimXpPopup(false)}
             character={character}
+            freezePopup={freezePopup}
             setFreezePopup={setFreezePopup}
           />
         </div>
