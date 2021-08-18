@@ -293,7 +293,7 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
                   You can only purchase item once during the flash sale.
                 </li>
                 <li className={classes.listItem}>
-                  Only 120 items will be on sale at discounted price.
+                  Only 140 items will be on sale at discounted price.
                 </li>
                 <li className={classes.listItem}>
                   Each NFT will cost 0.5 BNB. After the Flash Sale event ends, you

@@ -60,12 +60,15 @@ router.post("/flashsale-sign", async function (req, res) {
 
 // Public
 // GET remaining slots
-router.get("/flashsale-slots/:itemdId", async (req, res, next) => {
+router.get("/flashsale-slots/:itemId", async (req, res, next) => {
+
   const itemId = req.params.itemId;
+
   try {
     const data = await FlashSaleDao.getItemRemainingSlot(itemId);
     return res.status(200).send(data.toString());
   } catch (error) {
+    console.log(error)
     return res.status(400).send("error");
   }
 });

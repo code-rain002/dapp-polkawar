@@ -289,11 +289,14 @@ function ItemSaleCard({
   const [disablePopup, setDisablePopup] = useState(false);
 
   let nftHashList = {
-    "Bow & Arrow": "QmUJCjhmpDUguCffVrVSLBtyrxjQMUgmut4ZynA4wKHiZp",
-    Gun: "QmRKLbQsoMpr7G1du8MRXJjSa3NRHnG6WGY3q3h3RbxJzb",
-    "Big Knife": "Qmes4i6DuXr2MXmXfcxXv27wqJyG3pqdH66KZEJapdADxd",
-    Sword: "QmagDhU9HF2euDvKv7P6siysPWBevhiGaiNZLLn3QKZi4c",
-    Tessen: "QmNtwL2LPh2nsH1WRa6TzBqH4DFWQgFSdoQSH5UdbNwb8Y",
+    "Bow & Arrow": "QmZqT7Djy2JCiT4ju9D7RUDztDn2Lvq5xcUYrhrJ9sHrFM",
+    Gun: "QmWs52KYvRKR7tG223f6pKFd6Xikdbr1jYWqN7hPdDdFmX",
+    "Big Knife": "QmbwyMbxAFhSuZA4s6MvQpbBpNki4bycpM7QNDB77NYNTw",
+    Sword: "QmYy3GQNN7ogiD6846SpQ9dJXfBa8REk9WWGJMpGBsBt2N",
+    Tessen: "QmbNcJAJKmZcCkcQwnymTG7Cxm44HSAdN49cpJFfGX3kUD",
+    Sceptre: "QmUXoshh1cYiQbjSyf2ajSHN6jq6ttrhp9FEDw8uMUaduR",
+    "Magic Vase": "QmbWFut6ZJcQeHSZwTNSJZeeJhYyEWsJYRJngtu7KVEDSB"
+
   };
 
   useEffect(() => {
@@ -350,7 +353,7 @@ function ItemSaleCard({
     setDisablePopup(true);
 
     //4. Checking available slots
-    let apiResponse = await checkSlotsAvailable(item.itemId);
+    let apiResponse = await checkSlotsAvailable(item._id);
     let slotsAvailable = apiResponse.data;
 
     if (parseInt(slotsAvailable) > 0) {
