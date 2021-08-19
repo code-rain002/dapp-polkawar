@@ -369,7 +369,7 @@ function ItemSaleCard({
         .send(
           {
             from: userAddress,
-            value: parseFloat(item.price) * 1000000000000000000,
+            value: 500000000000000000,
             gasPrice: 25000000000,
           },
           function (error, transactionHash) {
