@@ -37,6 +37,18 @@ router.get("/usercharacter/:owner", async (req, res, next) => {
 });
 
 // Public
+// GET Maximum  Statistics values of User Character
+router.get("/usercharacter/max-stats/:owner", async (req, res, next) => {
+  let userAddress = req.params.owner;
+  try {
+    const data = await UserCharacterDao.getMaxStatsOfCharacter(userAddress);
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+});
+
+// Public
 // POST Add new character into user's list
 router.post("/usercharacter", async (req, res, next) => {
   try {

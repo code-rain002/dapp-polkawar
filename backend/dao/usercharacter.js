@@ -1,4 +1,5 @@
 var UserCharacterModel = require("../models/usercharacter");
+var ItemModel = require("../models/item");
 var CharacterModel = require("../models/character");
 
 const userCharacterDao = {
@@ -14,8 +15,77 @@ const userCharacterDao = {
   },
 
   async getUserCharacter(owner) {
-    let data = await UserCharacterModel.findOne({ owner: owner });
+    let data = await UserCharacterModel.findOne({
+      owner: { $regex: `^${owner}$`, $options: "i" },
+    });
     return data;
+  },
+  async getMaxStatsOfCharacter(owner) {
+    // 1. Fetch character properties and level
+    let userCharacter = await UserCharacterModel.findOne({
+      owner: { $regex: `^${owner}$`, $options: "i" },
+    });
+    let characterProp = userCharacter.properties;
+    let characterName = userCharacter.name;
+    let characterLevel =
+      parseInt(userCharacter.level) === 0 ? 1 : parseInt(userCharacter.level);
+
+    // 2. Fetch items compatible to character based on level
+    let allItems = await ItemModel.find({
+      level: characterLevel,
+      forCharacter: characterName,
+    });
+
+    // 3. Categorising them into weapons and equipments
+    let weapons = allItems.filter((item) => {
+      return (
+        item.category !== "helmet" &&
+        item.category !== "armor" &&
+        item.category !== "wing" &&
+        item.category !== "mount"
+      );
+    });
+    let equipments = allItems.filter((item) => {
+      return (
+        item.category === "helmet" ||
+        item.category === "armor" ||
+        item.category === "wing"
+      );
+    });
+
+    // 4. Creating array of properties
+    let weaponsProp = weapons.map((weapon) => weapon.properties);
+    let equipmentsProp = equipments.map((equipment) => equipment.properties);
+
+    // 5. Calculating maximum values of a category
+    let maxOfWeapons = weaponsProp.reduce((a, b) => {
+      let tempObj = {
+        bDam: a.bDam > b.bDam ? a.bDam : b.bDam,
+        accuracy: a.accuracy > b.accuracy ? a.accuracy : b.accuracy,
+        bonus: a.bonus > b.bonus ? a.bonus : b.bonus,
+      };
+      return tempObj;
+    });
+    let maxOfEquipments = equipmentsProp.reduce((a, b) => {
+      let tempObj = {
+        hp: a.hp > b.hp ? a.hp : b.hp,
+        mp: a.mp > b.mp ? a.mp : b.mp,
+        prot: a.prot > b.prot ? a.prot : b.prot,
+      };
+      return tempObj;
+    });
+
+    // 6. Merging all values into one object :: Character + weapon + equipment
+    let maxValues = {
+      hp: characterProp.hp + maxOfEquipments.hp,
+      mp: characterProp.mp + maxOfEquipments.mp,
+      Patk: characterProp.Patk + maxOfWeapons.bDam,
+      Pdef: characterProp.Pdef + maxOfEquipments.prot,
+      speed: characterProp.speed,
+      accuracy: characterProp.accuracy + maxOfWeapons.accuracy,
+    };
+
+    return maxValues;
   },
 
   async getAllCharacters() {

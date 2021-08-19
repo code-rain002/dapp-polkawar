@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CharacterStats({ character, characterProperties }) {
+function CharacterStats({ character, characterProperties, maxStats }) {
   const classes = useStyles();
 
   const [claimXpPopup, setClaimXpPopup] = useState(false);
@@ -124,7 +124,10 @@ function CharacterStats({ character, characterProperties }) {
                             className={classes.category}
                             style={{ color: "yellow" }}
                           >
-                            <small> Upgrade requires: {nextXp(value)} XP</small>
+                            <small style={{ fontSize: 12 }}>
+                              {" "}
+                              Upgrade requires: {nextXp(value)} XP
+                            </small>
                           </h6>
                         </div>
                         <div htmlFor="power" className={classes.powerWrapper}>
@@ -148,7 +151,7 @@ function CharacterStats({ character, characterProperties }) {
                           <PowerStats
                             value={value}
                             color={colors1[index]}
-                            maxValue={value + nextXp(value)}
+                            maxValue={maxStats[key]}
                           />
                         </div>
                       </div>
@@ -170,8 +173,9 @@ function CharacterStats({ character, characterProperties }) {
                         </h6>
                         <div htmlFor="power" className={classes.powerWrapper}>
                           <PowerStats
-                            value={(value * 86) % 100}
+                            value={value}
                             color={colors2[index]}
+                            maxValue={maxStats[key]}
                           />
                         </div>
                       </div>
@@ -183,8 +187,9 @@ function CharacterStats({ character, characterProperties }) {
                         </h6>
                         <div htmlFor="power" className={classes.powerWrapper}>
                           <PowerStats
-                            value={value % 100}
+                            value={value}
                             color={colors2[index]}
+                            maxValue={maxStats[key]}
                           />
                         </div>
                       </div>

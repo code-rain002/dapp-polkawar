@@ -78,7 +78,6 @@ function CharacterItems({
   character,
   characterProperties,
   setCharacterProperties,
-  setItems,
   characterString,
   setCharacterString,
 }) {
@@ -192,13 +191,7 @@ function CharacterItems({
               helmet: helmets,
               wing: wings,
             });
-            setItems({
-              weapon: weapons,
-              armor: armors,
-              mount: mount,
-              helmet: helmets,
-              wing: wings,
-            });
+
             setActualCase(2);
           }, 1000);
         }

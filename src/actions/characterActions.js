@@ -76,6 +76,22 @@ export const createUserCharacter = (characterData) => async (dispatch) => {
   return response;
 };
 
+// GET Max Statistics Values of Character by address
+export const getMaxStatsOfCharacter = () => async (dispatch) => {
+  let userAddress = await getUserAddress();
+
+  let response = await axios
+    .get(`${baseUrl}/usercharacter/max-stats/${userAddress}`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+      return false;
+    });
+  return response;
+};
+
 // GET User character XP
 export const getXpByOwner = () => async (dispatch) => {
   let userAddress = await getUserAddress();
