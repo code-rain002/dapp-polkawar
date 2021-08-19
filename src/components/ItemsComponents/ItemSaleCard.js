@@ -14,6 +14,7 @@ import baseUrl from "../../actions/baseUrl";
 import Loader from "../Loader";
 import { getFlashItems } from "../../actions/itemActions";
 import { getUserAddress } from "../../actions/web3Actions";
+import web3 from "../../web";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -295,8 +296,7 @@ function ItemSaleCard({
     Sword: "QmYy3GQNN7ogiD6846SpQ9dJXfBa8REk9WWGJMpGBsBt2N",
     Tessen: "QmbNcJAJKmZcCkcQwnymTG7Cxm44HSAdN49cpJFfGX3kUD",
     Sceptre: "QmUXoshh1cYiQbjSyf2ajSHN6jq6ttrhp9FEDw8uMUaduR",
-    "Magic Vase": "QmbWFut6ZJcQeHSZwTNSJZeeJhYyEWsJYRJngtu7KVEDSB"
-
+    "Magic Vase": "QmbWFut6ZJcQeHSZwTNSJZeeJhYyEWsJYRJngtu7KVEDSB",
   };
 
   useEffect(() => {
@@ -369,7 +369,7 @@ function ItemSaleCard({
         .send(
           {
             from: userAddress,
-            value: 1000000000000000000,
+            value: parseFloat(item.price) * 1000000000000000000,
             gasPrice: 25000000000,
           },
           function (error, transactionHash) {
