@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     width: 500,
     border: "1px solid #e5e5e5",
-    background: `linear-gradient(0deg, rgba(0, 0, 0, 0.41), rgba(3, 3, 3, 0.1) ),url("./images/claim_bg.png")`,
+    background: `linear-gradient(0deg, rgba(0, 0, 0, 0.41), rgba(3, 3, 3, 0.1) ),url("./images/claim_xp.jpg")`,
     backgroundPosition: "center",
     backgroundSize: "cover",
     padding: 10,
@@ -18,10 +18,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   wrapper: {
-    height: 450,
+    height: 500,
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     alignItems: "center",
     [theme.breakpoints.down("md")]: {
       height: 300,
@@ -40,11 +40,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   subtitle: {
+    background: `linear-gradient(0deg, rgba(0, 0, 0, 0.31), rgba(3, 3, 3, 0.1) )`,
+    padding: 10,
     verticalAlign: "baseline",
     textAlign: "center",
     color: "white",
+    lineHeight: 1.5,
     fontWeight: 500,
-    fontSize: 17,
+    fontSize: 18,
     fontFamily: "Balsamiq Sans",
     [theme.breakpoints.down("md")]: {
       fontSize: 14,
@@ -52,15 +55,16 @@ const useStyles = makeStyles((theme) => ({
   },
 
   buttonProceed: {
-    color: "white",
-    marginTop: 20,
+    color: "black",
+    marginTop: 10,
     backgroundColor: "white",
     textTransform: "none",
     borderRadius: "100px",
-    padding: "12px 16px 12px 16px",
+    padding: "12px 40px 12px 40px",
     fontWeight: 500,
-    background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
+    background: `linear-gradient(to bottom,#ffee58, #fdd835)`,
     fontSize: 16,
+    filter: `drop-shadow(0 0 0.75rem crimson)`,
     [theme.breakpoints.down("md")]: {
       padding: "8px 16px 8px 16px",
     },
@@ -74,23 +78,23 @@ export default function BuildCharacter() {
   return (
     <div className={classes.card}>
       <div className={classes.wrapper}>
+        <div>{/* <h5 className={classes.title}>Daily XP</h5> */}</div>{" "}
         <div>
-          <h5 className={classes.title}>Daily XP</h5>
-          {/* <Divider
-            style={{ height: 2, backgroundColor: "white", marginBottom: 10 }}
-          />
-          <h6 className={classes.subtitle}>Claim XP, Build Character</h6> */}
-        </div>{" "}
-        <div>
-          <div>
+          <div style={{ paddingTop: 100 }}>
             <h6 className={classes.subtitle}>
-              Daily XP claim for characters to level up - Ready for the Battle.
+              Daily XP claim for characters to level up <br />{" "}
+              <strong>Ready for the</strong>
+              Battle.
             </h6>
           </div>
           <div className="text-center">
             <Link to="/profile">
               {" "}
-              <Button variant="contained" className={classes.buttonProceed}>
+              <Button
+                variant="contained"
+                elevation={100}
+                className={classes.buttonProceed}
+              >
                 Claim XP
               </Button>
             </Link>

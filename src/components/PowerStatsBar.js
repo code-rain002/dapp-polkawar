@@ -25,7 +25,6 @@ export default function CharacterStats({ color, value, maxValue }) {
   let statsValue = (value * 100) / maxValue;
   return (
     <div>
-      {maxValue}
       <BorderLinearProgress variant="determinate" value={statsValue} />
     </div>
   );
