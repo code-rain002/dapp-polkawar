@@ -66,11 +66,12 @@ const userCharacterDao = {
       };
       return tempObj;
     });
+
     let maxOfEquipments = equipmentsProp.reduce((a, b) => {
       let tempObj = {
-        hp: a.hp > b.hp ? a.hp : b.hp,
-        mp: a.mp > b.mp ? a.mp : b.mp,
-        prot: a.prot > b.prot ? a.prot : b.prot,
+        hp: a.hp + b.hp,
+        mp: a.mp + b.mp,
+        prot: a.prot + b.prot,
       };
       return tempObj;
     });

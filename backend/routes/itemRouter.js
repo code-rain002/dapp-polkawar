@@ -333,11 +333,6 @@ router.post("/item", async (req, res, next) => {
       level: 1,
       hashImage: "Qmath2HgLVjGy3CmmzmLshoDThqFrQNj4ueRrd8YEAQgDA",
       category: "helmet",
-      properties: {
-        hp: 5,
-        mp: 3,
-        prot: 2,
-      },
       gallery: [
         "QmXFFJk8Qk5DNKoszm7AbxK39symaqu3GVEUVwcFMSkvd3",
         "QmPHf88E4uJJw4MTUni3hdBD8mzfvXiVGacX74wDii6Xb4",
