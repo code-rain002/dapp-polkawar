@@ -202,7 +202,7 @@ function CharacterItems({
             });
 
             setActualCase(2);
-          }, 1000);
+          }, 1500);
         }
       } else {
         setActualCase(0);

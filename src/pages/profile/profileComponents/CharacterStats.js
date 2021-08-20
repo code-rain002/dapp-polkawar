@@ -169,7 +169,7 @@ function CharacterStats({ character, characterProperties, maxStats }) {
                     {key === "speed" && (
                       <div className={classes.wrapper}>
                         <h6 htmlFor="category" className={classes.category}>
-                          {key.toUpperCase()}({value})
+                          {key.toUpperCase()}({value.toFixed(2)})
                         </h6>
                         <div htmlFor="power" className={classes.powerWrapper}>
                           <PowerStats
