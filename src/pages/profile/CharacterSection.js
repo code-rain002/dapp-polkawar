@@ -50,19 +50,19 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   mediaWrapper: {
-    height: 300,
+    height: 350,
     [theme.breakpoints.down("md")]: {
-      height: 240,
+      height: 200,
     },
   },
   media: {
-    height: "100%",
-
     marginLeft: 10,
     marginRight: 10,
     borderRadius: 10,
     [theme.breakpoints.down("sm")]: {
-      height: "240px",
+      marginLeft: 0,
+      marginRight: 5,
+      width: 120,
     },
   },
   button: {
@@ -114,6 +114,7 @@ const useStyles = makeStyles((theme) => ({
   },
   section: {
     height: "100%",
+    width: "100%",
     padding: 20,
     display: "flex",
     justifyContent: "space-between",
@@ -170,7 +171,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     padding: 0,
     [theme.breakpoints.down("sm")]: {
-      fontSize: 14,
+      fontSize: 15,
     },
   },
   address: {
@@ -185,7 +186,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     padding: 0,
     [theme.breakpoints.down("sm")]: {
-      fontSize: 10,
+      fontSize: 12,
     },
   },
   copyIcon: {
@@ -212,6 +213,7 @@ function CharacterSection({
   const [apiHit, setApiHit] = useState(false);
   const [characterString, setCharacterString] = useState({
     weapon: -1,
+    weapon1: -1,
     helmet: -1,
     armor: -1,
     wing: -1,
@@ -230,7 +232,7 @@ function CharacterSection({
     async function asyncFn() {
       let res = await getUserCharacter();
       let resMaxStats = await getMaxStatsOfCharacter();
-      console.log(resMaxStats);
+
       setMaxStats(resMaxStats);
       if (res) {
         setApiHit(true);
@@ -264,7 +266,7 @@ function CharacterSection({
       0
     );
     console.log(sumOfValues);
-    if (sumOfValues === -5 || characterString["weapon"] === -1) {
+    if (sumOfValues === -6 || characterString["weapon"] === -1) {
       return `${imageBaseUrl}/${usercharacter.hashImage}`;
     } else {
       if (
@@ -276,8 +278,25 @@ function CharacterSection({
         return `${imageBaseUrl}/${usercharacter.hashImage}`;
       } else {
         let characterImage;
-        if (usercharacter.name === "magician") {
-          characterImage = `./characterWithItems_lv1/${usercharacter.name}_${characterString["weapon"]}_47_${characterString["helmet"]}_${characterString["armor"]}_${characterString["wing"]}_${characterString["mount"]}.png`;
+
+        if (usercharacter.name === "Magician") {
+          console.log(characterString);
+          if (
+            characterString["weapon"] === -1 ||
+            characterString["weapon1"] === -1
+          ) {
+            characterImage = `${imageBaseUrl}/${usercharacter.hashImage}`;
+          } else {
+            let weapon0 =
+              characterString["weapon"] > characterString["weapon1"]
+                ? characterString["weapon1"]
+                : characterString["weapon"];
+            let weapon1 =
+              characterString["weapon"] > characterString["weapon1"]
+                ? characterString["weapon"]
+                : characterString["weapon1"];
+            characterImage = `./characterWithItems_lv1/${usercharacter.name}_${weapon0}_${weapon1}_${characterString["helmet"]}_${characterString["armor"]}_${characterString["wing"]}_${characterString["mount"]}.png`;
+          }
         } else {
           characterImage = `./characterWithItems_lv1/${usercharacter.name}_${characterString["weapon"]}_-1_${characterString["helmet"]}_${characterString["armor"]}_${characterString["wing"]}_${characterString["mount"]}.png`;
         }
@@ -330,7 +349,7 @@ function CharacterSection({
           </div>
         </div>
       )}
-      <div>
+      <div style={{ overflowX: "hidden" }}>
         <div className="row">
           <div className="col-md-7">
             {actualCase === 2 && (
@@ -377,7 +396,7 @@ function CharacterSection({
                       </h6>
 
                       <div className={classes.section}>
-                        <div style={{ width: "100%" }}>
+                        <div>
                           <img
                             src={getCharacterImage()}
                             className={classes.media}

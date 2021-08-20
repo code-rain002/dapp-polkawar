@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: 60,
     [theme.breakpoints.down("sm")]: {
-      height: 35,
+      height: 30,
     },
   },
   itemWrapper: {
@@ -50,12 +50,18 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #616161",
     padding: 5,
     marginLeft: 10,
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: 5,
+    },
   },
   itemWrapperClicked: {
     borderRadius: 10,
     border: "2px solid yellow",
     padding: 5,
     marginLeft: 10,
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: 5,
+    },
   },
   detailsWrapper: {
     padding: 10,
@@ -73,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     padding: 0,
     [theme.breakpoints.down("sm")]: {
-      fontSize: 12,
+      fontSize: 10,
     },
   },
   itemLevel: {
@@ -87,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     padding: 0,
     [theme.breakpoints.down("sm")]: {
-      fontSize: 10,
+      fontSize: 9,
     },
   },
   notFound: {
