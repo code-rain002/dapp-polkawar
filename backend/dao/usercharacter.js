@@ -10,11 +10,10 @@ const userCharacterDao = {
   async getTopCharacters() {
     let characters = await UserCharacterModel.find({})
       .sort({ level: -1 })
-      .sort({ createdDate: -1 })
       .limit(5);
-    characters.sort((a, b) => {
-      return a.properties.xp - b.properties.xp;
-    });
+    // characters.sort((a, b) => {
+    //   return a.properties.xp - b.properties.xp;
+    // });
 
     return characters;
   },
