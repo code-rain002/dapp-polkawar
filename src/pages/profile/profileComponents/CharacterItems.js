@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
-  sectionWrapper: {},
+  sectionWrapper: { padding: 0, margin: 0 },
   scroll: {
     height: 440,
     overflowY: "scroll",
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     padding: 0,
     [theme.breakpoints.down("sm")]: {
-      fontSize: 16,
+      fontSize: 12,
     },
   },
   notFound: {
@@ -67,6 +67,13 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
     [theme.breakpoints.down("sm")]: {
       fontSize: 14,
+    },
+  },
+  arrowIcon: {
+    color: "white",
+    fontSize: 40,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 25,
     },
   },
 }));
@@ -100,6 +107,7 @@ function CharacterItems({
   });
   const [clickIndex, setClickIndex] = useState({
     weapon: -1,
+    weapon1: -1,
     armor: -1,
     mount: -1,
     helmet: -1,
@@ -107,6 +115,7 @@ function CharacterItems({
   });
   const [clickValues, setClickValues] = useState({
     weapon: 0,
+    weapon1: 0,
     armor: 0,
     mount: 0,
     helmet: 0,
@@ -338,6 +347,115 @@ function CharacterItems({
     }
   };
 
+  const updateMagicianWeaponProperties = (index) => {
+    // 1. Fetching clicked item property
+    let selectedItemProperties = validItems["weapon"][index].properties;
+    console.log(validItems["weapon"]);
+    console.log(selectedItemProperties);
+
+    // 3. updating clicked item values
+    let tempClickValues = clickValues;
+    if (index === 0) {
+      tempClickValues[`weapon`] = selectedItemProperties;
+      setClickValues(tempClickValues);
+    } else {
+      tempClickValues[`weapon${index}`] = selectedItemProperties;
+      setClickValues(tempClickValues);
+    }
+
+    let prevClickIndexValue;
+    if (index === 0) {
+      prevClickIndexValue = clickIndex[`weapon`];
+    } else {
+      prevClickIndexValue = clickIndex[`weapon${index}`];
+    }
+
+    console.log(prevClickIndexValue);
+
+    if (prevClickIndexValue === index) {
+      let tempObject = {
+        xp: characterProperties.xp,
+        hp: characterProperties.hp,
+        mp: characterProperties.mp,
+        Patk:
+          characterProperties.Patk -
+          (selectedItemProperties.bDam ? selectedItemProperties.bDam : 0),
+        Pdef: characterProperties.Pdef,
+        speed: characterProperties.speed,
+        accuracy:
+          characterProperties.accuracy -
+          (selectedItemProperties.accuracy
+            ? selectedItemProperties.accuracy
+            : 0),
+      };
+      setCharacterProperties(tempObject);
+      // 2. Updating clicked item index
+      let tempClickIndex = clickIndex;
+      if (index === 0) {
+        tempClickIndex[`weapon`] = -1;
+      } else {
+        tempClickIndex[`weapon${index}`] = -1;
+      }
+      setClickIndex(tempClickIndex);
+
+      let tempCharacterString = characterString;
+      if (index === 0) {
+        tempCharacterString[`weapon`] = -1;
+      } else {
+        tempClickIndex[`weapon${index}`] = -1;
+      }
+
+      setCharacterString(tempCharacterString);
+    } else {
+      console.log("Index not equal");
+      let oldPatk = 0;
+      let oldAccuracy = 0;
+
+      //Bdam to PAtk
+      //prot to Pdef
+      let tempObject = {
+        xp: characterProperties.xp,
+        hp: characterProperties.hp,
+        mp: characterProperties.mp,
+        Patk:
+          characterProperties.Patk -
+          oldPatk +
+          (selectedItemProperties.bDam ? selectedItemProperties.bDam : 0),
+        Pdef: characterProperties.Pdef,
+        speed: characterProperties.speed,
+        accuracy:
+          characterProperties.accuracy -
+          oldAccuracy +
+          (selectedItemProperties.accuracy
+            ? selectedItemProperties.accuracy
+            : 0),
+      };
+
+      setCharacterProperties(tempObject);
+
+      // 2. Updating clicked item index
+      let tempClickIndex = clickIndex;
+      if (index === 0) {
+        tempClickIndex[`weapon`] = index;
+      } else {
+        tempClickIndex[`weapon${index}`] = index;
+      }
+      setClickIndex(tempClickIndex);
+
+      let selectedItemId = validItems[`weapon`][index].id;
+      console.log(selectedItemId);
+
+      let tempCharacterString = characterString;
+      console.log(characterString);
+
+      if (index === 0) {
+        tempCharacterString[`weapon`] = selectedItemId;
+      } else {
+        tempCharacterString[`weapon${index}`] = selectedItemId;
+      }
+      setCharacterString(tempCharacterString);
+    }
+  };
   return (
     <div className={classes.background}>
       <h3 htmlFor="category" className={classes.title}>
@@ -357,59 +475,129 @@ function CharacterItems({
       )}
       {actualCase === 2 && (
         <div className={classes.scroll}>
-          <div htmlFor="weapon">
-            {validItems["weapon"].length !== 0 && (
-              <div>
-                {" "}
-                <h3 htmlFor="category" className={classes.subtitle}>
-                  Weapon
-                </h3>
-                <div className="d-flex justify-content-start align-items-center">
+          {character.name === "Magician" && (
+            <div>
+              <div htmlFor="weapons">
+                {validItems["weapon"].length !== 0 && (
                   <div>
-                    <IconButton style={{ margin: 0, padding: 0 }}>
-                      <KeyboardArrowLeft
-                        onClick={
-                          weaponIndex === 0
-                            ? null
-                            : () => setWeaponIndex(weaponIndex - 1)
-                        }
-                        style={{ color: "white", fontSize: 40 }}
-                      />
-                    </IconButton>
+                    {validItems["weapon"].map((item, itemIndex) => {
+                      return (
+                        <div>
+                          {" "}
+                          <h3 htmlFor="category" className={classes.subtitle}>
+                            Weapon {itemIndex + 1}
+                          </h3>
+                          <div className="d-flex justify-content-start align-items-center">
+                            <div>
+                              <IconButton style={{ margin: 0, padding: 0 }}>
+                                <KeyboardArrowLeft
+                                  onClick={
+                                    weaponIndex === 0
+                                      ? null
+                                      : () => setWeaponIndex(weaponIndex - 1)
+                                  }
+                                  className={classes.arrowIcon}
+                                />
+                              </IconButton>
+                            </div>
+                            <Zoom in={true} timeout={500}>
+                              <div
+                                className={classes.sectionWrapper}
+                                onClick={() =>
+                                  updateMagicianWeaponProperties(itemIndex)
+                                }
+                              >
+                                <SingleCharacterItem
+                                  item={validItems["weapon"][itemIndex]}
+                                  clickedIndex={
+                                    itemIndex === 0
+                                      ? clickIndex["weapon"]
+                                      : clickIndex["weapon1"]
+                                  }
+                                  itemIndex={itemIndex}
+                                />
+                              </div>
+                            </Zoom>{" "}
+                            <div>
+                              {" "}
+                              <IconButton style={{ margin: 0, padding: 0 }}>
+                                <KeyboardArrowRight
+                                  onClick={
+                                    weaponIndex ===
+                                    validItems["weapon"].length - 1
+                                      ? null
+                                      : () => setWeaponIndex(weaponIndex + 1)
+                                  }
+                                  className={classes.arrowIcon}
+                                />
+                              </IconButton>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
+                )}
+              </div>
+            </div>
+          )}
 
-                  <Zoom in={true} timeout={500}>
-                    <div
-                      className={classes.sectionWrapper}
-                      onClick={() =>
-                        updateCharacterProperties(weaponIndex, "weapon")
-                      }
-                    >
-                      <SingleCharacterItem
-                        item={validItems["weapon"][weaponIndex]}
-                        clickedIndex={clickIndex["weapon"]}
-                        itemIndex={weaponIndex}
-                      />
+          {character.name !== "Magician" && (
+            <div htmlFor="weapon">
+              {validItems["weapon"].length !== 0 && (
+                <div>
+                  {" "}
+                  <h3 htmlFor="category" className={classes.subtitle}>
+                    Weapon
+                  </h3>
+                  <div className="d-flex justify-content-start align-items-center">
+                    <div>
+                      <IconButton style={{ margin: 0, padding: 0 }}>
+                        <KeyboardArrowLeft
+                          onClick={
+                            weaponIndex === 0
+                              ? null
+                              : () => setWeaponIndex(weaponIndex - 1)
+                          }
+                          className={classes.arrowIcon}
+                        />
+                      </IconButton>
                     </div>
-                  </Zoom>
 
-                  <div>
-                    {" "}
-                    <IconButton style={{ margin: 0, padding: 0 }}>
-                      <KeyboardArrowRight
-                        onClick={
-                          weaponIndex === validItems["weapon"].length - 1
-                            ? null
-                            : () => setWeaponIndex(weaponIndex + 1)
+                    <Zoom in={true} timeout={500}>
+                      <div
+                        className={classes.sectionWrapper}
+                        onClick={() =>
+                          updateCharacterProperties(weaponIndex, "weapon")
                         }
-                        style={{ color: "white", fontSize: 40 }}
-                      />
-                    </IconButton>
+                      >
+                        <SingleCharacterItem
+                          item={validItems["weapon"][weaponIndex]}
+                          clickedIndex={clickIndex["weapon"]}
+                          itemIndex={weaponIndex}
+                        />
+                      </div>
+                    </Zoom>
+
+                    <div>
+                      {" "}
+                      <IconButton style={{ margin: 0, padding: 0 }}>
+                        <KeyboardArrowRight
+                          onClick={
+                            weaponIndex === validItems["weapon"].length - 1
+                              ? null
+                              : () => setWeaponIndex(weaponIndex + 1)
+                          }
+                          className={classes.arrowIcon}
+                        />
+                      </IconButton>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
+
           <div htmlFor="helmet">
             {validItems["helmet"].length !== 0 && (
               <div>
@@ -426,7 +614,7 @@ function CharacterItems({
                             ? null
                             : () => setHelmetIndex(helmetIndex - 1)
                         }
-                        style={{ color: "white", fontSize: 40 }}
+                        className={classes.arrowIcon}
                       />
                     </IconButton>
                   </div>
@@ -455,7 +643,7 @@ function CharacterItems({
                             ? null
                             : () => setHelmetIndex(helmetIndex + 1)
                         }
-                        style={{ color: "white", fontSize: 40 }}
+                        className={classes.arrowIcon}
                       />
                     </IconButton>
                   </div>
@@ -479,7 +667,7 @@ function CharacterItems({
                             ? null
                             : () => setWingIndex(wingIndex - 1)
                         }
-                        style={{ color: "white", fontSize: 40 }}
+                        className={classes.arrowIcon}
                       />
                     </IconButton>
                   </div>
@@ -508,7 +696,7 @@ function CharacterItems({
                             ? null
                             : () => setWingIndex(wingIndex + 1)
                         }
-                        style={{ color: "white", fontSize: 40 }}
+                        className={classes.arrowIcon}
                       />
                     </IconButton>
                   </div>
@@ -532,7 +720,7 @@ function CharacterItems({
                             ? null
                             : () => setArmorIndex(armorIndex - 1)
                         }
-                        style={{ color: "white", fontSize: 40 }}
+                        className={classes.arrowIcon}
                       />
                     </IconButton>
                   </div>
@@ -561,7 +749,7 @@ function CharacterItems({
                             ? null
                             : () => setArmorIndex(armorIndex + 1)
                         }
-                        style={{ color: "white", fontSize: 40 }}
+                        className={classes.arrowIcon}
                       />
                     </IconButton>
                   </div>
@@ -585,7 +773,7 @@ function CharacterItems({
                             ? null
                             : () => setMountIndex(mountIndex - 1)
                         }
-                        style={{ color: "white", fontSize: 40 }}
+                        className={classes.arrowIcon}
                       />
                     </IconButton>
                   </div>
@@ -614,7 +802,7 @@ function CharacterItems({
                             ? null
                             : () => setMountIndex(mountIndex + 1)
                         }
-                        style={{ color: "white", fontSize: 40 }}
+                        className={classes.arrowIcon}
                       />
                     </IconButton>
                   </div>

@@ -8,10 +8,15 @@ const userCharacterDao = {
   },
 
   async getTopCharacters() {
-    return await UserCharacterModel.find({})
-      .sort({ level: 1 })
-      .sort({ createdDate: 1 })
+    let characters = await UserCharacterModel.find({})
+      .sort({ level: -1 })
+      .sort({ createdDate: -1 })
       .limit(5);
+    characters.sort((a, b) => {
+      return a.properties.xp - b.properties.xp;
+    });
+
+    return characters;
   },
 
   async getUserCharacter(owner) {
@@ -58,14 +63,26 @@ const userCharacterDao = {
     let equipmentsProp = equipments.map((equipment) => equipment.properties);
 
     // 5. Calculating maximum values of a category
-    let maxOfWeapons = weaponsProp.reduce((a, b) => {
-      let tempObj = {
-        bDam: a.bDam > b.bDam ? a.bDam : b.bDam,
-        accuracy: a.accuracy > b.accuracy ? a.accuracy : b.accuracy,
-        bonus: a.bonus > b.bonus ? a.bonus : b.bonus,
-      };
-      return tempObj;
-    });
+    let maxOfWeapons;
+    if (userCharacter.name !== "Magician") {
+      maxOfWeapons = weaponsProp.reduce((a, b) => {
+        let tempObj = {
+          bDam: a.bDam > b.bDam ? a.bDam : b.bDam,
+          accuracy: a.accuracy > b.accuracy ? a.accuracy : b.accuracy,
+          bonus: a.bonus > b.bonus ? a.bonus : b.bonus,
+        };
+        return tempObj;
+      });
+    } else {
+      maxOfWeapons = weaponsProp.reduce((a, b) => {
+        let tempObj = {
+          bDam: a.bDam + b.bDam,
+          accuracy: a.accuracy + b.accuracy,
+          bonus: a.bonus + b.bonus,
+        };
+        return tempObj;
+      });
+    }
 
     let maxOfEquipments = equipmentsProp.reduce((a, b) => {
       let tempObj = {

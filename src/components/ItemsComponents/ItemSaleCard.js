@@ -390,7 +390,7 @@ function ItemSaleCard({
           let userItemData = {
             fs_item_id: item._id,
             token_id: tokenId,
-            price: "1.0",
+            price: "0.5",
             token_type: 2,
             event: "flashsale",
             owner: userAddress,

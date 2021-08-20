@@ -324,13 +324,6 @@ function ProfileMysteryCard({ item, addUserItem, useritems }) {
               </div>
               <div className="d-flex justify-content-center">
                 <div className={classes.priceBadgeWrapper}>
-                  {item.price && (
-                    <h6 style={{ color: "white", fontSize: 12 }}>
-                      {" "}
-                      <strong> Price : </strong>
-                      <span className={classes.pricingText}> {item.price}</span>
-                    </h6>
-                  )}
                   <h6 style={{ color: "white", fontSize: 12 }}>
                     {" "}
                     <strong> Date : </strong>

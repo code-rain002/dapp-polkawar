@@ -379,12 +379,6 @@ function ItemProfileCard({ item, getItemDetails }) {
                 <div className="d-flex justify-content-center">
                   <div className={classes.priceBadgeWrapper}>
                     <h6 style={{ color: "white", fontSize: 12 }}>
-                      <strong> Price :</strong>{" "}
-                      <span className={classes.pricingText}>
-                        {item.price ? item.price : "0.5    "} BNB
-                      </span>
-                    </h6>
-                    <h6 style={{ color: "white", fontSize: 12 }}>
                       {" "}
                       <strong> Date : </strong>
                       <span className={classes.pricingText}>
