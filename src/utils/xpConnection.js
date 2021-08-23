@@ -7,7 +7,6 @@ if (constants.net === 0) {
   xpConstant = {
     rpcUrl: "https://bsc-dataseed.binance.org/",
     chainId: 56, // Mainnet
-    api: "V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK",
     contractAddress: "0x54Af9518856fb485977294d066FB0D4d0E2D3062",
     abi: [
       { inputs: [], stateMutability: "nonpayable", type: "constructor" },
@@ -248,7 +247,6 @@ if (constants.net === 0) {
   xpConstant = {
     rpcUrl: "https://data-seed-prebsc-2-s3.binance.org:8545/",
     chainId: 97, //Testnet
-    api: "V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK",
     contractAddress: "0x5AAa220472ED1CCd1C84c82f25eca7B794226316",
     abi: [
       {

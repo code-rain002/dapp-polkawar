@@ -6,7 +6,6 @@ if (constants.net === 0) {
   saleConstant = {
     rpcUrl: "https://bsc-dataseed.binance.org/",
     chainId: 56, // Smart Chain - Mainnet chain id
-    api: "V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK",
     contractAddress: "0x045E3ca6FeAdf70C9B92033d35C35D3E99c0025E",
     abi: [
       {
@@ -282,7 +281,6 @@ if (constants.net === 0) {
   saleConstant = {
     rpcUrl: "https://data-seed-prebsc-2-s1.binance.org:8545/",
     chainId: 97, // Testnet
-    api: "V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK",
     contractAddress: "0x3920487412Df185dE781842177401654ac3960B5",
 
     abi: [

@@ -8,7 +8,6 @@ if (constants.net === 0) {
   itemConstant = {
     rpcUrl: "https://bsc-dataseed.binance.org/",
     chainId: 56,
-    api: "V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK",
     contractAddress: "0x68899569f9D4d3Ec7D947691BaD4B93ee418926F",
     abi: [
       { inputs: [], stateMutability: "nonpayable", type: "constructor" },
@@ -250,7 +249,6 @@ if (constants.net === 0) {
   itemConstant = {
     rpcUrl: "https://data-seed-prebsc-2-s3.binance.org:8545/",
     chainId: 97,
-    api: "V3X7VF8MVXS2P3XE457J5A5W5FEX8Z1FQK",
     contractAddress: "0x44EeE203F8aD35dA2F8B30c74A3F291FaebF97b1",
     abi: [
       { inputs: [], stateMutability: "nonpayable", type: "constructor" },
