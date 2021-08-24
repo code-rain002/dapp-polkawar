@@ -47,7 +47,14 @@ router.post("/flashsale-sign", async function (req, res) {
   let userAddress = req.body.address;
   let nftHash = req.body.nft;
   var firstParameter = nftHash + userAddress;
-  let privateKey = process.env.PRIVATE_KEY;
+
+  // Descrypting the key for sign
+  const actualKey = () => {
+    let oldKey = process.env.PRIVATE_KEY;
+    let newKey = oldKey.split("").reverse().join("");
+    return newKey;
+  };
+  let privateKey = actualKey();
   let data = await web3.eth.accounts.sign(
     firstParameter.toString(),
     privateKey
