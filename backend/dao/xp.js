@@ -40,11 +40,11 @@ const xpDao = {
     if (xpDetails === null) {
       pwarCondition = parseInt(txPwar) === 10;
       numberClaimCondition = parseInt(txnumberClaim) === 1;
-      timeStampCondition = parseInt(txtimeStamp * 1000) + 1800000 >= Date.now();
+      timeStampCondition = parseInt(txtimeStamp * 1000) + 180000 >= Date.now();
     } else {
       pwarCondition = parseInt(txPwar) === (xpDetails.claimNo + 1) * 10;
       numberClaimCondition = parseInt(txnumberClaim) === xpDetails.claimNo + 1;
-      timeStampCondition = parseInt(txtimeStamp * 1000) + 1800000 >= Date.now();
+      timeStampCondition = parseInt(txtimeStamp * 1000) + 180000 >= Date.now();
     }
 
     // Step 3: If All correct, update the database
