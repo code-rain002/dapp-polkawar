@@ -296,7 +296,7 @@ function DailyRewards({
         async function (error, transactionHash) {
           if (transactionHash) {
             txHash = transactionHash;
-            let txdate = new Date().toUTCString();
+            let txdate = new Date().toISOString();
             let logData = {
               owner: userAddress,
               time: txdate,
@@ -317,7 +317,7 @@ function DailyRewards({
       .on("receipt", async function (receipt) {
         blockNo = receipt.blockNumber;
         console.log(receipt.blockNumber);
-        let txdate = new Date().toUTCString();
+        let txdate = new Date().toISOString();
         let logData = {
           owner: userAddress,
           time: txdate,
@@ -333,7 +333,7 @@ function DailyRewards({
 
         let backendResponse = await updateXpOfOwner(blockNo);
         if (backendResponse) {
-          let txdate = new Date().toUTCString();
+          let txdate = new Date().toISOString();
           let logData = {
             owner: userAddress,
             time: txdate,
@@ -351,7 +351,7 @@ function DailyRewards({
           setFreezePopup(false);
           window.location.reload();
         } else {
-          let txdate = new Date().toUTCString();
+          let txdate = new Date().toISOString();
           let logData = {
             owner: userAddress,
             time: txdate,
