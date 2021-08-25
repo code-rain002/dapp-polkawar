@@ -20,6 +20,29 @@ router.get("/log", async (req, res, next) => {
   }
 });
 
+// GET all logs by owner
+router.get("/log/:owner", async (req, res, next) => {
+  let owner = req.params.owner;
+  try {
+    const result = await client.search({
+      index: "polkawarlog",
+
+      body: {
+        query: {
+          match: {
+            owner: owner,
+          },
+        },
+      },
+    });
+    let data = result.body.hits;
+    console.log(data);
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+});
+
 // POST New Log based on event
 router.post("/log", async (req, res, next) => {
   let owner = req.body.owner;
