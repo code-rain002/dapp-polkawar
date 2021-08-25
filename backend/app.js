@@ -16,6 +16,7 @@ var bidRouter = require("./routes/bidRouter");
 var useritemRouter = require("./routes/useritemRouter");
 var usercharacterRouter = require("./routes/usercharacterRouter");
 var xpRouter = require("./routes/xpRouter");
+var logRouter = require("./routes/logRouter");
 
 var app = express();
 // view engine setup
@@ -48,6 +49,7 @@ app.use("/", useritemRouter);
 app.use("/", usercharacterRouter);
 app.use("/", bidRouter);
 app.use("/", xpRouter);
+app.use("/", logRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

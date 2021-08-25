@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express.Router();
-
 var XpDao = require("../dao/xp");
 
 // GET all xp just for testing purpose

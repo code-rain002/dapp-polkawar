@@ -12,6 +12,10 @@ import {
   getXpByOwner,
   updateXpOfOwner,
 } from "../../../actions/characterActions";
+import {
+  postNewLog,
+  getLogEnumActionEvents,
+} from "./../../../actions/logActions";
 import Loader from "../../../components/Loader";
 
 const useStyles = makeStyles((theme) => ({
@@ -204,6 +208,8 @@ function DailyRewards({
   updateXpOfOwner,
   freezePopup,
   setFreezePopup,
+  postNewLog,
+  getLogEnumActionEvents,
 }) {
   const classes = useStyles();
 
@@ -222,7 +228,6 @@ function DailyRewards({
       let xpDetails = await getXpByOwner();
 
       if (xpDetails) {
-        console.log("hello");
         let nextClaimTime = parseInt(xpDetails.lastClaim) + 86400000;
         if (nextClaimTime < Date.now()) {
           setEnableTodayClaim(true);
@@ -237,12 +242,11 @@ function DailyRewards({
       setLoading(false);
     }
     asyncFn();
-
-    console.log(loading);
   }, []);
 
   const isApproved = async () => {
     let allowance = await checkPwarApproved(xpContractAddress);
+
     if (parseInt(allowance) > 0) {
       setApproved(true);
     } else {
@@ -276,18 +280,33 @@ function DailyRewards({
       });
   };
 
-  const claimXp = async () => {
+  const claimXp = async (clickedIndex) => {
     setFreezePopup(true);
+    let events = await getLogEnumActionEvents();
+    let txHash;
+
     let characterLevel = parseInt(character.level);
-    console.log(characterLevel);
+
     let userAddress = await getUserAddress();
     let blockNo;
     const response = await xpConnection.methods
       .claimXP(characterLevel)
       .send(
         { from: userAddress, gasPrice: 10000000000 },
-        function (error, transactionHash) {
+        async function (error, transactionHash) {
           if (transactionHash) {
+            txHash = transactionHash;
+            let logData = {
+              owner: userAddress,
+              timestamp: Date.now(),
+              status: "success",
+              transactionHash: txHash,
+              action: events.claimxp,
+              info: "Transaction submitted for claimxp.",
+            };
+            console.log(logData);
+            let logResponse = await postNewLog(logData);
+
             setClaimCase(1);
           } else {
             setClaimCase(2);
@@ -297,12 +316,50 @@ function DailyRewards({
       .on("receipt", async function (receipt) {
         blockNo = receipt.blockNumber;
         console.log(receipt.blockNumber);
+        let logData = {
+          owner: userAddress,
+          timestamp: Date.now(),
+          status: "success",
+          transactionHash: txHash,
+          action: events.claimxp,
+          info: `Transaction success for claimxp of ${
+            (clickedIndex + 1) * 10
+          } XP.`,
+        };
+
+        let logResponse = await postNewLog(logData);
+
         let backendResponse = await updateXpOfOwner(blockNo);
         if (backendResponse) {
+          let logData = {
+            owner: userAddress,
+            timestamp: Date.now(),
+            status: "success",
+            transactionHash: txHash,
+            action: events.claimxp,
+            info: `MongoDB updated for claimxp of ${
+              (clickedIndex + 1) * 10
+            } XP, current level: ${characterLevel}.`,
+          };
+
+          let logResponse = await postNewLog(logData);
+
           setClaimCase(3);
           setFreezePopup(false);
           window.location.reload();
         } else {
+          let logData = {
+            owner: userAddress,
+            timestamp: Date.now(),
+            status: "failed",
+            transactionHash: txHash,
+            action: events.claimxp,
+            info: `MongoDB failed to updated for claimxp of ${
+              (clickedIndex + 1) * 10
+            } XP.`,
+          };
+
+          let logResponse = await postNewLog(logData);
           setFreezePopup(false);
           setClaimCase(4);
         }
@@ -474,7 +531,7 @@ function DailyRewards({
                                           <Button
                                             variant="contained"
                                             className={classes.showMeButton}
-                                            onClick={claimXp}
+                                            onClick={() => claimXp(index)}
                                           >
                                             {" "}
                                             Claim
@@ -550,6 +607,11 @@ const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated,
 });
 
-const mapDispatchToProps = { getXpByOwner, updateXpOfOwner };
+const mapDispatchToProps = {
+  getXpByOwner,
+  updateXpOfOwner,
+  postNewLog,
+  getLogEnumActionEvents,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DailyRewards);
