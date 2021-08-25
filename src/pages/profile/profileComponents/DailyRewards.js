@@ -296,9 +296,10 @@ function DailyRewards({
         async function (error, transactionHash) {
           if (transactionHash) {
             txHash = transactionHash;
+            let txdate = new Date().toUTCString();
             let logData = {
               owner: userAddress,
-              timestamp: Date.now(),
+              time: txdate,
               status: "success",
               transactionHash: txHash,
               action: events.claimxp,
@@ -316,9 +317,10 @@ function DailyRewards({
       .on("receipt", async function (receipt) {
         blockNo = receipt.blockNumber;
         console.log(receipt.blockNumber);
+        let txdate = new Date().toUTCString();
         let logData = {
           owner: userAddress,
-          timestamp: Date.now(),
+          time: txdate,
           status: "success",
           transactionHash: txHash,
           action: events.claimxp,
@@ -331,9 +333,10 @@ function DailyRewards({
 
         let backendResponse = await updateXpOfOwner(blockNo);
         if (backendResponse) {
+          let txdate = new Date().toUTCString();
           let logData = {
             owner: userAddress,
-            timestamp: Date.now(),
+            time: txdate,
             status: "success",
             transactionHash: txHash,
             action: events.claimxp,
@@ -348,9 +351,10 @@ function DailyRewards({
           setFreezePopup(false);
           window.location.reload();
         } else {
+          let txdate = new Date().toUTCString();
           let logData = {
             owner: userAddress,
-            timestamp: Date.now(),
+            time: txdate,
             status: "failed",
             transactionHash: txHash,
             action: events.claimxp,

@@ -46,7 +46,7 @@ router.get("/log/:owner", async (req, res, next) => {
 // POST New Log based on event
 router.post("/log", async (req, res, next) => {
   let owner = req.body.owner;
-  let timestamp = req.body.timestamp;
+  let time = req.body.time;
   let status = req.body.status;
   let transactionHash = req.body.transactionHash;
   let action = req.body.action;
@@ -56,7 +56,7 @@ router.post("/log", async (req, res, next) => {
       index: "polkawarlog",
       body: {
         owner: owner,
-        timestamp: timestamp,
+        time: time,
         status: status,
         transactionhash: transactionHash,
         action: action,
