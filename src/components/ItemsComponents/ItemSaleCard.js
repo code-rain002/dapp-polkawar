@@ -290,13 +290,13 @@ function ItemSaleCard({
   const [disablePopup, setDisablePopup] = useState(false);
 
   let nftHashList = {
-    "Bow & Arrow": "QmZqT7Djy2JCiT4ju9D7RUDztDn2Lvq5xcUYrhrJ9sHrFM",
-    Gun: "QmWs52KYvRKR7tG223f6pKFd6Xikdbr1jYWqN7hPdDdFmX",
-    "Big Knife": "QmbwyMbxAFhSuZA4s6MvQpbBpNki4bycpM7QNDB77NYNTw",
-    Sword: "QmYy3GQNN7ogiD6846SpQ9dJXfBa8REk9WWGJMpGBsBt2N",
-    Tessen: "QmbNcJAJKmZcCkcQwnymTG7Cxm44HSAdN49cpJFfGX3kUD",
-    Sceptre: "QmUXoshh1cYiQbjSyf2ajSHN6jq6ttrhp9FEDw8uMUaduR",
-    "Magic Vase": "QmbWFut6ZJcQeHSZwTNSJZeeJhYyEWsJYRJngtu7KVEDSB",
+    "Bow & Arrow": "QmRD4fqpPxKtV8YNWyubN6H5VQm51dvsmw6P7ziSuZcwSM",
+    Gun: "QmZKGfHUGs4DCkaXEQmH7tHMoQ128yq1yKziLSqcYjMf4e",
+    "Big Knife": "QmTja4VTheorvFB4KgFE5kbnc76LeLCWbUA1QsQxAH9KgE",
+    Sword: "QmUNc6Vq5avbfu2SKJQdsTZjLEw57kBouBp3iW2AJtMj2f",
+    Tessen: "QmcfYMDtccGRN4VLSmQfZf43ysGz4hkTCopDLsQV3yGqyY",
+    Sceptre: "QmRTmnmQABzUiYaT1yGsLsowtyNs65un2XyS8Xr9ffqSgM",
+    "Magic Vase": "QmSxaiMT7XtBbH8ZVLuS4w1xSwYfqvkzKuVboGThamWSBt",
   };
 
   useEffect(() => {
@@ -390,7 +390,7 @@ function ItemSaleCard({
           let userItemData = {
             fs_item_id: item._id,
             token_id: tokenId,
-            price: "0.5",
+            price: "0.7",
             token_type: 2,
             event: "flashsale",
             owner: userAddress,

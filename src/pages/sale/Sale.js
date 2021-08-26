@@ -250,7 +250,7 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
       <div className={classes.mainCard}>
         <div>
           <img
-            src="/images/banner.jpg"
+            src="/images/flashsale5.jpg"
             alt="flash-sale-poster"
             className={classes.banner}
           />
@@ -296,9 +296,9 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
                   Only 140 items will be on sale at discounted price.
                 </li>
                 <li className={classes.listItem}>
-                  Each NFT will cost 0.5 BNB. After the Flash Sale event ends, you
-                  can resell to the system for 0.7 BNB and your NFT item will be
-                  lost.
+                  Each NFT will cost 0.7 BNB. After the Flash Sale event ends,
+                  you can resell to the system for 0.75 BNB and your NFT item
+                  will be lost.
                 </li>
 
                 <li className={classes.listItem}>
@@ -309,8 +309,8 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
                 </li>
                 <li className={classes.listItem}>
                   If you don't want to resell, you can hold the item upto{" "}
-                  <span style={{ color: "yellow" }}>20th Sep,2021</span> and you
-                  will receive 1000 PWAR tokens as a reward.
+                  <span style={{ color: "yellow" }}>31st Sep,2021</span> and you
+                  will receive 1500 PWAR tokens as a reward.
                 </li>
               </ol>
             </div>
