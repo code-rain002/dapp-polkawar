@@ -289,16 +289,6 @@ function ItemSaleCard({
   const [popup, setPopup] = useState(false);
   const [disablePopup, setDisablePopup] = useState(false);
 
-  let nftHashList = {
-    "Bow & Arrow": "QmRD4fqpPxKtV8YNWyubN6H5VQm51dvsmw6P7ziSuZcwSM",
-    Gun: "QmZKGfHUGs4DCkaXEQmH7tHMoQ128yq1yKziLSqcYjMf4e",
-    "Big Knife": "QmTja4VTheorvFB4KgFE5kbnc76LeLCWbUA1QsQxAH9KgE",
-    Sword: "QmUNc6Vq5avbfu2SKJQdsTZjLEw57kBouBp3iW2AJtMj2f",
-    Tessen: "QmcfYMDtccGRN4VLSmQfZf43ysGz4hkTCopDLsQV3yGqyY",
-    Sceptre: "QmRTmnmQABzUiYaT1yGsLsowtyNs65un2XyS8Xr9ffqSgM",
-    "Magic Vase": "QmSxaiMT7XtBbH8ZVLuS4w1xSwYfqvkzKuVboGThamWSBt",
-  };
-
   useEffect(() => {
     async function asyncFn() {
       let apiResponse = await checkSlotsAvailable(item._id);
@@ -345,11 +335,8 @@ function ItemSaleCard({
     //1. Getting user address
     let userAddress = await getUserAddress();
 
-    //2. Getting NFT Hash Information
-    let nftHashJson = nftHashList[item.name];
-
     //3. Signing the transaction
-    let signResponse = await signTransaction(nftHashJson, userAddress);
+    let signResponse = await signTransaction(item.hashItem, userAddress);
     setDisablePopup(true);
 
     //4. Checking available slots
@@ -360,7 +347,7 @@ function ItemSaleCard({
       const response = await saleContract.methods
         .purchaseItem(
           item.itemId,
-          nftHashJson,
+          item.hashItem,
           signResponse.v,
           signResponse.r,
           signResponse.s,
