@@ -17,6 +17,8 @@ import {
   getLogEnumActionEvents,
 } from "./../../../actions/logActions";
 import Loader from "../../../components/Loader";
+import Timer from "../../../components/Timer";
+import ClaimTimer from "../../../components/ClaimTimer";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -201,6 +203,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
 function DailyRewards({
   character,
   togglePopup,
@@ -219,6 +222,7 @@ function DailyRewards({
   const [claimCase, setClaimCase] = useState(0);
   const [dayOfClaim, setDayOfClaim] = useState(0);
   const [enableTodayClaim, setEnableTodayClaim] = useState(false);
+  const [nextClaimTime, setNextClaimTime] = useState(false);
 
   let xpContractAddress = constants.xp_owner_address;
 
@@ -229,6 +233,7 @@ function DailyRewards({
 
       if (xpDetails) {
         let nextClaimTime = parseInt(xpDetails.lastClaim) + 86400000;
+        setNextClaimTime(nextClaimTime);
         if (nextClaimTime < Date.now()) {
           setEnableTodayClaim(true);
         } else {
@@ -521,14 +526,9 @@ function DailyRewards({
                                       <div>
                                         {!enableTodayClaim && (
                                           <div>
-                                            <Button
-                                              variant="contained"
-                                              disabled
-                                              className={classes.showMeButton}
-                                            >
-                                              {" "}
-                                              Claim
-                                            </Button>
+                                            <ClaimTimer
+                                              endTime={nextClaimTime}
+                                            />
                                           </div>
                                         )}
                                         {enableTodayClaim && (
