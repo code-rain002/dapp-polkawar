@@ -326,7 +326,7 @@ function ItemSaleCard({
   const checkSlotsAvailable = async (itemId) => {
     let url = `${baseUrl}/flashsale-slots/${itemId}`;
     let response = await axios.get(url);
-    return response;
+    return response.data;
   };
 
   const buyItem = async () => {
@@ -339,9 +339,9 @@ function ItemSaleCard({
     let signResponse = await signTransaction(item.hashItem, userAddress);
     setDisablePopup(true);
 
+    console.log(item._id);
     //4. Checking available slots
-    let apiResponse = await checkSlotsAvailable(item._id);
-    let slotsAvailable = apiResponse.data;
+    let slotsAvailable = await checkSlotsAvailable(item.itemId);
 
     if (parseInt(slotsAvailable) > 0) {
       const response = await saleContract.methods
@@ -356,7 +356,7 @@ function ItemSaleCard({
         .send(
           {
             from: userAddress,
-            value: 500000000000000000,
+            value: 1000000000000000000 * parseFloat(item.sell_price),
             gasPrice: 25000000000,
           },
           function (error, transactionHash) {

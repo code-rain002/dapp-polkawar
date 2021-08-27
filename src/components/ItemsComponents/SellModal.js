@@ -8,6 +8,7 @@ import saleContract from "../../utils/saleConnection";
 import { getUserAddress } from "./../../actions/web3Actions";
 import Loader from "../Loader";
 import Moment from "react-moment";
+import constants from "../../utils/constants";
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -98,9 +99,11 @@ const useStyles = makeStyles((theme) => ({
   },
   para: {
     marginTop: 10,
+    padding: 10,
     fontWeight: 400,
     verticalAlign: "baseline",
     letterSpacing: "-0.4px",
+    lineHeight: "34px",
     margin: 0,
     fontFamily: "Balsamiq Sans",
     paddingTop: 10,
@@ -340,8 +343,12 @@ function SellModal({ item, updateUserItemOwner, setDisableSellPopup }) {
             <div className="my-3 d-flex flex-column justify-content-start">
               <h5 className={classes.messageTitle}> Please confirm </h5>
               <p className={classes.para}>
-                If you resell to the system, you will get 0.75 BNB and your NFT
-                item will be lost. And you will not receive reward of 1500 PWAR
+                If you resell to the system, you will get {constants.resellBNB}{" "}
+                BNB and your NFT item will be lost. And you will not receive
+                reward of{" "}
+                <span style={{ color: "#6F2F9B", fontWeight: "600" }}>
+                  {constants.rewardsPWAR} PWAR
+                </span>{" "}
                 on 31st of September,2021.
               </p>
               <div className="mt-3">

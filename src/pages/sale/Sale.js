@@ -8,7 +8,7 @@ import ItemSaleCard from "../../components/ItemsComponents/ItemSaleCard";
 import Timer from "../../components/Timer";
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import Moment from "react-moment";
+import constants from "./../../utils/constants";
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -210,8 +210,6 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
     const differenceStart = +new Date(saleStartDate) - +new Date();
     const differenceEnd = +new Date(saleEndDate) - +new Date();
 
-    console.log(new Date());
-    console.log(saleStartDate);
     if (differenceEnd <= 0) {
       setSaleEnds(true);
     } else {
@@ -287,18 +285,19 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
             <div style={{ maxWidth: 600 }}>
               <ol>
                 <li className={classes.listItem}>
-                  You must HODL or STAKE 2000 PWAR Tokens.
+                  You must HODL or STAKE {constants.holdPWAR} PWAR Tokens.
                 </li>
                 <li className={classes.listItem}>
                   You can only purchase item once during the flash sale.
                 </li>
                 <li className={classes.listItem}>
-                  Only 140 items will be on sale at discounted price.
+                  Only {constants.itemsCount} items will be on sale at
+                  discounted price.
                 </li>
                 <li className={classes.listItem}>
-                  Each NFT will cost 0.7 BNB. After the Flash Sale event ends,
-                  you can resell to the system for 0.75 BNB and your NFT item
-                  will be lost.
+                  Each NFT will cost {constants.itemPrice} BNB. After the Flash
+                  Sale event ends, you can resell to the system for{" "}
+                  {constants.resellBNB} BNB and your NFT item will be lost.
                 </li>
 
                 <li className={classes.listItem}>
@@ -309,8 +308,14 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
                 </li>
                 <li className={classes.listItem}>
                   If you don't want to resell, you can hold the item upto{" "}
-                  <span style={{ color: "yellow" }}>31st Sep,2021</span> and you
-                  will receive 1500 PWAR tokens as a reward.
+                  <span style={{ color: "yellow" }}>
+                    {constants.rewardDate}
+                  </span>{" "}
+                  and you will receive{" "}
+                  <span style={{ color: "yellow" }}>
+                    {constants.rewardsPWAR} PWAR
+                  </span>{" "}
+                  tokens as a reward.
                 </li>
               </ol>
             </div>
