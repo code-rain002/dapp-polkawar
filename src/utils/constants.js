@@ -12,7 +12,7 @@ constants = {
   itemPrice: "0.7",
   resellBNB: "0.75",
   rewardsPWAR: "1500",
-  rewardDate: "31st of September,2021",
+  rewardDate: "30th of September,2021",
 };
 
 export default constants;
