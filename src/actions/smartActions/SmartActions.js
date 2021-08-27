@@ -7,6 +7,7 @@ import bidContract from "../../utils/bidConnection";
 import { getUserAddress } from "../web3Actions";
 import web3 from "../../web";
 import axios from "axios";
+import xpContract from "../../utils/xpConnection";
 //Airdrop Functions
 
 //READ is user joined airdrop
@@ -243,4 +244,17 @@ export const postToPinata = async (jsonData) => {
   } else {
     return false;
   }
+};
+
+// XP Contract Function
+//Returns Amount holding or staking
+export const checkPwarHolding = async () => {
+  let userAddress = await getUserAddress();
+  let holding = await xpContract.methods
+    .getNumberHoldingOrStaking(userAddress)
+    .call((err, res) => {
+      return res / 1000;
+    });
+  let pwarBal = parseInt(web3.utils.fromWei(holding.toString(), "ether"));
+  return pwarBal;
 };

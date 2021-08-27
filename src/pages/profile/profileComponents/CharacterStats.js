@@ -4,6 +4,7 @@ import PowerStats from "../../../components/PowerStatsBar";
 import { Button, Dialog, Slide, Backdrop } from "@material-ui/core";
 import DailyRewards from "./DailyRewards";
 import { connect } from "react-redux";
+import { checkPwarHolding } from "../../../actions/smartActions/SmartActions";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -88,6 +89,7 @@ function CharacterStats({ character, characterProperties, maxStats }) {
 
   const [claimXpPopup, setClaimXpPopup] = useState(false);
   const [freezePopup, setFreezePopup] = useState(false);
+  const [claimXPMessage, setClaimXPMessage] = useState("");
 
   let colors1 = ["#ba68c8", "#9c27b0", "#7b1fa2", "#7b1fa2"];
   let colors2 = ["#ffee58", "#fbc02d", "#f57f17"];
@@ -100,6 +102,17 @@ function CharacterStats({ character, characterProperties, maxStats }) {
     return a;
   };
 
+  const enableClaimPopup = async () => {
+    let holding = await checkPwarHolding();
+    console.log(holding);
+    if (holding >= 2000) {
+      setClaimXpPopup(true);
+      setClaimXPMessage("");
+    } else {
+      setClaimXpPopup(false);
+      setClaimXPMessage("Need to HOLD Or STAKE 2000 PWAR");
+    }
+  };
   return (
     <div className={classes.background}>
       <h3 htmlFor="category" className={classes.title}>
@@ -204,10 +217,13 @@ function CharacterStats({ character, characterProperties, maxStats }) {
         <Button
           variant="contained"
           className={classes.claimXpButton}
-          onClick={() => setClaimXpPopup(true)}
+          onClick={enableClaimPopup}
         >
           Claim XP
         </Button>
+      </div>
+      <div className="text-center mt-3">
+        <h6 style={{ color: "#ffebee" }}> {claimXPMessage}</h6>
       </div>
       <Dialog
         className={classes.modal}
