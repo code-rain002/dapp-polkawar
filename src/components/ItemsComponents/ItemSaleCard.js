@@ -291,7 +291,7 @@ function ItemSaleCard({
 
   useEffect(() => {
     async function asyncFn() {
-      let apiResponse = await checkSlotsAvailable(item._id);
+      let apiResponse = await checkSlotsAvailable(item.itemId);
       let slotsAvailable = apiResponse.data;
 
       if (parseInt(slotsAvailable) <= 5 && parseInt(slotsAvailable) > 0) {
