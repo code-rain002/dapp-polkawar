@@ -18,176 +18,217 @@ const xpDao = {
   },
 
   async updateXp(owner, blockNo) {
-    try {
-      // Step 1: Get pastEvent details
-      var filter = { _user: { $regex: `^${owner}$`, $options: "i" } };
-      var pastTransferEvents = await xpContract.getPastEvents("claimXPEvent", {
-        filter,
-        fromBlock: blockNo,
-        toBlock: "latest",
-      });
-      let returnedValues = pastTransferEvents[0].returnValues;
+    // Step 1: Get pastEvent details
+    var filter = { _user: { $regex: `^${owner}$`, $options: "i" } };
+    var pastTransferEvents = await xpContract.getPastEvents("claimXPEvent", {
+      filter,
+      fromBlock: blockNo,
+      toBlock: "latest",
+    });
+    let returnedValues = pastTransferEvents[0].returnValues;
 
-      let txPwar = returnedValues._totalPWAR / 1000000000000000000;
-      let txnumberClaim = returnedValues._numberClaim;
-      let txtimeStamp = returnedValues._timeStamp;
+    let txPwar = returnedValues._totalPWAR / 1000000000000000000;
+    let txnumberClaim = returnedValues._numberClaim;
+    let txtimeStamp = returnedValues._timeStamp;
 
-      // Step 2: Verify all the conditions
-      let xpDetails = await XpModel.findOne({
+    // Step 2: Verify all the conditions
+    let xpDetails = await XpModel.findOne({
+      owner: { $regex: `^${owner}$`, $options: "i" },
+    });
+
+    let pwarCondition;
+    let numberClaimCondition;
+    let timeStampCondition;
+
+    if (xpDetails === null) {
+      pwarCondition = parseInt(txPwar) === 10;
+      numberClaimCondition = parseInt(txnumberClaim) === 1;
+      timeStampCondition = parseInt(txtimeStamp * 1000) + 300000 >= Date.now();
+    } else {
+      pwarCondition = parseInt(txPwar) === (xpDetails.claimNo + 1) * 10;
+      numberClaimCondition = parseInt(txnumberClaim) === xpDetails.claimNo + 1;
+      timeStampCondition = parseInt(txtimeStamp * 1000) + 300000 >= Date.now();
+    }
+
+    // Step 3: If All correct, update the database
+    console.log(pwarCondition);
+    console.log(numberClaimCondition);
+    console.log(timeStampCondition);
+
+    let xpResponse;
+    let userCharacterResponse;
+    let mongoError;
+
+    if (pwarCondition && numberClaimCondition && timeStampCondition) {
+      // Step 4: Update XP Details
+
+      let increaseInXp;
+      if (xpDetails) {
+        //If records found :::: update the object
+        increaseInXp = (xpDetails.claimNo + 1) * 10; // To update in user character properties
+
+        xpResponse = await XpModel.findOneAndUpdate(
+          { owner: owner },
+          {
+            $set: {
+              claimNo: xpDetails.claimNo + 1,
+              claimTimestamp: [...xpDetails.claimTimestamp, Date.now()],
+              lastClaim: Date.now(),
+            },
+          },
+          (err, doc) => {
+            if (err) {
+              console.log(err);
+              return err;
+            }
+            if (doc) {
+              console.log(doc);
+              return doc;
+            }
+          }
+        );
+      } else {
+        //If records not found create a new object
+        increaseInXp = 10;
+        let newXp = {
+          owner: owner,
+          claimNo: 1,
+          claimTimestamp: [Date.now()],
+          lastClaim: Date.now(),
+        };
+        xpResponse = await XpModel.insertMany(newXp);
+      }
+
+      //Logging if XPDetails response is null
+      if (xpResponse === null || xpResponse === undefined) {
+        let txdate = new Date().toISOString();
+        await client.index({
+          index: "polkawarlog",
+          body: {
+            owner: owner,
+            time: txdate,
+            status: "failed",
+            source: "backend",
+            transactionhash: blockNo,
+            action: "claimxp",
+            info: `b. XP Model update failed, values- increaseInXp: ${increaseInXp}.`,
+          },
+        });
+      }
+
+      // Step 5: Update User Character properties
+      let characterData = await UserCharacterModel.findOne({
         owner: { $regex: `^${owner}$`, $options: "i" },
       });
 
-      let pwarCondition;
-      let numberClaimCondition;
-      let timeStampCondition;
+      if (characterData) {
+        //Getting character properties object
+        let properties = characterData.properties;
+        let level = parseInt(characterData.level);
+        let levelwiseXp = ((level + 1) * (level + 1)) / 0.02;
+        let updatedXp = parseInt(properties["xp"]) + parseInt(increaseInXp);
 
-      if (xpDetails === null) {
-        pwarCondition = parseInt(txPwar) === 10;
-        numberClaimCondition = parseInt(txnumberClaim) === 1;
-        timeStampCondition =
-          parseInt(txtimeStamp * 1000) + 180000 >= Date.now();
-      } else {
-        pwarCondition = parseInt(txPwar) === (xpDetails.claimNo + 1) * 10;
-        numberClaimCondition =
-          parseInt(txnumberClaim) === xpDetails.claimNo + 1;
-        timeStampCondition =
-          parseInt(txtimeStamp * 1000) + 180000 >= Date.now();
-      }
+        console.log("updatedXp: " + updatedXp);
+        console.log("levelwiseXp: " + levelwiseXp);
 
-      // Step 3: If All correct, update the database
-      console.log(pwarCondition);
-      console.log(numberClaimCondition);
-      console.log(timeStampCondition);
-      if (pwarCondition && numberClaimCondition && timeStampCondition) {
-        // Step 4: Update XP Details
+        // Checking XP values and updating UserCharacter Database
+        if (updatedXp >= parseInt(levelwiseXp)) {
+          let updatedLevel = level + 1;
+          let newProp = {
+            xp: updatedXp,
+            hp: properties.hp + updatedLevel * 10,
+            mp: properties.mp + updatedLevel * 7,
+            Patk: Math.floor(properties.Patk + updatedLevel * 1.1),
+            Pdef: Math.floor(properties.Pdef + updatedLevel * 1.1),
+            speed: properties.speed + updatedLevel * 0.05,
+            accuracy: properties.accuracy + updatedLevel * 1,
+          };
 
-        let increaseInXp;
-        if (xpDetails) {
-          //If records found :::: update the object
-
-          let newClaimNo = xpDetails.claimNo + 1; // Increase claim no
-          let newClaimTimestamp = [...xpDetails.claimTimestamp, Date.now()]; // add timestamp into claim array
-          let newLastClaim = Date.now(); // add last timestamp to check 24 hours passed or not
-          increaseInXp = newClaimNo * 10; // To update in user character properties
-
-          await XpModel.findOneAndUpdate(
+          userCharacterResponse = await UserCharacterModel.findOneAndUpdate(
             { owner: owner },
-            {
-              $set: {
-                claimNo: newClaimNo,
-                claimTimestamp: newClaimTimestamp,
-                lastClaim: newLastClaim,
-              },
+            { properties: newProp, level: updatedLevel },
+            (err, doc) => {
+              if (err) {
+                console.log(err);
+                return err;
+              }
+              if (doc) {
+                console.log(doc);
+                return doc;
+              }
             }
           );
         } else {
-          //If records not found create a new object
-          let newXp = {
-            owner: owner,
-            claimNo: 1,
-            claimTimestamp: [Date.now()],
-            lastClaim: Date.now(),
-          };
-          increaseInXp = 10;
-          console.log(newXp);
-          await XpModel.insertMany(newXp);
+          properties["xp"] = updatedXp;
+          userCharacterResponse = await UserCharacterModel.findOneAndUpdate(
+            { owner: owner },
+            { properties: properties },
+            (err, doc) => {
+              if (err) {
+                console.log(err);
+                return err;
+              }
+              if (doc) {
+                console.log(doc);
+                return doc;
+              }
+            }
+          );
         }
-        // Step 5: Update User Character properties
+        console.log("userCharacterResponse");
+        console.log(userCharacterResponse);
 
-        let characterData = await UserCharacterModel.findOne({
-          owner: { $regex: `^${owner}$`, $options: "i" },
-        });
-
-        if (characterData) {
-          let properties = characterData.properties;
-          let level = parseInt(characterData.level);
-          let levelwiseXp = ((level + 1) * (level + 1)) / 0.02;
-          let updatedXp = parseInt(properties["xp"]) + parseInt(increaseInXp);
-          console.log("updatedXp: " + updatedXp);
-          console.log("levelwiseXp: " + levelwiseXp);
-
-          if (updatedXp >= parseInt(levelwiseXp)) {
-            let updatedLevel = level + 1;
-            let newXp = (updatedLevel * updatedLevel) / 0.02;
-            let newHp = properties.hp + updatedLevel * 10;
-            let newMp = properties.mp + updatedLevel * 7;
-            let newPatk = Math.floor(properties.Patk + updatedLevel * 1.1);
-            let newdef = Math.floor(properties.Pdef + updatedLevel * 1.1);
-            let newSpeed = properties.speed + updatedLevel * 0.05;
-            let newAccuracy = properties.accuracy + updatedLevel * 1;
-            let prop = {
-              xp: newXp,
-              hp: newHp,
-              mp: newMp,
-              Patk: newPatk,
-              Pdef: newdef,
-              speed: newSpeed,
-              accuracy: newAccuracy,
-            };
-            console.log(prop);
-            let response2 = await UserCharacterModel.findOneAndUpdate(
-              { owner: owner },
-              { properties: prop, level: updatedLevel }
-            );
-            return response2;
-          } else {
-            properties["xp"] =
-              parseInt(properties["xp"]) + parseInt(increaseInXp);
-            console.log(properties);
-            let response2 = await UserCharacterModel.findOneAndUpdate(
-              { owner: owner },
-              { properties: properties }
-            );
-            return response2;
-          }
-        } else {
-          // Logging characterdata not found
+        // If userCharacter Database update failed
+        if (
+          userCharacterResponse == null ||
+          userCharacterResponse == undefined
+        ) {
           let txdate = new Date().toISOString();
-          const result = await client.index({
+          await client.index({
             index: "polkawarlog",
-
             body: {
               owner: owner,
               time: txdate,
               status: "failed",
+              source: "backend",
               transactionhash: blockNo,
               action: "claimxp",
-              info: "character not yet created in database - failed",
+              info: `d. UserCharacter Properties update in database failed. `,
             },
           });
         }
       } else {
         let txdate = new Date().toISOString();
-        const result = await client.index({
+        await client.index({
           index: "polkawarlog",
-
           body: {
             owner: owner,
             time: txdate,
             status: "failed",
+            source: "backend",
             transactionhash: blockNo,
             action: "claimxp",
-            info: "testing",
+            info: `c. UserCharacter Collection found null for this owner.`,
           },
         });
       }
-    } catch (err) {
-      // Logging if mongoDB Update failed
-
+    } else {
       let txdate = new Date().toISOString();
-      const result = await client.index({
+      const esResult = await client.index({
         index: "polkawarlog",
-
         body: {
           owner: owner,
           time: txdate,
           status: "failed",
+          source: "backend",
           transactionhash: blockNo,
           action: "claimxp",
-          info: err,
+          info: `a. Claim condition failed for Pwar:${pwarCondition}, claimNo:${numberClaimCondition}, timeStamp:${timeStampCondition}`,
         },
       });
+      console.log(esResult);
     }
+    return userCharacterResponse;
   },
 
   async deleteXp() {
