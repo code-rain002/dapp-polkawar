@@ -1,15 +1,22 @@
 var express = require("express");
 var router = express.Router();
 const { Client } = require("@elastic/elasticsearch");
+const constants = require("../utils/constants");
 const client = new Client({
   node: "http://45.77.91.38:9200/",
 });
 
+let logIndex;
+if (constants.net === 0) {
+  logIndex = "polkawarlog";
+} else {
+  logIndex = "polkawarlogtest";
+}
 // GET all logs
 router.get("/log", async (req, res, next) => {
   try {
     const result = await client.search({
-      index: "polkawarlog",
+      index: logIndex,
       body: {},
     });
     let data = result.body.hits;
@@ -25,7 +32,7 @@ router.get("/log/:owner", async (req, res, next) => {
   let owner = req.params.owner;
   try {
     const result = await client.search({
-      index: "polkawarlog",
+      index: logIndex,
 
       body: {
         query: {
@@ -53,7 +60,7 @@ router.post("/log", async (req, res, next) => {
   let info = req.body.info;
   try {
     const result = await client.index({
-      index: "polkawarlog",
+      index: logIndex,
       body: {
         owner: owner,
         time: time,
