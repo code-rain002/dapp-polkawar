@@ -1,8 +1,10 @@
 var Web3 = require("web3");
-var constants = require("./../utils/constants");
+
+// testnet =1 main net =0;
+let net = 0;
 
 let xpConstant;
-if (constants.net === 0) {
+if (net === 0) {
   xpConstant = {
     rpcUrl: "https://bsc-dataseed.binance.org/",
     chainId: 56, // Mainnet
