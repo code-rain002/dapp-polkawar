@@ -306,9 +306,12 @@ function DailyRewards({
               owner: userAddress,
               time: txdate,
               status: "success",
+              source: "frontend",
               transactionHash: txHash,
               action: events.claimxp,
-              info: "Transaction submitted for claimxp.",
+              info: `1. Transaction submitted for claimxp of ${
+                (clickedIndex + 1) * 10
+              } XP.`,
             };
             console.log(logData);
             let logResponse = await postNewLog(logData);
@@ -327,9 +330,10 @@ function DailyRewards({
           owner: userAddress,
           time: txdate,
           status: "success",
+          source: "frontend",
           transactionHash: txHash,
           action: events.claimxp,
-          info: `Transaction success for claimxp of ${
+          info: `2. Transaction successful for claimxp of ${
             (clickedIndex + 1) * 10
           } XP.`,
         };
@@ -343,14 +347,15 @@ function DailyRewards({
             owner: userAddress,
             time: txdate,
             status: "success",
+            source: "frontend",
             transactionHash: txHash,
             action: events.claimxp,
-            info: `MongoDB updated for claimxp of ${
+            info: `3. MongoDB updated for claimxp of ${
               (clickedIndex + 1) * 10
             } XP, current level: ${characterLevel}.`,
           };
 
-          let logResponse = await postNewLog(logData);
+          await postNewLog(logData);
 
           setClaimCase(3);
           setFreezePopup(false);
@@ -361,14 +366,15 @@ function DailyRewards({
             owner: userAddress,
             time: txdate,
             status: "failed",
+            source: "frontend",
             transactionHash: txHash,
             action: events.claimxp,
-            info: `MongoDB failed to updated for claimxp of ${
+            info: `3. MongoDB failed to update for claimxp of ${
               (clickedIndex + 1) * 10
             } XP.`,
           };
 
-          let logResponse = await postNewLog(logData);
+          await postNewLog(logData);
           setFreezePopup(false);
           setClaimCase(4);
         }
