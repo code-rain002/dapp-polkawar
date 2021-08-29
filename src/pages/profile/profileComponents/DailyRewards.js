@@ -307,9 +307,8 @@ function DailyRewards({
               source: "frontend",
               transactionHash: txHash,
               action: events.claimxp,
-              info: `1. Transaction submitted for claimxp of ${
-                (clickedIndex + 1) * 10
-              } XP.`,
+              info: `1. Transaction submitted for claimxp of ${(clickedIndex + 1) * 10
+                } XP.`,
             };
 
             await postNewLog(logData);
@@ -328,9 +327,8 @@ function DailyRewards({
           source: "frontend",
           transactionHash: txHash,
           action: events.claimxp,
-          info: `2. Transaction successful for claimxp of ${
-            (clickedIndex + 1) * 10
-          } XP.`,
+          info: `2. Transaction successful for claimxp of ${(clickedIndex + 1) * 10
+            } XP.`,
         };
 
         await postNewLog(logData);
@@ -343,9 +341,8 @@ function DailyRewards({
             source: "frontend",
             transactionHash: txHash,
             action: events.claimxp,
-            info: `3. MongoDB updated for claimxp of ${
-              (clickedIndex + 1) * 10
-            } XP, current level: ${characterLevel}.`,
+            info: `3. MongoDB updated for claimxp of ${(clickedIndex + 1) * 10
+              } XP, current level: ${characterLevel}. ${backendResponse}`,
           };
 
           await postNewLog(logData);
@@ -359,9 +356,8 @@ function DailyRewards({
             source: "frontend",
             transactionHash: txHash,
             action: events.claimxp,
-            info: `3. MongoDB failed to update for claimxp of ${
-              (clickedIndex + 1) * 10
-            } XP.`,
+            info: `3. MongoDB failed to update for claimxp of ${(clickedIndex + 1) * 10
+              } XP.`,
           };
 
           await postNewLog(logData);
