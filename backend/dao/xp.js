@@ -2,10 +2,7 @@ var XpModel = require("../models/xp");
 var UserCharacterModel = require("../models/usercharacter");
 var xpContract = require("./../contract/xpConnection");
 var logHelper = require("../helper/logs");
-const { Client } = require("@elastic/elasticsearch");
-const client = new Client({
-  node: "http://45.77.91.38:9200/",
-});
+
 
 const xpDao = {
   async getAllXp() {
