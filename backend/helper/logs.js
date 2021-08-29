@@ -1,6 +1,6 @@
 const { Client } = require("@elastic/elasticsearch");
 const client = new Client({
-  node: "http://45.77.91.38:9200/",
+  node: process.env.ES_SERVER_URL,
 });
 const constants = require("../utils/constants");
 
