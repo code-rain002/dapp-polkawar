@@ -301,10 +301,8 @@ function DailyRewards({
         async function (error, transactionHash) {
           if (transactionHash) {
             txHash = transactionHash;
-            let txdate = new Date().toISOString();
             let logData = {
               owner: userAddress,
-              time: txdate,
               status: "success",
               source: "frontend",
               transactionHash: txHash,
@@ -313,9 +311,8 @@ function DailyRewards({
                 (clickedIndex + 1) * 10
               } XP.`,
             };
-            console.log(logData);
-            let logResponse = await postNewLog(logData);
 
+            await postNewLog(logData);
             setClaimCase(1);
           } else {
             setClaimCase(2);
@@ -324,11 +321,9 @@ function DailyRewards({
       )
       .on("receipt", async function (receipt) {
         blockNo = receipt.blockNumber;
-        console.log(receipt.blockNumber);
-        let txdate = new Date().toISOString();
+
         let logData = {
           owner: userAddress,
-          time: txdate,
           status: "success",
           source: "frontend",
           transactionHash: txHash,
@@ -338,14 +333,12 @@ function DailyRewards({
           } XP.`,
         };
 
-        let logResponse = await postNewLog(logData);
+        await postNewLog(logData);
 
         let backendResponse = await updateXpOfOwner(blockNo);
         if (backendResponse) {
-          let txdate = new Date().toISOString();
           let logData = {
             owner: userAddress,
-            time: txdate,
             status: "success",
             source: "frontend",
             transactionHash: txHash,
@@ -356,15 +349,12 @@ function DailyRewards({
           };
 
           await postNewLog(logData);
-
           setClaimCase(3);
           setFreezePopup(false);
           window.location.reload();
         } else {
-          let txdate = new Date().toISOString();
           let logData = {
             owner: userAddress,
-            time: txdate,
             status: "failed",
             source: "frontend",
             transactionHash: txHash,
@@ -380,6 +370,18 @@ function DailyRewards({
         }
       })
       .on("error", async function (error) {
+        let logData = {
+          owner: userAddress,
+          status: "failed",
+          source: "frontend",
+          transactionHash: txHash,
+          action: events.claimxp,
+          info: `4. Transaction at metamask is failed for claimxp of ${
+            (clickedIndex + 1) * 10
+          } XP.`,
+        };
+
+        await postNewLog(logData);
         setFreezePopup(false);
         setClaimCase(2);
       });
