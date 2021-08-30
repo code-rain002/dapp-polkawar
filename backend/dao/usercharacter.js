@@ -11,9 +11,9 @@ const userCharacterDao = {
     let characters = await UserCharacterModel.find({})
       .sort({ level: -1 })
       .limit(5);
-    // characters.sort((a, b) => {
-    //   return a.properties.xp - b.properties.xp;
-    // });
+    characters.sort((a, b) => {
+      return b.properties.xp - a.properties.xp;
+    });
 
     return characters;
   },
