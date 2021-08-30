@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 14,
     [theme.breakpoints.down("md")]: {
       width: "fit-content",
-      height: 500,
+      minHeight: 500,
       padding: 0,
       paddingLeft: 3,
       paddingRight: 3,
@@ -112,8 +112,9 @@ const useStyles = makeStyles((theme) => ({
   rewardBlockWrapper: {
     width: 1200,
     marginTop: 20,
+
     [theme.breakpoints.down("md")]: {
-      width: 190,
+      width: "fit-content",
     },
   },
   rewardCardClaimed: {
@@ -307,8 +308,9 @@ function DailyRewards({
               source: "frontend",
               transactionHash: txHash,
               action: events.claimxp,
-              info: `1. Transaction submitted for claimxp of ${(clickedIndex + 1) * 10
-                } XP.`,
+              info: `1. Transaction submitted for claimxp of ${
+                (clickedIndex + 1) * 10
+              } XP.`,
             };
 
             await postNewLog(logData);
@@ -327,8 +329,9 @@ function DailyRewards({
           source: "frontend",
           transactionHash: txHash,
           action: events.claimxp,
-          info: `2. Transaction successful for claimxp of ${(clickedIndex + 1) * 10
-            } XP.`,
+          info: `2. Transaction successful for claimxp of ${
+            (clickedIndex + 1) * 10
+          } XP.`,
         };
 
         await postNewLog(logData);
@@ -341,8 +344,9 @@ function DailyRewards({
             source: "frontend",
             transactionHash: txHash,
             action: events.claimxp,
-            info: `3. MongoDB updated for claimxp of ${(clickedIndex + 1) * 10
-              } XP, current level: ${characterLevel}. ${backendResponse}`,
+            info: `3. MongoDB updated for claimxp of ${
+              (clickedIndex + 1) * 10
+            } XP, current level: ${characterLevel}.`,
           };
 
           await postNewLog(logData);
@@ -356,8 +360,9 @@ function DailyRewards({
             source: "frontend",
             transactionHash: txHash,
             action: events.claimxp,
-            info: `3. MongoDB failed to update for claimxp of ${(clickedIndex + 1) * 10
-              } XP.`,
+            info: `3. MongoDB failed to update for claimxp of ${
+              (clickedIndex + 1) * 10
+            } XP.`,
           };
 
           await postNewLog(logData);
@@ -411,10 +416,16 @@ function DailyRewards({
           <div className="d-flex justify-content-center">
             <div className={classes.rewardBlockWrapper}>
               <div className={classes.scroll}>
-                <div className="row">
+                <div className="row g-0">
                   {Array.from(Array(60)).map((element, index) => {
                     return (
-                      <div className="col-md-3">
+                      <div
+                        className="col-md-4"
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
                         {!approved && (
                           <div className={classes.rewardCardClaimed}>
                             <div className="text-center">

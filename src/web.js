@@ -12,11 +12,11 @@ if (typeof window.web3 !== "undefined") {
   if (provider.connected) {
     web3 = new Web3(provider);
   } else {
-    // console.log('using infura provider')
+    console.log("using infura provider");
     const infura =
       constants.net === 1
-        ? `https://kovan.infura.io/v3/6f0ba6da417340e6b1511be0f2bc389b`
-        : `https://mainnet.infura.io/v3/6f0ba6da417340e6b1511be0f2bc389b`;
+        ? `https://kovan.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`
+        : `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`;
 
     web3 = new Web3(new Web3.providers.HttpProvider(infura));
   }
