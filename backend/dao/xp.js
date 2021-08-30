@@ -18,12 +18,33 @@ const xpDao = {
     try {
       // Step 1: Get pastEvent details
       var filter = { _user: { $regex: `^${owner}$`, $options: "i" } };
-      var pastTransferEvents = await xpContract.getPastEvents("claimXPEvent", {
-        filter,
-        fromBlock: blockNo,
-        toBlock: "latest",
-      });
-      let returnedValues = pastTransferEvents[0].returnValues;
+      let returnedValues;
+
+      let totalCallsRemaining = 10;
+      const getPastEventValues = async () => {
+        totalCallsRemaining = totalCallsRemaining - 1;
+        let pastTransferEvents = await xpContract.getPastEvents(
+          "claimXPEvent",
+          {
+            filter,
+            fromBlock: blockNo,
+            toBlock: "latest",
+          }
+        );
+        return pastTransferEvents[0];
+      };
+
+      let eventValues = await getPastEventValues();
+
+      if (eventValues === undefined || eventValues === null) {
+        if (totalCallsRemaining > 0) {
+          await getPastEventValues();
+        }
+      } else {
+        console.log("Going to else");
+        returnedValues = eventValues.returnValues;
+        console.log(returnedValues._totalPWAR);
+      }
 
       let txPwar = returnedValues._totalPWAR / 1000000000000000000;
       let txnumberClaim = returnedValues._numberClaim;
