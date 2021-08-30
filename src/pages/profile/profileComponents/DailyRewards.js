@@ -118,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   rewardCardClaimed: {
-    width: "100%",
+    width: 150,
     height: 175,
     border: "3px solid #81c784",
     borderRadius: 10,
@@ -133,7 +133,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   rewardCardToday: {
-    width: "100%",
+    width: 150,
     height: 175,
     border: "5px solid yellow",
     borderRadius: 10,
@@ -148,7 +148,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   rewardCardUnclaimed: {
-    width: "100%",
+    width: 150,
     height: 175,
     border: "1px solid #ffffff",
     borderRadius: 10,
