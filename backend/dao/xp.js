@@ -20,7 +20,7 @@ const xpDao = {
       var filter = { _user: { $regex: `^${owner}$`, $options: "i" } };
       let returnedValues;
 
-      let totalCallsRemaining = 10;
+      let totalCallsRemaining = 3;
       const getPastEventValues = async () => {
         totalCallsRemaining = totalCallsRemaining - 1;
         let pastTransferEvents = await xpContract.getPastEvents(
@@ -38,7 +38,9 @@ const xpDao = {
 
       if (eventValues === undefined || eventValues === null) {
         if (totalCallsRemaining > 0) {
-          await getPastEventValues();
+          setTimeout(async () => {
+            await getPastEventValues();
+          }, 3000);
         }
       } else {
         console.log("Going to else");
@@ -63,13 +65,13 @@ const xpDao = {
         pwarCondition = parseInt(txPwar) === 10;
         numberClaimCondition = parseInt(txnumberClaim) === 1;
         timeStampCondition =
-          parseInt(txtimeStamp * 1000) + 300000 >= Date.now();
+          parseInt(txtimeStamp * 1000) + 600000 >= Date.now();
       } else {
         pwarCondition = parseInt(txPwar) === (xpDetails.claimNo + 1) * 10;
         numberClaimCondition =
           parseInt(txnumberClaim) === xpDetails.claimNo + 1;
         timeStampCondition =
-          parseInt(txtimeStamp * 1000) + 300000 >= Date.now();
+          parseInt(txtimeStamp * 1000) + 600000 >= Date.now();
       }
 
       // Step 3: If All correct, update the database
