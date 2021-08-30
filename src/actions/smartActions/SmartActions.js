@@ -8,6 +8,8 @@ import { getUserAddress } from "../web3Actions";
 import web3 from "../../web";
 import axios from "axios";
 import xpContract from "../../utils/xpConnection";
+import pbrContract from "../../utils/pbrConnection";
+import pbrTokenContract from "../../utils/pbrTokenConnection";
 //Airdrop Functions
 
 //READ is user joined airdrop
@@ -257,4 +259,28 @@ export const checkPwarHolding = async () => {
     });
   let pwarBal = parseInt(web3.utils.fromWei(holding.toString(), "ether"));
   return pwarBal;
+};
+
+// PBR Staking Contract Connection ETH
+//Returns Amount staking
+export const checkPBRStakingAndHolding = async (address) => {
+  let staking = await pbrContract.methods
+    .getUserStakingData(address, 0)
+    .call((err, res) => {
+      return res;
+    });
+  let holding = await pbrTokenContract.methods
+    .balanceOf(address)
+    .call((err, res) => {
+      return res;
+    });
+  let pbrStaked = parseInt(
+    web3.utils.fromWei(staking.amount.toString(), "ether")
+  );
+
+  let pbrHolded = parseInt(web3.utils.fromWei(holding.toString(), "ether"));
+
+  let totalPbr = pbrStaked + pbrHolded;
+  console.log(totalPbr);
+  return totalPbr;
 };
