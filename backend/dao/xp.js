@@ -52,6 +52,8 @@ const xpDao = {
       let txnumberClaim = returnedValues._numberClaim;
       let txtimeStamp = returnedValues._timeStamp;
 
+      let requestPWAR;
+      let requestClaim;
       // Step 2: Verify all the conditions
       let xpDetails = await XpModel.findOne({
         owner: { $regex: `^${owner}$`, $options: "i" },
@@ -62,11 +64,15 @@ const xpDao = {
       let timeStampCondition;
 
       if (xpDetails === null) {
+        requestPWAR = 10;
+        requestClaim = 1;
         pwarCondition = parseInt(txPwar) === 10;
         numberClaimCondition = parseInt(txnumberClaim) === 1;
         timeStampCondition =
           parseInt(txtimeStamp * 1000) + 600000 >= Date.now();
       } else {
+        requestPWAR = (xpDetails.claimNo + 1) * 10;
+        requestClaim = xpDetails.claimNo + 1;
         pwarCondition = parseInt(txPwar) === (xpDetails.claimNo + 1) * 10;
         numberClaimCondition =
           parseInt(txnumberClaim) === xpDetails.claimNo + 1;
@@ -229,7 +235,7 @@ const xpDao = {
           "backend",
           blockNo,
           "claimxp",
-          `a. Claim condition failed for Pwar:${pwarCondition}, claimNo:${numberClaimCondition}, timeStamp:${timeStampCondition}`
+          `a. ExpectedPWAR:${txPwar} - requestPWAR:${requestPWAR}, ExpectedClaimNo:${txnumberClaim} - requestClaimNo:${requestClaim}, timeStamp Cond: ${timeStampCondition}`
         );
       }
       return userCharacterResponse;
