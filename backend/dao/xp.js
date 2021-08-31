@@ -20,7 +20,7 @@ const xpDao = {
       var filter = { _user: { $regex: `^${owner}$`, $options: "i" } };
       let returnedValues;
 
-      let totalCallsRemaining = 3;
+      let totalCallsRemaining = 10;
       const getPastEventValues = async () => {
         totalCallsRemaining = totalCallsRemaining - 1;
         let pastTransferEvents = await xpContract.getPastEvents(
