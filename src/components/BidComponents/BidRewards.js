@@ -188,6 +188,46 @@ function BidRewards({ programId, useritems, closepopup }) {
         nft_level: 3,
       },
     },
+    {
+      id: 11,
+      rewards: {
+        bnb: "200",
+        pwar: "200000",
+        nft_level: 3,
+      },
+    },
+    {
+      id: 12,
+      rewards: {
+        bnb: "200",
+        pwar: "200000",
+        nft_level: 3,
+      },
+    },
+    {
+      id: 13,
+      rewards: {
+        bnb: "300",
+        pwar: "300000",
+        nft_level: 3,
+      },
+    },
+    {
+      id: 14,
+      rewards: {
+        bnb: "400",
+        pwar: "400000",
+        nft_level: 3,
+      }
+    },
+    {
+      id: 15,
+      rewards: {
+        bnb: "500",
+        pwar: "500000",
+        nft_level: 3,
+      },
+    },
   ];
 
   useEffect(() => {
