@@ -44,18 +44,26 @@ export default class ExcelWork extends Component {
           singleAddress.toString()
         );
         console.log("index: " + index);
-        if (totalPBR >= 0) {
-          let tempObject = {
-            address: singleAddress,
-            amount: totalPBR,
-          };
-          this.setState({ outputData: [...this.state.outputData, tempObject] });
+        if (totalPBR !== null && totalPBR !== undefined) {
+          if (totalPBR >= 0) {
+            let tempObject = {
+              address: singleAddress,
+              amount: totalPBR,
+            };
+            this.setState({
+              outputData: [...this.state.outputData, tempObject],
+            });
+          } else {
+            this.setState({
+              errorAddress: [...this.state.errorAddress, singleAddress],
+            });
+          }
         } else {
           this.setState({
             errorAddress: [...this.state.errorAddress, singleAddress],
           });
         }
-      }, index * 4000);
+      }, index * 100);
 
       return 121;
     });
