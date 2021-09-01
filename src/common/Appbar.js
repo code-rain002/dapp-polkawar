@@ -296,6 +296,7 @@ function PrimaryAppbar({
             {[
               { name: "Shop", link: "/" },
               { name: "My Home", link: "/profile" },
+              { name: "Leaderboard", link: "/leaderboard" },
               { name: "Battle Room", link: "/profile" },
             ].map((tab, index) => (
               <Link to={tab.link} key={index}>

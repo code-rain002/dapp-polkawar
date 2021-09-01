@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "40px",
     display: "inline-block",
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       width: 180,
       height: 250,
     },
@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
     width: 280,
     height: 200,
     paddingTop: 20,
-    //     borderBottomRadius: 100,
-    [theme.breakpoints.down("sm")]: {
+
+    [theme.breakpoints.down("md")]: {
       width: 180,
       height: 150,
     },
@@ -46,6 +46,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    [theme.breakpoints.down("md")]: {
+      height: "30px",
+      width: "30px",
+    },
   },
   levelValue: {
     color: "white",
@@ -55,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     fontFamily: "Montserrat",
     [theme.breakpoints.down("md")]: {
-      fontSize: 12,
+      fontSize: 10,
     },
   },
   levelText: {
@@ -66,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     fontFamily: "Montserrat",
     [theme.breakpoints.down("md")]: {
-      fontSize: 12,
+      fontSize: 10,
     },
   },
 
@@ -83,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 10,
     borderRadius: 10,
     [theme.breakpoints.down("md")]: {
-      height: 100,
+      height: 120,
     },
   },
   xp: {
@@ -91,6 +95,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 20,
     fontWeight: 600,
     fontFamily: "Montserrat",
+    [theme.breakpoints.down("md")]: {
+      fontSize: 18,
+    },
   },
   title: {
     color: "white",
