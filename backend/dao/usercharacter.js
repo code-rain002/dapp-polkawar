@@ -17,11 +17,19 @@ const userCharacterDao = {
 
     return characters;
   },
+  async getTop100Characters() {
+    let characters = await UserCharacterModel.find({})
+      .sort({ level: -1, "properties.xp": -1, createdDate: -1 })
+      .limit(100);
+
+    return characters;
+  },
 
   async getUserCharacter(owner) {
     let data = await UserCharacterModel.findOne({
       owner: { $regex: `^${owner}$`, $options: "i" },
     });
+    console.log(data);
     return data;
   },
   async getMaxStatsOfCharacter(owner) {

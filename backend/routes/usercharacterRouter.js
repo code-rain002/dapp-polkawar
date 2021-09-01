@@ -14,6 +14,18 @@ router.get("/usercharacter-top", async (req, res, next) => {
 });
 
 // Public
+// GET Single Character based on ID
+router.get("/usercharacter-top100/:pageNo", async (req, res, next) => {
+  let pageNo = req.params.pageNo;
+  try {
+    const data = await UserCharacterDao.getTop100Characters(pageNo);
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+});
+
+// Public
 // GET All Characters
 router.get("/usercharacters", async (req, res, next) => {
   try {

@@ -504,6 +504,16 @@ function PrimaryAppbar({
                 My Home
               </Typography>
             </Link>
+            <Link to="/leaderboard">
+              <Typography
+                variant="subtitle1"
+                noWrap
+                className={navIndex === 2 ? classes.tabsActive : classes.tabs}
+                onClick={() => setNavIndex(2)}
+              >
+                Leaderboard
+              </Typography>
+            </Link>
             <Typography className={classes.tabs} variant="subtitle1" noWrap>
               Battle Room
             </Typography>
@@ -513,8 +523,8 @@ function PrimaryAppbar({
               <Typography
                 variant="subtitle1"
                 noWrap
-                className={navIndex === 3 ? classes.tabsActive : classes.tabs}
-                onClick={() => setNavIndex(3)}
+                className={navIndex === 4 ? classes.tabsActive : classes.tabs}
+                onClick={() => setNavIndex(4)}
               >
                 Landing Page
               </Typography>
