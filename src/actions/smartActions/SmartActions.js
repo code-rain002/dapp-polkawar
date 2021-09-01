@@ -281,6 +281,6 @@ export const checkPBRStakingAndHolding = async (address) => {
   let pbrHolded = parseInt(web3.utils.fromWei(holding.toString(), "ether"));
 
   let totalPbr = pbrStaked + pbrHolded;
-  console.log(totalPbr);
+  // console.log(totalPbr);
   return totalPbr;
 };

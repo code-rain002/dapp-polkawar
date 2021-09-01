@@ -43,7 +43,8 @@ export default class ExcelWork extends Component {
         let totalPBR = await checkPBRStakingAndHolding(
           singleAddress.toString()
         );
-        if (totalPBR) {
+        console.log("index: " + index);
+        if (totalPBR >= 0) {
           let tempObject = {
             address: singleAddress,
             amount: totalPBR,
@@ -54,7 +55,7 @@ export default class ExcelWork extends Component {
             errorAddress: [...this.state.errorAddress, singleAddress],
           });
         }
-      }, index * 3000);
+      }, index * 4000);
 
       return 121;
     });
@@ -141,8 +142,9 @@ export default class ExcelWork extends Component {
             download: true,
           }}
           data={() => {
-            return this.state.outputData.map((singleRow) => {
+            return this.state.outputData.map((singleRow, index) => {
               let final = {
+                No: index + 1,
                 Address: singleRow.address,
                 Amount: singleRow.amount,
               };
