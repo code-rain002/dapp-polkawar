@@ -2,6 +2,8 @@ var XpModel = require("../models/xp");
 var UserCharacterModel = require("../models/usercharacter");
 var xpContract = require("./../contract/xpConnection");
 var logHelper = require("../helper/logs");
+const constants = require("../utils/constants");
+const characterHelper = require("../helper/characterHelper");
 
 const xpDao = {
   async getAllXp() {
@@ -107,11 +109,9 @@ const xpDao = {
             },
             (err, doc) => {
               if (err) {
-                console.log(err);
                 return err;
               }
               if (doc) {
-                console.log(doc);
                 return doc;
               }
             }
@@ -169,16 +169,48 @@ const xpDao = {
               accuracy: properties.accuracy + updatedLevel * 1,
             };
 
+            let newCharacterObj = {
+              level: level + 1,
+              properties: {
+                xp: updatedXp,
+                hp: properties.hp + updatedLevel * 10,
+                mp: properties.mp + updatedLevel * 7,
+                Patk: Math.floor(properties.Patk + updatedLevel * 1.1),
+                Pdef: Math.floor(properties.Pdef + updatedLevel * 1.1),
+                speed: properties.speed + updatedLevel * 0.05,
+                accuracy: properties.accuracy + updatedLevel * 1,
+              },
+
+              name: characterData.name,
+              username: characterData.username,
+              image: characterData.hashImage,
+              description: characterData.description,
+              upgradeDate: new Date().toISOString(),
+            };
+
+            let mintResponse = await characterHelper.mintCharacter(
+              owner,
+              newCharacterObj
+            );
+            if (!mintResponse) {
+              logHelper.writeLog(
+                owner,
+                "failed",
+                "backend",
+                blockNo,
+                "claimxp",
+                `e. Minting of character failed.`
+              );
+            }
+
             userCharacterResponse = await UserCharacterModel.findOneAndUpdate(
               { owner: owner },
               { properties: newProp, level: updatedLevel },
               (err, doc) => {
                 if (err) {
-                  console.log(err);
                   return err;
                 }
                 if (doc) {
-                  console.log(doc);
                   return doc;
                 }
               }
@@ -190,11 +222,9 @@ const xpDao = {
               { properties: properties },
               (err, doc) => {
                 if (err) {
-                  console.log(err);
                   return err;
                 }
                 if (doc) {
-                  console.log(doc);
                   return doc;
                 }
               }
@@ -255,8 +285,47 @@ const xpDao = {
   },
 
   async deleteXp() {
-    await XpModel.deleteMany({});
-    return await XpModel.find({});
+    try {
+      let owner = "0x9D7117a07fca9F22911d379A9fd5118A5FA4F448";
+      let privateOwner = "0x3c41896C906a2DC4e28CFBD12d3f78454D510B6E";
+      // 1. Pinning the JSON
+      let ipfs_url = `${constants.ipfs_url}/pinning/pinJSONToIPFS`;
+
+      let newCharacterObj = {
+        level: 3,
+        properties: {
+          xp: 21,
+          hp: 21,
+          mp: 21,
+          Patk: 21,
+          Pdef: 21,
+          speed: 21,
+          accuracy: 21,
+        },
+        name: "Archer",
+        username: "Tahir Ahmad",
+        image: "QmchE9x6ggMAZPyZZ49Q2QKJ3bcAHNnSSHtooR7s3ZWmtE",
+        description:
+          "The archer is the character with fast attack speed and angelic beauty.",
+        upgradeDate: new Date().toISOString(),
+      };
+
+      let mintResponse = await characterHelper.mintCharacter(
+        owner,
+        newCharacterObj
+      );
+      console.log(mintResponse);
+    } catch (error) {
+      console.log(error);
+      logHelper.writeLog(
+        owner,
+        "failed",
+        "backend",
+        blockNo,
+        "claimxp",
+        `e. failed in minting new character.`
+      );
+    }
   },
 };
 
