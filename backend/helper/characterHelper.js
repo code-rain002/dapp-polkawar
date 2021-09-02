@@ -61,9 +61,22 @@ const characterHelper = {
       // 5. Executing transaction
 
       const receipt = await web3Connection.eth.sendTransaction(txData);
-      return receipt.transactionHash;
+
+      return receipt;
     } catch (err) {
       return err;
+    }
+  },
+  async getLatestCharacterId(owner) {
+    try {
+      const length = await characterContract.methods.balanceOf(owner).call();
+      const tokenId = await characterContract.methods
+        .tokenOfOwnerByIndex(owner, length - 1)
+        .call();
+      console.log(tokenId);
+      return tokenId;
+    } catch (err) {
+      console.log(err);
     }
   },
 };

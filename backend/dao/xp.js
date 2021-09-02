@@ -201,24 +201,32 @@ const xpDao = {
                 "claimxp",
                 `e. Minting of character failed.`
               );
-            }
+            } else {
+              let newTokenId = await characterHelper.getLatestCharacterId(
+                owner
+              );
 
-            userCharacterResponse = await UserCharacterModel.findOneAndUpdate(
-              { owner: owner },
-              { properties: newProp, level: updatedLevel },
-              (err, doc) => {
-                if (err) {
-                  return err;
+              userCharacterResponse = await UserCharacterModel.findOneAndUpdate(
+                { owner: { $regex: `^${owner}$`, $options: "i" } },
+                {
+                  properties: newProp,
+                  level: updatedLevel,
+                  tokenId: newTokenId,
+                },
+                (err, doc) => {
+                  if (err) {
+                    return err;
+                  }
+                  if (doc) {
+                    return doc;
+                  }
                 }
-                if (doc) {
-                  return doc;
-                }
-              }
-            );
+              );
+            }
           } else {
             properties["xp"] = updatedXp;
             userCharacterResponse = await UserCharacterModel.findOneAndUpdate(
-              { owner: owner },
+              { owner: { $regex: `^${owner}$`, $options: "i" } },
               { properties: properties },
               (err, doc) => {
                 if (err) {
@@ -314,7 +322,27 @@ const xpDao = {
         owner,
         newCharacterObj
       );
-      console.log(mintResponse);
+      if (mintResponse) {
+        let id = await characterHelper.getLatestCharacterId(owner);
+        console.log("ID Ye rahi");
+        console.log(id);
+
+        userCharacterResponse = await UserCharacterModel.findOneAndUpdate(
+          { owner: { $regex: `^${owner}$`, $options: "i" } },
+          {
+            level: 30,
+            tokenId: id,
+          },
+          (err, doc) => {
+            if (err) {
+              return err;
+            }
+            if (doc) {
+              return doc;
+            }
+          }
+        );
+      }
     } catch (error) {
       console.log(error);
       logHelper.writeLog(
