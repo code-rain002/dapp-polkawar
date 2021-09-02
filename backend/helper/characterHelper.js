@@ -7,6 +7,7 @@ const web3Connection = require("./web3Connection");
 const characterHelper = {
   async mintCharacter(owner, characterObj) {
     try {
+      console.log("mint called");
       let privateOwner = "0x3c41896C906a2DC4e28CFBD12d3f78454D510B6E";
 
       // 1. Pinning the JSON

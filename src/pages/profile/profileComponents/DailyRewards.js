@@ -203,6 +203,11 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 16,
     },
   },
+  infoMessage: {
+    fontSize: 14,
+    color: "yellow",
+    textAlign: "center",
+  },
 }));
 
 function DailyRewards({
@@ -224,6 +229,7 @@ function DailyRewards({
   const [dayOfClaim, setDayOfClaim] = useState(0);
   const [enableTodayClaim, setEnableTodayClaim] = useState(false);
   const [nextClaimTime, setNextClaimTime] = useState(false);
+  const [displayInfo, setDisplayInfo] = useState(false);
 
   let xpContractAddress = constants.xp_owner_address;
 
@@ -288,6 +294,7 @@ function DailyRewards({
 
   const claimXp = async (clickedIndex) => {
     setFreezePopup(true);
+    setDisplayInfo(true);
     let events = await getLogEnumActionEvents();
     let txHash;
 
@@ -407,9 +414,14 @@ function DailyRewards({
             <div className="d-flex justify-content-center">
               <div>
                 <h5 className={classes.title}>Claim XP</h5>
-                <p className={classes.subtitle}>
+                <div className={classes.subtitle}>
                   Build your character and get ready for the battle
-                </p>
+                </div>
+                {displayInfo && (
+                  <div className={classes.infoMessage}>
+                    Please don't close the window, you may loose XP.
+                  </div>
+                )}
               </div>
             </div>
           </div>{" "}
@@ -458,9 +470,13 @@ function DailyRewards({
                                 </Button>
                               )}
                               {approveCase === 1 && (
-                                <small className={classes.costPwar}>
-                                  Processing...
-                                </small>
+                                <div className="text-center">
+                                  <img
+                                    src="https://i.pinimg.com/originals/36/3c/2e/363c2ec45f7668e82807a0c053d1e1d0.gif"
+                                    height="50px"
+                                    alt="loader"
+                                  />
+                                </div>
                               )}
                               {approveCase === 2 && (
                                 <small
@@ -559,9 +575,13 @@ function DailyRewards({
                                       </div>
                                     )}
                                     {claimCase === 1 && (
-                                      <small className={classes.costPwar}>
-                                        Processing...
-                                      </small>
+                                      <div className="text-center">
+                                        <img
+                                          src="https://i.pinimg.com/originals/36/3c/2e/363c2ec45f7668e82807a0c053d1e1d0.gif"
+                                          height="50px"
+                                          alt="loader"
+                                        />
+                                      </div>
                                     )}
                                     {claimCase === 2 && (
                                       <small
