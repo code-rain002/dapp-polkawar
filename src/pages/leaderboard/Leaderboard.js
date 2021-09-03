@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import CharacterCard from "../../components/CharacterComponents/CharacterCard";
 import { getTop100Characters } from "./../../actions/characterActions";
 import LeaderCard from "./LeaderCard";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 function Leaderboard({ topcharacters, getTop100Characters }) {
   const classes = useStyles();
   const [actualCase, setActualCase] = useState(0);
+  const [pageNo, setPageNo] = useState(0);
 
   useEffect(() => {
     async function asyncFn() {
@@ -38,8 +40,13 @@ function Leaderboard({ topcharacters, getTop100Characters }) {
     asyncFn();
   }, []);
 
+  const fetchMoreItems = async () => {
+    await getTop100Characters(pageNo + 1);
+    setPageNo(pageNo + 1);
+  };
+
   return (
-    <Fragment>
+    <div>
       <div className="text-center">
         <h1 className={classes.title}>
           Top 100 Characters{" "}
@@ -47,7 +54,25 @@ function Leaderboard({ topcharacters, getTop100Characters }) {
         </h1>
       </div>
 
-      {topcharacters !== null && topcharacters !== undefined && (
+      <InfiniteScroll
+        dataLength={topcharacters.length}
+        next={fetchMoreItems}
+        hasMore={true}
+      >
+        <div className="row mt-3">
+          {topcharacters.map((character, index) => {
+            return (
+              <div className="col-md-4" key={index}>
+                <div className="d-flex justify-content-center">
+                  <LeaderCard item={character} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </InfiniteScroll>
+
+      {/* {topcharacters !== null && topcharacters !== undefined && (
         <div className="container mt-5">
           <div className="row">
             {topcharacters.map((character, index) => {
@@ -61,8 +86,8 @@ function Leaderboard({ topcharacters, getTop100Characters }) {
             })}
           </div>
         </div>
-      )}
-    </Fragment>
+      )} */}
+    </div>
   );
 }
 

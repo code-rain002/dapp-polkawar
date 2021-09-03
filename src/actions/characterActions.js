@@ -32,28 +32,26 @@ export const getTopCharacters = () => async (dispatch) => {
 };
 
 //GET top 100 characters
-export const getTop100Characters =
-  ({ pageNo = 0 }) =>
-  async (dispatch) => {
-    let response = await axios
-      .get(`${baseUrl}/usercharacter-top100/${pageNo}`)
-      .then((res) => {
-        dispatch({
-          type: GET_TOP100_CHARACTERS,
-          payload: res.data,
-        });
-        return res.data;
-      })
-      .catch((err) => {
-        dispatch({
-          type: GET_ERRORS,
-          payload: err.response,
-        });
-        return err;
+export const getTop100Characters = (pageNo) => async (dispatch) => {
+  let response = await axios
+    .get(`${baseUrl}/usercharacter-top100/${pageNo}`)
+    .then((res) => {
+      dispatch({
+        type: GET_TOP100_CHARACTERS,
+        payload: res.data,
       });
+      return res.data;
+    })
+    .catch((err) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response,
+      });
+      return err;
+    });
 
-    return response;
-  };
+  return response;
+};
 
 //GET all characters of owner
 export const getUserCharacter = () => async (dispatch) => {

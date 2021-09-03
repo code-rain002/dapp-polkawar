@@ -17,10 +17,17 @@ const userCharacterDao = {
 
     return characters;
   },
-  async getTop100Characters() {
-    let characters = await UserCharacterModel.find({})
+  async getTop100Characters(pageNo) {
+    let pageSize = 9;
+    let skipped = pageNo * pageSize;
+    return await UserCharacterModel.find({})
       .sort({ level: -1, "properties.xp": -1, createdDate: -1 })
-      .limit(100);
+      .skip(skipped)
+      .limit(pageSize);
+
+    // let characters = await UserCharacterModel.find({})
+    //   .sort({ level: -1, "properties.xp": -1, createdDate: -1 })
+    //   .limit(100);
 
     return characters;
   },

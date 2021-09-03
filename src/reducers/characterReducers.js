@@ -20,7 +20,7 @@ export default function (state = initalState, action) {
     case GET_TOP100_CHARACTERS:
       return {
         ...state,
-        topcharacters: action.payload,
+        topcharacters: [...state.topcharacters, ...action.payload],
       };
 
     case GET_USER_CHARACTERS:
