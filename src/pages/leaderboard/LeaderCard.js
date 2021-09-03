@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Card } from "@material-ui/core";
 import imageBaseUrl from "../../actions/imageBaseUrl";
 import Moment from "react-moment";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -154,11 +155,12 @@ export default function CharacterCard({ item }) {
           style={{ paddingRight: 10 }}
         >
           <div className={classes.mediaWrapper}>
-            <img
+            <LazyLoadImage
               src={`${imageBaseUrl}/${item.hashImage}`}
               className={classes.media}
               alt="character"
             />
+            <img />
           </div>
           <div className={classes.lowerSection}>
             <div className="text-center pb-2">
