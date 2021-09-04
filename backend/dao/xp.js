@@ -19,36 +19,42 @@ const xpDao = {
   async updateXp(owner, blockNo) {
     try {
       // Step 1: Get pastEvent details
-      var filter = { _user: { $regex: `^${owner}$`, $options: "i" } };
+
       let returnedValues;
 
       let totalCallsRemaining = 10;
+
+      let result = null;
       const getPastEventValues = async () => {
         totalCallsRemaining = totalCallsRemaining - 1;
-        let pastTransferEvents = await xpContract.getPastEvents(
-          "claimXPEvent",
-          {
-            filter,
-            fromBlock: blockNo,
-            toBlock: "latest",
+        let callEventFunction = async () => {
+          var filter = { _user: { $regex: `^${owner}$`, $options: "i" } };
+
+          let pastTransferEvents = await xpContract.getPastEvents(
+            "claimXPEvent",
+            {
+              filter,
+              fromBlock: blockNo,
+              toBlock: "latest",
+            }
+          );
+          return pastTransferEvents[0];
+        };
+        result = await callEventFunction();
+
+        if (result !== null && result !== undefined) {
+          return result;
+        } else {
+          if (totalCallsRemaining > 0) {
+            return await getPastEventValues();
+          } else {
+            return result;
           }
-        );
-        return pastTransferEvents[0];
+        }
       };
 
-      let eventValues = await getPastEventValues();
-
-      if (eventValues === undefined || eventValues === null) {
-        if (totalCallsRemaining > 0) {
-          setTimeout(async () => {
-            await getPastEventValues();
-          }, 3000);
-        }
-      } else {
-        console.log("Going to else");
-        returnedValues = eventValues.returnValues;
-        console.log(returnedValues._totalPWAR);
-      }
+      let eventData = await getPastEventValues();
+      returnedValues = eventData.returnValues;
 
       let txPwar = returnedValues._totalPWAR / 1000000000000000000;
       let txnumberClaim = returnedValues._numberClaim;

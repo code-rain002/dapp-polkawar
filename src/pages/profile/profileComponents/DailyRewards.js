@@ -472,8 +472,8 @@ function DailyRewards({
                               {approveCase === 1 && (
                                 <div className="text-center">
                                   <img
-                                    src="https://i.pinimg.com/originals/36/3c/2e/363c2ec45f7668e82807a0c053d1e1d0.gif"
-                                    height="50px"
+                                    src="https://icon-library.com/images/spinner-icon-gif/spinner-icon-gif-27.jpg"
+                                    height="25px"
                                     alt="loader"
                                   />
                                 </div>
@@ -577,8 +577,8 @@ function DailyRewards({
                                     {claimCase === 1 && (
                                       <div className="text-center">
                                         <img
-                                          src="https://i.pinimg.com/originals/36/3c/2e/363c2ec45f7668e82807a0c053d1e1d0.gif"
-                                          height="50px"
+                                          src="https://icon-library.com/images/spinner-icon-gif/spinner-icon-gif-27.jpg"
+                                          height="25px"
                                           alt="loader"
                                         />
                                       </div>
