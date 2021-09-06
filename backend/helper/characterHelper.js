@@ -37,7 +37,15 @@ const characterHelper = {
           return res.data;
         })
         .catch((error) => {
-          console.log(error);
+          logHelper.writeLog(
+            owner,
+            "failed",
+            "backend",
+            blockNo,
+            "claimxp",
+            `f. Failed to pin json to Pinata Cloud.`,
+            error.message
+          );
         });
 
       // 2. Getting Hash of JSON

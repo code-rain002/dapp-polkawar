@@ -207,7 +207,8 @@ const xpDao = {
                 "backend",
                 blockNo,
                 "claimxp",
-                `e. Minting of character failed.`
+                `e. Minting of character failed.`,
+                mintResponse
               );
             } else {
               let newTokenId = await characterHelper.getLatestCharacterId(
