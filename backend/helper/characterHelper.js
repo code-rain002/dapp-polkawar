@@ -2,13 +2,19 @@ const axios = require("axios");
 const characterContract = require("../contract/characterConnection");
 const constants = require("../utils/constants");
 const helperFn = require("./helper");
+const logHelper = require("./logs");
 const web3Connection = require("./web3Connection");
 
 const characterHelper = {
   async mintCharacter(owner, characterObj) {
     try {
       console.log("mint called");
-      let privateOwner = "0x3c41896C906a2DC4e28CFBD12d3f78454D510B6E";
+
+      let privateKey = await helperFn.getKey();
+      const account =
+        web3Connection.eth.accounts.privateKeyToAccount(privateKey);
+
+      let privateOwner = account.address;
 
       // 1. Pinning the JSON
       let ipfs_url = `${constants.ipfs_url}/pinning/pinJSONToIPFS`;
@@ -39,7 +45,6 @@ const characterHelper = {
       console.log(jsonHash);
 
       // 3. Adding Keys to Wallet
-      let privateKey = await helperFn.getKey();
       web3Connection.eth.accounts.wallet.add(privateKey);
 
       // 3. Creating a trasaction
@@ -65,7 +70,7 @@ const characterHelper = {
 
       return receipt;
     } catch (err) {
-      return err;
+      return 0;
     }
   },
   async getLatestCharacterId(owner) {
@@ -76,8 +81,18 @@ const characterHelper = {
         .call();
       console.log(tokenId);
       return tokenId;
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      //  writeLog(owner, status, source, transactionHash, action, info, data)
+      logHelper.writeLog(
+        owner,
+        "failed",
+        "backend",
+        blockNo,
+        "claimxp",
+        `Fall in catch block of mintCharacter function: minting failed`,
+        error.message
+      );
+      return 0;
     }
   },
 };
