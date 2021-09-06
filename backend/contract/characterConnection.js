@@ -248,7 +248,7 @@ if (constants.net === 0) {
     rpcUrl: "https://data-seed-prebsc-2-s3.binance.org:8545/",
     chainId: 97, //Testnet
 
-    contractAddress: "0x0CE28292123628cb0012fbf498f41E77e6C32139",
+    contractAddress: "0x54Af9518856fb485977294d066FB0D4d0E2D3062",
     abi: [
       { inputs: [], stateMutability: "nonpayable", type: "constructor" },
       {

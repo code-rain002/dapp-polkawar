@@ -75,8 +75,6 @@ const characterHelper = {
       // 5. Executing transaction
 
       const receipt = await web3Connection.eth.sendTransaction(txData);
-
-
     } catch (err) {
       logHelper.writeLog(
         owner,
