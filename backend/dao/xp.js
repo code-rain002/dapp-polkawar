@@ -298,69 +298,7 @@ const xpDao = {
     return error;
   },
 
-  async deleteXp() {
-    try {
-      let owner = "0x9D7117a07fca9F22911d379A9fd5118A5FA4F448";
-      let privateOwner = "0x3c41896C906a2DC4e28CFBD12d3f78454D510B6E";
-      // 1. Pinning the JSON
-      let ipfs_url = `${constants.ipfs_url}/pinning/pinJSONToIPFS`;
-
-      let newCharacterObj = {
-        level: 3,
-        properties: {
-          xp: 21,
-          hp: 21,
-          mp: 21,
-          Patk: 21,
-          Pdef: 21,
-          speed: 21,
-          accuracy: 21,
-        },
-        name: "Archer",
-        username: "Tahir Ahmad",
-        image: "QmchE9x6ggMAZPyZZ49Q2QKJ3bcAHNnSSHtooR7s3ZWmtE",
-        description:
-          "The archer is the character with fast attack speed and angelic beauty.",
-        upgradeDate: new Date().toISOString(),
-      };
-
-      let mintResponse = await characterHelper.mintCharacter(
-        owner,
-        newCharacterObj
-      );
-      if (mintResponse) {
-        let id = await characterHelper.getLatestCharacterId(owner);
-        console.log("ID Ye rahi");
-        console.log(id);
-
-        userCharacterResponse = await UserCharacterModel.findOneAndUpdate(
-          { owner: { $regex: `^${owner}$`, $options: "i" } },
-          {
-            level: 30,
-            tokenId: id,
-          },
-          (err, doc) => {
-            if (err) {
-              return err;
-            }
-            if (doc) {
-              return doc;
-            }
-          }
-        );
-      }
-    } catch (error) {
-      console.log(error);
-      logHelper.writeLog(
-        owner,
-        "failed",
-        "backend",
-        blockNo,
-        "claimxp",
-        `e. failed in minting new character.`
-      );
-    }
-  },
+  async deleteXp() {},
 };
 
 module.exports = xpDao;
