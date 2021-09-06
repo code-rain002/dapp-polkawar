@@ -99,15 +99,7 @@ const characterHelper = {
       return tokenId;
     } catch (error) {
       //  writeLog(owner, status, source, transactionHash, action, info, data)
-      logHelper.writeLog(
-        owner,
-        "failed",
-        "backend",
-        blockNo,
-        "claimxp",
-        `Fall in catch block of mintCharacter function: minting failed`,
-        error.message
-      );
+
       return 0;
     }
   },
