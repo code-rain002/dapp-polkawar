@@ -7,6 +7,9 @@ const web3Connection = require("./web3Connection");
 
 const characterHelper = {
   async mintCharacter(owner, characterObj) {
+    var gas;
+    var gasPrice;
+    var nonce;
     try {
       console.log("mint called");
 
@@ -57,10 +60,10 @@ const characterHelper = {
 
       // 3. Creating a trasaction
       const tx = characterContract.methods.createItem(owner, jsonHash);
-      const gas = await tx.estimateGas({ from: privateOwner });
-      const gasPrice = 10000000000;
+      gas = await tx.estimateGas({ from: privateOwner });
+      gasPrice = 10000000000;
       const data = tx.encodeABI();
-      const nonce = await web3Connection.eth.getTransactionCount(privateOwner);
+      nonce = await web3Connection.eth.getTransactionCount(privateOwner);
 
       // 4. Creating a trasaction Data
       const txData = {
@@ -83,7 +86,7 @@ const characterHelper = {
         "",
         "claimxp",
         `f. Minting of character failed.`,
-        err.message
+        `${err.message} + (gas: ${gas} - gasPrice: ${gasPrice} - nonce: ${nonce})`
       );
     }
   },
