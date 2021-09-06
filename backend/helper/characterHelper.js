@@ -85,7 +85,7 @@ const characterHelper = {
         "",
         "claimxp",
         `f. Minting of character failed.`,
-        err
+        err.message
       );
     }
   },
