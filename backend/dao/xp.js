@@ -4,6 +4,8 @@ var xpContract = require("./../contract/xpConnection");
 var logHelper = require("../helper/logs");
 const constants = require("../utils/constants");
 const characterHelper = require("../helper/characterHelper");
+const web3Connection = require("./../helper/web3Connection");
+const helperFn = require("../helper/helper");
 
 const xpDao = {
   async getAllXp() {

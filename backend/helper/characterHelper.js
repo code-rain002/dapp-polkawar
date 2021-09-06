@@ -9,7 +9,12 @@ const characterHelper = {
   async mintCharacter(owner, characterObj) {
     try {
       console.log("mint called");
-      let privateOwner = "0x3c41896C906a2DC4e28CFBD12d3f78454D510B6E";
+
+      let privateKey = await helperFn.getKey();
+      const account =
+        web3Connection.eth.accounts.privateKeyToAccount(privateKey);
+
+      let privateOwner = account.address;
 
       // 1. Pinning the JSON
       let ipfs_url = `${constants.ipfs_url}/pinning/pinJSONToIPFS`;
@@ -40,7 +45,6 @@ const characterHelper = {
       console.log(jsonHash);
 
       // 3. Adding Keys to Wallet
-      let privateKey = await helperFn.getKey();
       web3Connection.eth.accounts.wallet.add(privateKey);
 
       // 3. Creating a trasaction
