@@ -295,7 +295,7 @@ const xpDao = {
         error.message
       );
     }
-    return error;
+    return 0;
   },
 
   async deleteXp() {},

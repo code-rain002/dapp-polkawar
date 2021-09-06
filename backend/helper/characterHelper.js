@@ -2,6 +2,7 @@ const axios = require("axios");
 const characterContract = require("../contract/characterConnection");
 const constants = require("../utils/constants");
 const helperFn = require("./helper");
+const logHelper = require("./logs");
 const web3Connection = require("./web3Connection");
 
 const characterHelper = {
@@ -65,7 +66,7 @@ const characterHelper = {
 
       return receipt;
     } catch (err) {
-      return err;
+      return 0;
     }
   },
   async getLatestCharacterId(owner) {
@@ -76,8 +77,18 @@ const characterHelper = {
         .call();
       console.log(tokenId);
       return tokenId;
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      //  writeLog(owner, status, source, transactionHash, action, info, data)
+      logHelper.writeLog(
+        owner,
+        "failed",
+        "backend",
+        blockNo,
+        "claimxp",
+        `Fall in catch block of mintCharacter function: minting failed`,
+        error.message
+      );
+      return 0;
     }
   },
 };
