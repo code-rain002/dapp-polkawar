@@ -196,42 +196,32 @@ const xpDao = {
               upgradeDate: new Date().toISOString(),
             };
 
-            let mintResponse = await characterHelper.mintCharacter(
+            await characterHelper.mintCharacter(
               owner,
               newCharacterObj
             );
-            if (!mintResponse) {
-              logHelper.writeLog(
-                owner,
-                "failed",
-                "backend",
-                blockNo,
-                "claimxp",
-                `e. Minting of character failed.`,
-                mintResponse
-              );
-            } else {
-              let newTokenId = await characterHelper.getLatestCharacterId(
-                owner
-              );
 
-              userCharacterResponse = await UserCharacterModel.findOneAndUpdate(
-                { owner: { $regex: `^${owner}$`, $options: "i" } },
-                {
-                  properties: newProp,
-                  level: updatedLevel,
-                  tokenId: newTokenId,
-                },
-                (err, doc) => {
-                  if (err) {
-                    return err;
-                  }
-                  if (doc) {
-                    return doc;
-                  }
+            let newTokenId = await characterHelper.getLatestCharacterId(
+              owner
+            );
+
+            userCharacterResponse = await UserCharacterModel.findOneAndUpdate(
+              { owner: { $regex: `^${owner}$`, $options: "i" } },
+              {
+                properties: newProp,
+                level: updatedLevel,
+                tokenId: newTokenId,
+              },
+              (err, doc) => {
+                if (err) {
+                  return err;
                 }
-              );
-            }
+                if (doc) {
+                  return doc;
+                }
+              }
+            );
+
           } else {
             properties["xp"] = updatedXp;
             userCharacterResponse = await UserCharacterModel.findOneAndUpdate(
@@ -301,7 +291,7 @@ const xpDao = {
     return 0;
   },
 
-  async deleteXp() {},
+  async deleteXp() { },
 };
 
 module.exports = xpDao;

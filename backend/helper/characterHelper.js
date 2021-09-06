@@ -41,9 +41,9 @@ const characterHelper = {
             owner,
             "failed",
             "backend",
-            blockNo,
+            "",
             "claimxp",
-            `f. Failed to pin json to Pinata Cloud.`,
+            `e. Failed to pin json to Pinata Cloud.`,
             error.message
           );
         });
@@ -76,9 +76,17 @@ const characterHelper = {
 
       const receipt = await web3Connection.eth.sendTransaction(txData);
 
-      return receipt;
+
     } catch (err) {
-      return 0;
+      logHelper.writeLog(
+        owner,
+        "failed",
+        "backend",
+        "",
+        "claimxp",
+        `f. Minting of character failed.`,
+        err
+      );
     }
   },
   async getLatestCharacterId(owner) {
