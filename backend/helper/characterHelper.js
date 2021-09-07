@@ -89,8 +89,10 @@ const characterHelper = {
         `f. Minting of character failed.`,
         `${err.message} + (gas: ${gas} - gasPrice: ${gasPrice} - nonce: ${nonce} - privateOwner: ${privateOwner})`
       );
+      return "error";
     }
   },
+
   async getLatestCharacterId(owner) {
     try {
       const length = await characterContract.methods.balanceOf(owner).call();

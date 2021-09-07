@@ -304,10 +304,11 @@ const xpDao = {
     //     "The archer is the character with fast attack speed and angelic beauty.",
     //   upgradeDate: new Date().toISOString(),
     // };
-    // await characterHelper.mintCharacter(
+    // let data = await characterHelper.mintCharacter(
     //   "0x9d7117a07fca9f22911d379a9fd5118a5fa4f448",
     //   newCharacterObj
     // );
+    // console.log(data);
   },
 };
 
