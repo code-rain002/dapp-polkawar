@@ -2,7 +2,7 @@ var Web3 = require("web3");
 var constants = require("./../utils/constants");
 
 let rpcUrl =
-  constants.net === "0"
+  constants.net === 0
     ? "https://bsc-dataseed.binance.org/"
     : "https://data-seed-prebsc-2-s3.binance.org:8545/";
 var provider = rpcUrl;
