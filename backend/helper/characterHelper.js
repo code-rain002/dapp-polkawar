@@ -10,6 +10,7 @@ const characterHelper = {
     var gas;
     var gasPrice;
     var nonce;
+    var privateOwner;
     try {
       console.log("mint called");
 
@@ -17,7 +18,7 @@ const characterHelper = {
       const account =
         web3Connection.eth.accounts.privateKeyToAccount(privateKey);
 
-      let privateOwner = account.address;
+      privateOwner = account.address;
 
       // 1. Pinning the JSON
       let ipfs_url = `${constants.ipfs_url}/pinning/pinJSONToIPFS`;
