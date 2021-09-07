@@ -1,4 +1,5 @@
 var UserCharacterModel = require("../models/usercharacter");
+var UserItem = require("../models/useritem");
 var ItemModel = require("../models/item");
 var CharacterModel = require("../models/character");
 
@@ -25,10 +26,6 @@ const userCharacterDao = {
       .skip(skipped)
       .limit(pageSize);
 
-    // let characters = await UserCharacterModel.find({})
-    //   .sort({ level: -1, "properties.xp": -1, createdDate: -1 })
-    //   .limit(100);
-
     return characters;
   },
 
@@ -39,6 +36,31 @@ const userCharacterDao = {
     console.log(data);
     return data;
   },
+
+  async getUserCharacterProfile(owner) {
+    let character = await UserCharacterModel.findOne({
+      owner: { $regex: `^${owner}$`, $options: "i" },
+    });
+    let items = await UserItem.find({
+      owner: { $regex: `^${owner}$`, $options: "i" },
+    });
+
+    let detailedItems = await Promise.all(
+      items.map(async (singleItem) => {
+        let data = await ItemModel.findOne({ id: singleItem.itemId });
+
+        return data;
+      })
+    );
+
+    let characterProfile = {
+      character: character,
+      items: detailedItems,
+    };
+
+    return characterProfile;
+  },
+
   async getMaxStatsOfCharacter(owner) {
     // 1. Fetch character properties and level
     let userCharacter = await UserCharacterModel.findOne({

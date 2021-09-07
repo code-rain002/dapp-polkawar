@@ -49,6 +49,18 @@ router.get("/usercharacter/:owner", async (req, res, next) => {
 });
 
 // Public
+// GET Usercharacter and its items based on ID
+router.get("/usercharacter/profile/:owner", async (req, res, next) => {
+  let userAddress = req.params.owner;
+  try {
+    const data = await UserCharacterDao.getUserCharacterProfile(userAddress);
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+});
+
+// Public
 // GET Maximum  Statistics values of User Character
 router.get("/usercharacter/max-stats/:owner", async (req, res, next) => {
   let userAddress = req.params.owner;
