@@ -196,14 +196,9 @@ const xpDao = {
               upgradeDate: new Date().toISOString(),
             };
 
-            await characterHelper.mintCharacter(
-              owner,
-              newCharacterObj
-            );
+            await characterHelper.mintCharacter(owner, newCharacterObj);
 
-            let newTokenId = await characterHelper.getLatestCharacterId(
-              owner
-            );
+            let newTokenId = await characterHelper.getLatestCharacterId(owner);
 
             userCharacterResponse = await UserCharacterModel.findOneAndUpdate(
               { owner: { $regex: `^${owner}$`, $options: "i" } },
@@ -221,7 +216,6 @@ const xpDao = {
                 }
               }
             );
-
           } else {
             properties["xp"] = updatedXp;
             userCharacterResponse = await UserCharacterModel.findOneAndUpdate(
@@ -291,7 +285,30 @@ const xpDao = {
     return 0;
   },
 
-  async deleteXp() { },
+  async deleteXp() {
+    // let newCharacterObj = {
+    //   level: 1,
+    //   properties: {
+    //     xp: 30,
+    //     hp: 40,
+    //     mp: 12,
+    //     Patk: 12,
+    //     Pdef: 12,
+    //     speed: 1,
+    //     accuracy: 5,
+    //   },
+    //   name: "Archer",
+    //   username: "Tahir Ahmad",
+    //   image: "QmchE9x6ggMAZPyZZ49Q2QKJ3bcAHNnSSHtooR7s3ZWmtE",
+    //   description:
+    //     "The archer is the character with fast attack speed and angelic beauty.",
+    //   upgradeDate: new Date().toISOString(),
+    // };
+    // await characterHelper.mintCharacter(
+    //   "0x9d7117a07fca9f22911d379a9fd5118a5fa4f448",
+    //   newCharacterObj
+    // );
+  },
 };
 
 module.exports = xpDao;

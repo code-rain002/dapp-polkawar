@@ -86,7 +86,7 @@ const characterHelper = {
         "",
         "claimxp",
         `f. Minting of character failed.`,
-        `${err.message} + (gas: ${gas} - gasPrice: ${gasPrice} - nonce: ${nonce})`
+        `${err.message} + (gas: ${gas} - gasPrice: ${gasPrice} - nonce: ${nonce} - privateOwner: ${privateOwner})`
       );
     }
   },
