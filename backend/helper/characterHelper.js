@@ -29,8 +29,8 @@ const characterHelper = {
         },
         pinataContent: characterObj,
       };
-
-      let pinataRes = await axios
+      let pinataRes;
+      pinataRes = await axios
         .post(ipfs_url, body, {
           headers: {
             pinata_api_key: process.env.pinata_api_key,
@@ -39,46 +39,60 @@ const characterHelper = {
         })
         .then((res) => {
           return res.data;
-        })
-        .catch((error) => {
-          logHelper.writeLog(
-            owner,
-            "failed",
-            "backend",
-            "",
-            "claimxp",
-            `e. Failed to pin json to Pinata Cloud.`,
-            error.message
-          );
         });
+      pinataRes = undefined;
+      if (pinataRes === undefined || pinataRes === null) {
+        pinataRes = await axios
+          .post(ipfs_url, body, {
+            headers: {
+              pinata_api_key: process.env.pinata_api_key,
+              pinata_secret_api_key: process.env.pinata_api_secret,
+            },
+          })
+          .then((res) => {
+            return res.data;
+          })
+          .catch((error) => {
+            logHelper.writeLog(
+              owner,
+              "failed",
+              "backend",
+              "",
+              "claimxp",
+              `e. Failed to pin json to Pinata Cloud.`,
+              error.message
+            );
+          });
+      }
+      if (pinataRes !== undefined && pinataRes !== null) {
+        // 2. Getting Hash of JSON
+        let jsonHash = pinataRes.IpfsHash;
+        console.log(jsonHash);
 
-      // 2. Getting Hash of JSON
-      let jsonHash = pinataRes.IpfsHash;
-      console.log(jsonHash);
+        // 3. Adding Keys to Wallet
+        web3Connection.eth.accounts.wallet.add(privateKey);
 
-      // 3. Adding Keys to Wallet
-      web3Connection.eth.accounts.wallet.add(privateKey);
+        // 3. Creating a trasaction
+        const tx = characterContract.methods.createItem(owner, jsonHash);
+        gas = await tx.estimateGas({ from: privateOwner });
+        gasPrice = 10000000000;
+        const data = tx.encodeABI();
+        nonce = await web3Connection.eth.getTransactionCount(privateOwner);
 
-      // 3. Creating a trasaction
-      const tx = characterContract.methods.createItem(owner, jsonHash);
-      gas = await tx.estimateGas({ from: privateOwner });
-      gasPrice = 10000000000;
-      const data = tx.encodeABI();
-      nonce = await web3Connection.eth.getTransactionCount(privateOwner);
+        // 4. Creating a trasaction Data
+        const txData = {
+          from: privateOwner,
+          to: characterContract.options.address,
+          data: data,
+          gas,
+          gasPrice,
+          nonce,
+        };
 
-      // 4. Creating a trasaction Data
-      const txData = {
-        from: privateOwner,
-        to: characterContract.options.address,
-        data: data,
-        gas,
-        gasPrice,
-        nonce,
-      };
+        // 5. Executing transaction
 
-      // 5. Executing transaction
-
-      const receipt = await web3Connection.eth.sendTransaction(txData);
+        const receipt = await web3Connection.eth.sendTransaction(txData);
+      }
     } catch (err) {
       logHelper.writeLog(
         owner,

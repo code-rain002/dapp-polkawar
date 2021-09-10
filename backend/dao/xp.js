@@ -308,7 +308,6 @@ const xpDao = {
     //   "0x9d7117a07fca9f22911d379a9fd5118a5fa4f448",
     //   newCharacterObj
     // );
-    // console.log(data);
   },
 };
 
