@@ -7,7 +7,6 @@ import { authenticateUser } from "./../actions/authActions";
 import {
   checkCorrectNetwork,
   checkWalletAvailable,
-  getUserAddress,
 } from "../actions/web3Actions";
 
 const useStyles = makeStyles((theme) => ({
@@ -18,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "50px",
     padding: "8px 16px 8px 16px",
     fontWeight: 600,
-    background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
+    background: `linear-gradient(to right,#D9047C, #BF1088)`,
     fontSize: 14,
   },
 }));
@@ -34,7 +33,6 @@ function ConnectButton({ authenticateUser }) {
       let networkStatus = await checkCorrectNetwork();
       if (networkStatus) {
         authenticateUser();
-
         setError("");
       } else {
         setError("Only support BSC network");

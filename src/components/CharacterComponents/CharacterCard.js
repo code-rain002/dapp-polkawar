@@ -2,12 +2,11 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card } from "@material-ui/core";
 import imageBaseUrl from "../../actions/imageBaseUrl";
-import moment from "moment";
 import Moment from "react-moment";
 
 const useStyles = makeStyles((theme) => ({
   mediaWrapper: {
-    height: 200,
+    height: 230,
     textAlign: "center",
     [theme.breakpoints.down("md")]: {
       height: 110,
@@ -71,10 +70,10 @@ const useStyles = makeStyles((theme) => ({
   card: {
     width: 280,
     height: 400,
-    borderRadius: 16,
+    borderRadius: 20,
     border: "4px solid #e5e5e5",
     marginBottom: 30,
-    backgroundColor: theme.palette.pbr.textPrimaryOpp,
+    backgroundColor: "rgba(41, 42, 66, 0.3)",
     [theme.breakpoints.down("sm")]: {
       width: 180,
       height: 250,
@@ -85,52 +84,50 @@ export default function CharacterCard({ item, index }) {
   const classes = useStyles();
 
   return (
-    <div>
-      <Card className={classes.card} elevation={0}>
-        <div
-          className="d-flex flex-column justify-content-center align-items-center"
-          style={{ paddingRight: 10 }}
-        >
-          <div className="d-flex justify-content-center align-items-center mt-2">
-            <h6
-              style={{
-                color: "white",
-                fontSize: 14,
-                paddingTop: 10,
-                paddingRight: 5,
-              }}
-            >
-              Level:{" "}
-            </h6>
+    <Card className={classes.card} elevation={0}>
+      <div
+        className="d-flex flex-column justify-content-center align-items-center"
+        style={{ paddingRight: 10 }}
+      >
+        <div className="d-flex justify-content-center align-items-center mt-2">
+          <h6
+            style={{
+              color: "white",
+              fontSize: 14,
+              paddingTop: 10,
+              paddingRight: 5,
+            }}
+          >
+            Level:{" "}
+          </h6>
 
-            <div className={classes.iconWrapper}>
-              <img src="images/swords.png" height="24px" alt="level" />
-            </div>
-            <h6 className={classes.levelText}>{item.level} </h6>
+          <div className={classes.iconWrapper}>
+            <img src="images/swords.png" height="24px" alt="level" />
           </div>
-          <div className="text-center">
-            {" "}
-            <h6 style={{ color: "yellow", fontSize: 12 }}>
-              XP: {item.properties["xp"]}
-            </h6>{" "}
-          </div>
+          <h6 className={classes.levelText}>{item.level} </h6>
         </div>
-        <div className={classes.mediaWrapper}>
-          <img
-            src={`${imageBaseUrl}/${item.hashImage}`}
-            className={classes.media}
-            alt="character"
-          />
+        <div className="text-center">
+          {" "}
+          <h6 style={{ color: "yellow", fontSize: 12 }}>
+            XP: {item.properties["xp"]}
+          </h6>{" "}
         </div>
-        <div>
-          <h4 className={classes.title}>{item.username}</h4>
-          <p className="text-center">
-            <Moment fromNow className={classes.daysAgo}>
-              {item.createdDate}
-            </Moment>
-          </p>
-        </div>
-      </Card>
-    </div>
+      </div>
+      <div className={classes.mediaWrapper}>
+        <img
+          src={`${imageBaseUrl}/${item.hashImage}`}
+          className={classes.media}
+          alt="character"
+        />
+      </div>
+      <div>
+        <h4 className={classes.title}>{item.username}</h4>
+        <p className="text-center">
+          <Moment fromNow className={classes.daysAgo}>
+            {item.createdDate}
+          </Moment>
+        </p>
+      </div>
+    </Card>
   );
 }

@@ -1,7 +1,6 @@
 var UserCharacterModel = require("../models/usercharacter");
 var UserItem = require("../models/useritem");
 var ItemModel = require("../models/item");
-var CharacterModel = require("../models/character");
 
 const userCharacterDao = {
   async getCharacterById(id) {
@@ -10,13 +9,11 @@ const userCharacterDao = {
 
   async getTopCharacters() {
     let characters = await UserCharacterModel.find({})
-      .sort({ level: -1 })
+      .sort({ "properties.xp": -1, level: -1, createdDate: -1 })
       .limit(5);
-    characters.sort((a, b) => {
+    return characters.sort((a, b) => {
       return b.properties.xp - a.properties.xp;
     });
-
-    return characters;
   },
   async getTop100Characters(pageNo) {
     let pageSize = 10;

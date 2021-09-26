@@ -6,11 +6,10 @@ import Categories from "./sections/Categories";
 import ConnectButton from "../../components/ConnectButton";
 
 const useStyles = makeStyles((theme) => ({
-  spacing: {
-    overflowX: "hidden",
+  background: {
     padding: 50,
-    // background: 'url("https://wallpaperaccess.com/full/3819332.gif")',
-
+    overflowX: "hidden",
+    minHeight: "65vh",
     [theme.breakpoints.down("md")]: {
       padding: 10,
     },
@@ -20,13 +19,13 @@ function Home({ authenticated }) {
   const classes = useStyles();
 
   return (
-    <div className={classes.spacing}>
-     
-      {!authenticated ? (
+    <div className={classes.background}>
+      {!authenticated && (
         <div>
           <ConnectButton />
         </div>
-      ) : (
+      )}
+      {authenticated && (
         <div>
           <section id="hot-characters">
             <HotCharacters />

@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 20,
     border: "4px solid #e5e5e5",
     marginBottom: 30,
-    backgroundColor: theme.palette.pbr.textPrimaryOpp,
+    backgroundColor: "rgba(41, 42, 66, 0.3)",
     [theme.breakpoints.down("md")]: {
       width: 160,
       height: 260,

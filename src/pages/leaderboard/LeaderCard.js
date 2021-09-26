@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   mediaWrapper: {
-    height: 220,
+    height: 240,
     textAlign: "center",
     [theme.breakpoints.down("md")]: {
       height: 120,
