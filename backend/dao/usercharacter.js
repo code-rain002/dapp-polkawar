@@ -19,14 +19,16 @@ const userCharacterDao = {
     return characters;
   },
   async getTop100Characters(pageNo) {
-    let pageSize = 9;
+    let pageSize = 10;
     let skipped = pageNo * pageSize;
-    return await UserCharacterModel.find({})
-      .sort({ level: -1, "properties.xp": -1, createdDate: -1 })
-      .skip(skipped)
-      .limit(pageSize);
-
-    return characters;
+    if (skipped >= 100) {
+      return [];
+    } else {
+      return await UserCharacterModel.find({})
+        .sort({ "properties.xp": -1, level: -1, createdDate: -1 })
+        .skip(skipped)
+        .limit(pageSize);
+    }
   },
 
   async getUserCharacter(owner) {
