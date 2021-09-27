@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 30,
     backgroundColor: "rgba(41, 42, 66, 0.3)",
     [theme.breakpoints.down("md")]: {
-      width: 160,
+      width: 150,
       height: 260,
     },
   },
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   levelImage: {
     height: "16px",
     [theme.breakpoints.down("md")]: {
-      height: "12px",
+      height: "11px",
     },
   },
   levelText: {
@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     display: "block",
 
     [theme.breakpoints.down("md")]: {
-      fontSize: 12,
+      fontSize: 11,
       paddingTop: 10,
       paddingRight: 5,
     },
@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
     display: "inline-block",
     paddingTop: 20,
     [theme.breakpoints.down("md")]: {
-      paddingTop: 5,
+      paddingTop: 1,
     },
   },
   pricingBadge: {
@@ -104,9 +104,9 @@ const useStyles = makeStyles((theme) => ({
   pricingText: {
     color: "white",
     fontSize: 15,
-    fontWeight: 700,
-    [theme.breakpoints.down("sm")]: {
-      fontSize: 10,
+    fontWeight: 600,
+    [theme.breakpoints.down("md")]: {
+      fontSize: 7,
       fontWeight: 600,
     },
   },

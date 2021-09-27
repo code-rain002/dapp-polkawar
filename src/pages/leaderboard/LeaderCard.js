@@ -8,54 +8,87 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 const useStyles = makeStyles((theme) => ({
   card: {
     position: "relative",
-    width: 280,
-    height: 400,
+    width: 260,
+    width: "100%",
+    height: 380,
     marginBottom: 30,
-    background: `linear-gradient(black,black) padding-box,linear-gradient(to right, #00EBF9, #C42195) border-box`,
-    border: `5px solid transparent`,
-    borderRadius: "40px",
+    backgroundColor: "rgba(41, 42, 66, 0.3)",
+    border: "3px solid #454545",
+    borderRadius: "30px",
     display: "inline-block",
-
     [theme.breakpoints.down("md")]: {
-      width: 180,
-      height: 250,
+      width: 150,
+      height: 220,
     },
   },
   lowerSection: {
-    // background: `linear-gradient(to right, #00EBF9, #C42195)`,
     width: 280,
     height: 200,
     paddingTop: 20,
-
     [theme.breakpoints.down("md")]: {
       width: 180,
       height: 150,
     },
   },
-
-  levelSection: {
+  xpSection: {
     position: "absolute",
-    top: 10,
-    right: 20,
+    top: 20,
+    left: 20,
+    [theme.breakpoints.down("md")]: {
+      top: 15,
+      left: 15,
+    },
   },
-  levelCircle: {
-    border: "2px solid rgba(255, 233, 36, 0.54)",
-    borderRadius: "50%",
-    boxShadow: "0.375em 0.375em 0 0 rgba(96, 56, 148, 0.26)",
-    height: "35px",
-    width: "35px",
+  xpCircle: {
+    height: "100%",
+    width: "100%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+  },
+  xpValue: {
+    color: "white",
+    fontWeight: 800,
+    fontSize: 20,
+    padding: 0,
+    margin: 0,
+    fontFamily: "Montserrat",
     [theme.breakpoints.down("md")]: {
-      height: "30px",
-      width: "30px",
+      fontSize: 10,
     },
+  },
+  xpText: {
+    marginTop: 5,
+    color: "yellow",
+    fontWeight: 600,
+    fontSize: 12,
+    padding: 0,
+    margin: 0,
+    fontFamily: "Montserrat",
+    [theme.breakpoints.down("md")]: {
+      fontSize: 10,
+    },
+  },
+  levelSection: {
+    position: "absolute",
+    top: 20,
+    right: 20,
+    [theme.breakpoints.down("md")]: {
+      top: 15,
+      right: 10,
+    },
+  },
+  levelCircle: {
+    height: "100%",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   levelValue: {
     color: "white",
     fontWeight: 800,
-    fontSize: 15,
+    fontSize: 20,
     padding: 0,
     margin: 0,
     fontFamily: "Montserrat",
@@ -64,8 +97,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   levelText: {
-    color: "white",
-    fontWeight: 500,
+    marginTop: 5,
+    color: "yellow",
+    fontWeight: 600,
     fontSize: 12,
     padding: 0,
     margin: 0,
@@ -76,10 +110,10 @@ const useStyles = makeStyles((theme) => ({
   },
 
   mediaWrapper: {
-    height: 240,
+    height: 280,
     textAlign: "center",
     [theme.breakpoints.down("md")]: {
-      height: 120,
+      height: 135,
     },
   },
   media: {
@@ -88,7 +122,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 10,
     borderRadius: 10,
     [theme.breakpoints.down("md")]: {
-      height: 120,
+      height: 150,
     },
   },
   xp: {
@@ -104,7 +138,6 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     fontWeight: 900,
     fontSize: 22,
-    fontFamily: "Montserrat",
     textAlign: "center",
     letterSpacing: 1.3,
     padding: 0,
@@ -117,8 +150,8 @@ const useStyles = makeStyles((theme) => ({
   },
   daysAgo: {
     color: "white",
-    fontWeight: 500,
-    fontSize: 14,
+    fontWeight: 400,
+    fontSize: 12,
     fontFamily: "Montserrat",
     textAlign: "center",
     padding: 0,
@@ -142,6 +175,15 @@ export default function CharacterCard({ item }) {
   return (
     <div>
       <Card className={classes.card} elevation={0}>
+        <div className={classes.xpSection}>
+          <div className={classes.xpCircle}>
+            <h6 className={classes.xpValue}>{item.properties["xp"]} </h6>
+          </div>
+          <div className="text-center">
+            <p className={classes.xpText}>XP </p>
+          </div>
+        </div>
+
         <div className={classes.levelSection}>
           <div className={classes.levelCircle}>
             <h6 className={classes.levelValue}>{item.level} </h6>
@@ -163,13 +205,6 @@ export default function CharacterCard({ item }) {
             <img />
           </div>
           <div className={classes.lowerSection}>
-            <div className="text-center pb-2">
-              <div className="d-flex justify-content-between">
-                <div style={{ backgroundColor: "#ec407a", width: 30 }}></div>
-                <h6 className={classes.xp}>XP: {item.properties["xp"]}</h6>{" "}
-                <div style={{ backgroundColor: "#ec407a", width: 15 }}></div>
-              </div>
-            </div>
             <div className="text-center pt-2">
               <div className="text-center">
                 <h4 className={classes.title}>{item.username}</h4>

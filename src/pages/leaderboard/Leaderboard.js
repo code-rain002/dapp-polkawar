@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import CharacterCard from "../../components/CharacterComponents/CharacterCard";
 import { getTop100Characters } from "./../../actions/characterActions";
 import LeaderCard from "./LeaderCard";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -25,17 +24,11 @@ const useStyles = makeStyles((theme) => ({
 
 function Leaderboard({ topcharacters, getTop100Characters }) {
   const classes = useStyles();
-  const [actualCase, setActualCase] = useState(0);
   const [pageNo, setPageNo] = useState(0);
 
   useEffect(() => {
     async function asyncFn() {
-      let data = await getTop100Characters(0);
-      if (data) {
-        setActualCase(1);
-      } else {
-        setActualCase(0);
-      }
+      await getTop100Characters(0);
     }
     asyncFn();
   }, []);
@@ -46,7 +39,7 @@ function Leaderboard({ topcharacters, getTop100Characters }) {
   };
 
   return (
-    <div>
+    <div className="container">
       <div className="text-center">
         <h1 className={classes.title}>
           Top 100 Characters{" "}
@@ -59,10 +52,10 @@ function Leaderboard({ topcharacters, getTop100Characters }) {
         next={fetchMoreItems}
         hasMore={true}
       >
-        <div className="row mt-3">
+        <div className="row mt-3 g-0">
           {topcharacters.map((character, index) => {
             return (
-              <div className="col-md-4" key={index}>
+              <div className="col-6 col-md-4" key={index}>
                 <div className="d-flex justify-content-center">
                   <LeaderCard item={character} />
                 </div>
@@ -71,22 +64,6 @@ function Leaderboard({ topcharacters, getTop100Characters }) {
           })}
         </div>
       </InfiniteScroll>
-
-      {/* {topcharacters !== null && topcharacters !== undefined && (
-        <div className="container mt-5">
-          <div className="row">
-            {topcharacters.map((character, index) => {
-              return (
-                <div className="col-md-4" key={index}>
-                  <div className="d-flex justify-content-center">
-                    <LeaderCard item={character} />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )} */}
     </div>
   );
 }

@@ -79,6 +79,16 @@ const useStyles = makeStyles((theme) => ({
       height: 250,
     },
   },
+  levelText: {
+    color: "white",
+    fontSize: 14,
+    paddingTop: 10,
+    paddingRight: 5,
+  },
+  xpText: {
+    color: "yellow",
+    fontSize: 12,
+  },
 }));
 export default function CharacterCard({ item, index }) {
   const classes = useStyles();
@@ -90,16 +100,7 @@ export default function CharacterCard({ item, index }) {
         style={{ paddingRight: 10 }}
       >
         <div className="d-flex justify-content-center align-items-center mt-2">
-          <h6
-            style={{
-              color: "white",
-              fontSize: 14,
-              paddingTop: 10,
-              paddingRight: 5,
-            }}
-          >
-            Level:{" "}
-          </h6>
+          <h6 className={classes.levelText}>Level: </h6>
 
           <div className={classes.iconWrapper}>
             <img src="images/swords.png" height="24px" alt="level" />
@@ -108,9 +109,7 @@ export default function CharacterCard({ item, index }) {
         </div>
         <div className="text-center">
           {" "}
-          <h6 style={{ color: "yellow", fontSize: 12 }}>
-            XP: {item.properties["xp"]}
-          </h6>{" "}
+          <h6 className={classes.xpText}>XP: {item.properties["xp"]}</h6>{" "}
         </div>
       </div>
       <div className={classes.mediaWrapper}>
