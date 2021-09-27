@@ -270,12 +270,9 @@ function Profile({ checkAuthenticated, authenticated }) {
       let walletAvailable = await checkWalletAvailable();
 
       if (walletAvailable) {
-        const accountAddress = await getUserAddress();
         let networkStatus = await checkCorrectNetwork();
-
         if (networkStatus) {
           let authenticated = await checkAuthenticated();
-
           if (authenticated) {
             setActualCase(4);
           } else {
@@ -311,7 +308,7 @@ function Profile({ checkAuthenticated, authenticated }) {
         </div>
       )}
       {actualCase === 3 && (
-        <div className="mt-5 text-center">
+        <div className="mt-5 text-center" style={{ minHeight: "58vh" }}>
           <ConnectButton />
         </div>
       )}
