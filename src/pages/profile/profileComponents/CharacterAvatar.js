@@ -6,91 +6,6 @@ import { FileCopy } from "@material-ui/icons";
 import CharacterItems from "./CharacterItems";
 
 const useStyles = makeStyles((theme) => ({
-  pageTitle: {
-    verticalAlign: "baseline",
-    color: "yellow",
-    fontWeight: 800,
-    letterSpacing: 0.5,
-    fontSize: "2.08vw",
-    lineHeight: "40.7px",
-    textAlign: "center",
-    paddingTop: 20,
-    [theme.breakpoints.down("md")]: {
-      fontSize: 20,
-      lineHeight: "30.7px",
-    },
-  },
-  characterScroll: {
-    whiteSpace: "noWrap",
-    overflowX: "auto",
-    paddingTop: 10,
-    [theme.breakpoints.down("md")]: {
-      paddingTop: 0,
-    },
-  },
-  mediaWrapper: {
-    height: 350,
-    [theme.breakpoints.down("md")]: {
-      height: 200,
-    },
-  },
-  media: {
-    marginLeft: 10,
-    marginRight: 10,
-    borderRadius: 10,
-    [theme.breakpoints.down("sm")]: {
-      marginLeft: 0,
-      marginRight: 5,
-      width: 120,
-    },
-  },
-  button: {
-    color: "white",
-    backgroundColor: "white",
-    textTransform: "none",
-    borderRadius: "50px",
-    background: `linear-gradient(to bottom,#D9047C, #BF1088)`,
-  },
-
-  titleHeading: {
-    verticalAlign: "baseline",
-    textAlign: "center",
-    color: theme.palette.pbr.textPrimary,
-    fontWeight: 900,
-    letterSpacing: 0.5,
-    fontSize: 20,
-    lineHeight: "35.7px",
-    fontFamily: "Carter One",
-    overflowWrap: "break-word",
-    [theme.breakpoints.down("sm")]: {
-      fontWeight: 700,
-      fontSize: 14,
-    },
-  },
-  subheading: {
-    verticalAlign: "baseline",
-    textAlign: "center ",
-    color: theme.palette.pbr.textSecondary,
-    fontWeight: 500,
-    fontSize: 14,
-    width: "300px",
-    fontFamily: "Balsamiq Sans",
-  },
-  propTitle: {
-    fontSize: 16,
-    color: "yellow",
-    [theme.breakpoints.down("sm")]: {
-      fontSize: 14,
-    },
-  },
-  propValue: {
-    fontSize: 14,
-    color: "white",
-    paddingLeft: 10,
-    [theme.breakpoints.down("sm")]: {
-      fontSize: 12,
-    },
-  },
   section: {
     height: "100%",
     width: "100%",
@@ -260,7 +175,7 @@ function CharacterAvatar({
               <h6 htmlFor="username" className={classes.username}>
                 {usercharacter.username}
               </h6>
-              <h6 htmlFor="username" className={classes.address}>
+              <h6 htmlFor="address" className={classes.address}>
                 {getAddressString()}
 
                 <IconButton style={{ padding: 0 }}>
