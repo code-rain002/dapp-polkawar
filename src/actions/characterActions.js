@@ -4,6 +4,7 @@ import {
   GET_CHARACTERS,
   GET_TOP100_CHARACTERS,
   CREATE_CHARACTER,
+  GET_CHARACTER_RANK,
   GET_USER_CHARACTERS,
   GET_ERRORS,
 } from "./types";
@@ -52,6 +53,31 @@ export const getTop100Characters = (pageNo) => async (dispatch) => {
 
   return response;
 };
+
+//GET Character Rank
+export const getCharacterRank = () => async (dispatch) => {
+  let userAddress = await getUserAddress();
+
+  let response = await axios
+    .get(`${baseUrl}/usercharacter-rank/${userAddress}`)
+    .then((res) => {
+      dispatch({
+        type: GET_CHARACTER_RANK,
+        payload: res.data,
+      });
+      return res.data;
+    })
+    .catch((err) => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response,
+      });
+      return err;
+    });
+
+  return response;
+};
+
 
 //GET all characters of owner
 export const getUserCharacter = () => async (dispatch) => {

@@ -99,6 +99,7 @@ function CharacterAvatar({
   setCharacterProperties,
   characterString,
   setCharacterString,
+  rank
 }) {
   const classes = useStyles();
 
@@ -161,7 +162,7 @@ function CharacterAvatar({
               <div>
                 <h6 htmlFor="ranking" className={classes.ranking}>
                   {" "}
-                  # {usercharacter.tokenId}
+                  # {rank}
                 </h6>
                 <h1
                   htmlFor="usercharacterType"

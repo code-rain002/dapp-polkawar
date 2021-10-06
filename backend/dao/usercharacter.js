@@ -35,7 +35,15 @@ const userCharacterDao = {
     console.log(data);
     return data;
   },
+  async getUserCharacterRank(owner) {
+    const sortedData = await UserCharacterModel.find({})
+      .sort({ "properties.xp": -1, level: -1, createdDate: -1 });
 
+    const ownerCharacter = sortedData.find(singleCharacter => singleCharacter.owner.toLowerCase() === owner.toLowerCase());
+    let rank = sortedData.indexOf(ownerCharacter);
+    return { rank };
+
+  },
   async getUserCharacterProfile(owner) {
     let character = await UserCharacterModel.findOne({
       owner: { $regex: `^${owner}$`, $options: "i" },

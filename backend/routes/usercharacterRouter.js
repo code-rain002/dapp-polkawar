@@ -21,6 +21,21 @@ router.get("/usercharacter-top100/:pageNo", async (req, res, next) => {
     const data = await UserCharacterDao.getTop100Characters(pageNo);
     return res.status(200).send(data);
   } catch (error) {
+
+    return res.status(400).send(error);
+  }
+});
+
+// Public
+// GET Character Rank
+router.get("/usercharacter-rank/:owner", async (req, res, next) => {
+  let owner = req.params.owner;
+  try {
+    const data = await UserCharacterDao.getUserCharacterRank(owner);
+    console.log('Nahi hai')
+    return res.status(200).send(data);
+  } catch (error) {
+    console.log('Error ha8')
     return res.status(400).send(error);
   }
 });

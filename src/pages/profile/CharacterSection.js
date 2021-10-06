@@ -5,6 +5,7 @@ import { Button, Dialog, Backdrop, Slide, Grow } from "@material-ui/core";
 import {
   getUserCharacter,
   getMaxStatsOfCharacter,
+  getCharacterRank,
 } from "../../actions/characterActions";
 import Loader from "../../components/Loader";
 import CreateCharacterForm from "../../components/CharacterComponents/CreateCharacterForm";
@@ -194,6 +195,8 @@ function CharacterSection({
   getUserCharacter,
   getMaxStatsOfCharacter,
   usercharacter,
+  getCharacterRank,
+  rank
 }) {
   const classes = useStyles();
 
@@ -223,6 +226,7 @@ function CharacterSection({
     async function asyncFn() {
       let res = await getUserCharacter();
       let resMaxStats = await getMaxStatsOfCharacter();
+      await getCharacterRank();
 
       setMaxStats(resMaxStats);
       if (res) {
@@ -305,6 +309,7 @@ function CharacterSection({
                   setCharacterProperties={setCharacterProperties}
                   characterString={characterString}
                   setCharacterString={setCharacterString}
+                  rank={rank}
                 />
               </Grow>
             </div>
@@ -358,8 +363,9 @@ function CharacterSection({
 const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated,
   usercharacter: state.characters.usercharacter,
+  rank: state.characters.rank,
 });
 
-const mapDispatchToProps = { getUserCharacter, getMaxStatsOfCharacter };
+const mapDispatchToProps = { getUserCharacter, getMaxStatsOfCharacter, getCharacterRank };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CharacterSection);
