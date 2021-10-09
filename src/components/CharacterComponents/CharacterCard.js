@@ -114,7 +114,7 @@ export default function CharacterCard({ item, index }) {
       </div>
       <div className={classes.mediaWrapper}>
         <img
-          src={`${imageBaseUrl}/${item.hashImage}`}
+          src={`character/${item.name.toLowerCase()}_lv0.png`}
           className={classes.media}
           alt="character"
         />

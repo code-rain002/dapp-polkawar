@@ -113,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
     height: 280,
     textAlign: "center",
     [theme.breakpoints.down("md")]: {
-      height: 135,
+      height: 132,
     },
   },
   media: {
@@ -122,6 +122,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 10,
     borderRadius: 10,
     [theme.breakpoints.down("md")]: {
+      paddingTop: 5,
       height: 150,
     },
   },
@@ -198,11 +199,11 @@ export default function CharacterCard({ item }) {
         >
           <div className={classes.mediaWrapper}>
             <LazyLoadImage
-              src={`${imageBaseUrl}/${item.hashImage}`}
+              src={`character/${item.name.toLowerCase()}_lv0.png`}
               className={classes.media}
               alt="character"
             />
-            <img />
+
           </div>
           <div className={classes.lowerSection}>
             <div className="text-center pt-2">
