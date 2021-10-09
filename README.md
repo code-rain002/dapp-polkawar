@@ -12,7 +12,7 @@ Character Profile View:
 ![Profile Screenshot](polkawar1.png)
 
 Mystery Box Bidding Page View:
-![Bidding Screenshot](polkawar1.png)
+![Bidding Screenshot](polkawar3.png)
 Following features are developed:
 
 1. Metamask and Trust Wallet Connection.
