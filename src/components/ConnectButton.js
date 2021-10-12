@@ -59,9 +59,9 @@ function ConnectButton({ authenticateUser }) {
   const [error, setError] = useState("");
   const [popup, setPopup] = useState(false);
 
-  const connectWallet = async (value) => {
+  const connectWallet = async () => {
 
-    let walletStatus = await checkWalletAvailable(value);
+    let walletStatus = await checkWalletAvailable();
     console.log(walletStatus)
     if (walletStatus) {
       let networkStatus = await checkCorrectNetwork();
@@ -86,7 +86,7 @@ function ConnectButton({ authenticateUser }) {
         </p>
       </div>
       <div className="mt-3">
-        <Button className={classes.button} onClick={() => setPopup(true)}>
+        <Button className={classes.button} onClick={connectWallet}>
           Connect your wallet
         </Button>
 

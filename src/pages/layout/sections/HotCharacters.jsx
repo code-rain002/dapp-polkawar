@@ -4,10 +4,6 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import CharacterCard from "../../../components/CharacterComponents/CharacterCard";
 import { getTopCharacters } from "./../../../actions/characterActions";
-import {
-  checkCorrectNetwork,
-  checkWalletAvailable,
-} from "../../../actions/web3Actions";
 import { Dialog, Divider, Slide, Backdrop } from "@material-ui/core";
 import BuildCharacter from "../../../components/CharacterComponents/BuildCharacter";
 import { readCache, addDataIntoCache } from "./../../../actions/cacheActions";
