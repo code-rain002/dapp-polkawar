@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { checkPBRStakingAndHolding } from "../actions/smartActions/SmartActions";
+import { shoefyStakingAmount } from "../actions/smartActions/SmartActions";
 import { CSVReader, CSVDownloader, jsonToCSV } from "react-papaparse";
 import { Button } from "@material-ui/core";
 
 const buttonRef = React.createRef();
 
-export default class ExcelWork extends Component {
+export default class ShoefyWork extends Component {
   constructor(props) {
     super(props);
     this.state = { inputData: [], outputData: [], errorAddress: [] };
@@ -101,9 +101,7 @@ export default class ExcelWork extends Component {
 
     data.map(async (singleAddress, index) => {
       setTimeout(async () => {
-        let totalPBR = await checkPBRStakingAndHolding(
-          singleAddress.toString()
-        );
+        let totalPBR = await shoefyStakingAmount(singleAddress.toString());
         console.log("index: " + index);
         if (totalPBR !== null && totalPBR !== undefined) {
           if (totalPBR >= 0) {

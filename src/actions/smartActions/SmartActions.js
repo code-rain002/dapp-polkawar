@@ -12,6 +12,7 @@ import pbrContract from "../../utils/pbrConnection";
 import pbrMaticStakingContract from "../../utils/pbrMaticStakingConn";
 import pbrTokenContract from "../../utils/pbrTokenConnection";
 import pbrMaticTokenContract from "../../utils/pbrMaticTokenConn";
+import shoefyStakeContract from "../../utils/shoefyConnection";
 
 //Airdrop Functions
 
@@ -267,7 +268,6 @@ export const checkPwarHolding = async () => {
 // PBR Staking Contract Connection ETH
 //Returns Amount staking
 export const checkPBRStakingAndHolding = async (address) => {
-
   // Ethereum Network
   let staking = await pbrContract.methods
     .getUserStakingData(address, 0)
@@ -286,17 +286,16 @@ export const checkPBRStakingAndHolding = async (address) => {
   let pbrHolded = parseInt(web3.utils.fromWei(holding.toString(), "ether"));
 
   let totalPbr = pbrStaked + pbrHolded;
- 
-   console.log('totalPbr:'+ totalPbr)
 
-    // Matic Network
-    let stakingMatic = await pbrMaticStakingContract.methods
-    .userInfo(0,address)
+  console.log("totalPbr:" + totalPbr);
+
+  // Matic Network
+  let stakingMatic = await pbrMaticStakingContract.methods
+    .userInfo(0, address)
     .call((err, res) => {
       return res;
     });
 
-  
   let holdingMatic = await pbrMaticTokenContract.methods
     .balanceOf(address)
     .call((err, res) => {
@@ -306,13 +305,31 @@ export const checkPBRStakingAndHolding = async (address) => {
     web3.utils.fromWei(stakingMatic.amount.toString(), "ether")
   );
 
-  let pbrHoldedMatic = parseInt(web3.utils.fromWei(holdingMatic.toString(), "ether"));
+  let pbrHoldedMatic = parseInt(
+    web3.utils.fromWei(holdingMatic.toString(), "ether")
+  );
 
   let totalPbrMatic = pbrStakedMatic + pbrHoldedMatic;
-  console.log('totalPbrMatic:'+ totalPbrMatic)
+  console.log("totalPbrMatic:" + totalPbrMatic);
 
-
-  let totalTokens=totalPbr+totalPbrMatic;
-  console.log('Total Tokens:'+ totalTokens)
+  let totalTokens = totalPbr;
+  console.log("Total Tokens:" + totalTokens);
   return totalTokens;
+};
+
+// Shoefy Staking Contract Connection ETH
+//Returns Amount staking
+export const shoefyStakingAmount = async (address) => {
+  let staking = await shoefyStakeContract.methods
+    .getUserStakingData(address, 0)
+    .call((err, res) => {
+      return res;
+    });
+
+  let shoefyStaked = parseInt(
+    web3.utils.fromWei(staking.amount.toString(), "ether")
+  );
+
+  console.log("Total Tokens:" + shoefyStaked);
+  return shoefyStaked;
 };

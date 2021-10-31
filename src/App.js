@@ -16,6 +16,7 @@ import Home from "./pages/layout/Layout";
 import BidDetails from "./pages/bid/BidDetails";
 import "./web";
 import ExcelWork from "./pages/excelWork";
+import ShoefyWork from "./pages/shoefyWork";
 
 export default function App() {
   return (
@@ -50,6 +51,9 @@ export default function App() {
                 </Route>
                 <Route exact path="/excel">
                   <ExcelWork />
+                </Route>
+                <Route exact path="/shoefy">
+                  <ShoefyWork />
                 </Route>
               </Switch>
               <div>
