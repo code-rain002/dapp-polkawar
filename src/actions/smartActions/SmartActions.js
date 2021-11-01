@@ -312,7 +312,7 @@ export const checkPBRStakingAndHolding = async (address) => {
   let totalPbrMatic = pbrStakedMatic + pbrHoldedMatic;
   console.log("totalPbrMatic:" + totalPbrMatic);
 
-  let totalTokens = totalPbr;
+  let totalTokens = totalPbr + totalPbrMatic;
   console.log("Total Tokens:" + totalTokens);
   return totalTokens;
 };
