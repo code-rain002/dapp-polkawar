@@ -321,7 +321,7 @@ export const checkPBRStakingAndHolding = async (address) => {
 //Returns Amount staking
 export const shoefyStakingAmount = async (address) => {
   let staking = await shoefyStakeContract.methods
-    .getUserStakingData(address, 0)
+    .userInfo(3, address)
     .call((err, res) => {
       return res;
     });
