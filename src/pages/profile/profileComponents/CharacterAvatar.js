@@ -96,9 +96,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "100%",
     [theme.breakpoints.down("sm")]: {
-      width: 150
-
-
+      width: 150,
     },
   },
 }));
@@ -114,53 +112,13 @@ function CharacterAvatar({
   const classes = useStyles();
 
   const getCharacterImage = () => {
-    let sumOfValues = Object.keys(characterString).reduce(
-      (sum, key) => sum + parseFloat(characterString[key] || 0),
-      0
-    );
-    // if (sumOfValues === -6 || characterString["weapon"] === -1) {
-    //   return `${imageBaseUrl}/${usercharacter.hashImage}`;
-    // } else {
-    //   if (
-    //     characterString["helmet"] === -1 &&
-    //     characterString["armor"] === -1 &&
-    //     characterString["wing"] === -1 &&
-    //     characterString["mount"] === -1
-    //   ) {
-    //     return `${imageBaseUrl}/${usercharacter.hashImage}`;
-    //   } else {
-    //     let characterImage;
-
-    //     if (usercharacter.name === "Magician") {
-    //       console.log(characterString);
-    //       if (
-    //         characterString["weapon"] === -1 ||
-    //         characterString["weapon1"] === -1
-    //       ) {
-    //         characterImage = `${imageBaseUrl}/${usercharacter.hashImage}`;
-    //       } else {
-    //         let weapon0 =
-    //           characterString["weapon"] > characterString["weapon1"]
-    //             ? characterString["weapon1"]
-    //             : characterString["weapon"];
-    //         let weapon1 =
-    //           characterString["weapon"] > characterString["weapon1"]
-    //             ? characterString["weapon"]
-    //             : characterString["weapon1"];
-    //         characterImage = `./characterWithItems_lv1/${usercharacter.name}_${weapon0}_${weapon1}_${characterString["helmet"]}_${characterString["armor"]}_${characterString["wing"]}_${characterString["mount"]}.png`;
-    //       }
-    //     } else {
-    //       characterImage = `./characterWithItems_lv1/${usercharacter.name}_${characterString["weapon"]}_-1_${characterString["helmet"]}_${characterString["armor"]}_${characterString["wing"]}_${characterString["mount"]}.png`;
-    //     }
-    //       characterImage = `./characterWithItems_lv1/${usercharacter.name}_${characterString["weapon"]}_-1_${characterString["helmet"]}_${characterString["armor"]}_${characterString["wing"]}_${characterString["mount"]}.png`;
-
-    //     return characterImage;
-    //   }
-    // }
-
-    let characterImage = `images/characters_lv1/${usercharacter.name.toLowerCase()}_${characterString["weapon"]
-      }_-1_${characterString["helmet"]}_${characterString["armor"]}_${characterString["wing"]
-      }_${characterString["mount"]}.png`;
+    let characterImage = `images/characters_lv${
+      usercharacter.level
+    }/${usercharacter.name.toLowerCase()}_${characterString["weapon"]}_-1_${
+      characterString["helmet"]
+    }_${characterString["armor"]}_${characterString["wing"]}_${
+      characterString["mount"]
+    }.png`;
 
     return characterImage;
   };
