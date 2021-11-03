@@ -248,7 +248,7 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
       <div className={classes.mainCard}>
         <div>
           <img
-            src="/images/flashsale5.jpg"
+            src="/images/flashsale.jpg"
             alt="flash-sale-poster"
             className={classes.banner}
           />
