@@ -15,6 +15,7 @@ import Loader from "../Loader";
 import { getFlashItems } from "../../actions/itemActions";
 import { getUserAddress } from "../../actions/web3Actions";
 import web3 from "../../web";
+import constants from "../../utils/constants";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     height: 250,
     borderRadius: 20,
     border: "1px solid #e5e5e5",
-    marginBottom: 20,
+    marginBottom: 30,
     paddingTop: 20,
     paddingBottom: 20,
     paddingLeft: 10,
@@ -275,6 +276,15 @@ const useStyles = makeStyles((theme) => ({
       padding: "8px 16px 8px 16px",
     },
   },
+  imageSection: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 240,
+    [theme.breakpoints.down("md")]: {
+      width: 100,
+    },
+  },
 }));
 
 function ItemSaleCard({
@@ -356,7 +366,7 @@ function ItemSaleCard({
         .send(
           {
             from: userAddress,
-            value: 1000000000000000000 * parseFloat(item.sell_price),
+            value: 1000000000000000000 * parseFloat(constants.itemPrice),
             gasPrice: 25000000000,
           },
           function (error, transactionHash) {
@@ -407,7 +417,7 @@ function ItemSaleCard({
       <Card className={classes.card1} elevation={5}>
         <div className="d-flex justify-content-between">
           <div className="d-flex justify-content-start">
-            <div className="d-flex justify-content-center align-items-center">
+            <div className={classes.imageSection}>
               <img
                 alt="item"
                 src={`${imageBaseUrl}/${item.hashImage}`}

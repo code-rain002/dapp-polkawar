@@ -123,6 +123,7 @@ router.post("/item", async (req, res, next) => {
       description: "HP: 250, MP: 200, Protection: +50",
       level: 2,
       hashImage: "QmXeawPHD5Gqug8gm8RNQ8xjKGxboHRu52GfBjMnJBBkgn",
+      hashItem: "QmZunUGSLQs99ziJN2HxBmvNtsHTvrX7AzUhxRKkCyndZi",
       category: "armor",
       properties: {
         hp: 250,
@@ -144,6 +145,7 @@ router.post("/item", async (req, res, next) => {
       description: "HP: 250, MP: 200, Protection: +50",
       level: 2,
       hashImage: "QmfHwGHzL98a9W2r6MdB4pbCzCj3NkSYQ9CFmaggi1tLsk",
+      hashItem: "Qmb8TZZdHtRAhxTuFCDTAL1kKyQyuiWrwb1nKPxnWkRCZP",
       category: "armor",
       properties: {
         hp: 250,
@@ -165,6 +167,8 @@ router.post("/item", async (req, res, next) => {
       description: "HP: 250, MP: 200, Protection: +50",
       level: 2,
       hashImage: "QmXfuoXRaLUD1RWkzxxe6oLJGHuvGVnnGeoUfJuQ33SKc2",
+      hashItem: "QmeF66tqbXL63LRPWEgM62PUuSXkdzMSRKra8p2ybo2yBK",
+
       category: "armor",
       properties: {
         hp: 250,
