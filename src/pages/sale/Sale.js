@@ -173,10 +173,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-var saleStartDate = process.env.REACT_APP_SALE_START_DATE;
-// var saleStartDate = "November 3, 2021 14:00:00 UTC";
 var saleEndDate = process.env.REACT_APP_SALE_END_DATE;
-
+var saleStartDate = process.env.REACT_APP_SALE_START_DATE;
 var resaleStartDate = process.env.REACT_APP_START_RESELL;
 var resaleEndDate = process.env.REACT_APP_END_RESELL;
 

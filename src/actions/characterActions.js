@@ -78,10 +78,10 @@ export const getCharacterRank = () => async (dispatch) => {
   return response;
 };
 
-
 //GET all characters of owner
 export const getUserCharacter = () => async (dispatch) => {
   let userAddress = await getUserAddress();
+  // let userAddress = "0x82C5C4fCd9189eE0160343203D52f97D0B7cABb6";
 
   let response = await axios
     .get(`${baseUrl}/usercharacter/${userAddress}`)

@@ -349,7 +349,7 @@ function SellModal({ item, updateUserItemOwner, setDisableSellPopup }) {
                 <span style={{ color: "#6F2F9B", fontWeight: "600" }}>
                   {constants.rewardsPWAR} PWAR
                 </span>{" "}
-                on 31st of September,2021.
+                on {constants.rewardDate}.
               </p>
               <div className="mt-3">
                 <Button

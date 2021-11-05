@@ -281,7 +281,7 @@ if (constants.net === 0) {
   saleConstant = {
     rpcUrl: "https://data-seed-prebsc-2-s1.binance.org:8545/",
     chainId: 97, // Testnet
-    contractAddress: "0xaE8aAf92013dc8F7fa22Fe01e56271c93B24058F",
+    contractAddress: "0x9bBE291eD65604888F6E259e5DD7aEEf2573F811",
 
     abi: [
       {

@@ -28,36 +28,36 @@ export const getItemDetails = (id) => (dispatch) => {
 //get items based on category and pagination
 export const getItems =
   (category, pageNo, pageSize = 8) =>
-    (dispatch) => {
-      let smallCategory = category.toLowerCase();
+  (dispatch) => {
+    let smallCategory = category.toLowerCase();
 
-      let url = "";
-      if (smallCategory === "all") {
-        url = `${baseUrl}/items/${pageNo}/${pageSize}`;
-      } else {
-        url = `${baseUrl}/items/${smallCategory}`;
-      }
+    let url = "";
+    if (smallCategory === "all") {
+      url = `${baseUrl}/items/${pageNo}/${pageSize}`;
+    } else {
+      url = `${baseUrl}/items/${smallCategory}`;
+    }
 
-      axios
-        .get(url)
-        .then((res) => {
-          let response = {
-            category: smallCategory,
-            pageNo: pageNo,
-            data: res.data,
-          };
-          dispatch({
-            type: GET_ITEMS,
-            payload: response,
-          });
-        })
-        .catch((err) => {
-          dispatch({
-            type: GET_ERRORS,
-            payload: err.response,
-          });
+    axios
+      .get(url)
+      .then((res) => {
+        let response = {
+          category: smallCategory,
+          pageNo: pageNo,
+          data: res.data,
+        };
+        dispatch({
+          type: GET_ITEMS,
+          payload: response,
         });
-    };
+      })
+      .catch((err) => {
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response,
+        });
+      });
+  };
 
 //GET all item categories
 export const getCategories = () => (dispatch) => {

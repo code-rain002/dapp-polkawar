@@ -196,7 +196,7 @@ function CharacterSection({
   getMaxStatsOfCharacter,
   usercharacter,
   getCharacterRank,
-  rank
+  rank,
 }) {
   const classes = useStyles();
 
@@ -226,6 +226,7 @@ function CharacterSection({
     async function asyncFn() {
       let res = await getUserCharacter();
       let resMaxStats = await getMaxStatsOfCharacter();
+
       await getCharacterRank();
 
       setMaxStats(resMaxStats);
@@ -366,6 +367,10 @@ const mapStateToProps = (state) => ({
   rank: state.characters.rank,
 });
 
-const mapDispatchToProps = { getUserCharacter, getMaxStatsOfCharacter, getCharacterRank };
+const mapDispatchToProps = {
+  getUserCharacter,
+  getMaxStatsOfCharacter,
+  getCharacterRank,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CharacterSection);

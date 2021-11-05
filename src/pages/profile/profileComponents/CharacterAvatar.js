@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
   media: {
     maxHeight: 500,
     width: "100%",
-    height: "100%",
+
     [theme.breakpoints.down("sm")]: {
       width: 150,
     },
@@ -112,13 +112,30 @@ function CharacterAvatar({
   const classes = useStyles();
 
   const getCharacterImage = () => {
-    let characterImage = `images/characters_lv${Math.ceil(
-      parseInt(usercharacter.level) / 10
-    )}/${usercharacter.name.toLowerCase()}_${characterString["weapon"]}_-1_${
-      characterString["helmet"]
-    }_${characterString["armor"]}_${characterString["wing"]}_${
-      characterString["mount"]
-    }.png`;
+    let characterImage;
+    let level = Math.ceil(parseInt(usercharacter.level) / 10);
+    let mainLevel = level > 2 ? 2 : level;
+    if (usercharacter.name.toLowerCase() === "magician") {
+      if (characterString["weapon"] > 0 || characterString["weapon1"] > 0) {
+        characterImage = `images/characters_lv${mainLevel}/${usercharacter.name.toLowerCase()}_44_47_${
+          characterString["helmet"]
+        }_${characterString["armor"]}_${characterString["wing"]}_${
+          characterString["mount"]
+        }.png`;
+      } else {
+        characterImage = `images/characters_lv${mainLevel}/${usercharacter.name.toLowerCase()}_-1_-1_${
+          characterString["helmet"]
+        }_${characterString["armor"]}_${characterString["wing"]}_${
+          characterString["mount"]
+        }.png`;
+      }
+    } else {
+      characterImage = `images/characters_lv${mainLevel}/${usercharacter.name.toLowerCase()}_${
+        characterString["weapon"]
+      }_-1_${characterString["helmet"]}_${characterString["armor"]}_${
+        characterString["wing"]
+      }_${characterString["mount"]}.png`;
+    }
 
     return characterImage;
   };
