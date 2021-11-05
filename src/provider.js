@@ -1,7 +1,10 @@
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import getInfuraKey from "./actions/smartActions/helper";
+
+let providerKey = getInfuraKey();
 
 const provider = new WalletConnectProvider({
-  infuraId: process.env.REACT_APP_INFURA_KEY,
+  infuraId: providerKey,
   qrcodeModalOptions: {
     mobileLinks: ["metamask", "trust"],
   },
