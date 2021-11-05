@@ -112,9 +112,9 @@ function CharacterAvatar({
   const classes = useStyles();
 
   const getCharacterImage = () => {
-    let characterImage = `images/characters_lv${
+    let characterImage = `images/characters_lv${Math.ceil(
       parseInt(usercharacter.level) / 10
-    }/${usercharacter.name.toLowerCase()}_${characterString["weapon"]}_-1_${
+    )}/${usercharacter.name.toLowerCase()}_${characterString["weapon"]}_-1_${
       characterString["helmet"]
     }_${characterString["armor"]}_${characterString["wing"]}_${
       characterString["mount"]
