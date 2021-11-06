@@ -36,13 +36,18 @@ const userCharacterDao = {
     return data;
   },
   async getUserCharacterRank(owner) {
-    const sortedData = await UserCharacterModel.find({})
-      .sort({ "properties.xp": -1, level: -1, createdDate: -1 });
+    const sortedData = await UserCharacterModel.find({}).sort({
+      "properties.xp": -1,
+      level: -1,
+      createdDate: -1,
+    });
 
-    const ownerCharacter = sortedData.find(singleCharacter => singleCharacter.owner.toLowerCase() === owner.toLowerCase());
+    const ownerCharacter = sortedData.find(
+      (singleCharacter) =>
+        singleCharacter.owner.toLowerCase() === owner.toLowerCase()
+    );
     let rank = sortedData.indexOf(ownerCharacter);
     return { rank };
-
   },
   async getUserCharacterProfile(owner) {
     let character = await UserCharacterModel.findOne({
@@ -73,6 +78,7 @@ const userCharacterDao = {
     let userCharacter = await UserCharacterModel.findOne({
       owner: { $regex: `^${owner}$`, $options: "i" },
     });
+
     if (userCharacter) {
       let characterProp = userCharacter.properties;
 
@@ -81,8 +87,9 @@ const userCharacterDao = {
         parseInt(userCharacter.level) === 0 ? 1 : parseInt(userCharacter.level);
 
       // 2. Fetch items compatible to character based on level
+      let requiredItemLevel = Math.ceil(parseInt(characterLevel) / 10);
       let allItems = await ItemModel.find({
-        level: characterLevel,
+        level: requiredItemLevel,
         forCharacter: characterName,
       });
 
