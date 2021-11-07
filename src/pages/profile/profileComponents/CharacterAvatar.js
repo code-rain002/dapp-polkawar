@@ -113,7 +113,10 @@ function CharacterAvatar({
 
   const getCharacterImage = () => {
     let characterImage;
-    let level = Math.ceil(parseInt(usercharacter.level) / 10);
+    let level =
+      Math.ceil(parseInt(usercharacter.level) / 10) === 0
+        ? 1
+        : Math.ceil(parseInt(usercharacter.level) / 10);
     let mainLevel = level > 2 ? 2 : level;
     if (usercharacter.name.toLowerCase() === "magician") {
       if (characterString["weapon"] > 0 || characterString["weapon1"] > 0) {
