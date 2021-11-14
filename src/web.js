@@ -6,7 +6,7 @@ import constants from "./utils/constants";
 var web3;
 
 let providerKey = getInfuraKey();
-console.log(providerKey);
+
 if (typeof window.web3 !== "undefined") {
   // Use Mist/MetaMask's provider.
   web3 = new Web3(window.web3.currentProvider);
