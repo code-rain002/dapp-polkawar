@@ -2,6 +2,7 @@ import airdropContract from "./../../utils/airdropConnection";
 import itemContract from "./../../utils/itemConnection";
 import characterContract from "./../../utils/characterConnection";
 import pwrContract from "./../../utils/pwrConnection";
+import pwarStakingContract from "./../../utils/pwarStakingConnection";
 import flashsaleContract from "./../../utils/saleConnection";
 import bidContract from "../../utils/bidConnection";
 import { getUserAddress } from "../web3Actions";
@@ -315,6 +316,31 @@ export const checkPBRStakingAndHolding = async (address) => {
   let totalTokens = totalPbr + totalPbrMatic;
   console.log("Total Tokens:" + totalTokens);
   return totalTokens;
+};
+
+// PWAR Staking and Holding Function
+export const checkPWARStakingAndHolding = async (address) => {
+  let staking = await pwarStakingContract.methods
+    .getUserStakingData(address, 0)
+    .call((err, res) => {
+      return res;
+    });
+  let holding = await pwrContract.methods
+    .balanceOf(address)
+    .call((err, res) => {
+      return res;
+    });
+  let pwarStaked = parseInt(
+    web3.utils.fromWei(staking.amount.toString(), "ether")
+  );
+
+  let pwarHolded = parseInt(web3.utils.fromWei(holding.toString(), "ether"));
+
+  let totalPwar = pwarStaked + pwarHolded;
+
+  console.log("totalPwar:" + totalPwar);
+
+  return totalPwar;
 };
 
 // Shoefy Staking Contract Connection ETH
