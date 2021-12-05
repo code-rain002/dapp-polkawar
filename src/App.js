@@ -15,12 +15,9 @@ import Bid from "./pages/bid/Bid";
 import Home from "./pages/layout/Layout";
 import BidDetails from "./pages/bid/BidDetails";
 import "./web";
-<<<<<<< HEAD
 import ExcelWork from "./pages/excelWork";
 import ShoefyWork from "./pages/shoefyWork";
-=======
 import Leaderboard from "./pages/leaderboard/Leaderboard";
->>>>>>> main
 
 export default function App() {
   return (
@@ -54,16 +51,14 @@ export default function App() {
                 <Route exact path="/airdrop">
                   <Airdrop />
                 </Route>
-<<<<<<< HEAD
                 <Route exact path="/excel">
                   <ExcelWork />
                 </Route>
                 <Route exact path="/shoefy">
                   <ShoefyWork />
-=======
+                </Route>
                 <Route exact path="/leaderboard">
                   <Leaderboard />
->>>>>>> main
                 </Route>
               </Switch>
               <div>

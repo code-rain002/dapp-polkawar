@@ -17,14 +17,10 @@ if (typeof window.web3 !== "undefined") {
     web3 = new Web3(provider);
   } else {
     console.log("using infura provider");
-<<<<<<< HEAD
-=======
     const infura =
       constants.net === 1
         ? `https://kovan.infura.io/v3/${providerKey}`
         : `https://mainnet.infura.io/v3/${providerKey}`;
->>>>>>> main
-
   }
 }
 export default web3;

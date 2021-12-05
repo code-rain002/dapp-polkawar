@@ -109,98 +109,108 @@ export default class ExcelWork extends Component {
   };
   render() {
     return (
-      <div>
-        {" "}
-        <CSVReader
-          ref={buttonRef}
-          onFileLoad={this.handleOnFileLoad}
-          onError={this.handleOnError}
-          noClick
-          noDrag
-          onRemoveFile={this.handleOnRemoveFile}
-        >
-          {({ file }) => (
-            <aside
+      <div className="container mt-5 d-flex justify-content-center">
+        <div style={{ width: 900 }}>
+          <CSVReader
+            ref={buttonRef}
+            onFileLoad={this.handleOnFileLoad}
+            onError={this.handleOnError}
+            noClick
+            noDrag
+            onRemoveFile={this.handleOnRemoveFile}
+          >
+            {({ file }) => (
+              <aside
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginBottom: 10,
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={this.handleOpenDialog}
+                  style={{
+                    borderRadius: 0,
+                    marginLeft: 0,
+                    marginRight: 0,
+                    width: "40%",
+                    paddingLeft: 0,
+                    paddingRight: 0,
+                  }}
+                >
+                  Browse file
+                </button>
+                <div
+                  style={{
+                    borderWidth: 1,
+                    borderStyle: "solid",
+                    borderColor: "#ccc",
+                    height: 45,
+                    lineHeight: 2.5,
+                    marginTop: 5,
+                    marginBottom: 5,
+                    paddingLeft: 13,
+                    paddingTop: 3,
+                    width: "60%",
+                  }}
+                >
+                  {file && file.name}
+                </div>
+                <button
+                  style={{
+                    borderRadius: 0,
+                    marginLeft: 0,
+                    marginRight: 0,
+                    paddingLeft: 20,
+                    paddingRight: 20,
+                  }}
+                  onClick={this.handleRemoveFile}
+                >
+                  Remove
+                </button>
+              </aside>
+            )}
+          </CSVReader>
+          <div
+            className="d-flex justify-content-around mt-5"
+            style={{ marginBottom: 300 }}
+          >
+            <Button
+              variant="contained"
+              style={{ backgroundColor: "yellow" }}
+              onClick={this.getHoldings}
+            >
+              Get Holding
+            </Button>
+            <CSVDownloader
+              filename={"kucoin_reward"}
               style={{
-                display: "flex",
-                flexDirection: "row",
-                marginBottom: 10,
+                backgroundColor: "green",
+                border: "1px solid green",
+                padding: "5px 10px 5px 10px",
+                borderRadius: 10,
+                color: "white",
+              }}
+              config={{
+                download: true,
+              }}
+              data={() => {
+                return this.state.outputData.map((singleRow, index) => {
+                  let final = {
+                    No: index + 1,
+                    Address: singleRow.address,
+                    Amount: singleRow.amount,
+                  };
+                  console.log(final);
+                  return final;
+                });
               }}
             >
-              <button
-                type="button"
-                onClick={this.handleOpenDialog}
-                style={{
-                  borderRadius: 0,
-                  marginLeft: 0,
-                  marginRight: 0,
-                  width: "40%",
-                  paddingLeft: 0,
-                  paddingRight: 0,
-                }}
-              >
-                Browse file
-              </button>
-              <div
-                style={{
-                  borderWidth: 1,
-                  borderStyle: "solid",
-                  borderColor: "#ccc",
-                  height: 45,
-                  lineHeight: 2.5,
-                  marginTop: 5,
-                  marginBottom: 5,
-                  paddingLeft: 13,
-                  paddingTop: 3,
-                  width: "60%",
-                }}
-              >
-                {file && file.name}
-              </div>
-              <button
-                style={{
-                  borderRadius: 0,
-                  marginLeft: 0,
-                  marginRight: 0,
-                  paddingLeft: 20,
-                  paddingRight: 20,
-                }}
-                onClick={this.handleRemoveFile}
-              >
-                Remove
-              </button>
-            </aside>
-          )}
-        </CSVReader>
-        <div className="text-center">
-          {" "}
-          <Button
-            variant="contained"
-            style={{ backgroundColor: "yellow" }}
-            onClick={this.getPWARHoldings}
-          >
-            Get Holding
-          </Button>
+              Download CSV
+            </CSVDownloader>
+          </div>
         </div>
-        <CSVDownloader
-          filename={"kucoin_reward"}
-          config={{
-            download: true,
-          }}
-          data={() => {
-            return this.state.outputData.map((singleRow, index) => {
-              let final = {
-                No: index + 1,
-                Address: singleRow.address,
-                Amount: singleRow.amount,
-              };
-              console.log(final);
-              return final;
-            });
-          }}
-        >
-          Download
-        </CSVDownloader>
       </div>
     );
   }
