@@ -6,7 +6,7 @@ export const checkWalletAvailable = () => {
   if (typeof window.ethereum !== "undefined") {
     //console.log('Yes available');
 
-    if (window.ethereum && window.ethereum.isMetaMask) {
+    if (window.ethereum) {
       //console.log('Yes metamask available');
       return true;
     } else {

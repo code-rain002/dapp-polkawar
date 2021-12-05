@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 14,
     [theme.breakpoints.down("md")]: {
       width: "fit-content",
-      height: 500,
+      minHeight: 500,
       padding: 0,
       paddingLeft: 3,
       paddingRight: 3,
@@ -112,12 +112,13 @@ const useStyles = makeStyles((theme) => ({
   rewardBlockWrapper: {
     width: 1200,
     marginTop: 20,
+
     [theme.breakpoints.down("md")]: {
-      width: 190,
+      width: "fit-content",
     },
   },
   rewardCardClaimed: {
-    width: "100%",
+    width: 150,
     height: 175,
     border: "3px solid #81c784",
     borderRadius: 10,
@@ -132,7 +133,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   rewardCardToday: {
-    width: "100%",
+    width: 150,
     height: 175,
     border: "5px solid yellow",
     borderRadius: 10,
@@ -147,7 +148,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   rewardCardUnclaimed: {
-    width: "100%",
+    width: 150,
     height: 175,
     border: "1px solid #ffffff",
     borderRadius: 10,
@@ -202,6 +203,11 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 16,
     },
   },
+  infoMessage: {
+    fontSize: 14,
+    color: "yellow",
+    textAlign: "center",
+  },
 }));
 
 function DailyRewards({
@@ -223,6 +229,7 @@ function DailyRewards({
   const [dayOfClaim, setDayOfClaim] = useState(0);
   const [enableTodayClaim, setEnableTodayClaim] = useState(false);
   const [nextClaimTime, setNextClaimTime] = useState(false);
+  const [displayInfo, setDisplayInfo] = useState(false);
 
   let xpContractAddress = constants.xp_owner_address;
 
@@ -287,6 +294,7 @@ function DailyRewards({
 
   const claimXp = async (clickedIndex) => {
     setFreezePopup(true);
+    setDisplayInfo(true);
     let events = await getLogEnumActionEvents();
     let txHash;
 
@@ -307,8 +315,9 @@ function DailyRewards({
               source: "frontend",
               transactionHash: txHash,
               action: events.claimxp,
-              info: `1. Transaction submitted for claimxp of ${(clickedIndex + 1) * 10
-                } XP.`,
+              info: `1. Transaction submitted for claimxp of ${
+                (clickedIndex + 1) * 10
+              } XP.`,
             };
 
             await postNewLog(logData);
@@ -327,8 +336,9 @@ function DailyRewards({
           source: "frontend",
           transactionHash: txHash,
           action: events.claimxp,
-          info: `2. Transaction successful for claimxp of ${(clickedIndex + 1) * 10
-            } XP.`,
+          info: `2. Transaction successful for claimxp of ${
+            (clickedIndex + 1) * 10
+          } XP.`,
         };
 
         await postNewLog(logData);
@@ -341,8 +351,9 @@ function DailyRewards({
             source: "frontend",
             transactionHash: txHash,
             action: events.claimxp,
-            info: `3. MongoDB updated for claimxp of ${(clickedIndex + 1) * 10
-              } XP, current level: ${characterLevel}. ${backendResponse}`,
+            info: `3. MongoDB updated for claimxp of ${
+              (clickedIndex + 1) * 10
+            } XP, current level: ${characterLevel}.`,
           };
 
           await postNewLog(logData);
@@ -356,8 +367,9 @@ function DailyRewards({
             source: "frontend",
             transactionHash: txHash,
             action: events.claimxp,
-            info: `3. MongoDB failed to update for claimxp of ${(clickedIndex + 1) * 10
-              } XP.`,
+            info: `3. MongoDB failed to update for claimxp of ${
+              (clickedIndex + 1) * 10
+            } XP.`,
           };
 
           await postNewLog(logData);
@@ -402,19 +414,30 @@ function DailyRewards({
             <div className="d-flex justify-content-center">
               <div>
                 <h5 className={classes.title}>Claim XP</h5>
-                <p className={classes.subtitle}>
+                <div className={classes.subtitle}>
                   Build your character and get ready for the battle
-                </p>
+                </div>
+                {displayInfo && (
+                  <div className={classes.infoMessage}>
+                    Please don't close the window, you may loose XP.
+                  </div>
+                )}
               </div>
             </div>
           </div>{" "}
           <div className="d-flex justify-content-center">
             <div className={classes.rewardBlockWrapper}>
               <div className={classes.scroll}>
-                <div className="row">
+                <div className="row g-0">
                   {Array.from(Array(60)).map((element, index) => {
                     return (
-                      <div className="col-md-3">
+                      <div
+                        className="col-md-4"
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
                         {!approved && (
                           <div className={classes.rewardCardClaimed}>
                             <div className="text-center">
@@ -447,9 +470,13 @@ function DailyRewards({
                                 </Button>
                               )}
                               {approveCase === 1 && (
-                                <small className={classes.costPwar}>
-                                  Processing...
-                                </small>
+                                <div className="text-center">
+                                  <img
+                                    src="https://icon-library.com/images/spinner-icon-gif/spinner-icon-gif-27.jpg"
+                                    height="25px"
+                                    alt="loader"
+                                  />
+                                </div>
                               )}
                               {approveCase === 2 && (
                                 <small
@@ -548,9 +575,13 @@ function DailyRewards({
                                       </div>
                                     )}
                                     {claimCase === 1 && (
-                                      <small className={classes.costPwar}>
-                                        Processing...
-                                      </small>
+                                      <div className="text-center">
+                                        <img
+                                          src="https://icon-library.com/images/spinner-icon-gif/spinner-icon-gif-27.jpg"
+                                          height="25px"
+                                          alt="loader"
+                                        />
+                                      </div>
                                     )}
                                     {claimCase === 2 && (
                                       <small

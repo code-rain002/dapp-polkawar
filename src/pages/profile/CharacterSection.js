@@ -1,26 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import {
-  Button,
-  Dialog,
-  Backdrop,
-  Slide,
-  IconButton,
-  Grow,
-} from "@material-ui/core";
+import { Button, Dialog, Backdrop, Slide, Grow } from "@material-ui/core";
 import {
   getUserCharacter,
   getMaxStatsOfCharacter,
+  getCharacterRank,
 } from "../../actions/characterActions";
 import Loader from "../../components/Loader";
 import CreateCharacterForm from "../../components/CharacterComponents/CreateCharacterForm";
-import imageBaseUrl from "../../actions/imageBaseUrl";
-import { FileCopy } from "@material-ui/icons";
 import CharacterOverview from "./profileComponents/CharacterOverview";
 import CharacterStats from "./profileComponents/CharacterStats";
-import CharacterItems from "./profileComponents/CharacterItems";
 import ItemSection from "../../components/ItemsComponents/ItemSection";
+import CharacterAvatar from "./profileComponents/CharacterAvatar";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -152,8 +144,8 @@ const useStyles = makeStyles((theme) => ({
     width: "fit-content",
     padding: "2px 5px 2px 5px",
     color: "white",
-    fontWeight: 800,
-    fontFamily: "Balsamiq Sans",
+    fontWeight: 400,
+
     margin: 0,
     padding: 0,
     [theme.breakpoints.down("sm")]: {
@@ -203,6 +195,8 @@ function CharacterSection({
   getUserCharacter,
   getMaxStatsOfCharacter,
   usercharacter,
+  getCharacterRank,
+  rank,
 }) {
   const classes = useStyles();
 
@@ -233,6 +227,8 @@ function CharacterSection({
       let res = await getUserCharacter();
       let resMaxStats = await getMaxStatsOfCharacter();
 
+      await getCharacterRank();
+
       setMaxStats(resMaxStats);
       if (res) {
         setApiHit(true);
@@ -260,51 +256,6 @@ function CharacterSection({
     setCharacterPopup(value);
   };
 
-  const getCharacterImage = () => {
-    let sumOfValues = Object.keys(characterString).reduce(
-      (sum, key) => sum + parseFloat(characterString[key] || 0),
-      0
-    );
-    console.log(sumOfValues);
-    if (sumOfValues === -6 || characterString["weapon"] === -1) {
-      return `${imageBaseUrl}/${usercharacter.hashImage}`;
-    } else {
-      if (
-        characterString["helmet"] === -1 &&
-        characterString["armor"] === -1 &&
-        characterString["wing"] === -1 &&
-        characterString["mount"] === -1
-      ) {
-        return `${imageBaseUrl}/${usercharacter.hashImage}`;
-      } else {
-        let characterImage;
-
-        if (usercharacter.name === "Magician") {
-          console.log(characterString);
-          if (
-            characterString["weapon"] === -1 ||
-            characterString["weapon1"] === -1
-          ) {
-            characterImage = `${imageBaseUrl}/${usercharacter.hashImage}`;
-          } else {
-            let weapon0 =
-              characterString["weapon"] > characterString["weapon1"]
-                ? characterString["weapon1"]
-                : characterString["weapon"];
-            let weapon1 =
-              characterString["weapon"] > characterString["weapon1"]
-                ? characterString["weapon"]
-                : characterString["weapon1"];
-            characterImage = `./characterWithItems_lv1/${usercharacter.name}_${weapon0}_${weapon1}_${characterString["helmet"]}_${characterString["armor"]}_${characterString["wing"]}_${characterString["mount"]}.png`;
-          }
-        } else {
-          characterImage = `./characterWithItems_lv1/${usercharacter.name}_${characterString["weapon"]}_-1_${characterString["helmet"]}_${characterString["armor"]}_${characterString["wing"]}_${characterString["mount"]}.png`;
-        }
-        console.log(characterImage);
-        return characterImage;
-      }
-    }
-  };
   return (
     <div>
       {(actualCase === 0 || actualCase === 1) && (
@@ -321,7 +272,6 @@ function CharacterSection({
       )}
       {actualCase === 1 && (
         <div>
-          {" "}
           <div className="text-center mt-5">
             <div className="my-3">
               <img src="./images/char.png" height="100px" alt="character" />
@@ -350,77 +300,21 @@ function CharacterSection({
         </div>
       )}
       <div style={{ overflowX: "hidden" }}>
-        <div className="row">
-          <div className="col-md-7">
-            {actualCase === 2 && (
+        {actualCase === 2 && (
+          <div className="row">
+            <div className="col-md-7">
               <Grow in={true} timeout={500}>
-                <div>
-                  {usercharacter !== null && usercharacter !== undefined && (
-                    <div>
-                      <div>
-                        <h6 htmlFor="ranking" className={classes.ranking}>
-                          {" "}
-                          # {usercharacter.tokenId}
-                        </h6>
-                        <h1
-                          htmlFor="usercharacterType"
-                          className={classes.chracterType}
-                        >
-                          {usercharacter.name}{" "}
-                          <img
-                            src="images/swords.png"
-                            height="30px"
-                            alt="level"
-                          />
-                        </h1>
-                      </div>
-
-                      <h6 htmlFor="username" className={classes.username}>
-                        {usercharacter.username}
-                      </h6>
-                      <h6 htmlFor="username" className={classes.address}>
-                        {[...usercharacter.owner].splice(0, 7)} {"..."}
-                        {[...usercharacter.owner].splice(
-                          [...usercharacter.owner].length - 7,
-                          7
-                        )}
-                        <IconButton style={{ padding: 0 }}>
-                          {" "}
-                          <FileCopy
-                            className={classes.copyIcon}
-                            onClick={() =>
-                              navigator.clipboard.writeText(usercharacter.owner)
-                            }
-                          />
-                        </IconButton>
-                      </h6>
-
-                      <div className={classes.section}>
-                        <div>
-                          <img
-                            src={getCharacterImage()}
-                            className={classes.media}
-                            alt="character"
-                          />
-                        </div>
-                        <div>
-                          <CharacterItems
-                            character={usercharacter}
-                            characterProperties={characterProperties}
-                            setCharacterProperties={setCharacterProperties}
-                            characterString={characterString}
-                            setCharacterString={setCharacterString}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <CharacterAvatar
+                  usercharacter={usercharacter}
+                  characterProperties={characterProperties}
+                  setCharacterProperties={setCharacterProperties}
+                  characterString={characterString}
+                  setCharacterString={setCharacterString}
+                  rank={rank}
+                />
               </Grow>
-            )}
-          </div>
-          <div className="col-md-5">
-            {actualCase === 2 && (
+            </div>
+            <div className="col-md-5">
               <div>
                 <Grow in={true} timeout={1000}>
                   <div className="my-3">
@@ -437,9 +331,9 @@ function CharacterSection({
                   </div>
                 </Grow>
               </div>
-            )}
+            </div>
           </div>
-        </div>
+        )}
         <div>
           <ItemSection />
         </div>
@@ -470,8 +364,13 @@ function CharacterSection({
 const mapStateToProps = (state) => ({
   authenticated: state.auth.authenticated,
   usercharacter: state.characters.usercharacter,
+  rank: state.characters.rank,
 });
 
-const mapDispatchToProps = { getUserCharacter, getMaxStatsOfCharacter };
+const mapDispatchToProps = {
+  getUserCharacter,
+  getMaxStatsOfCharacter,
+  getCharacterRank,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CharacterSection);

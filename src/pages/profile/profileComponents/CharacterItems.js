@@ -524,7 +524,7 @@ function CharacterItems({
                                 <KeyboardArrowRight
                                   onClick={
                                     weaponIndex ===
-                                    validItems["weapon"].length - 1
+                                      validItems["weapon"].length - 1
                                       ? null
                                       : () => setWeaponIndex(weaponIndex + 1)
                                   }

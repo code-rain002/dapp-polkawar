@@ -173,9 +173,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-var saleStartDate = process.env.REACT_APP_SALE_START_DATE;
 var saleEndDate = process.env.REACT_APP_SALE_END_DATE;
-
+var saleStartDate = process.env.REACT_APP_SALE_START_DATE;
 var resaleStartDate = process.env.REACT_APP_START_RESELL;
 var resaleEndDate = process.env.REACT_APP_END_RESELL;
 
@@ -248,7 +247,7 @@ function FlashSale({ getFlashItems, getUserItems, flash, useritems }) {
       <div className={classes.mainCard}>
         <div>
           <img
-            src="/images/flashsale5.jpg"
+            src="/images/flashsale.jpg"
             alt="flash-sale-poster"
             className={classes.banner}
           />

@@ -2,6 +2,10 @@ var XpModel = require("../models/xp");
 var UserCharacterModel = require("../models/usercharacter");
 var xpContract = require("./../contract/xpConnection");
 var logHelper = require("../helper/logs");
+const constants = require("../utils/constants");
+const characterHelper = require("../helper/characterHelper");
+const web3Connection = require("./../helper/web3Connection");
+const helperFn = require("../helper/helper");
 
 const xpDao = {
   async getAllXp() {
@@ -17,39 +21,49 @@ const xpDao = {
   async updateXp(owner, blockNo) {
     try {
       // Step 1: Get pastEvent details
-      var filter = { _user: { $regex: `^${owner}$`, $options: "i" } };
+
       let returnedValues;
 
       let totalCallsRemaining = 10;
+
+      let result = null;
       const getPastEventValues = async () => {
         totalCallsRemaining = totalCallsRemaining - 1;
-        let pastTransferEvents = await xpContract.getPastEvents(
-          "claimXPEvent",
-          {
-            filter,
-            fromBlock: blockNo,
-            toBlock: "latest",
+        let callEventFunction = async () => {
+          var filter = { _user: { $regex: `^${owner}$`, $options: "i" } };
+
+          let pastTransferEvents = await xpContract.getPastEvents(
+            "claimXPEvent",
+            {
+              filter,
+              fromBlock: blockNo,
+              toBlock: "latest",
+            }
+          );
+          return pastTransferEvents[0];
+        };
+        result = await callEventFunction();
+
+        if (result !== null && result !== undefined) {
+          return result;
+        } else {
+          if (totalCallsRemaining > 0) {
+            return await getPastEventValues();
+          } else {
+            return result;
           }
-        );
-        return pastTransferEvents[0];
+        }
       };
 
-      let eventValues = await getPastEventValues();
-
-      if (eventValues === undefined || eventValues === null) {
-        if (totalCallsRemaining > 0) {
-          await getPastEventValues();
-        }
-      } else {
-        console.log("Going to else");
-        returnedValues = eventValues.returnValues;
-        console.log(returnedValues._totalPWAR);
-      }
+      let eventData = await getPastEventValues();
+      returnedValues = eventData.returnValues;
 
       let txPwar = returnedValues._totalPWAR / 1000000000000000000;
       let txnumberClaim = returnedValues._numberClaim;
       let txtimeStamp = returnedValues._timeStamp;
 
+      let requestPWAR;
+      let requestClaim;
       // Step 2: Verify all the conditions
       let xpDetails = await XpModel.findOne({
         owner: { $regex: `^${owner}$`, $options: "i" },
@@ -60,16 +74,20 @@ const xpDao = {
       let timeStampCondition;
 
       if (xpDetails === null) {
+        requestPWAR = 10;
+        requestClaim = 1;
         pwarCondition = parseInt(txPwar) === 10;
         numberClaimCondition = parseInt(txnumberClaim) === 1;
         timeStampCondition =
-          parseInt(txtimeStamp * 1000) + 300000 >= Date.now();
+          parseInt(txtimeStamp * 1000) + 600000 >= Date.now();
       } else {
+        requestPWAR = (xpDetails.claimNo + 1) * 10;
+        requestClaim = xpDetails.claimNo + 1;
         pwarCondition = parseInt(txPwar) === (xpDetails.claimNo + 1) * 10;
         numberClaimCondition =
           parseInt(txnumberClaim) === xpDetails.claimNo + 1;
         timeStampCondition =
-          parseInt(txtimeStamp * 1000) + 300000 >= Date.now();
+          parseInt(txtimeStamp * 1000) + 600000 >= Date.now();
       }
 
       // Step 3: If All correct, update the database
@@ -99,11 +117,9 @@ const xpDao = {
             },
             (err, doc) => {
               if (err) {
-                console.log(err);
                 return err;
               }
               if (doc) {
-                console.log(doc);
                 return doc;
               }
             }
@@ -161,16 +177,41 @@ const xpDao = {
               accuracy: properties.accuracy + updatedLevel * 1,
             };
 
+            let newCharacterObj = {
+              level: level + 1,
+              properties: {
+                xp: updatedXp,
+                hp: properties.hp + updatedLevel * 10,
+                mp: properties.mp + updatedLevel * 7,
+                Patk: Math.floor(properties.Patk + updatedLevel * 1.1),
+                Pdef: Math.floor(properties.Pdef + updatedLevel * 1.1),
+                speed: properties.speed + updatedLevel * 0.05,
+                accuracy: properties.accuracy + updatedLevel * 1,
+              },
+
+              name: characterData.name,
+              username: characterData.username,
+              image: characterData.hashImage,
+              description: characterData.description,
+              upgradeDate: new Date().toISOString(),
+            };
+
+            await characterHelper.mintCharacter(owner, newCharacterObj);
+
+            let newTokenId = await characterHelper.getLatestCharacterId(owner);
+
             userCharacterResponse = await UserCharacterModel.findOneAndUpdate(
-              { owner: owner },
-              { properties: newProp, level: updatedLevel },
+              { owner: { $regex: `^${owner}$`, $options: "i" } },
+              {
+                properties: newProp,
+                level: updatedLevel,
+                tokenId: newTokenId,
+              },
               (err, doc) => {
                 if (err) {
-                  console.log(err);
                   return err;
                 }
                 if (doc) {
-                  console.log(doc);
                   return doc;
                 }
               }
@@ -178,15 +219,13 @@ const xpDao = {
           } else {
             properties["xp"] = updatedXp;
             userCharacterResponse = await UserCharacterModel.findOneAndUpdate(
-              { owner: owner },
+              { owner: { $regex: `^${owner}$`, $options: "i" } },
               { properties: properties },
               (err, doc) => {
                 if (err) {
-                  console.log(err);
                   return err;
                 }
                 if (doc) {
-                  console.log(doc);
                   return doc;
                 }
               }
@@ -227,7 +266,7 @@ const xpDao = {
           "backend",
           blockNo,
           "claimxp",
-          `a. Claim condition failed for Pwar:${pwarCondition}, claimNo:${numberClaimCondition}, timeStamp:${timeStampCondition}`
+          `a. ExpectedPWAR:${txPwar} - requestPWAR:${requestPWAR}, ExpectedClaimNo:${txnumberClaim} - requestClaimNo:${requestClaim}, timeStamp Cond: ${timeStampCondition}`
         );
       }
       return userCharacterResponse;
@@ -243,12 +282,32 @@ const xpDao = {
         error.message
       );
     }
-    return error;
+    return 0;
   },
 
   async deleteXp() {
-    await XpModel.deleteMany({});
-    return await XpModel.find({});
+    // let newCharacterObj = {
+    //   level: 1,
+    //   properties: {
+    //     xp: 30,
+    //     hp: 40,
+    //     mp: 12,
+    //     Patk: 12,
+    //     Pdef: 12,
+    //     speed: 1,
+    //     accuracy: 5,
+    //   },
+    //   name: "Archer",
+    //   username: "Tahir Ahmad",
+    //   image: "QmchE9x6ggMAZPyZZ49Q2QKJ3bcAHNnSSHtooR7s3ZWmtE",
+    //   description:
+    //     "The archer is the character with fast attack speed and angelic beauty.",
+    //   upgradeDate: new Date().toISOString(),
+    // };
+    // let data = await characterHelper.mintCharacter(
+    //   "0x9d7117a07fca9f22911d379a9fd5118a5fa4f448",
+    //   newCharacterObj
+    // );
   },
 };
 

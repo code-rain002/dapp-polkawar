@@ -4,10 +4,15 @@ With PolkaWar, Experience a new era of blockchain based gaming platform build on
 
 PolkaWar is a blockchain based NFT gaming platform and marketplace. Inspired by the recent crypto NFT and gaming narratives, PolkaWar will combine and synergize them both to build an attractive platform.
 
+HomePage View for top characters:
 
-![Website Screenshot](polkawar.png)
+![Homepage Screenshot](polkawar2.png)
 
+Character Profile View:
+![Profile Screenshot](polkawar1.png)
 
+Mystery Box Bidding Page View:
+![Bidding Screenshot](polkawar3.png)
 Following features are developed:
 
 1. Metamask and Trust Wallet Connection.
@@ -15,7 +20,6 @@ Following features are developed:
 3. Profile section.
 4. NFT Items and their details.
 5. Buy and Sell Feature for NFTs.
-
 
 ## Available Scripts
 
@@ -28,7 +32,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
-
 
 ### `yarn build`
 

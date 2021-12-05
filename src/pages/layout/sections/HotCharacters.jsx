@@ -4,10 +4,6 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import CharacterCard from "../../../components/CharacterComponents/CharacterCard";
 import { getTopCharacters } from "./../../../actions/characterActions";
-import {
-  checkCorrectNetwork,
-  checkWalletAvailable,
-} from "../../../actions/web3Actions";
 import { Dialog, Divider, Slide, Backdrop } from "@material-ui/core";
 import BuildCharacter from "../../../components/CharacterComponents/BuildCharacter";
 import { readCache, addDataIntoCache } from "./../../../actions/cacheActions";
@@ -49,19 +45,7 @@ function HotCharacters({ characters, getTopCharacters, authenticated }) {
 
   useEffect(() => {
     async function asyncFn() {
-      let walletStatus = await checkWalletAvailable();
-      if (walletStatus) {
-        let networkStatus = await checkCorrectNetwork();
-        if (networkStatus) {
-          await getTopCharacters();
-        }
-      }
-    }
-    asyncFn();
-  }, [authenticated]);
-
-  useEffect(() => {
-    async function asyncFn() {
+      await getTopCharacters();
       let popupDisplayTime = await readCache();
 
       //Wait for Next 24 hours for popup to appear
@@ -79,22 +63,22 @@ function HotCharacters({ characters, getTopCharacters, authenticated }) {
 
   return (
     <Fragment>
-      <h1 className="heading">Top characters</h1>
+      <h1 className="heading">
+        Top characters{" "}
+        <span>
+          <img src="images/thunder.png" height="30px" alt="thunder" />
+        </span>
+      </h1>
       {characters !== null && characters !== undefined && (
-        <div>
-          <div className={classes.characterScroll}>
-            <div className={classes.scrollItemPositions}>
-              {characters.map((character, index) => {
-                return (
-                  <div
-                    style={{ paddingRight: 15, flexBasis: "50%" }}
-                    key={index}
-                  >
-                    <CharacterCard item={character} />
-                  </div>
-                );
-              })}
-            </div>
+        <div className={classes.characterScroll}>
+          <div className={classes.scrollItemPositions}>
+            {characters.map((character, index) => {
+              return (
+                <div style={{ paddingRight: 15, flexBasis: "50%" }} key={index}>
+                  <CharacterCard item={character} />
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

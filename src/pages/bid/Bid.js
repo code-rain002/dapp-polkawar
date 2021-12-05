@@ -206,6 +206,9 @@ function Bid({ getAllBidItems, items }) {
                       300 BNB + 300000 PWAR + 1 NFT Level 3
                     </li>
                     <li className={classes.listItem}>
+                      400 BNB + 400000 PWAR + 1 NFT Level 3
+                    </li>
+                    <li className={classes.listItem}>
                       500 BNB + 500000 PWAR + 1 NFT Level 3
                     </li>
                   </ul>

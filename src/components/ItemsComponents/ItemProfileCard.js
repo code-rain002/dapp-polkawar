@@ -26,11 +26,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const useStyles = makeStyles((theme) => ({
   card1: {
     width: 200,
-    height: 300,
+    height: 290,
     borderRadius: 20,
     border: "4px solid #e5e5e5",
     marginBottom: 30,
-    backgroundColor: theme.palette.pbr.textPrimaryOpp,
+    backgroundColor: "rgba(41, 42, 66, 0.3)",
+
     [theme.breakpoints.down("md")]: {
       width: 160,
       height: 220,
@@ -99,11 +100,12 @@ const useStyles = makeStyles((theme) => ({
   },
   priceBadgeWrapper: {
     fontFamily: "Balsamiq Sans",
-    textAlign: "center",
+
     background: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1))`,
-    padding: "5px 10px 2px 10px",
+    padding: "9px 10px 2px 10px",
     borderRadius: 7,
     height: "100%",
+    height: 30,
     width: "fit-content",
     [theme.breakpoints.down("md")]: {
       marginTop: 0,

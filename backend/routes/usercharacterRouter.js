@@ -14,6 +14,33 @@ router.get("/usercharacter-top", async (req, res, next) => {
 });
 
 // Public
+// GET Single Character based on ID
+router.get("/usercharacter-top100/:pageNo", async (req, res, next) => {
+  let pageNo = req.params.pageNo;
+  try {
+    const data = await UserCharacterDao.getTop100Characters(pageNo);
+    return res.status(200).send(data);
+  } catch (error) {
+
+    return res.status(400).send(error);
+  }
+});
+
+// Public
+// GET Character Rank
+router.get("/usercharacter-rank/:owner", async (req, res, next) => {
+  let owner = req.params.owner;
+  try {
+    const data = await UserCharacterDao.getUserCharacterRank(owner);
+    console.log('Nahi hai')
+    return res.status(200).send(data);
+  } catch (error) {
+    console.log('Error ha8')
+    return res.status(400).send(error);
+  }
+});
+
+// Public
 // GET All Characters
 router.get("/usercharacters", async (req, res, next) => {
   try {
@@ -33,6 +60,18 @@ router.get("/usercharacter/:owner", async (req, res, next) => {
     return res.status(200).send(data);
   } catch (error) {
     return res.status(400).send("error");
+  }
+});
+
+// Public
+// GET Usercharacter and its items based on ID
+router.get("/usercharacter/profile/:owner", async (req, res, next) => {
+  let userAddress = req.params.owner;
+  try {
+    const data = await UserCharacterDao.getUserCharacterProfile(userAddress);
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(400).send(error);
   }
 });
 
