@@ -180,7 +180,7 @@ export default class ExcelWork extends Component {
               style={{ backgroundColor: "yellow" }}
               onClick={this.getHoldings}
             >
-              Get Holding
+              Get Staking
             </Button>
             <CSVDownloader
               filename={"kucoin_reward"}
