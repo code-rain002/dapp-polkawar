@@ -318,6 +318,36 @@ export const checkPBRStakingAndHolding = async (address) => {
   return totalTokens;
 };
 
+// PBR Staking Contract Connection ETH
+//Returns Amount staking
+export const checkPBRStaking = async (address) => {
+  // Ethereum Network
+  let staking = await pbrContract.methods
+    .getUserStakingData(address, 0)
+    .call((err, res) => {
+      return res;
+    });
+
+  let pbrStaked = parseInt(
+    web3.utils.fromWei(staking.amount.toString(), "ether")
+  );
+
+  // Matic Network
+  let stakingMatic = await pbrMaticStakingContract.methods
+    .userInfo(0, address)
+    .call((err, res) => {
+      return res;
+    });
+
+  let pbrStakedMatic = parseInt(
+    web3.utils.fromWei(stakingMatic.amount.toString(), "ether")
+  );
+
+  let totalTokens = pbrStaked + pbrStakedMatic;
+  console.log("Total Tokens:" + totalTokens);
+  return totalTokens;
+};
+
 // PWAR Staking and Holding Function
 export const checkPWARStakingAndHolding = async (address) => {
   let staking = await pwarStakingContract.methods

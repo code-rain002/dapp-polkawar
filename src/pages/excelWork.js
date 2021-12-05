@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  checkPBRStaking,
   checkPBRStakingAndHolding,
   checkPWARStakingAndHolding,
 } from "../actions/smartActions/SmartActions";
@@ -43,9 +44,7 @@ export default class ExcelWork extends Component {
 
     data.map(async (singleAddress, index) => {
       setTimeout(async () => {
-        let totalPBR = await checkPBRStakingAndHolding(
-          singleAddress.toString()
-        );
+        let totalPBR = await checkPBRStaking(singleAddress.toString());
         console.log("index: " + index);
         if (totalPBR !== null && totalPBR !== undefined) {
           if (totalPBR >= 0) {
