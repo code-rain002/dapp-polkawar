@@ -21,6 +21,7 @@ if (typeof window.web3 !== "undefined") {
       constants.net === 1
         ? `https://kovan.infura.io/v3/${providerKey}`
         : `https://mainnet.infura.io/v3/${providerKey}`;
+    web3 = new Web3(new Web3.providers.HttpProvider(infura));
   }
 }
 export default web3;

@@ -110,7 +110,7 @@ export default class ExcelWork extends Component {
   render() {
     return (
       <div className="container mt-5 d-flex justify-content-center">
-        <div style={{ width: 900 }}>
+        <div style={{ width: 900, color: "white" }}>
           <CSVReader
             ref={buttonRef}
             onFileLoad={this.handleOnFileLoad}
