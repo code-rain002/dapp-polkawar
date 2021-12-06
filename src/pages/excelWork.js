@@ -12,7 +12,12 @@ const buttonRef = React.createRef();
 export default class ExcelWork extends Component {
   constructor(props) {
     super(props);
-    this.state = { inputData: [], outputData: [], errorAddress: [] };
+    this.state = {
+      inputData: [],
+      outputData: [],
+      errorAddress: [],
+      progress: 0,
+    };
   }
   handleOpenDialog = (e) => {
     // Note that the ref is set async, so it might be null at some point
@@ -45,7 +50,9 @@ export default class ExcelWork extends Component {
     data.map(async (singleAddress, index) => {
       setTimeout(async () => {
         let totalPBR = await checkPBRStaking(singleAddress.toString());
+        this.setState({ progress: index });
         console.log("index: " + index);
+        console.log(totalPBR);
         if (totalPBR !== null && totalPBR !== undefined) {
           if (totalPBR >= 0) {
             let tempObject = {
@@ -171,6 +178,9 @@ export default class ExcelWork extends Component {
               </aside>
             )}
           </CSVReader>
+          <div className="text-center" style={{ color: "white" }}>
+            {this.state.progress} / {this.state.inputData.length}
+          </div>{" "}
           <div
             className="d-flex justify-content-around mt-5"
             style={{ marginBottom: 300 }}
