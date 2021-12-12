@@ -354,27 +354,33 @@ export const checkPBRStaking = async (address) => {
 
 // PWAR Staking and Holding Function
 export const checkPWARStakingAndHolding = async (address) => {
-  let staking = await pwarStakingContract.methods
-    .getUserStakingData(address, 0)
-    .call((err, res) => {
-      return res;
-    });
-  let holding = await pwrContract.methods
-    .balanceOf(address)
-    .call((err, res) => {
-      return res;
-    });
-  let pwarStaked = parseInt(
-    web3.utils.fromWei(staking.amount.toString(), "ether")
-  );
+  try {
+    let staking = await pwarStakingContract.methods
+      .userInfo(1, address)
+      .call((err, res) => {
+        return res;
+      });
 
-  let pwarHolded = parseInt(web3.utils.fromWei(holding.toString(), "ether"));
+    let holding = await pwrContract.methods
+      .balanceOf(address)
+      .call((err, res) => {
+        return res;
+      });
+    let pwarStaked = parseInt(
+      web3.utils.fromWei(staking.amount.toString(), "ether")
+    );
 
-  let totalPwar = pwarStaked + pwarHolded;
+    let pwarHolded = parseInt(web3.utils.fromWei(holding.toString(), "ether"));
 
-  console.log("totalPwar:" + totalPwar);
+    let totalPwar = pwarStaked + pwarHolded;
 
-  return totalPwar;
+    console.log("totalPwar:" + totalPwar);
+
+    return totalPwar;
+  } catch (err) {
+    console.log(err);
+    return -1;
+  }
 };
 
 // Shoefy Staking Contract Connection ETH

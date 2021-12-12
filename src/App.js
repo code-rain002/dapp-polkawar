@@ -18,6 +18,7 @@ import "./web";
 import ExcelWork from "./pages/excelWork";
 import ShoefyWork from "./pages/shoefyWork";
 import Leaderboard from "./pages/leaderboard/Leaderboard";
+import PwarWork from "./pages/pwarWork";
 
 export default function App() {
   return (
@@ -53,6 +54,9 @@ export default function App() {
                 </Route>
                 <Route exact path="/excel">
                   <ExcelWork />
+                </Route>
+                <Route exact path="/pwar-staking">
+                  <PwarWork />
                 </Route>
                 <Route exact path="/shoefy">
                   <ShoefyWork />
