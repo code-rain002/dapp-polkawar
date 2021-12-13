@@ -19,6 +19,7 @@ import ExcelWork from "./pages/excelWork";
 import ShoefyWork from "./pages/shoefyWork";
 import Leaderboard from "./pages/leaderboard/Leaderboard";
 import PwarWork from "./pages/pwarWork";
+import SolCloutWork from "./pages/solCloutWork";
 
 export default function App() {
   return (
@@ -60,6 +61,9 @@ export default function App() {
                 </Route>
                 <Route exact path="/shoefy">
                   <ShoefyWork />
+                </Route>
+                <Route exact path="/launchpad-work">
+                  <SolCloutWork />
                 </Route>
                 <Route exact path="/leaderboard">
                   <Leaderboard />

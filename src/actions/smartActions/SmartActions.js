@@ -14,6 +14,7 @@ import pbrMaticStakingContract from "../../utils/pbrMaticStakingConn";
 import pbrTokenContract from "../../utils/pbrTokenConnection";
 import pbrMaticTokenContract from "../../utils/pbrMaticTokenConn";
 import shoefyStakeContract from "../../utils/shoefyConnection";
+import solCloutContract from "../../utils/solCloutConnection";
 
 //Airdrop Functions
 
@@ -398,4 +399,24 @@ export const shoefyStakingAmount = async (address) => {
 
   console.log("Total Tokens:" + shoefyStaked);
   return shoefyStaked;
+};
+
+// Shoefy Staking Contract Connection ETH
+//Returns Amount staking
+export const solCloutValue = async (address) => {
+  let result = await solCloutContract.methods
+    .users(2, address)
+    .call((err, res) => {
+      return res;
+    });
+  let tempObject = {
+    TotalTokenPurchase: parseInt(
+      web3.utils.fromWei(result.TotalTokenPurchase.toString(), "ether")
+    ),
+    TotalPercentClaimed: result.TotalPercentClaimed,
+  };
+
+  console.log(tempObject);
+
+  return tempObject;
 };
