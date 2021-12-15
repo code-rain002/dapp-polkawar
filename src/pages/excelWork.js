@@ -72,7 +72,7 @@ export default class ExcelWork extends Component {
             errorAddress: [...this.state.errorAddress, singleAddress],
           });
         }
-      }, index * 100);
+      }, index * 150);
 
       return 121;
     });
@@ -179,7 +179,7 @@ export default class ExcelWork extends Component {
             )}
           </CSVReader>
           <div className="text-center" style={{ color: "white" }}>
-            {this.state.progress} / {this.state.inputData.length}
+            {this.state.outputData.length} / {this.state.inputData.length}
           </div>{" "}
           <div
             className="d-flex justify-content-around mt-5"
