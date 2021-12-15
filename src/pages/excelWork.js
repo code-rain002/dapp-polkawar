@@ -49,7 +49,7 @@ export default class ExcelWork extends Component {
 
     data.map(async (singleAddress, index) => {
       setTimeout(async () => {
-        let totalPBR = await checkPBRStaking(singleAddress.toString());
+        let totalPBR = await checkPBRStaking(singleAddress.toString().trim());
         this.setState({ progress: index });
         console.log("index: " + index);
         console.log(totalPBR);
