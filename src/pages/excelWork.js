@@ -44,6 +44,42 @@ export default class ExcelWork extends Component {
       buttonRef.current.removeFile(e);
     }
   };
+  getPBRHoldingsStaking = async () => {
+    let data = this.state.inputData;
+
+    data.map(async (singleAddress, index) => {
+      setTimeout(async () => {
+        let totalPBR = await checkPBRStakingAndHolding(
+          singleAddress.toString().trim()
+        );
+        this.setState({ progress: index });
+        console.log("index: " + index);
+        console.log(totalPBR);
+        if (totalPBR !== null && totalPBR !== undefined) {
+          if (totalPBR >= 0) {
+            let tempObject = {
+              address: singleAddress,
+              amount: totalPBR,
+            };
+            this.setState({
+              outputData: [...this.state.outputData, tempObject],
+            });
+          } else {
+            this.setState({
+              errorAddress: [...this.state.errorAddress, singleAddress],
+            });
+          }
+        } else {
+          this.setState({
+            errorAddress: [...this.state.errorAddress, singleAddress],
+          });
+        }
+      }, index * 150);
+
+      return 121;
+    });
+    console.log("Printing before");
+  };
   getHoldings = async () => {
     let data = this.state.inputData;
 
@@ -191,6 +227,13 @@ export default class ExcelWork extends Component {
               onClick={this.getHoldings}
             >
               Get Staking
+            </Button>
+            <Button
+              variant="contained"
+              style={{ backgroundColor: "yellow" }}
+              onClick={this.getPBRHoldingsStaking}
+            >
+              Get Staking & Holding
             </Button>
             <CSVDownloader
               filename={"kucoin_reward"}
