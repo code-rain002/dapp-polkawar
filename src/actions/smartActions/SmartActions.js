@@ -14,7 +14,8 @@ import pbrMaticStakingContract from "../../utils/pbrMaticStakingConn";
 import pbrTokenContract from "../../utils/pbrTokenConnection";
 import pbrMaticTokenContract from "../../utils/pbrMaticTokenConn";
 import shoefyStakeContract from "../../utils/shoefyConnection";
-import solCloutContract from "../../utils/solCloutConnection";
+import solCloutContract from "../../utils/launchPadConnection";
+import launchpadContract from "../../utils/launchPadConnection";
 
 //Airdrop Functions
 
@@ -401,22 +402,21 @@ export const shoefyStakingAmount = async (address) => {
   return shoefyStaked;
 };
 
-// Shoefy Staking Contract Connection ETH
-//Returns Amount staking
-export const solCloutValue = async (address) => {
-  let result = await solCloutContract.methods
-    .users(2, address)
+// Saga TotalEth Value
+//Returns Amount Saga
+export const sagaTotalPurchase = async (address) => {
+  let result = await launchpadContract.methods
+    .users(1, address)
     .call((err, res) => {
       return res;
     });
-  let tempObject = {
-    TotalTokenPurchase: parseInt(
-      web3.utils.fromWei(result.TotalTokenPurchase.toString(), "ether")
-    ),
-    TotalPercentClaimed: result.TotalPercentClaimed,
-  };
 
-  console.log(tempObject);
+  let ethValue = web3.utils.fromWei(
+    result.TotalETHPurchase.toString(),
+    "ether"
+  );
 
-  return tempObject;
+  console.log(ethValue);
+
+  return ethValue;
 };

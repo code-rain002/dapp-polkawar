@@ -226,14 +226,14 @@ export default class ExcelWork extends Component {
               style={{ backgroundColor: "yellow" }}
               onClick={this.getHoldings}
             >
-              Get Staking
+              Get PBR Staking
             </Button>
             <Button
               variant="contained"
               style={{ backgroundColor: "yellow" }}
               onClick={this.getPBRHoldingsStaking}
             >
-              Get Staking & Holding
+              Get PBR Staking & Holding
             </Button>
             <CSVDownloader
               filename={"kucoin_reward"}
