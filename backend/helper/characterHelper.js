@@ -1,5 +1,5 @@
 const axios = require("axios");
-const characterContract = require("../contract/characterConnection");
+const gameContract = require("../contract/gameContract");
 const constants = require("../utils/constants");
 const helperFn = require("./helper");
 const logHelper = require("./logs");
@@ -118,6 +118,60 @@ const characterHelper = {
       //  writeLog(owner, status, source, transactionHash, action, info, data)
 
       return 0;
+    }
+  },
+
+  // update game result
+  async claimAward(address, poolId) {
+    var gas;
+    var gasPrice;
+    var nonce;
+    var privateOwner;
+    try {
+      console.log("claimAward called");
+
+      let privateKey = await helperFn.getKeyTest();
+      const account =
+        web3Connection.eth.accounts.privateKeyToAccount(privateKey);
+
+      privateOwner = account.address;
+
+      // 3. Adding Keys to Wallet
+      web3Connection.eth.accounts.wallet.add(privateKey);
+
+      // 3. Creating a trasaction
+      const tx = gameContract.methods.claimAward(address, poolId);
+      gas = await tx.estimateGas({ from: privateOwner });
+      gasPrice = 10000000000;
+      const data = tx.encodeABI();
+      nonce = await web3Connection.eth.getTransactionCount(privateOwner);
+
+      // 4. Creating a trasaction Data
+      const txData = {
+        from: privateOwner,
+        to: gameContract.options.address,
+        data: data,
+        gas,
+        gasPrice,
+        nonce,
+      };
+
+      // 5. Executing transaction
+      console.log(txData);
+
+      const receipt = await web3Connection.eth.sendTransaction(txData);
+
+      console.log(receipt);
+    } catch (err) {
+      logHelper.writeLog(
+        owner,
+        "failed",
+        "backend",
+        "",
+        "claimAward",
+        `f. claim award from game failed.`,
+        `${err.message} + (gas: ${gas} - gasPrice: ${gasPrice} - nonce: ${nonce} - privateOwner: ${privateOwner})`
+      );
     }
   },
 };
