@@ -8,7 +8,9 @@ const helperFn = {
   async getKeyTest() {
     // Descrypting the key
     let oldKey = process.env.PRIVATE_KEY_TEST;
+
     let newKey = oldKey.split("").reverse().join("");
+
     return newKey;
   },
 };

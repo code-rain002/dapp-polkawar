@@ -10,8 +10,13 @@ const characterHelper = require("../helper/characterHelper");
 router.post("/claim-award", async (req, res, next) => {
   try {
     let winnerAddress = req.body.address;
-    let poolId = req.body.poolId;
-    const data = await characterHelper.claimAward(winnerAddress, poolId);
+    let poolId = req.body.pool_id;
+    console.log(winnerAddress);
+    console.log(poolId);
+    let data;
+    if (poolId > 0 && winnerAddress) {
+      data = await characterHelper.claimAward(winnerAddress, poolId);
+    }
 
     return res.status(200).send(data);
   } catch (error) {

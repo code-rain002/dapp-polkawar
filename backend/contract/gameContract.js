@@ -1,12 +1,11 @@
 var Web3 = require("web3");
-
 let gameConstant;
 
 gameConstant = {
   rpcUrl: "https://data-seed-prebsc-2-s3.binance.org:8545/",
   chainId: 97, //Testnet
 
-  contractAddress: "0x24167Df0179350688018e90743206a646695B2Cb",
+  contractAddress: "0x0631Ba03963a25Fbd7Af0D908fe7280fA84C66cF",
   abi: [
     {
       inputs: [
@@ -101,10 +100,7 @@ gameConstant = {
       type: "function",
     },
     {
-      inputs: [
-        { internalType: "uint256", name: "_pid", type: "uint256" },
-        { internalType: "address", name: "_winnerAddress", type: "address" },
-      ],
+      inputs: [{ internalType: "uint256", name: "_pid", type: "uint256" }],
       name: "claimAward",
       outputs: [],
       stateMutability: "nonpayable",
@@ -149,6 +145,7 @@ gameConstant = {
           type: "uint8",
         },
         { internalType: "uint256", name: "tokenAmount", type: "uint256" },
+        { internalType: "address", name: "winner", type: "address" },
       ],
       stateMutability: "view",
       type: "function",
@@ -170,6 +167,16 @@ gameConstant = {
     {
       inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
       name: "transferOwnership",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "uint256", name: "_pid", type: "uint256" },
+        { internalType: "address", name: "_winnerAddress", type: "address" },
+      ],
+      name: "updateGameStatus",
       outputs: [],
       stateMutability: "nonpayable",
       type: "function",
