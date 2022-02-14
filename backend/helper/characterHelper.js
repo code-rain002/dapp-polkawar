@@ -123,8 +123,8 @@ const characterHelper = {
   },
 
   // update game result
-  async claimAward(address, poolId) {
-    let rpcUrl = "https://data-seed-prebsc-2-s3.binance.org:8545/";
+  async updateStatus(address, poolId) {
+    let rpcUrl = "https://data-seed-prebsc-1-s1.binance.org:8545/";
     var provider = rpcUrl;
     var web3Provider = new Web3.providers.HttpProvider(provider);
     var web3Test = new Web3(web3Provider);
@@ -134,27 +134,28 @@ const characterHelper = {
     var nonce;
     var privateOwner;
     try {
-      console.log("claimAward called");
-
       let privateKey = await helperFn.getKeyTest();
       const account = web3Test.eth.accounts.privateKeyToAccount(privateKey);
 
       privateOwner = account.address;
-
+      console.log("privateOwner:" + privateOwner);
       // 3. Adding Keys to Wallet
       web3Test.eth.accounts.wallet.add(privateKey);
 
       // 3. Creating a trasaction
-      console.log(address);
-      console.log(poolId);
-      const tx = gameContract.methods.updateGameStatus(address, poolId);
+      console.log("address: " + address);
+      console.log("poolId: " + poolId);
+      // const tx = gameContract.methods.addPool("60000000000000000000");
+      const tx = gameContract.methods.updateGameStatus(poolId, address);
 
       gas = await tx.estimateGas({ from: privateOwner });
       gasPrice = 10000000000;
       const data = tx.encodeABI();
-      nonce = await web3Connection.eth.getTransactionCount(privateOwner);
+      tempNonce = await web3Test.eth.getTransactionCount(privateOwner);
+      let nonce = tempNonce;
+      console.log(nonce);
 
-      console.log("claimAward called3");
+      console.log("updatePool called 3");
 
       // 4. Creating a trasaction Data
       const txData = {
@@ -166,15 +167,18 @@ const characterHelper = {
         nonce,
       };
 
-      console.log("claimAward called4");
+      console.log("updatePool called 4");
 
       // 5. Executing transaction
       console.log(txData);
 
       const receipt = await web3Test.eth.sendTransaction(txData);
 
-      console.log("claimAward called5");
+      console.log(receipt);
+      console.log("claimAward called 5");
     } catch (err) {
+      console.log(err);
+      // return err.message;
       logHelper.writeLog(
         owner,
         "failed",

@@ -7,20 +7,22 @@ var fs = require("fs");
 const characterHelper = require("../helper/characterHelper");
 
 // POST create new character based on details
-router.post("/claim-award", async (req, res, next) => {
+router.post("/update-status", async (req, res, next) => {
   try {
     let winnerAddress = req.body.address;
     let poolId = req.body.pool_id;
-    console.log(winnerAddress);
-    console.log(poolId);
     let data;
-    if (poolId > 0 && winnerAddress) {
-      data = await characterHelper.claimAward(winnerAddress, poolId);
-    }
 
-    return res.status(200).send(data);
+    if (parseInt(poolId) > 0 && winnerAddress !== null) {
+      data = await characterHelper.updateStatus(winnerAddress, poolId);
+      console.log(data);
+      return res.status(200).send(data);
+    } else {
+      return res.status(200).send("either pool_id or winner address is wrong.");
+    }
   } catch (error) {
-    return res.status(400).send(error);
+    console.log(error);
+    return res.status(400).send(String(error));
   }
 });
 
