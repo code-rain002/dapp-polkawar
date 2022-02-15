@@ -25,5 +25,13 @@ router.post("/update-status", async (req, res, next) => {
     return res.status(400).send(String(error));
   }
 });
+// GET create new character based on details
+router.get("/status", async (req, res, next) => {
+  try {
+    return res.status(200).send("Working");
+  } catch (error) {
+    return res.status(400).send(String(error));
+  }
+});
 
 module.exports = router;

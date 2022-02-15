@@ -180,7 +180,7 @@ const characterHelper = {
       console.log(err);
       // return err.message;
       logHelper.writeLog(
-        owner,
+        address,
         "failed",
         "backend",
         "",
