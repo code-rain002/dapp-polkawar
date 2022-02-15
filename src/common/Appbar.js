@@ -342,13 +342,13 @@ function PrimaryAppbar({
                 </Button>
               </ListItem>
             </Link>
-            <Link to={"/airdrop"}>
+            {/* <Link to={"/airdrop"}>
               <ListItem button onClick={toggleDrawer(anchor, false)} key={39}>
                 <Button variant="contained" className={classes.airdropButton}>
                   Get Airdrop
                 </Button>
               </ListItem>
-            </Link>
+            </Link> */}
             <ListItem button>
               <div>
                 <Button
@@ -579,11 +579,11 @@ function PrimaryAppbar({
                   </Button>
                 </Link>
               </div>
-              <div>
+              {/* <div>
                 <Link to={"/airdrop"}>
                   <Button className={classes.airdropButton}>Get Airdrop</Button>
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className={classes.sectionMobile}>

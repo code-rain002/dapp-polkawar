@@ -11,6 +11,14 @@ router.get("/log", async (req, res, next) => {
     return res.status(400).send(error);
   }
 });
+router.get("/test", async (req, res, next) => {
+  try {
+
+    return res.status(200).send("OK");
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+});
 
 // GET all logs by owner
 router.get("/log/:owner", async (req, res, next) => {

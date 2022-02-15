@@ -22,7 +22,7 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-lazy-load-image-component": "^1.5.1",
     "react-moment": "^1.1.1",
-    "react-papaparse": "^3.17.2",
+    "react-papaparse": "^3.18.1",
     "react-redux": "^7.2.3",
     "react-responsive-carousel": "^3.2.18",
     "react-router-dom": "^5.2.0",
