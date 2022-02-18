@@ -146,10 +146,7 @@ const characterHelper = {
       console.log("address: " + address);
       console.log("poolId: " + poolId);
       // const tx = gameContract.methods.addPool("60000000000000000000");
-      const tx = gameContract.methods.updateGameStatus(
-        poolId,
-        "0x9D7117a07fca9F22911d379A9fd5118A5FA4F448"
-      );
+      const tx = gameContract.methods.updateGameStatus(poolId, address);
 
       gas = await tx.estimateGas({ from: privateOwner });
       gasPrice = 10000000000;
