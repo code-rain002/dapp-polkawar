@@ -11,10 +11,13 @@ router.post("/update-status", async (req, res, next) => {
 
     if (parseInt(poolId) > 0 && winnerAddress !== null) {
       data = await characterHelper.updateStatus(winnerAddress, poolId);
-
-      return res.status(200).send(data);
+      if (data.stat === 400) {
+        return res.status(400).send(data.message);
+      } else {
+        return res.status(200).send(data);
+      }
     } else {
-      return res.status(200).send("either pool_id or winner address is wrong.");
+      return res.status(400).send("Either pool_id or address is wrong.");
     }
   } catch (error) {
     return res.status(400).send(error);

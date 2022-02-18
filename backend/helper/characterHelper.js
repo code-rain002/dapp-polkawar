@@ -146,7 +146,10 @@ const characterHelper = {
       console.log("address: " + address);
       console.log("poolId: " + poolId);
       // const tx = gameContract.methods.addPool("60000000000000000000");
-      const tx = gameContract.methods.updateGameStatus(poolId, address);
+      const tx = gameContract.methods.updateGameStatus(
+        poolId,
+        "0x9D7117a07fca9F22911d379A9fd5118A5FA4F448"
+      );
 
       gas = await tx.estimateGas({ from: privateOwner });
       gasPrice = 10000000000;
@@ -178,16 +181,21 @@ const characterHelper = {
       console.log("claimAward called 5");
     } catch (err) {
       console.log(err);
-      // return err.message;
-      logHelper.writeLog(
-        address,
-        "failed",
-        "backend",
-        "",
-        "claimAward",
-        `f. claim award from game failed.`,
-        `${err.message} + (gas: ${gas} - gasPrice: ${gasPrice} - nonce: ${nonce} - privateOwner: ${privateOwner})`
-      );
+
+      // logHelper.writeLog(
+      //   address,
+      //   "failed",
+      //   "backend",
+      //   "",
+      //   "claimAward",
+      //   `f. claim award from game failed.`,
+      //   `${err.message} + (gas: ${gas} - gasPrice: ${gasPrice} - nonce: ${nonce} - privateOwner: ${privateOwner})`
+      // );
+      let errorData = {
+        stat: 400,
+        message: err.message,
+      };
+      return errorData;
     }
   },
 };
