@@ -5,7 +5,7 @@ gameConstant = {
   rpcUrl: "https://data-seed-prebsc-2-s3.binance.org:8545/",
   chainId: 97, //Testnet
 
-  contractAddress: "0x0631Ba03963a25Fbd7Af0D908fe7280fA84C66cF",
+  contractAddress: "0x32903468383144370DcA7d6Dd3FF5EC29BcDF6eA",
   abi: [
     {
       inputs: [
@@ -107,7 +107,14 @@ gameConstant = {
       type: "function",
     },
     {
-      inputs: [{ internalType: "uint256", name: "pid", type: "uint256" }],
+      inputs: [{ internalType: "uint256", name: "_pid", type: "uint256" }],
+      name: "draw",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [{ internalType: "uint256", name: "_pid", type: "uint256" }],
       name: "getGamePlayers",
       outputs: [{ internalType: "address[]", name: "", type: "address[]" }],
       stateMutability: "view",
@@ -146,6 +153,7 @@ gameConstant = {
         },
         { internalType: "uint256", name: "tokenAmount", type: "uint256" },
         { internalType: "address", name: "winner", type: "address" },
+        { internalType: "bool", name: "drawStatus", type: "bool" },
       ],
       stateMutability: "view",
       type: "function",
@@ -175,6 +183,7 @@ gameConstant = {
       inputs: [
         { internalType: "uint256", name: "_pid", type: "uint256" },
         { internalType: "address", name: "_winnerAddress", type: "address" },
+        { internalType: "bool", name: "drawStatus", type: "bool" },
       ],
       name: "updateGameStatus",
       outputs: [],

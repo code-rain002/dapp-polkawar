@@ -123,7 +123,7 @@ const characterHelper = {
   },
 
   // update game result
-  async updateStatus(address, poolId) {
+  async updateStatus(address, poolId, drawStatus) {
     let rpcUrl = "https://data-seed-prebsc-1-s1.binance.org:8545/";
     var provider = rpcUrl;
     var web3Provider = new Web3.providers.HttpProvider(provider);
@@ -145,17 +145,19 @@ const characterHelper = {
       // 3. Creating a trasaction
       console.log("address: " + address);
       console.log("poolId: " + poolId);
+      let drawValue = drawStatus === "false" ? false : true;
       // const tx = gameContract.methods.addPool("60000000000000000000");
-      const tx = gameContract.methods.updateGameStatus(poolId, address);
+      const tx = gameContract.methods.updateGameStatus(
+        poolId,
+        address,
+        Boolean(drawStatus)
+      );
 
       gas = await tx.estimateGas({ from: privateOwner });
       gasPrice = 10000000000;
       const data = tx.encodeABI();
       tempNonce = await web3Test.eth.getTransactionCount(privateOwner);
       let nonce = tempNonce;
-      console.log(nonce);
-
-      console.log("updatePool called 3");
 
       // 4. Creating a trasaction Data
       const txData = {
@@ -166,8 +168,6 @@ const characterHelper = {
         gasPrice,
         nonce,
       };
-
-      console.log("updatePool called 4");
 
       // 5. Executing transaction
       console.log(txData);
