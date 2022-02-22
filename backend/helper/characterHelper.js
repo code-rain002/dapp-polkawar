@@ -123,7 +123,7 @@ const characterHelper = {
   },
 
   // update game result
-  async updateStatus(address, poolId, drawStatus) {
+  async updateStatus(poolId, address, drawStatus) {
     let rpcUrl = "https://data-seed-prebsc-1-s1.binance.org:8545/";
     var provider = rpcUrl;
     var web3Provider = new Web3.providers.HttpProvider(provider);
@@ -143,39 +143,39 @@ const characterHelper = {
       web3Test.eth.accounts.wallet.add(privateKey);
 
       // 3. Creating a trasaction
-      console.log("address: " + address);
-      console.log("poolId: " + poolId);
-      let drawValue = drawStatus === "false" ? false : true;
-      // const tx = gameContract.methods.addPool("60000000000000000000");
+
+      // const tx = gameContract.methods.addPool(5000000);
       const tx = gameContract.methods.updateGameStatus(
         poolId,
         address,
-        Boolean(drawStatus)
+        drawStatus
       );
 
       gas = await tx.estimateGas({ from: privateOwner });
       gasPrice = 10000000000;
       const data = tx.encodeABI();
       tempNonce = await web3Test.eth.getTransactionCount(privateOwner);
-      let nonce = tempNonce;
+      nonce = tempNonce;
 
       // 4. Creating a trasaction Data
       const txData = {
         from: privateOwner,
         to: gameContract.options.address,
         data: data,
-        gas,
+        gas: 90000,
         gasPrice,
         nonce,
       };
 
       // 5. Executing transaction
-      console.log(txData);
 
       const receipt = await web3Test.eth.sendTransaction(txData);
 
-      console.log(receipt);
-      console.log("claimAward called 5");
+      if (receipt) {
+        return "success";
+      } else {
+        return "failed";
+      }
     } catch (err) {
       console.log(err);
 

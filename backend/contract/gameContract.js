@@ -5,7 +5,7 @@ gameConstant = {
   rpcUrl: "https://data-seed-prebsc-2-s3.binance.org:8545/",
   chainId: 97, //Testnet
 
-  contractAddress: "0x32903468383144370DcA7d6Dd3FF5EC29BcDF6eA",
+  contractAddress: "0x0F6423AFe00cdA8cCA2D89E2b31C7172140C8b34",
   abi: [
     {
       inputs: [
@@ -153,7 +153,7 @@ gameConstant = {
         },
         { internalType: "uint256", name: "tokenAmount", type: "uint256" },
         { internalType: "address", name: "winner", type: "address" },
-        { internalType: "bool", name: "drawStatus", type: "bool" },
+        { internalType: "uint256", name: "drawStatus", type: "uint256" },
       ],
       stateMutability: "view",
       type: "function",
@@ -183,7 +183,7 @@ gameConstant = {
       inputs: [
         { internalType: "uint256", name: "_pid", type: "uint256" },
         { internalType: "address", name: "_winnerAddress", type: "address" },
-        { internalType: "bool", name: "drawStatus", type: "bool" },
+        { internalType: "uint256", name: "drawStatus", type: "uint256" },
       ],
       name: "updateGameStatus",
       outputs: [],

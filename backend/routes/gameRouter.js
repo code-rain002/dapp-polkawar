@@ -5,15 +5,15 @@ const characterHelper = require("../helper/characterHelper");
 // POST create new character based on details
 router.post("/update-status", async (req, res, next) => {
   try {
-    let winnerAddress = req.body.address;
     let poolId = req.body.pool_id;
+    let winnerAddress = req.body.address;
     let drawStatus = req.body.draw_status;
     let data;
 
     if (parseInt(poolId) > 0 && winnerAddress !== null && drawStatus !== null) {
       data = await characterHelper.updateStatus(
-        winnerAddress,
         poolId,
+        winnerAddress,
         drawStatus
       );
       if (data.stat === 400) {
