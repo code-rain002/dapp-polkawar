@@ -1,0 +1,23 @@
+{
+  "name": "pbr-farming",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile": "truffle compile",
+    "deploy": "truffle migrate --network bscTestnet --reset --compile-none",
+    "verify": "truffle run verify PolkaWar --network bscTestnet",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.4.0",
+    "@truffle/hdwallet-provider": "^1.7.0",
+    "bignumber": "^1.1.0",
+    "dotenv": "^10.0.0",
+    "moonbeam-truffle-plugin": "^1.4.0",
+    "truffle-flatten": "^1.0.8",
+    "web3": "^1.6.1"
+  }
+}
