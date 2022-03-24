@@ -5,11 +5,12 @@ gameConstant = {
   rpcUrl: "https://data-seed-prebsc-2-s3.binance.org:8545/",
   chainId: 97, //Testnet
 
-  contractAddress: "0x0F6423AFe00cdA8cCA2D89E2b31C7172140C8b34",
+  contractAddress: "0xA969760067eF6d8Aacfdc8CC14CA14A96393D354",
   abi: [
     {
       inputs: [
         { internalType: "address", name: "_tokenAddress", type: "address" },
+        { internalType: "uint256", name: "_rewardMultiplier", type: "uint256" },
       ],
       stateMutability: "nonpayable",
       type: "constructor",
@@ -84,11 +85,18 @@ gameConstant = {
       type: "event",
     },
     {
+      inputs: [],
+      name: "PWAR",
+      outputs: [{ internalType: "contract IERC20", name: "", type: "address" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
       inputs: [
         { internalType: "uint256", name: "_tokenAmount", type: "uint256" },
       ],
       name: "addPool",
-      outputs: [],
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
       stateMutability: "nonpayable",
       type: "function",
     },
@@ -108,15 +116,49 @@ gameConstant = {
     },
     {
       inputs: [{ internalType: "uint256", name: "_pid", type: "uint256" }],
-      name: "draw",
-      outputs: [],
-      stateMutability: "nonpayable",
+      name: "getGamePlayers",
+      outputs: [{ internalType: "address[]", name: "", type: "address[]" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "address", name: "_player", type: "address" },
+        { internalType: "uint256", name: "_pid", type: "uint256" },
+      ],
+      name: "getPlayerIndexInPool",
+      outputs: [{ internalType: "int256", name: "", type: "int256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [{ internalType: "address", name: "_player", type: "address" }],
+      name: "getPoolIdsContainingPlayer",
+      outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
+      stateMutability: "view",
       type: "function",
     },
     {
       inputs: [{ internalType: "uint256", name: "_pid", type: "uint256" }],
-      name: "getGamePlayers",
-      outputs: [{ internalType: "address[]", name: "", type: "address[]" }],
+      name: "getPoolInfoById",
+      outputs: [
+        { internalType: "enum PolkaWar.GameState", name: "", type: "uint8" },
+        { internalType: "uint256", name: "", type: "uint256" },
+        { internalType: "uint256", name: "", type: "uint256" },
+        { internalType: "bool", name: "", type: "bool" },
+        { internalType: "address[]", name: "", type: "address[]" },
+        { internalType: "address[]", name: "", type: "address[]" },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "address", name: "_player", type: "address" },
+        { internalType: "uint256", name: "_pid", type: "uint256" },
+      ],
+      name: "getWinnerIndexInPool",
+      outputs: [{ internalType: "int256", name: "", type: "int256" }],
       stateMutability: "view",
       type: "function",
     },
@@ -124,13 +166,6 @@ gameConstant = {
       inputs: [],
       name: "owner",
       outputs: [{ internalType: "address", name: "", type: "address" }],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "polkaWarToken",
-      outputs: [{ internalType: "contract IERC20", name: "", type: "address" }],
       stateMutability: "view",
       type: "function",
     },
@@ -145,15 +180,14 @@ gameConstant = {
       inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
       name: "pools",
       outputs: [
-        { internalType: "uint256", name: "id", type: "uint256" },
         {
           internalType: "enum PolkaWar.GameState",
           name: "state",
           type: "uint8",
         },
+        { internalType: "uint256", name: "id", type: "uint256" },
         { internalType: "uint256", name: "tokenAmount", type: "uint256" },
-        { internalType: "address", name: "winner", type: "address" },
-        { internalType: "uint256", name: "drawStatus", type: "uint256" },
+        { internalType: "bool", name: "drawStatus", type: "bool" },
       ],
       stateMutability: "view",
       type: "function",
@@ -161,6 +195,13 @@ gameConstant = {
     {
       inputs: [],
       name: "renounceOwnership",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [{ internalType: "uint256", name: "_pid", type: "uint256" }],
+      name: "revoke",
       outputs: [],
       stateMutability: "nonpayable",
       type: "function",
@@ -182,8 +223,8 @@ gameConstant = {
     {
       inputs: [
         { internalType: "uint256", name: "_pid", type: "uint256" },
-        { internalType: "address", name: "_winnerAddress", type: "address" },
-        { internalType: "uint256", name: "drawStatus", type: "uint256" },
+        { internalType: "address[]", name: "_winners", type: "address[]" },
+        { internalType: "bool", name: "drawStatus", type: "bool" },
       ],
       name: "updateGameStatus",
       outputs: [],
