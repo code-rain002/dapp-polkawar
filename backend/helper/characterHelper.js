@@ -138,19 +138,19 @@ const characterHelper = {
       const account = web3Test.eth.accounts.privateKeyToAccount(privateKey);
 
       privateOwner = account.address;
-      console.log("privateOwner:" + privateOwner);
+
       // 3. Adding Keys to Wallet
       web3Test.eth.accounts.wallet.add(privateKey);
 
       // 3. Creating a trasaction
 
-      console.log(Array.isArray(address));
       // const tx = gameContract.methods.addPool(5000000);
       const tx = gameContract.methods.updateGameStatus(
         poolId,
         address,
         drawStatus
       );
+      console.log("privateOwner:" + privateOwner);
 
       gas = await tx.estimateGas({ from: privateOwner });
       gasPrice = 10000000000;
@@ -159,6 +159,7 @@ const characterHelper = {
       nonce = tempNonce;
 
       // 4. Creating a trasaction Data
+      console.log("privateOwner:" + privateOwner);
       const txData = {
         from: privateOwner,
         to: gameContract.options.address,

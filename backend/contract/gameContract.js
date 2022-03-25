@@ -5,7 +5,7 @@ gameConstant = {
   rpcUrl: "https://data-seed-prebsc-2-s3.binance.org:8545/",
   chainId: 97, //Testnet
 
-  contractAddress: "0xA969760067eF6d8Aacfdc8CC14CA14A96393D354",
+  contractAddress: "0xA86f87E4B76dac50B1316A52FfC386f24f722931",
   abi: [
     {
       inputs: [
