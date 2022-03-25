@@ -1,19 +1,25 @@
 var express = require("express");
 var router = express.Router();
 const characterHelper = require("../helper/characterHelper");
+var bodyParser = require("body-parser");
 
+var jsonParser = bodyParser.json();
 // POST create new character based on details
-router.post("/update-status", async (req, res, next) => {
+router.post("/update-status", jsonParser, async (req, res, next) => {
   try {
     let poolId = req.body.pool_id;
-    let winnerAddress = req.body.address;
+    let winnerAddress = req.body.addresses;
     let drawStatus = req.body.draw_status;
     let data;
+
+    let addressesArray = winnerAddress.split(",");
+
+    console.log(Array.isArray(addressesArray));
 
     if (parseInt(poolId) > 0 && winnerAddress !== null && drawStatus !== null) {
       data = await characterHelper.updateStatus(
         poolId,
-        winnerAddress,
+        addressesArray,
         drawStatus
       );
       if (data.stat === 400) {

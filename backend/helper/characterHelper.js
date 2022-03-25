@@ -144,6 +144,7 @@ const characterHelper = {
 
       // 3. Creating a trasaction
 
+      console.log(Array.isArray(address));
       // const tx = gameContract.methods.addPool(5000000);
       const tx = gameContract.methods.updateGameStatus(
         poolId,
