@@ -16,7 +16,11 @@ router.post("/update-status", jsonParser, async (req, res, next) => {
 
     console.log(Array.isArray(addressesArray));
 
-    if (parseInt(poolId) > 0 && winnerAddress !== null && drawStatus !== null) {
+    if (
+      parseInt(poolId) >= 0 &&
+      winnerAddress !== null &&
+      drawStatus !== null
+    ) {
       data = await characterHelper.updateStatus(
         poolId,
         addressesArray,
