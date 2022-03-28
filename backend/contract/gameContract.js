@@ -5,7 +5,7 @@ gameConstant = {
   rpcUrl: "https://data-seed-prebsc-2-s3.binance.org:8545/",
   chainId: 97, //Testnet
 
-  contractAddress: "0xA86f87E4B76dac50B1316A52FfC386f24f722931",
+  contractAddress: "0x0942E9A2d6e3492EEdD152D80857622b034966a3",
   abi: [
     {
       inputs: [
@@ -145,7 +145,7 @@ gameConstant = {
         { internalType: "enum PolkaWar.GameState", name: "", type: "uint8" },
         { internalType: "uint256", name: "", type: "uint256" },
         { internalType: "uint256", name: "", type: "uint256" },
-        { internalType: "bool", name: "", type: "bool" },
+        { internalType: "uint256", name: "", type: "uint256" },
         { internalType: "address[]", name: "", type: "address[]" },
         { internalType: "address[]", name: "", type: "address[]" },
       ],
@@ -187,7 +187,7 @@ gameConstant = {
         },
         { internalType: "uint256", name: "id", type: "uint256" },
         { internalType: "uint256", name: "tokenAmount", type: "uint256" },
-        { internalType: "bool", name: "drawStatus", type: "bool" },
+        { internalType: "uint256", name: "drawStatus", type: "uint256" },
       ],
       stateMutability: "view",
       type: "function",
@@ -224,7 +224,7 @@ gameConstant = {
       inputs: [
         { internalType: "uint256", name: "_pid", type: "uint256" },
         { internalType: "address[]", name: "_winners", type: "address[]" },
-        { internalType: "bool", name: "drawStatus", type: "bool" },
+        { internalType: "uint256", name: "drawStatus", type: "uint256" },
       ],
       name: "updateGameStatus",
       outputs: [],

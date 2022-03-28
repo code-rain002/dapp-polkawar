@@ -143,7 +143,8 @@ const characterHelper = {
       web3Test.eth.accounts.wallet.add(privateKey);
 
       // 3. Creating a trasaction
-
+      console.log(address);
+      console.log(drawStatus);
       // const tx = gameContract.methods.addPool(5000000);
       const tx = gameContract.methods.updateGameStatus(
         poolId,
