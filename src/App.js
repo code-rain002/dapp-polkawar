@@ -19,6 +19,7 @@ import ExcelWork from "./pages/excelWork";
 import Leaderboard from "./pages/leaderboard/Leaderboard";
 import PwarWork from "./pages/pwarWork";
 import LaunchpadWork from "./pages/launchpadWork";
+import Faucet from "./pages/Faucet";
 
 export default function App() {
   return (
@@ -27,7 +28,8 @@ export default function App() {
         <ThemeProvider theme={theme}>
           <Fragment>
             <div style={{ minHeight: "100vh" }}>
-              <Appbar />
+              {window.location.pathname !== "/faucet" && <Appbar />}
+
               <Switch>
                 <Route exact path="/">
                   <Home />
@@ -65,7 +67,11 @@ export default function App() {
                 <Route exact path="/leaderboard">
                   <Leaderboard />
                 </Route>
+                <Route exact path="/faucet">
+                  <Faucet />
+                </Route>
               </Switch>
+
               <div>
                 <Footer />
               </div>
