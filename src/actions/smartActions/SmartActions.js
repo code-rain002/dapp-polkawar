@@ -402,6 +402,23 @@ export const shoefyStakingAmount = async (address) => {
   return shoefyStaked;
 };
 
+// Shoefy Staking Contract Connection ETH
+//Returns Amount staking
+export const checkLabsStakingAmount = async (address) => {
+  let staking = await shoefyStakeContract.methods
+    .userInfo(5, address)
+    .call((err, res) => {
+      return res;
+    });
+
+  let labsStaked = parseInt(
+    web3.utils.fromWei(staking.amount.toString(), "ether")
+  );
+
+  console.log("Total Tokens:" + labsStaked);
+  return labsStaked;
+};
+
 // Saga TotalEth Value
 //Returns Amount Saga
 export const sagaTotalPurchase = async (address) => {
