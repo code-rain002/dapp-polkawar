@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "compile": "truffle compile",
-    "deploy": "truffle migrate --network bscTestnet --reset --compile-none",
-    "verify": "truffle run verify PolkaWar --network bscTestnet",
+    "deploy-bscTestnet": "truffle migrate --network bscTestnet --reset --compile-none",
+    "verify-bscTestnet": "truffle run verify PolkaWar --network bscTestnet",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
