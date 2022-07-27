@@ -20,7 +20,7 @@ if (typeof window.web3 !== "undefined") {
     const infura =
       constants.net === 1
         ? `https://kovan.infura.io/v3/${providerKey}`
-        : `https://mainnet.infura.io/v3/${providerKey}`;
+        : `https://bsc-dataseed.binance.org/`;
     web3 = new Web3(new Web3.providers.HttpProvider(infura));
   }
 }

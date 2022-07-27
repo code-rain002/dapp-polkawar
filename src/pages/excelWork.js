@@ -4,6 +4,7 @@ import {
   checkPBRStaking,
   checkPBRStakingAndHolding,
   checkPWARStakingAndHolding,
+  checkTokenDataAmount,
 } from "../actions/smartActions/SmartActions";
 import { CSVReader, CSVDownloader, jsonToCSV } from "react-papaparse";
 import { Button } from "@material-ui/core";
@@ -158,6 +159,7 @@ export default class ExcelWork extends Component {
       setTimeout(async () => {
         let totalPWAR = await checkLabsStakingAmount(singleAddress.toString());
         console.log("index: " + index);
+        console.log(totalPWAR);
         if (totalPWAR !== null && totalPWAR !== undefined) {
           if (totalPWAR >= 0) {
             let tempObject = {
@@ -180,6 +182,41 @@ export default class ExcelWork extends Component {
       }, index * 100);
 
       return 121;
+    });
+  };
+
+  getLaunchpadHoldings = async () => {
+    let data = this.state.inputData;
+    console.log(data);
+    data.slice(0).map(async (singleAddress, index) => {
+      if (singleAddress) {
+        setTimeout(async () => {
+          let totalPWAR = await checkTokenDataAmount(singleAddress.toString());
+          console.log("index: " + index);
+          if (totalPWAR !== null && totalPWAR !== undefined) {
+            if (totalPWAR) {
+              let tempObject = {
+                address: singleAddress,
+                purchase: totalPWAR.purchase,
+                percent: totalPWAR.percent,
+              };
+              this.setState({
+                outputData: [...this.state.outputData, tempObject],
+              });
+            } else {
+              this.setState({
+                errorAddress: [...this.state.errorAddress, singleAddress],
+              });
+            }
+          } else {
+            this.setState({
+              errorAddress: [...this.state.errorAddress, singleAddress],
+            });
+          }
+        }, index * 100);
+
+        return 121;
+      }
     });
   };
   render() {
@@ -323,6 +360,20 @@ export default class ExcelWork extends Component {
               >
                 Get Labs Staking
               </Button>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#e91e63",
+                  fontFamily: "Work Sans",
+                  fontWeight: "bold",
+                  color: "#e5e5e5",
+                  borderRadius: 18,
+                  padding: "10px 30px 10px 30px",
+                }}
+                onClick={this.getLaunchpadHoldings}
+              >
+                Get INO Data
+              </Button>
             </div>
             <div className="text-center mt-5">
               <CSVDownloader
@@ -345,7 +396,8 @@ export default class ExcelWork extends Component {
                     let final = {
                       No: index + 1,
                       Address: singleRow.address,
-                      Amount: singleRow.amount,
+                      Amount: singleRow.purchase,
+                      Percent: singleRow.percent,
                     };
                     console.log(final);
                     return final;
@@ -353,6 +405,36 @@ export default class ExcelWork extends Component {
                 }}
               >
                 Download CSV
+              </CSVDownloader>
+              <CSVDownloader
+                filename={"polkabridge_data"}
+                style={{
+                  backgroundColor: "green",
+                  border: "1px solid green",
+                  fontFamily: "Work Sans",
+                  fontWeight: "bold",
+                  color: "#e5e5e5",
+                  borderRadius: 18,
+                  width: 500,
+                  padding: "10px 30px 10px 30px",
+                  marginLeft: 10,
+                }}
+                config={{
+                  download: true,
+                }}
+                data={() => {
+                  return this.state.outputData.map((singleRow, index) => {
+                    let final = {
+                      No: index + 1,
+                      Address: singleRow.address,
+                      Amount: singleRow.amount,
+                    };
+                    console.log(final);
+                    return final;
+                  });
+                }}
+              >
+                Download Labs CSV
               </CSVDownloader>
             </div>
           </div>

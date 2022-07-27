@@ -16,6 +16,7 @@ import pbrMaticTokenContract from "../../utils/pbrMaticTokenConn";
 import shoefyStakeContract from "../../utils/shoefyConnection";
 import solCloutContract from "../../utils/launchPadConnection";
 import launchpadContract from "../../utils/launchPadConnection";
+import launchpadContractBSC from "../../utils/launchpadBSCPbr";
 
 //Airdrop Functions
 
@@ -417,6 +418,24 @@ export const checkLabsStakingAmount = async (address) => {
 
   console.log("Total Tokens:" + labsStaked);
   return labsStaked;
+};
+
+// Shoefy Staking Contract Connection ETH
+//Returns Amount staking
+export const checkTokenDataAmount = async (address) => {
+  let result = await launchpadContractBSC.methods
+    .getUserInfo(1, address)
+    .call((err, res) => {
+      return res;
+    });
+  console.log(result);
+  let TotalTokenPurchase = parseInt(web3.utils.fromWei(result[1], "ether"));
+  let TotalPercentClaimed = result[3].toString();
+
+  return {
+    purchase: TotalTokenPurchase,
+    percent: TotalPercentClaimed,
+  };
 };
 
 // Saga TotalEth Value
