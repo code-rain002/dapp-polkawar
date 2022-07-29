@@ -82,6 +82,7 @@ export default class ExcelWork extends Component {
     });
     console.log("Printing before");
   };
+
   getHoldings = async () => {
     let data = this.state.inputData;
 

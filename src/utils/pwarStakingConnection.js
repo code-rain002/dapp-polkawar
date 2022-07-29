@@ -323,7 +323,9 @@ pwrStakeConstant = {
   ],
 };
 
-var web3 = new Web3(window.ethereum);
+let rpcUrl = "https://bsc-dataseed.binance.org/";
+
+var web3 = new Web3(rpcUrl);
 
 var pwrStakingContract = new web3.eth.Contract(
   pwrStakeConstant.abi,

@@ -347,7 +347,18 @@ export const checkPBRStaking = async (address) => {
       web3.utils.fromWei(stakingMatic.amount.toString(), "ether")
     );
 
-    let totalTokens = pbrStaked + pbrStakedMatic;
+    // BSC Network
+    let stakingBsc = await pwarStakingContract.methods
+      .userInfo(5, address)
+      .call((err, res) => {
+        return res;
+      });
+
+    let pbrStakedBsc = parseInt(
+      web3.utils.fromWei(stakingBsc.amount.toString(), "ether")
+    );
+
+    let totalTokens = pbrStaked + pbrStakedMatic + pbrStakedBsc;
     console.log("Total Tokens:" + totalTokens);
     return totalTokens;
   } catch (err) {
