@@ -46,6 +46,7 @@ export default class ExcelWork extends Component {
       buttonRef.current.removeFile(e);
     }
   };
+
   getPBRHoldingsStaking = async () => {
     let data = this.state.inputData;
 
@@ -83,6 +84,7 @@ export default class ExcelWork extends Component {
     console.log("Printing before");
   };
 
+  // BSC added
   getHoldings = async () => {
     let data = this.state.inputData;
 
@@ -116,6 +118,38 @@ export default class ExcelWork extends Component {
       return 121;
     });
     console.log("Printing before");
+  };
+  getLabsHoldings = async () => {
+    let data = this.state.inputData;
+    console.log(data);
+    data.slice(1).map(async (singleAddress, index) => {
+      setTimeout(async () => {
+        let totalPWAR = await checkLabsStakingAmount(singleAddress.toString());
+        console.log("index: " + index);
+        console.log(totalPWAR);
+        if (totalPWAR !== null && totalPWAR !== undefined) {
+          if (totalPWAR >= 0) {
+            let tempObject = {
+              address: singleAddress,
+              amount: totalPWAR,
+            };
+            this.setState({
+              outputData: [...this.state.outputData, tempObject],
+            });
+          } else {
+            this.setState({
+              errorAddress: [...this.state.errorAddress, singleAddress],
+            });
+          }
+        } else {
+          this.setState({
+            errorAddress: [...this.state.errorAddress, singleAddress],
+          });
+        }
+      }, index * 100);
+
+      return 121;
+    });
   };
 
   getPWARHoldings = async () => {
@@ -153,39 +187,6 @@ export default class ExcelWork extends Component {
     console.log("Printing before: PWAR");
   };
 
-  getLabsHoldings = async () => {
-    let data = this.state.inputData;
-    console.log(data);
-    data.slice(1).map(async (singleAddress, index) => {
-      setTimeout(async () => {
-        let totalPWAR = await checkLabsStakingAmount(singleAddress.toString());
-        console.log("index: " + index);
-        console.log(totalPWAR);
-        if (totalPWAR !== null && totalPWAR !== undefined) {
-          if (totalPWAR >= 0) {
-            let tempObject = {
-              address: singleAddress,
-              amount: totalPWAR,
-            };
-            this.setState({
-              outputData: [...this.state.outputData, tempObject],
-            });
-          } else {
-            this.setState({
-              errorAddress: [...this.state.errorAddress, singleAddress],
-            });
-          }
-        } else {
-          this.setState({
-            errorAddress: [...this.state.errorAddress, singleAddress],
-          });
-        }
-      }, index * 100);
-
-      return 121;
-    });
-  };
-
   getLaunchpadHoldings = async () => {
     let data = this.state.inputData;
     console.log(data);
@@ -220,6 +221,7 @@ export default class ExcelWork extends Component {
       }
     });
   };
+
   render() {
     return (
       <div
@@ -327,6 +329,7 @@ export default class ExcelWork extends Component {
                   fontWeight: "bold",
                   color: "#e5e5e5",
                   borderRadius: 18,
+                  fontSize: 11,
                   padding: "10px 30px 10px 30px",
                 }}
                 onClick={this.getHoldings}
@@ -341,6 +344,7 @@ export default class ExcelWork extends Component {
                   fontWeight: "bold",
                   color: "#e5e5e5",
                   borderRadius: 18,
+                  fontSize: 11,
                   padding: "10px 30px 10px 30px",
                 }}
                 onClick={this.getPBRHoldingsStaking}
@@ -355,6 +359,7 @@ export default class ExcelWork extends Component {
                   fontWeight: "bold",
                   color: "#e5e5e5",
                   borderRadius: 18,
+                  fontSize: 11,
                   padding: "10px 30px 10px 30px",
                 }}
                 onClick={this.getLabsHoldings}
@@ -367,20 +372,21 @@ export default class ExcelWork extends Component {
                   backgroundColor: "#e91e63",
                   fontFamily: "Work Sans",
                   fontWeight: "bold",
+                  fontSize: 11,
                   color: "#e5e5e5",
                   borderRadius: 18,
                   padding: "10px 30px 10px 30px",
                 }}
                 onClick={this.getLaunchpadHoldings}
               >
-                Get INO Data
+                Get Launchpad
               </Button>
             </div>
             <div className="text-center mt-5">
               <CSVDownloader
                 filename={"polkabridge_data"}
                 style={{
-                  backgroundColor: "green",
+                  backgroundColor: "transparent",
                   border: "1px solid green",
                   fontFamily: "Work Sans",
                   fontWeight: "bold",
@@ -388,6 +394,7 @@ export default class ExcelWork extends Component {
                   borderRadius: 18,
                   width: 500,
                   padding: "10px 30px 10px 30px",
+                  fontSize: 13,
                 }}
                 config={{
                   download: true,
@@ -404,12 +411,12 @@ export default class ExcelWork extends Component {
                   });
                 }}
               >
-                Download PBR Staking Data
+                Download PBR/PWAR/LABS Staking
               </CSVDownloader>
               <CSVDownloader
                 filename={"polkabridge_data"}
                 style={{
-                  backgroundColor: "green",
+                  backgroundColor: "transparent",
                   border: "1px solid green",
                   fontFamily: "Work Sans",
                   fontWeight: "bold",
@@ -418,6 +425,7 @@ export default class ExcelWork extends Component {
                   width: 500,
                   padding: "10px 30px 10px 30px",
                   marginLeft: 10,
+                  fontSize: 13,
                 }}
                 config={{
                   download: true,
@@ -434,7 +442,7 @@ export default class ExcelWork extends Component {
                   });
                 }}
               >
-                Download Labs CSV
+                Download Launchpad Data
               </CSVDownloader>
             </div>
           </div>

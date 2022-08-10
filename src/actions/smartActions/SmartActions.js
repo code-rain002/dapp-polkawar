@@ -414,7 +414,7 @@ export const shoefyStakingAmount = async (address) => {
   return shoefyStaked;
 };
 
-// Shoefy Staking Contract Connection ETH
+// Labs Staking Contract Connection ETH
 //Returns Amount staking
 export const checkLabsStakingAmount = async (address) => {
   let staking = await shoefyStakeContract.methods
@@ -431,7 +431,7 @@ export const checkLabsStakingAmount = async (address) => {
   return labsStaked;
 };
 
-// Shoefy Staking Contract Connection ETH
+// Launchpad Staking Contract Connection ETH
 //Returns Amount staking
 export const checkTokenDataAmount = async (address) => {
   let result = await launchpadContractBSC.methods
