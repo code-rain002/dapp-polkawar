@@ -397,15 +397,14 @@ export default class ExcelWork extends Component {
                     let final = {
                       No: index + 1,
                       Address: singleRow.address,
-                      Amount: singleRow.purchase,
-                      Percent: singleRow.percent,
+                      Amount: singleRow.amount,
                     };
                     console.log(final);
                     return final;
                   });
                 }}
               >
-                Download CSV
+                Download PBR Staking Data
               </CSVDownloader>
               <CSVDownloader
                 filename={"polkabridge_data"}
